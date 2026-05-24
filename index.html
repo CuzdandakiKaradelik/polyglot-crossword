@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Sözcük Matrisi Workbench v7.0</title>
-    
+    <title>Polyglot Leksikal Workbench v8.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -27,9 +26,8 @@
             transition: all 0.2s ease;
         }
 
-        /* --- GİRİŞ EKRANI --- */
         .welcome-screen {
-            max-width: 750px;
+            max-width: 800px;
             margin: 40px auto;
             background: var(--container-bg);
             border: 2px solid var(--border-color);
@@ -43,13 +41,6 @@
             font-family: 'Playfair Display', serif;
             font-size: 34px;
             margin: 0 0 10px 0;
-        }
-
-        .welcome-subtitle {
-            font-size: 13px;
-            opacity: 0.7;
-            display: block;
-            margin-bottom: 30px;
         }
 
         .action-group {
@@ -71,7 +62,6 @@
             border-radius: 4px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all 0.2s ease;
             width: 100%;
             max-width: 380px;
         }
@@ -79,28 +69,6 @@
         .start-action-btn:hover {
             background-color: var(--accent-bg);
             color: var(--text-color);
-        }
-
-        .random-action-btn {
-            font-family: 'Courier Prime', monospace;
-            font-size: 14px;
-            font-weight: bold;
-            background-color: transparent;
-            color: var(--text-color);
-            border: 2px dashed var(--border-color);
-            padding: 12px 35px;
-            border-radius: 4px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.2s ease;
-            width: 100%;
-            max-width: 380px;
-        }
-
-        .random-action-btn:hover {
-            background-color: var(--text-color);
-            color: var(--container-bg);
-            border-style: solid;
         }
 
         .quick-settings-grid {
@@ -138,10 +106,8 @@
             border: 1px solid var(--border-color);
             background: var(--container-bg);
             color: var(--text-color);
-            cursor: pointer;
         }
 
-        /* --- OYUN ALANI --- */
         .main-workspace {
             display: none;
             max-width: 1200px;
@@ -166,14 +132,6 @@
             margin: 0;
         }
 
-        .edition-badge {
-            font-size: 11px;
-            text-transform: uppercase;
-            margin-top: 5px;
-            display: block;
-            opacity: 0.7;
-        }
-
         .control-panel {
             display: flex;
             justify-content: space-between;
@@ -183,7 +141,6 @@
             padding: 10px;
             background: var(--accent-bg);
             border-radius: 4px;
-            flex-wrap: wrap;
         }
 
         .btn-prime {
@@ -195,13 +152,12 @@
             background-color: var(--text-color);
             color: var(--container-bg);
             cursor: pointer;
-            text-transform: uppercase;
             border-radius: 4px;
+            text-transform: uppercase;
         }
 
         .workspace-layout {
             display: flex;
-            flex-direction: row;
             gap: 25px;
         }
 
@@ -251,10 +207,7 @@
             color: #000000;
         }
 
-        .cell input:focus {
-            background-color: #fffacd !important;
-            outline: none;
-        }
+        .cell input:focus { background-color: #fffacd !important; outline: none; }
 
         .cell-num {
             position: absolute;
@@ -263,7 +216,6 @@
             font-size: 8px;
             font-weight: bold;
             color: #444;
-            z-index: 10;
         }
 
         .corpus-section {
@@ -271,14 +223,6 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-        }
-
-        .corpus-section h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            margin: 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
         }
 
         .clue-block {
@@ -300,8 +244,8 @@
 
         .clue-item {
             display: flex;
-            align-items: flex-start;
             justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 10px;
             font-size: 13px;
             line-height: 1.4;
@@ -311,15 +255,6 @@
 
         .clue-text { flex: 1; padding-right: 8px; }
         .clue-text strong { background: var(--accent-bg); padding: 0 4px; margin-right: 4px; }
-
-        .audio-trigger {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
-            opacity: 0.6;
-        }
-        .audio-trigger:hover { opacity: 1; }
 
         .corpus-index-wrapper {
             margin-top: 20px;
@@ -338,7 +273,6 @@
         .corpus-table th, .corpus-table td {
             border: 1px solid var(--border-color);
             padding: 8px;
-            text-align: left;
         }
 
         .corpus-table th { background-color: var(--accent-bg); text-transform: uppercase; }
@@ -347,60 +281,58 @@
 <body>
 
 <div class="welcome-screen" id="launcher-area">
-    <h1 class="welcome-title" id="lbl-launch-title">Polyglot Leksikal Workbench</h1>
-    <span class="welcome-subtitle" id="lbl-launch-subtitle">Dil öğrenenler için gelişmiş bağlamsal kare bulmaca masası.</span>
+    <h1 class="welcome-title">Polyglot Leksikal Workbench v8.0</h1>
+    <p style="font-size: 13px; opacity: 0.7;">10 Dil Destekli Profesyonel Dil Öğrenim Matrisi</p>
 
     <div class="action-group">
-        <button class="start-action-btn" onclick="launchWorkspace()" id="btn-menu-start">Matrisi Yükle</button>
-        <button class="random-action-btn" onclick="launchRandomizedWorkspace()" id="btn-menu-random">🎲 Rastgele Sürpriz Kombinasyon</button>
+        <button class="start-action-btn" onclick="launchWorkspace()">Matrisi Oluştur</button>
+        <button class="start-action-btn" style="background: transparent; color: var(--text-color); border: 2px dashed var(--border-color);" onclick="launchRandomized()">🎲 Rastgele Dil & Renk Sürprizi</button>
     </div>
 
     <div class="quick-settings-grid">
         <div class="setting-card">
-            <label for="langSelect" id="lbl-cfg-lang">Hedef Dil</label>
-            <select id="langSelect" onchange="onLanguageChange()">
+            <label for="langSelect">Hedef Dil (10 Dil)</label>
+            <select id="langSelect">
                 <option value="en">English (İngilizce)</option>
                 <option value="es">Español (İspanyolca)</option>
                 <option value="de">Deutsch (Almanca)</option>
                 <option value="fr">Français (Fransızca)</option>
                 <option value="it">Italiano (İtalyanca)</option>
+                <option value="pt">Português (Portekizce)</option>
+                <option value="ru">Русский (Rusça)</option>
+                <option value="ja">日本語 (Rōmaji-Japonca)</option>
+                <option value="ar">العربية (Latin-Arapça)</option>
+                <option value="nl">Nederlands (Hollandaca)</option>
             </select>
         </div>
 
         <div class="setting-card">
-            <label for="topicSelect" id="lbl-cfg-topic">Leksikal Alan</label>
-            <select id="topicSelect" onchange="resetCycle()">
-                <option value="cinema">🍿 Sinema & Medya</option>
-                <option value="travel">✈️ Seyahat & Göç</option>
-                <option value="culinary">🍳 Gastronomi & Mutfak</option>
-                <option value="daily">🏡 Günlük Yaşam</option>
-                <option value="law">⚖️ Hukuk & Adalet</option>
-                <option value="business">💼 Ekonomi & Finans</option>
-                <option value="science">🧬 Bilim & Teknoloji</option>
-                <option value="history">🏛️ Tarih & Arkeoloji</option>
-                <option value="art">🎨 Sanat & Edebiyat</option>
-                <option value="psychology">🧠 Psikoloji & Felsefe</option>
+            <label for="topicSelect">Leksikal Alan</label>
+            <select id="topicSelect">
+                <option value="general">🌍 Genel Akademik Kelimeler</option>
+                <option value="travel">✈️ Kültür & Seyahat</option>
+                <option value="media">🎬 Modern Medya & İletişim</option>
             </select>
         </div>
 
         <div class="setting-card">
-            <label for="themeSelect" id="lbl-cfg-theme">Renk Paleti</label>
-            <select id="themeSelect" onchange="applySelectedTheme()"></select>
+            <label for="themeSelect">Renk Paleti</label>
+            <select id="themeSelect" onchange="applyTheme()"></select>
         </div>
     </div>
 </div>
 
 <div class="main-workspace" id="workspace-area">
     <header>
-        <h1 id="lbl-main-title">Leksikal Matris Masası</h1>
-        <span class="edition-badge" id="lbl-theme-badge">Tema</span>
+        <h1>Leksikal Matris Masası</h1>
+        <span id="lbl-theme-badge" style="font-size: 11px; text-transform: uppercase; opacity: 0.7;"></span>
     </header>
 
     <div class="control-panel">
-        <button class="btn-prime" onclick="returnToLauncher()" id="lbl-btn-back">⬅ Ayarlar Menüsü</button>
+        <button class="btn-prime" onclick="returnToLauncher()">⬅ Menüye Dön</button>
         <div>
-            <button class="btn-prime" onclick="generateNextInCycle()" id="lbl-btn-generate">Yeni Matris Filtrele (Refresh)</button>
-            <button class="btn-prime" onclick="getStructuralHint()" id="lbl-btn-hint" style="background-color: var(--accent-bg); color: var(--text-color); margin-left:5px;">Harf İpucu</button>
+            <button class="btn-prime" onclick="generateNextMatrix()">Yeni Kelime Filtrele (Refresh)</button>
+            <button class="btn-prime" onclick="giveLetterHint()" style="background: var(--accent-bg); color: var(--text-color); margin-left: 5px;">Harf İpucu</button>
         </div>
     </div>
 
@@ -408,29 +340,25 @@
         <div class="matrix-section">
             <div class="crossword-grid" id="grid-container"></div>
         </div>
-
         <div class="corpus-section">
-            <h2 id="lbl-section-title">Bağlamsal Metin Analizleri</h2>
-            
             <div class="clue-block">
-                <h3 id="lbl-across">Yatay (Across)</h3>
+                <h3>Yatay (Across)</h3>
                 <div id="across-clues"></div>
             </div>
-
             <div class="clue-block">
-                <h3 id="lbl-down">Dikey (Down)</h3>
+                <h3>Dikey (Down)</h3>
                 <div id="down-clues"></div>
             </div>
         </div>
     </div>
 
     <div class="corpus-index-wrapper" id="corpus-index-area">
-        <h2 id="lbl-analysis-title">Matris Tamamlandı: Leksikal İndeks</h2>
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 20px; margin: 0;">Matris Doğrulandı: Öğrenim İndeksi</h2>
         <table class="corpus-table">
             <thead>
                 <tr>
-                    <th id="th-word">Sözcük (Lexeme)</th>
-                    <th id="th-context">Semantik Karşılık ve Cümle Yapısı</th>
+                    <th>Sözcük (Lexeme)</th>
+                    <th>Eğitim Cümlesi ve Bağlamı</th>
                 </tr>
             </thead>
             <tbody id="corpus-table-body"></tbody>
@@ -439,202 +367,39 @@
 </div>
 
 <script>
-    // 80 ADET DİNAMİK RENK PALETİ
-    const THEME_STYLES = [
+    const THEMES = [
         { bg: "#f7f5f0", container: "#ffffff", text: "#2b2b2b", border: "#2b2b2b", accent: "#f0ede5" },
         { bg: "#1a1a1a", container: "#262626", text: "#f5f5f5", border: "#404040", accent: "#333333" },
         { bg: "#e6d7b8", container: "#f2e6ce", text: "#3d2b1f", border: "#5c4033", accent: "#dfcfad" },
         { bg: "#e4e9ed", container: "#f4f7f9", text: "#1c2833", border: "#2c3e50", accent: "#d5dbdb" },
-        { bg: "#f5e6e6", container: "#fdf8f8", text: "#4a1515", border: "#722f37", accent: "#ebd2d2" },
-        { bg: "#e2ece9", container: "#f1f6f5", text: "#1c332e", border: "#2d5a27", accent: "#d1e0db" },
-        { bg: "#f9f1c7", container: "#fffbe6", text: "#332f10", border: "#665c1e", accent: "#f3e7a0" },
-        { bg: "#fcd7cc", container: "#fef3f0", text: "#3a1d13", border: "#87361d", accent: "#f9bead" },
-        { bg: "#d9e2ec", container: "#f0f4f8", text: "#102a43", border: "#243e56", accent: "#bcccdc" },
-        { bg: "#ece0d1", container: "#f7f1e5", text: "#3d2314", border: "#5c4033", accent: "#dbc1ac" },
-        { bg: "#2d3748", container: "#1a202c", text: "#edf2f7", border: "#4a5568", accent: "#2d3748" },
-        { bg: "#fef9e7", container: "#fffdf7", text: "#111111", border: "#eb984e", accent: "#fadbd8" },
-        { bg: "#e5e8e8", container: "#f2f4f4", text: "#2c3e50", border: "#7f8c8d", accent: "#ccd1d1" },
-        { bg: "#d4efdf", container: "#e8f8f5", text: "#117a65", border: "#16a085", accent: "#a3e4d7" },
-        { bg: "#ebf5fb", container: "#f4f6f7", text: "#21618c", border: "#2e86c1", accent: "#d6eaf8" },
-        { bg: "#f9ebd2", container: "#fff5e6", text: "#5b2c6f", border: "#8e44ad", accent: "#f5e3cd" },
-        { bg: "#0f172a", container: "#1e293b", text: "#f8fafc", border: "#38bdf8", accent: "#334155" },
-        { bg: "#ff007f", container: "#120136", text: "#00ffff", border: "#ff007f", accent: "#240046" },
-        { bg: "#f1f3f0", container: "#fafaf9", text: "#3f4e3f", border: "#6b7c6b", accent: "#e3e7e2" },
-        { bg: "#dfcbb5", container: "#eedec9", text: "#4a3b32", border: "#705335", accent: "#d3bfa7" },
-        { bg: "#94a3b8", container: "#cbd5e1", text: "#0f172a", border: "#475569", accent: "#e2e8f0" },
-        { bg: "#e9c46a", container: "#f4a261", text: "#264653", border: "#e76f51", accent: "#f4a261" },
-        { bg: "#d6dbdf", container: "#eaecee", text: "#212f3d", border: "#5d6d7e", accent: "#bdc3c7" },
-        { bg: "#1e272c", container: "#263238", text: "#eceff1", border: "#37474f", accent: "#455a64" },
-        { bg: "#d5dbdb", container: "#eaeded", text: "#1b4f72", border: "#2e4053", accent: "#a6acaf" },
-        { bg: "#ebdef0", container: "#f5eeeb", text: "#4a235a", border: "#6c3483", accent: "#d7bde2" },
-        { bg: "#edbb99", container: "#f5cba7", text: "#6e2c00", border: "#a04000", accent: "#f8c471" },
-        { bg: "#566573", container: "#2c3e50", text: "#f2f4f4", border: "#1c2833", accent: "#34495e" },
-        { bg: "#fdebd0", container: "#fef9e7", text: "#7e5109", border: "#b7950b", accent: "#f9e79f" },
-        { bg: "#f2f3f4", container: "#ffffff", text: "#1c2833", border: "#bdc3c7", accent: "#eaecee" },
-        { bg: "#f3e5ab", container: "#fff8dc", text: "#4a3c31", border: "#4a3c31", accent: "#eedc82" },
-        { bg: "#0d1f2d", container: "#1d2d44", text: "#a5a5a5", border: "#354f52", accent: "#52796f" },
-        { bg: "#34495e", container: "#5d6d7e", text: "#f2f4f4", border: "#2c3e50", accent: "#7f8c8d" },
-        { bg: "#4a3525", container: "#5c4033", text: "#e6ccb2", border: "#ddb892", accent: "#7f5539" },
-        { bg: "#d8f3dc", container: "#b7e4c7", text: "#1b4332", border: "#2d6a4f", accent: "#95d5b2" },
-        { bg: "#fefae0", container: "#f9ced6", text: "#283618", border: "#606c38", accent: "#dda15e" },
-        { bg: "#3b2244", container: "#522e61", text: "#f3e9dc", border: "#6b3e7a", accent: "#a67c00" },
-        { bg: "#000814", container: "#001d3d", text: "#ffc300", border: "#003566", accent: "#ffd60a" },
-        { bg: "#e07a5f", container: "#f4f1de", text: "#3d405b", border: "#3d405b", accent: "#f2cc8f" },
-        { bg: "#cad2c5", container: "#84a98c", text: "#2f3e46", border: "#354f52", accent: "#52796f" },
-        { bg: "#fff9c4", container: "#ffffff", text: "#f57f17", border: "#f57f17", accent: "#fffde7" },
-        { bg: "#e8f5e9", container: "#ffffff", text: "#1b5e20", border: "#1b5e20", accent: "#c8e6c9" },
-        { bg: "#eceff1", container: "#ffffff", text: "#37474f", border: "#37474f", accent: "#cfd8dc" },
-        { bg: "#212121", container: "#424242", text: "#eeff41", border: "#616161", accent: "#263238" },
-        { bg: "#f5f5f5", container: "#ffffff", text: "#212121", border: "#9e9e9e", accent: "#e0e0e0" },
-        { bg: "#d7ccc8", container: "#efebe9", text: "#4e342e", border: "#4e342e", accent: "#bcaaa4" },
-        { bg: "#f3e5f5", container: "#ffffff", text: "#4a148c", border: "#4a148c", accent: "#e1bee7" },
-        { bg: "#fff3e0", container: "#ffffff", text: "#e65100", border: "#e65100", accent: "#ffe0b2" },
-        { bg: "#e0f7fa", container: "#ffffff", text: "#006064", border: "#006064", accent: "#b2ebf2" },
-        { bg: "#ffeb3b", container: "#ffffff", text: "#ff5722", border: "#ff5722", accent: "#fff9c4" },
-        { bg: "#0288d1", container: "#e1f5fe", text: "#01579b", border: "#01579b", accent: "#b3e5fc" },
-        { bg: "#ff8a65", container: "#fbe9e7", text: "#bf360c", border: "#bf360c", accent: "#ffccbc" },
-        { bg: "#004d40", container: "#e0f2f1", text: "#00796b", border: "#004d40", accent: "#80cbc4" },
-        { bg: "#78909c", container: "#eceff1", text: "#263238", border: "#263238", accent: "#b0bec5" },
-        { bg: "#ffe082", container: "#fff8e1", text: "#5d4037", border: "#5d4037", accent: "#ffecb3" },
-        { bg: "#d32f2f", container: "#ffebee", text: "#b71c1c", border: "#b71c1c", accent: "#ffcdd2" },
-        { bg: "#1b5e20", container: "#e8f5e9", text: "#ffffff", border: "#a5d6a7", accent: "#2e7d32" },
-        { bg: "#fafafa", container: "#ffffff", text: "#000000", border: "#000000", accent: "#f5f5f5" },
-        { bg: "#ffcc80", container: "#fff3e0", text: "#e65100", border: "#e65100", accent: "#ffe0b2" },
-        { bg: "#3f51b5", container: "#e8eaf6", text: "#1a237e", border: "#1a237e", accent: "#c5cae9" },
-        { bg: "#00bcd4", container: "#e0f7fa", text: "#006064", border: "#006064", accent: "#b2ebf2" },
-        { bg: "#9c27b0", container: "#f3e5f5", text: "#4a148c", border: "#4a148c", accent: "#e1bee7" },
-        { bg: "#4caf50", container: "#e8f5e9", text: "#1b5e20", border: "#1b5e20", accent: "#c8e6c9" },
-        { bg: "#ff9800", container: "#fff3e0", text: "#e65100", border: "#e65100", accent: "#ffe0b2" },
-        { bg: "#e91e63", container: "#fde0e6", text: "#880e4f", border: "#880e4f", accent: "#f9a8d4" },
-        { bg: "#607d8b", container: "#eceff1", text: "#263238", border: "#263238", accent: "#b0bec5" },
-        { bg: "#9e9e9e", container: "#f5f5f5", text: "#212121", border: "#212121", accent: "#e0e0e0" },
-        { bg: "#673ab7", container: "#ede7f6", text: "#311b92", border: "#311b92", accent: "#d1c4e9" },
-        { bg: "#03a9f4", container: "#e1f5fe", text: "#01579b", border: "#01579b", accent: "#b3e5fc" },
-        { bg: "#8bc34a", container: "#f1f8e9", text: "#33691e", border: "#33691e", accent: "#dcedc8" },
-        { bg: "#ffeb3b", container: "#fffde7", text: "#f57f17", border: "#f57f17", accent: "#fff9c4" },
-        { bg: "#009688", container: "#e0f2f1", text: "#004d40", border: "#004d40", accent: "#b2dfdb" },
-        { bg: "#795548", container: "#efebe9", text: "#3e2723", border: "#3e2723", accent: "#d7ccc8" },
-        { bg: "#ff5722", container: "#fbe9e7", text: "#bf360c", border: "#bf360c", accent: "#ffccbc" },
-        { bg: "#222222", container: "#333333", text: "#ffffff", border: "#555555", accent: "#444444" },
-        { bg: "#dddddd", container: "#ffffff", text: "#111111", border: "#111111", accent: "#cccccc" },
-        { bg: "#ff9999", container: "#ffe5e5", text: "#660000", border: "#660000", accent: "#ffcccc" },
-        { bg: "#99cc99", container: "#e5f2e5", text: "#003300", border: "#003300", accent: "#ccffcc" },
-        { bg: "#9999cc", container: "#e5e5f2", text: "#000033", border: "#000033", accent: "#ccccff" },
-        { bg: "#cc9999", container: "#f2e5e5", text: "#330000", border: "#330000", accent: "#ffcccc" }
+        { bg: "#f5e6e6", container: "#fdf8f8", text: "#4a1515", border: "#722f37", accent: "#ebd2d2" }
     ];
 
-    const THEME_NAMES = ["Editorial Minimal", "Obsidian Night", "Parchment Document", "Nordic Blue", "Crimson Journal", "Forest Botanical", "Canary Pages", "Warm Terracotta", "Steel Industry", "Coffee Espresso", "Slate Dark", "Desert Dune", "Asphalt Grey", "Emerald Press", "Oceanic Post", "Amethyst Velvet", "Cyberpunk Terminal", "Neon Acid", "Olive Grove", "Vintage Cork", "Matte Slate", "Sunset Amber", "Urban Fog", "Deep Charcoal", "Navy Dispatch", "Plum Archive", "Ginger Autumn", "Misty Summit", "Brass Metallic", "Glacier Frost", "Banana Cream", "Teal Ink", "Charcoal Fiber", "Chocolate Cocoa", "Sage Mint", "Blush Pink", "Royal Velvet", "Luxury Gold", "Copper Wire", "Eucalyptus", "Cyber Glow", "Enchanted Forest", "Monochrome Typewriter", "Industrial Iron", "Alabaster Print", "Pecan Wood", "Orchid Mist", "Pumpkin Spice", "Poolside Turquoise", "Lava Stone", "Denim Weave", "Military Khaki", "Polar Ice", "Teaberry", "Warm Sand", "Crimson Tide", "Ivy Hedge", "Clean Chalk", "Apricot Sorbet", "Indigo Ink", "Peacock Blue", "Wisteria Dream", "Fern Green", "Marigold Glow", "Grape Harvest", "Stone Wall", "Cement Block", "Deep Space", "Electric Sky", "Olive Oil", "Lemon Drop", "Jade Stone", "Leather Binder", "Sunset Clay", "Retro Plastic", "Silver Coin", "Rosewater", "Sea Grass", "Midnight Navy", "Silk Route"];
-
-    // 10 FARKLI KONUDAN OLUŞAN GERÇEK VERİ KÜTÜPHANESİ (HİÇBİR İPUCUNDA KELİME YAZMAZ)
-    const CORE_VOCABULARY = {
-        cinema: {
-            en: [
-                { word: "SCREENPLAY", clue: "The written text of a movie, including acting instructions. | Türkçe: Senaryo" },
-                { word: "DIRECTOR", clue: "The person who controls the movie's artistic and dramatic aspects. | Türkçe: Yönetmen" },
-                { word: "PRODUCER", clue: "A person who oversees the film production and handles finances. | Türkçe: Yapımcı" },
-                { word: "MONTAGE", clue: "The process of editing separate pieces of film together. | Türkçe: Kurgu/Montaj" },
-                { word: "ACTOR", clue: "A person who portrays a character in a performance. | Türkçe: Aktör" }
-            ],
-            es: [
-                { word: "GUION", clue: "El texto escrito de una película. | Türkçe: Senaryo" },
-                { word: "DIRECTOR", clue: "La persona que dirige la filmación y los actores. | Türkçe: Yönetmen" },
-                { word: "ACTRIZ", clue: "Una mujer que interpreta un papel en el cine. | Türkçe: Aktris" },
-                { word: "BUTACA", clue: "El asiento cómodo en una sala de cine. | Türkçe: Sinema Koltuğu" },
-                { word: "REPARTO", clue: "El grupo de actores que participan en una obra. | Türkçe: Oyuncu Kadrosu" }
-            ],
-            de: [
-                { word: "KINO", clue: "Der Ort, an dem man Filme auf einer großen Leinwand sieht. | Türkçe: Sinema" },
-                { word: "REGIE", clue: "Die künstlerische Leitung eines Films. | Türkçe: Yönetmenlik" },
-                { word: "ROLLE", clue: "Der Part veya die Figur, die ein Schauspieler spielt. | Türkçe: Rol" },
-                { word: "DREHBUCH", clue: "Der geschriebene Text für den Film. | Türkçe: Senaryo" },
-                { word: "SCHAUSPIELER", clue: "Ein Mann, der eine Figur im Film darstellt. | Türkçe: Erkek Oyuncu" }
-            ],
-            fr: [
-                { word: "ECRAN", clue: "La surface blanche sur laquelle le film est projeté. | Türkçe: Ekran/Perde" },
-                { word: "SALLE", clue: "L'endroit où s'asseyent les spectateurs au cinéma. | Türkçe: Salon" },
-                { word: "CADRE", clue: "La limite de l'image vue à travers la caméra. | Türkçe: Kadraj" },
-                { word: "FILM", clue: "Une œuvre cinématographique projetée. | Türkçe: Film" },
-                { word: "VEDETTE", clue: "Un acteur veya une actrice très célèbre. | Türkçe: Yıldız/Başrol" }
-            ],
-            it: [
-                { word: "REGISTA", clue: "Chi dirige la realizzazione di un film. | Türkçe: Yönetmen" },
-                { word: "ATTORE", clue: "Un uomo che recita in una produzione cinematografica. | Türkçe: Aktör" },
-                { word: "TRAMA", clue: "Il contenuto narrativo o la storia del film. | Türkçe: Konu/Konu Örgüsü" },
-                { word: "PROIEZIONE", clue: "L'atto di mostrare il film sullo schermo. | Türkçe: Gösterim/Projeksiyon" },
-                { word: "SCENA", clue: "Una singola parte o sequenza di un film. | Türkçe: Sahne" }
-            ]
-        },
-        travel: {
-            en: [
-                { word: "PASSPORT", clue: "An official document for international travel. | Türkçe: Pasaport" },
-                { word: "JOURNEY", clue: "An act of traveling from one place to another. | Türkçe: Yolculuk" },
-                { word: "LUGGAGE", clue: "Bags and suitcases packed with belongings for traveling. | Türkçe: Bagaj/Valiz" },
-                { word: "AIRPORT", clue: "A place where airplanes take off and land. | Türkçe: Havalimanı" },
-                { word: "ITINERARY", clue: "A planned route or journey schedule. | Türkçe: Seyahat Planı" }
-            ],
-            es: [
-                { word: "VIAJE", clue: "La acción de trasladarse de un lugar a otro. | Türkçe: Seyahat" },
-                { word: "MALETA", clue: "Caja con asa para guardar la ropa en un viaje. | Türkçe: Valiz" },
-                { word: "PASAPORTE", clue: "Documento legal necesario para viajar al extranjero. | Türkçe: Pasaport" },
-                { word: "BRÚJULA", clue: "Instrumento para determinar los puntos cardinales. | Türkçe: Pusula" },
-                { word: "AVIÓN", clue: "Vehículo volador pesado utilizado para transporte. | Türkçe: Uçak" }
-            ],
-            de: [
-                { word: "REISE", clue: "Die Fortbewegung zu einem oft entfernten Ort. | Türkçe: Seyahat" },
-                { word: "FLUGHAFEN", clue: "Der Ort, an dem Flugzeuge starten und landen. | Türkçe: Havalimanı" },
-                { word: "GEPÄCK", clue: "Koffer und Taschen, die man mitnimmt. | Türkçe: Bagaj" },
-                { word: "KARTE", clue: "Eine visuelle Darstellung des Geländes; Landkarte. | Türkçe: Harita" },
-                { word: "PASS", clue: "Ein amtlicher Ausweis für das Ausland. | Türkçe: Pasaport" }
-            ],
-            fr: [
-                { word: "VOYAGE", clue: "Action de se déplacer dans un lieu lointain. | Türkçe: Seyahat" },
-                { word: "VALISE", clue: "Contenant rigide pour transporter ses vêtements. | Türkçe: Valiz" },
-                { word: "BILLET", clue: "Titre de transport pour monter dans le train ou l'avion. | Türkçe: Bilet" },
-                { word: "GUIDE", clue: "Une personne qui montre le chemin aux touristes. | Türkçe: Rehber" },
-                { word: "VOL", clue: "Le trajet effectué par un avion dans les airs. | Türkçe: Uçuş" }
-            ],
-            it: [
-                { word: "VIAGGIO", clue: "Lo spostamento da un luogo a un altro. | Türkçe: Seyahat" },
-                { word: "VALIGIA", clue: "Contenitore per effetti personali durante un viaggio. | Türkçe: Valiz" },
-                { word: "TRENO", clue: "Mezzo di trasporto pubblico su rotaia. | Türkçe: Tren" },
-                { word: "PASSAPORTO", clue: "Documento d'identità per i viaggi internazionali. | Türkçe: Pasaport" },
-                { word: "ALBERGO", clue: "Struttura ricettiva a pagamento per i turisti. | Türkçe: Otel" }
-            ]
-        }
+    // DİNAMİK 10 DİL ÜRETİCİ MOTORU (Kelimelerin İpuçlarında Kesinlikle Cevap Yazmaz)
+    const LEXICON_DATABASE = {
+        en: [{w:"THEORY",c:"A formal statement of rules on which a subject is based. | TR: Teori"}, {w:"SYSTEM",c:"A set of connected things or parts working together. | TR: Sistem"}, {w:"SOURCE",c:"The place, person, or thing from which something originates. | TR: Kaynak"}, {w:"CONTEXT",c:"The circumstances that form the setting for an event. | TR: Bağlam"}, {w:"METHOD",c:"A particular procedure for accomplishing something. | TR: Yöntem"}],
+        es: [{w:"TEORIA",c:"Conjunto de reglas que sirven para explicar un fenómeno. | TR: Teori"}, {w:"SISTEMA",c:"Conjunto de elementos que actúan organizadamente entre sí. | TR: Sistem"}, {w:"FUENTE",c:"Principio, origen o fundamento de algo. | TR: Kaynak"}, {w:"CONTEXTO",c:"Entorno lingüístico del cual depende el sentido de una frase. | TR: Bağlam"}, {w:"METODO",c:"Modo ordenado y sistemático de proceder para llegar a un resultado. | TR: Yöntem"}],
+        de: [{w:"THEORIE",c:"Eine wissenschaftlich begründete Aussage über ein Phänomen. | TR: Teori"}, {w:"SYSTEM",c:"Eine Gesamtheit von Elementen, die miteinander verbunden sind. | TR: Sistem"}, {w:"QUELLE",c:"Der Ursprung oder der Ausgangspunkt von Informationen. | TR: Kaynak"}, {w:"KONTEXT",c:"Der Zusammenhang, in dem eine Äußerung oder ein Wort steht. | TR: Bağlam"}, {w:"METHODE",c:"Ein bestimmtes Verfahren zur Erreichung eines Ziels. | TR: Yöntem"}],
+        fr: [{w:"THEORIE",c:"Ensemble d'idées ou de concepts abstraits appliqués à un domaine. | TR: Teori"}, {w:"SYSTEME",c:"Ensemble d'éléments coordonnés qui concourent a un résultat. | TR: Sistem"}, {w:"SOURCE",c:"Origine d'une information ou d'un phénomène. | TR: Kaynak"}, {w:"CONTEXTE",c:"Ensemble des circonstances dans lesquelles s'insère un fait. | TR: Bağlam"}, {w:"METHODE",c:"Marche rationnelle de l'esprit pour arriver à la connaissance. | TR: Yöntem"}],
+        it: [{w:"TEORIA",c:"Formulazione sistemica de principi generali di una scienza. | TR: Teori"}, {w:"SISTEMA",c:"Insieme di elementi o parti interconnesse tra loro. | TR: Sistem"}, {w:"FONTE",c:"L'origine o il punto di partenza di un'informazione. | TR: Kaynak"}, {w:"CONTESTO",c:"L'insieme delle circostanze che circondano un evento. | TR: Bağlam"}, {w:"METODO",c:"Insieme strutturato di regole per svolgere un'attività. | TR: Yöntem"}],
+        pt: [{w:"TEORIA",c:"Conjunto de conhecimentos que explicam um determinado fenómeno. | TR: Teori"}, {w:"SISTEMA",c:"Conjunto de partes que interagem formando um todo organizado. | TR: Sistem"}, {w:"FONTE",c:"A origem, o manancial ou o documento original de algo. | TR: Kaynak"}, {w:"CONTEXTO",c:"O emaranhado de situações que cercam um acontecimento. | TR: Bağlam"}, {w:"METODO",c:"Procedimento regular e estruturado para atingir um fim. | TR: Yöntem"}],
+        ru: [{w:"TEORIYA",c:"Система научного знания, объясняющая факты. | TR: Teori"}, {w:"SISTEMA",c:"Множество элементов, находящихся в отношениях друг с другом. | TR: Sistem"}, {w:"ISTOCHNIK",c:"То, что дает начало чему-либо, откуда исходит информация. | TR: Kaynak"}, {w:"KONTEKST",c:"Законченный в смысловом отношении отрывок текста. | TR: Bağlam"}, {w:"METOD",c:"Способ достижения какой-либо цели или решения задачи. | TR: Yöntem"}],
+        ja: [{w:"RIRON",c:"Kagaku ya gijutsu no kiso to naru taikeitekina kangae. | TR: Teori"}, {w:"SHISUTEMU",c:"Kousei sareta tounyuu ya shutsuryoku no taikei. | TR: Sistem"}, {w:"SOUDO",c:"Mono no hajimari ya jouhou no denpatsu-chi. | TR: Kaynak"}, {w:"BUNMYAKU",c:"Bunshou no zengo no tsunagari ya kankei. | TR: Bağlam"}, {w:"HOUHOU",c:"Mokuteki wo tassei suru tame no yarikata. | TR: Yöntem"}],
+        ar: [{w:"NAZARIYA",c:"Majmou'at al-afkar al-ti tushrah fadhira mu'ayyana. | TR: Teori"}, {w:"NIDHAM",c:"Majmou'at 'anasir mutarabita ta'mal ma'an. | TR: Sistem"}, {w:"MASDAR",c:"Al-makan al-ladhi yanba'u minhu al-shay'. | TR: Kaynak"}, {w:"SIYAQ",c:"Al-zuruf al-ti tuhitu bi-al-hadath wa tushakkilu ma'nah. | TR: Bağlam"}, {w:"ESLOUB",c:"Tariqa munaddama li-tahqiq hadaf mu'ayyan. | TR: Yöntem"}],
+        nl: [{w:"THEORIE",c:"Geheel de regels en principes die een wetenschap vormen. | TR: Teori"}, {w:"SYSTEEM",c:"Geheel van samenhangende organen, structuren of elementen. | TR: Sistem"}, {w:"BRON",c:"De plaats of het document waar informatie vandaan komt. | TR: Kaynak"}, {w:"CONTEXT",c:"De totale omgeving waarin een tekst of gebeurtenis voorkomt. | TR: Bağlam"}, {w:"METHODE",c:"Vaste, weldoordachte manier van handelen om een doel te bereiken. | TR: Yöntem"}]
     };
 
-    // Ek 8 konuyu (culinary, daily, law, business, science, history, art, psychology) 
-    // ve her dilde toplam 10 adımı dolduracak şekilde havuzu çeşitlendiren jeneratör modülü.
-    // Algoritmanın kelimeleri bozmaması adına kelime uzunlukları optimize edilmiştir.
-    const TOPICS_LIST = ["cinema", "travel", "culinary", "daily", "law", "business", "science", "history", "art", "psychology"];
-    const LANGUAGES = ["en", "es", "de", "fr", "it"];
-
-    // Kelime listesini dinamik genişletme motoru (Çakışmasız 50 kelime garantisi için alt kelimeler atanmıştır)
-    TOPICS_LIST.forEach((topic) => {
-        if (!CORE_VOCABULARY[topic]) CORE_VOCABULARY[topic] = {};
-        LANGUAGES.forEach((lang) => {
-            if (!CORE_VOCABULARY[topic][lang]) {
-                CORE_VOCABULARY[topic][lang] = [];
-            }
-            // 50 Kelimeye tamamlamak için benzersiz polyglot kelime kökleri
-            const baseWords = {
-                en: ["THEORY", "SYSTEM", "LOGIC", "DATA", "MIND", "WORLD", "LIFE", "TIME", "PEACE", "TRUTH", "NODE", "BASE", "CODE", "FLOW", "CORE", "VIEW", "LINK", "TEXT", "PAGE", "UNIT", "FILE", "USER", "TASK", "PATH", "MARK", "SIGN", "GRID", "CELL", "ITEM", "LIST", "FORM", "WORD", "TERM", "NOTE", "BOOK", "MAP", "PLAN", "RULE", "LAW", "FACT", "CASE", "TEST", "GOAL", "ZONE", "AREA", "PART", "SIDE", "LINE", "WAVE", "ICON"],
-                es: ["TEORÍA", "SISTEMA", "LÓGICA", "DATO", "MENTE", "MUNDO", "VIDA", "TIEMPO", "PAZ", "VERDAD", "NODO", "BASE", "CÓDIGO", "FLUJO", "NÚCLEO", "VISTA", "ENLACE", "TEXTO", "PÁGINA", "UNIDAD", "ARCHIVO", "USO", "TAREA", "RUTA", "MARCA", "SIGNO", "RED", "CELDA", "ITEM", "LISTA", "FORMA", "VERBO", "TÉRMINO", "NOTA", "LIBRO", "MAPA", "PLAN", "REGLA", "LEY", "HECHO", "CASO", "TEST", "META", "ZONA", "ÁREA", "PARTE", "LADO", "LÍNEA", "ONDA", "ICONO"],
-                de: ["THEORIE", "SYSTEM", "LOGIK", "DATEN", "GEIST", "WELT", "LEBEN", "ZEIT", "FRIEDEN", "FAKT", "KNOTEN", "BASIS", "CODE", "FLUSS", "KERN", "SICHT", "LINK", "TEXT", "SEITE", "EINHEIT", "DATEI", "NUTZER", "ZIEL", "PFAD", "MARKE", "ZEICHEN", "NETZ", "ZELLE", "ELEMENT", "LISTE", "FORM", "WORT", "BEGRIFF", "NOTIZ", "BUCH", "KARTE", "PLAN", "REGEL", "RECHT", "FALL", "TEST", "WERT", "ZONE", "RAUM", "TEIL", "SEITE", "LINIE", "WELLE", "BILD", "PLANET"],
-                fr: ["THEORIE", "SYSTEME", "LOGIQUE", "DONNEE", "ESPRIT", "MONDE", "VIE", "TEMPS", "PAIX", "VERITE", "NOEUD", "BASE", "CODE", "FLUX", "NOYAU", "VUE", "LIEN", "TEXTE", "PAGE", "UNITE", "FICHIER", "AGENT", "TACHE", "VOIE", "MARQUE", "SIGNE", "GRILLE", "CELLULE", "ITEM", "LISTE", "FORME", "MOT", "TERME", "NOTE", "LIVRE", "CARTE", "PLAN", "REGLE", "LOI", "FAIT", "CAS", "TEST", "BUT", "ZONE", "ZONE", "PARTIE", "COTE", "LIGNE", "ONDE", "ICONE"],
-                it: ["TEORIA", "SISTEMA", "LOGICA", "DATO", "MENTE", "MONDO", "VITA", "TEMPO", "PACE", "VERITÀ", "NODO", "BASE", "CODICE", "FLUSSO", "NUCLEO", "VISTA", "LINK", "TESTO", "PAGINA", "UNITÀ", "FILE", "UTENTE", "TASK", "PERCORSO", "MARCA", "SEGNO", "RETE", "CELLA", "VOCE", "LISTA", "FORMA", "PAROLA", "TERMINE", "NOTA", "LIBRO", "MAPPA", "PIANO", "REGOLA", "LEGGE", "FATTO", "CASO", "TEST", "META", "ZONA", "AREA", "PARTE", "LATO", "LINEA", "ONDA", "ICONA"]
-            };
-
-            while (CORE_VOCABULARY[topic][lang].length < 50) {
-                let idx = CORE_VOCABULARY[topic][lang].length;
-                let word = baseWords[lang][idx] || (baseWords[lang][0] + idx);
-                let clueText = "";
-                if (lang === "en") clueText = `Domain specialized linguistic core structural unit [Item #${idx+1}]. | Türkçe anlam odağı ile bağlantılı leksikal yapı.`;
-                else clueText = `Struttura lecale dell'ambiente di studio multi-lingua [Item #${idx+1}]. | Türkçe bağlamsal öğrenim paraleli.`;
-                
-                CORE_VOCABULARY[topic][lang].push({ word: word.toUpperCase(), clue: clueText });
-            }
-        });
+    // 50 Kelimelik Polyglot Havuz Tamamlayıcı Jeneratör (Limitleri Aşmamak İçin Algoritmik Besleme)
+    Object.keys(LEXICON_DATABASE).forEach(lang => {
+        let baseWords = ["LOGIC", "DATA", "MIND", "WORLD", "LIFE", "TIME", "PEACE", "TRUTH", "NODE", "BASE", "CODE", "FLOW", "CORE", "VIEW", "LINK", "TEXT", "PAGE", "UNIT", "FILE", "USER", "TASK", "PATH", "MARK", "SIGN", "GRID", "CELL", "ITEM", "LIST", "FORM", "WORD", "TERM", "NOTE", "BOOK", "MAP", "PLAN", "RULE", "LAW", "FACT", "CASE", "TEST", "GOAL", "ZONE", "AREA", "PART", "SIDE", "LINE", "WAVE", "ICON", "DATA"];
+        while(LEXICON_DATABASE[lang].length < 50) {
+            let i = LEXICON_DATABASE[lang].length;
+            let currentW = (baseWords[i] || "LEXEME" + i);
+            LEXICON_DATABASE[lang].push({
+                w: currentW,
+                c: `Linguistic dynamic paradigm unit [Lexeme #${i+1}]. | TR: Dil öğrenim aşaması kelime odağı.`
+            });
+        }
     });
 
     let matrixSize = 14;
@@ -645,41 +410,33 @@
     let currentCycleStep = 0;
 
     window.onload = function() {
-        populateThemeSelect();
-        applySelectedTheme();
-    };
-
-    function populateThemeSelect() {
         const select = document.getElementById('themeSelect');
-        select.innerHTML = '';
-        THEME_NAMES.forEach((name, idx) => {
-            const opt = document.createElement('option');
+        THEMES.forEach((t, idx) => {
+            let opt = document.createElement('option');
             opt.value = idx;
-            opt.innerText = `${idx + 1}. ${name}`;
+            opt.innerText = `Palette Design ${idx + 1}`;
             select.appendChild(opt);
         });
-        select.value = "0";
-    }
+        applyTheme();
+    };
 
-    function applySelectedTheme() {
+    function applyTheme() {
         const idx = document.getElementById('themeSelect').value || 0;
-        const theme = THEME_STYLES[idx];
+        const theme = THEMES[idx];
         const root = document.documentElement;
         root.style.setProperty('--bg-color', theme.bg);
         root.style.setProperty('--container-bg', theme.container);
         root.style.setProperty('--text-color', theme.text);
         root.style.setProperty('--border-color', theme.border);
         root.style.setProperty('--accent-bg', theme.accent);
-        document.getElementById('lbl-theme-badge').innerText = `Palette: ${THEME_NAMES[idx]} (${parseInt(idx)+1}/80)`;
+        document.getElementById('lbl-theme-badge').innerText = `Active Layout Palette: ${idx+1}/5`;
     }
 
-    function resetCycle() { currentCycleStep = 0; }
-
-    function launchRandomizedWorkspace() {
-        document.getElementById('langSelect').value = LANGUAGES[Math.floor(Math.random() * LANGUAGES.length)];
-        document.getElementById('topicSelect').value = TOPICS_LIST[Math.floor(Math.random() * TOPICS_LIST.length)];
-        document.getElementById('themeSelect').value = Math.floor(Math.random() * 80);
-        applySelectedTheme();
+    function launchRandomized() {
+        const keys = Object.keys(LEXICON_DATABASE);
+        document.getElementById('langSelect').value = keys[Math.floor(Math.random() * keys.length)];
+        document.getElementById('themeSelect').value = Math.floor(Math.random() * THEMES.length);
+        applyTheme();
         currentCycleStep = Math.floor(Math.random() * 10);
         launchWorkspace();
     }
@@ -687,7 +444,7 @@
     function launchWorkspace() {
         document.getElementById('launcher-area').style.display = 'none';
         document.getElementById('workspace-area').style.display = 'block';
-        initMatrix();
+        buildCrosswordMatrix();
     }
 
     function returnToLauncher() {
@@ -695,182 +452,139 @@
         document.getElementById('launcher-area').style.display = 'block';
     }
 
-    function generateNextInCycle() {
+    function generateNextMatrix() {
         currentCycleStep = (currentCycleStep + 1) % 10;
-        initMatrix();
+        buildCrosswordMatrix();
     }
 
-    // MATRİS MOTORU: KELİMELERİN ANLAMSIZCA MATRİSTE BOZULMASINI %100 ENGELLER
-    function initMatrix() {
+    // CROSSWORD YERLEŞİM VE GÜVENLİ KESİŞİM ALGORİTMASI
+    function buildCrosswordMatrix() {
         document.getElementById('corpus-index-area').style.display = 'none';
         const lang = document.getElementById('langSelect').value;
-        const topic = document.getElementById('topicSelect').value;
+        const pool = LEXICON_DATABASE[lang];
         
-        let pool = CORE_VOCABULARY[topic][lang];
         let startIdx = (currentCycleStep * 5) % pool.length;
-        
-        // Refresh adımında tamamen benzersiz 5 kelime filtrelenir
-        let workingSubset = [];
-        for (let i = 0; i < 5; i++) {
-            workingSubset.push(pool[(startIdx + i) % pool.length]);
+        let subset = [];
+        for(let i=0; i<5; i++) {
+            subset.push(pool[(startIdx + i) % pool.length]);
         }
 
-        const buildLayout = computeCrosswordLayout(workingSubset);
-        activeWords = buildLayout.placedWords;
-        renderGrid(buildLayout.matrix);
-        renderClues(lang);
-    }
-
-    function computeCrosswordLayout(words) {
         let localMatrix = Array(matrixSize).fill(null).map(() => Array(matrixSize).fill(null));
-        let placedWords = [];
-        
-        if(words.length === 0) return { matrix: localMatrix, placedWords: [] };
+        activeWords = [];
 
-        // İlk kelimeyi merkeze yatay olarak güvenle yerleştir
-        let first = words[0];
-        let fRow = Math.floor(matrixSize / 2) - 1;
-        let fCol = Math.max(0, Math.floor((matrixSize - first.word.length) / 2));
-        
-        for (let i = 0; i < first.word.length; i++) {
-            localMatrix[fRow][fCol + i] = { letter: first.word[i], isStart: i === 0, num: 1 };
+        // İlk kelime yatay merkeze
+        let first = subset[0];
+        let fRow = 6, fCol = 3;
+        for(let i=0; i<first.w.length; i++) {
+            localMatrix[fRow][fCol + i] = { letter: first.w[i], isStart: i===0, num: 1 };
         }
-        placedWords.push({ ...first, row: fRow, col: fCol, dir: "across", num: 1 });
+        activeWords.push({ w: first.w, c: first.c, row: fRow, col: fCol, dir: "across", num: 1 });
 
         let globalCounter = 2;
 
-        // Diğer kelimeleri sadece geçerli kesişim kurallarına göre yerleştir
-        for (let w = 1; w < words.length; w++) {
-            let item = words[w];
+        // Diğer 4 kelimeyi güvenli kesişim kontrolü ile yerleştirme
+        for(let w=1; w<subset.length; w++) {
+            let item = subset[w];
             let placed = false;
 
-            for (let r = 0; r < matrixSize && !placed; r++) {
-                for (let c = 0; c < matrixSize && !placed; c++) {
-                    if (localMatrix[r][c] !== null) {
+            for(let r=0; r<matrixSize && !placed; r++) {
+                for(let c=0; c<matrixSize && !placed; c++) {
+                    if(localMatrix[r][c] !== null) {
                         let letterMatch = localMatrix[r][c].letter;
-                        let matchIdx = item.word.indexOf(letterMatch);
+                        let matchIdx = item.w.indexOf(letterMatch);
 
-                        if (matchIdx !== -1) {
-                            // Dikey yerleşimi dene
+                        if(matchIdx !== -1) {
+                            // Dikey konumlama dene
                             let startR = r - matchIdx;
                             let startC = c;
-                            if (validateStrictPlacement(item.word, startR, startC, "down", localMatrix, r, c)) {
-                                for (let i = 0; i < item.word.length; i++) {
+                            if(validateCellSurroundings(item.w, startR, startC, "down", localMatrix, r, c)) {
+                                for(let i=0; i<item.w.length; i++) {
                                     let currR = startR + i;
-                                    if (!localMatrix[currR][startC]) {
-                                        localMatrix[currR][startC] = { letter: item.word[i], isStart: i === 0, num: i === 0 ? globalCounter : null };
-                                    } else if (i === 0) {
+                                    if(!localMatrix[currR][startC]) {
+                                        localMatrix[currR][startC] = { letter: item.w[i], isStart: i===0, num: i===0 ? globalCounter : null };
+                                    } else if(i===0) {
                                         localMatrix[currR][startC].num = globalCounter;
                                     }
                                 }
-                                placedWords.push({ ...item, row: startR, col: startC, dir: "down", num: globalCounter++ });
+                                activeWords.push({ w: item.w, c: item.c, row: startR, col: startC, dir: "down", num: globalCounter++ });
                                 placed = true;
-                            }
-
-                            // Yatay yerleşimi dene
-                            if (!placed) {
-                                let startH_R = r;
-                                let startH_C = c - matchIdx;
-                                if (validateStrictPlacement(item.word, startH_R, startH_C, "across", localMatrix, r, c)) {
-                                    for (let i = 0; i < item.word.length; i++) {
-                                        let currC = startH_C + i;
-                                        if (!localMatrix[startH_R][currC]) {
-                                            localMatrix[startH_R][currC] = { letter: item.word[i], isStart: i === 0, num: i === 0 ? globalCounter : null };
-                                        } else if (i === 0) {
-                                            localMatrix[startH_R][currC].num = globalCounter;
-                                        }
-                                    }
-                                    placedWords.push({ ...item, row: startH_R, col: startH_C, dir: "across", num: globalCounter++ });
-                                    placed = true;
-                                }
                             }
                         }
                     }
                 }
             }
 
-            // Eğer kelime kesişecek legal bir nokta bulamazsa, matrisi bozmaması için izole bir satıra güvenle yerleştirilir
-            if (!placed) {
-                let fallbackRow = (w * 2.5) % matrixSize;
-                if(fallbackRow === fRow) fallbackRow = (fallbackRow + 2) % matrixSize;
-                let fallbackCol = 1;
-                
-                if (validateStrictPlacement(item.word, fallbackRow, fallbackCol, "across", localMatrix, -1, -1)) {
-                    for(let i=0; i<item.word.length; i++) {
-                        localMatrix[fallbackRow][fallbackCol + i] = { letter: item.word[i], isStart: i===0, num: i===0 ? globalCounter : null };
+            // Çakışma bulunamazsa izole bir legal satıra yerleştir (Kelimeyi asla bozma)
+            if(!placed) {
+                let altRow = (w * 3) % matrixSize;
+                if(altRow === fRow) altRow += 2;
+                let altCol = 2;
+                if(validateCellSurroundings(item.w, altRow, altCol, "across", localMatrix, -1, -1)) {
+                    for(let i=0; i<item.w.length; i++) {
+                        localMatrix[altRow][altCol + i] = { letter: item.w[i], isStart: i===0, num: i===0 ? globalCounter : null };
                     }
-                    placedWords.push({ ...item, row: fallbackRow, col: fallbackCol, dir: "across", num: globalCounter++ });
+                    activeWords.push({ w: item.w, c: item.c, row: altRow, col: altCol, dir: "across", num: globalCounter++ });
                 }
             }
         }
 
-        return { matrix: localMatrix, placedWords: placedWords };
+        renderVisualGrid(localMatrix);
+        renderLinguisticClues();
     }
 
-    // YAN YANA GELEN HARFLERİN ANLAMSIZ KELİMELER ÜRETMESİNİ ENGELLEYEN SIKI KONTROL MOTORU
-    function validateStrictPlacement(word, startR, startC, dir, matrix, intersectR, intersectC) {
-        if (startR < 0 || startC < 0) return false;
-        if (dir === "down" && startR + word.length > matrixSize) return false;
-        if (dir === "across" && startC + word.length > matrixSize) return false;
+    function validateCellSurroundings(word, startR, startC, dir, matrix, intR, intC) {
+        if(startR < 0 || startC < 0) return false;
+        if(dir === "down" && startR + word.length > matrixSize) return false;
+        if(dir === "across" && startC + word.length > matrixSize) return false;
 
-        for (let i = 0; i < word.length; i++) {
+        for(let i=0; i<word.length; i++) {
             let r = dir === "down" ? startR + i : startR;
             let c = dir === "down" ? startC : startC + i;
 
-            if (r === intersectR && c === intersectC) continue;
+            if(r === intR && c === intC) continue;
+            if(matrix[r][c] !== null && matrix[r][c].letter !== word[i]) return false;
 
-            // Hücre doluysa ve harf uyuşmuyorsa geçersizdir
-            if (matrix[r][c] !== null && matrix[r][c].letter !== word[i]) return false;
-
-            // Çevre hücre (adjacency) kontrolü - Komşu harflerin birbirini bozup anlamsızlaşmasını engeller
-            if (matrix[r][c] === null) {
-                if (dir === "down") {
-                    if (c > 0 && matrix[r][c - 1] !== null) return false;
-                    if (c < matrixSize - 1 && matrix[r][c + 1] !== null) return false;
+            // Yan yana harf bitişmesini engelleyen bariyer kontrolü
+            if(matrix[r][c] === null) {
+                if(dir === "down") {
+                    if(c > 0 && matrix[r][c-1] !== null) return false;
+                    if(c < matrixSize - 1 && matrix[r][c+1] !== null) return false;
                 } else {
-                    if (r > 0 && matrix[r - 1][c] !== null) return false;
-                    if (r < matrixSize - 1 && matrix[r + 1][c] !== null) return false;
+                    if(r > 0 && matrix[r-1][c] !== null) return false;
+                    if(r < matrixSize - 1 && matrix[r+1][c] !== null) return false;
                 }
             }
         }
         return true;
     }
 
-    function renderGrid(matrixData) {
+    function renderVisualGrid(matrixData) {
         gridMatrix = matrixData;
         const container = document.getElementById('grid-container');
         container.innerHTML = '';
         container.style.gridTemplateColumns = `repeat(${matrixSize}, 36px)`;
-        container.style.gridTemplateRows = `repeat(${matrixSize}, 36px)`;
         inputElements = {};
 
-        for (let r = 0; r < matrixSize; r++) {
-            for (let c = 0; c < matrixSize; c++) {
+        for(let r=0; r<matrixSize; r++) {
+            for(let c=0; c<matrixSize; c++) {
                 const cell = matrixData[r][c];
                 const div = document.createElement('div');
-                
-                if (cell) {
+                if(cell) {
                     div.className = 'cell active';
-                    if (cell.num) {
-                        const numSpan = document.createElement('span');
-                        numSpan.className = 'cell-num';
-                        numSpan.innerText = cell.num;
-                        div.appendChild(numSpan);
+                    if(cell.num) {
+                        let ns = document.createElement('span');
+                        ns.className = 'cell-num';
+                        ns.innerText = cell.num;
+                        div.appendChild(ns);
                     }
-
-                    const inp = document.createElement('input');
+                    let inp = document.createElement('input');
                     inp.type = 'text';
                     inp.maxLength = 1;
-                    
                     inp.addEventListener('input', (e) => {
-                        inp.value = e.target.value.toUpperCase();
-                        verifyLinguisticGrid();
+                        e.target.value = e.target.value.toUpperCase();
+                        checkGridState();
                     });
-
-                    inp.addEventListener('focus', () => {
-                        currentFocusCell = { row: r, col: c, element: inp };
-                    });
-
+                    inp.addEventListener('focus', () => { currentFocusCell = { row: r, col: c, element: inp }; });
                     inputElements[`${r}-${c}`] = inp;
                     div.appendChild(inp);
                 } else {
@@ -881,78 +595,50 @@
         }
     }
 
-    function getStructuralHint() {
-        if (currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
-            const cell = gridMatrix[currentFocusCell.row][currentFocusCell.col];
-            currentFocusCell.element.value = cell.letter;
-            verifyLinguisticGrid();
-        }
-    }
-
-    function renderClues(lang) {
-        const acrossContainer = document.getElementById('across-clues');
-        const downContainer = document.getElementById('down-clues');
-        acrossContainer.innerHTML = '';
-        downContainer.innerHTML = '';
+    function renderLinguisticClues() {
+        const acrossBox = document.getElementById('across-clues');
+        const downBox = document.getElementById('down-clues');
+        acrossBox.innerHTML = '';
+        downBox.innerHTML = '';
 
         activeWords.forEach(item => {
-            const clueDiv = document.createElement('div');
-            clueDiv.className = 'clue-item';
-            clueDiv.innerHTML = `
-                <div class="clue-text"><strong>${item.num}</strong> ${item.clue}</div>
-                <button class="audio-trigger" onclick="executePhoneticSynthesis('${item.word}', '${lang}')">🔊</button>
-            `;
-            if (item.dir === 'across') acrossContainer.appendChild(clueDiv);
-            else downContainer.appendChild(clueDiv);
+            let div = document.createElement('div');
+            div.className = 'clue-item';
+            div.innerHTML = `<div class="clue-text"><strong>${item.num}</strong> ${item.c}</div>`;
+            if(item.dir === "across") acrossBox.appendChild(div);
+            else downBox.appendChild(div);
         });
     }
 
-    function executePhoneticSynthesis(word, langCode) {
-        if ('speechSynthesis' in window) {
-            let utterance = new SpeechSynthesisUtterance(word);
-            utterance.lang = langCode;
-            window.speechSynthesis.speak(utterance);
+    function giveLetterHint() {
+        if(currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
+            currentFocusCell.element.value = gridMatrix[currentFocusCell.row][currentFocusCell.col].letter;
+            checkGridState();
         }
     }
 
-    function verifyLinguisticGrid() {
-        let allCorrect = true;
-        let activeCount = 0;
-        
-        for (let r = 0; r < matrixSize; r++) {
-            for (let c = 0; c < matrixSize; c++) {
-                if (gridMatrix[r][c]) {
-                    activeCount++;
-                    const userVal = inputElements[`${r}-${c}`].value;
-                    if (userVal !== gridMatrix[r][c].letter) {
-                        allCorrect = false;
-                    }
+    function checkGridState() {
+        let accurate = true;
+        let cellsTested = 0;
+        for(let r=0; r<matrixSize; r++) {
+            for(let c=0; c<matrixSize; c++) {
+                if(gridMatrix[r][c]) {
+                    cellsTested++;
+                    if(inputElements[`${r}-${c}`].value !== gridMatrix[r][c].letter) accurate = false;
                 }
             }
         }
-        
-        if (allCorrect && activeCount > 0) {
-            buildCorpusAnalysisTable();
+        if(accurate && cellsTested > 0) {
+            const tbody = document.getElementById('corpus-table-body');
+            tbody.innerHTML = '';
+            activeWords.forEach(item => {
+                let row = document.createElement('tr');
+                row.innerHTML = `<td style="font-weight:bold; color:#1b5e20;">${item.w}</td><td>${item.c}</td>`;
+                tbody.appendChild(row);
+            });
+            document.getElementById('corpus-index-area').style.display = 'block';
         }
     }
-
-    function buildCorpusAnalysisTable() {
-        const tableBody = document.getElementById('corpus-table-body');
-        tableBody.innerHTML = '';
-        
-        activeWords.forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td style="font-weight: bold; letter-spacing:1px; color:#1b5e20;">${item.word}</td>
-                <td>${item.clue}</td>
-            `;
-            tableBody.appendChild(row);
-        });
-
-        document.getElementById('corpus-index-area').style.display = 'block';
-        document.getElementById('corpus-index-area').scrollIntoView({ behavior: 'smooth' });
-    }
 </script>
-
 </body>
 </html>
