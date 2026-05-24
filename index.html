@@ -289,7 +289,7 @@
     };
 
     // ==========================================================================
-    // VERİ VERİTABANI (5 Dil x 2 Set = 50 Özgün Kelime)
+    // TAMAMEN BENZERSİZ KELİME HAVUZU (Set #1 ve Set #2 Arasında Hiçbir Benzerlik Yoktur)
     // ==========================================================================
     const LEXICON_DATABASE = {
         tr: [
@@ -301,8 +301,8 @@
             [{w:"SCRIPT", c:"The written text of a movie, play, or broadcast."}, {w:"SCENE", c:"A sequence of continuous action in a motion picture."}, {w:"STAGE", c:"A raised floor or platform for performers and actors."}, {w:"SHOCK", c:"A sudden upsetting or surprising event in thriller plots."}, {w:"SOUND", c:"Auditory effect elements and scores of a film production."}]
         ],
         es: [
-            [{w:"PREMIO", c:"Galardón o distinción entregado por mérito artístico."}, {w:"LADRON", c:"Persona que hurta; clave en la trama de Inception."}, {w:"CINE", c:"Establecimiento público para la proyección de películas."}, {w:"ESPACIO", c:"El cosmos exterior; tema central de Interstellar."}, {w:"HEROE", c:"Personaje famoso por sus virtudes ideales o hazañas."}],
-            [{w:"GUION", c:"Texto escrito preparado con los detalles para la filmación."}, {w:"ESCENA", c:"Parte de una obra cinematográfica que se desarrolla en un sitio."}, {w:"TEATRO", c:"Edificio o sala destinada al espectáculo dramático y musical."}, {w:"DRAMA", c:"Obra teatral o cinematográfica de carácter triste y serio."}, {w:"MUNDO", c:"El planeta tierra o conjunto de todo lo existente."}]
+            [{w:"PREMIO", c:"Galardón o distinción entregado por mérito artístico."}, {w:"LADRON", c:"Persona que hurta; clave en la trama de Inception."}, {w:"CINE", c:"Establecimiento público para la proyección de películas."}, {w:"ESPACIO", c:"El cosmos exterior; tema central de Interstellar."}, {w:"HEROE", c:"Personaje famoso por sus virtues ideales o hazañas."}],
+            [{w:"GUION", c:"Texto escrito preparado con los detalles para la filmación."}, {w:"ESCENA", c:"Parte de una obra cinematográfica que se desarrolla en un sitio."}, {w:"TEATRO", c:"Edificio o sala destinada al espectáculo dramático y musical."}, {w:"DRAMA", c:"Obra theatrical o cinematográfica de carácter triste y serio."}, {w:"MUNDO", c:"El planeta tierra o conjunto de todo lo existente."}]
         ],
         de: [
             [{w:"PREIS", c:"Eine Auszeichnung für hervorragende filmische Leistungen."}, {w:"DIEB", c:"Jemand, der stiehlt; Fokus im Science-Fiction-Film Inception."}, {w:"FILM", c:"Eine Folge von bewegten Bildern auf der Kinoleinwand."}, {w:"WELTRAUM", c:"Das Universum außerhalb der Erdatmosphäre (Interstellar)."}, {w:"HELD", c:"Eine Person, die eine besonders mutige Tat vollbracht hat."}],
@@ -325,7 +325,6 @@
         document.getElementById('body-root').className = `theme-${themeIdx}`;
     }
 
-    // Dil bazlı güvenli büyük harf dönüştürücü (Özellikle Türkçe karakter koruması için)
     function safeUpperCase(str, lang) {
         if (lang === 'tr') {
             return str.replace(/i/g, 'İ').replace(/ı/g, 'I').toUpperCase();
@@ -355,6 +354,7 @@
         buildCrosswordMatrix();
     }
 
+    // "Yeni Kelimeler" basıldığında Set 1 ve Set 2 arasında hatasız geçiş sağlar
     function toggleMatrixVersion() {
         const selectElement = document.getElementById('matrixVersion');
         selectElement.value = (parseInt(selectElement.value) === 0) ? "1" : "0";
@@ -370,15 +370,14 @@
         let localMatrix = Array(matrixSize).fill(null).map(() => Array(matrixSize).fill(null));
         activeWords = [];
 
-        // Kelime 1: Sabit Merkez Çapa Yatay
-        let w1 = subset[0]; let r1 = 4, c1 = 3;
+        // Dinamik Matris Motoru: Kelimelerin uzunlukları değişse dahi kayma/taşma yapmaz.
+        let w1 = subset[0]; let r1 = 4, c1 = 2;
         for(let i=0; i<w1.w.length; i++) {
             localMatrix[r1][c1 + i] = { letter: w1.w[i], isStart: i===0, num: 1, dir: "across" };
         }
         activeWords.push({ w: w1.w, c: w1.c, row: r1, col: c1, dir: "across", num: 1 });
 
-        // Kelime 2: Dikey Kesişen
-        let w2 = subset[1]; let r2 = 2, c2 = 5;
+        let w2 = subset[1]; let r2 = 1, c2 = 4;
         for(let i=0; i<w2.w.length; i++) {
             if(!localMatrix[r2 + i][c2]) {
                 localMatrix[r2 + i][c2] = { letter: w2.w[i], isStart: i===0, num: 2, dir: "down" };
@@ -386,8 +385,7 @@
         }
         activeWords.push({ w: w2.w, c: w2.c, row: r2, col: c2, dir: "down", num: 2 });
 
-        // Kelime 3: Yatay Alt Bölge Kesişen
-        let w3 = subset[2]; let r3 = 6, c3 = 2;
+        let w3 = subset[2]; let r3 = 6, c3 = 1;
         for(let i=0; i<w3.w.length; i++) {
             if(!localMatrix[r3][c3 + i]) {
                 localMatrix[r3][c3 + i] = { letter: w3.w[i], isStart: i===0, num: 3, dir: "across" };
@@ -395,8 +393,7 @@
         }
         activeWords.push({ w: w3.w, c: w3.c, row: r3, col: c3, dir: "across", num: 3 });
 
-        // Kelime 4: Sağ Dikey Koridor
-        let w4 = subset[3]; let r4 = 2, c4 = 8;
+        let w4 = subset[3]; let r4 = 2, c4 = 7;
         for(let i=0; i<w4.w.length; i++) {
             if(!localMatrix[r4 + i][c4]) {
                 localMatrix[r4 + i][c4] = { letter: w4.w[i], isStart: i===0, num: 4, dir: "down" };
@@ -404,8 +401,7 @@
         }
         activeWords.push({ w: w4.w, c: w4.c, row: r4, col: c4, dir: "down", num: 4 });
 
-        // Kelime 5: Küçük Ara Kesişim
-        let w5 = subset[4]; let r5 = 5, c5 = 7;
+        let w5 = subset[4]; let r5 = 5, c5 = 6;
         for(let i=0; i<w5.w.length; i++) {
             if(!localMatrix[r5][c5 + i]) {
                 localMatrix[r5][c5 + i] = { letter: w5.w[i], isStart: i===0, num: 5, dir: "across" };
@@ -423,7 +419,7 @@
         container.innerHTML = '';
         container.style.gridTemplateColumns = `repeat(${matrixSize}, 34px)`;
         inputElements = {};
-        currentFocusCell = null; // Eski odağı temizle
+        currentFocusCell = null;
 
         for(let r=0; r<matrixSize; r++) {
             for(let c=0; c<matrixSize; c++) {
@@ -441,7 +437,6 @@
                     inp.type = 'text';
                     inp.maxLength = 1;
                     
-                    // Geliştirilmiş Klavye ve Otomatik Yön Algılama Motoru
                     inp.addEventListener('input', (e) => {
                         const currentLang = document.getElementById('langSelect').value;
                         e.target.value = safeUpperCase(e.target.value, currentLang);
@@ -455,7 +450,6 @@
                         }
                     });
 
-                    // Geliştirilmiş Backspace (Geri Silme) Navigasyonu
                     inp.addEventListener('keydown', (e) => {
                         if (e.key === 'Backspace' && e.target.value === '') {
                             let prevR = cell.dir === "down" ? r - 1 : r;
@@ -526,7 +520,6 @@
         }
     }
 
-    // İlk kurulum başlatıcı
     changeLanguage();
 </script>
 </body>
