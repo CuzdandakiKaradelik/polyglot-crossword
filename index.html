@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Leksikal Workbench v9.0 - Stabil</title>
+    <title>Polyglot Leksikal Workbench v10.0 - Optimize</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -166,15 +166,16 @@
         }
 
         .matrix-section {
-            flex: 1.2;
+            flex: 1.3;
             display: flex;
             justify-content: center;
             align-items: center;
             background: var(--accent-bg);
             border: 1px solid var(--border-color);
-            padding: 15px;
-            min-height: 520px;
+            padding: 20px;
+            min-height: 540px;
             border-radius: 4px;
+            overflow: auto;
         }
 
         .crossword-grid {
@@ -187,8 +188,8 @@
         .cell {
             background-color: transparent;
             position: relative;
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
         }
 
         .cell.active { background-color: #ffffff; }
@@ -211,11 +212,12 @@
 
         .cell-num {
             position: absolute;
-            top: 1px;
-            left: 2px;
-            font-size: 8px;
+            top: 2px;
+            left: 3px;
+            font-size: 9px;
             font-weight: bold;
-            color: #444;
+            color: #333;
+            z-index: 2;
         }
 
         .corpus-section {
@@ -228,51 +230,52 @@
         .clue-block {
             border: 1px solid var(--border-color);
             background: var(--container-bg);
-            padding: 12px;
+            padding: 15px;
             border-radius: 4px;
         }
 
         .clue-block h3 {
-            margin: 0 0 8px 0;
+            margin: 0 0 10px 0;
             font-size: 11px;
             text-transform: uppercase;
             background: var(--border-color);
             color: var(--container-bg);
-            padding: 2px 6px;
+            padding: 3px 8px;
             display: inline-block;
+            border-radius: 2px;
         }
 
         .clue-item {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 13px;
             line-height: 1.4;
-            padding-bottom: 6px;
+            padding-bottom: 8px;
             border-bottom: 1px dotted var(--border-color);
         }
 
         .clue-text { flex: 1; padding-right: 8px; }
-        .clue-text strong { background: var(--accent-bg); padding: 0 4px; margin-right: 4px; }
+        .clue-text strong { background: var(--accent-bg); padding: 0 5px; margin-right: 6px; border-radius: 2px; }
 
         .corpus-index-wrapper {
-            margin-top: 20px;
+            margin-top: 25px;
             border-top: 2px dashed var(--border-color);
-            padding-top: 15px;
+            padding-top: 20px;
             display: none;
         }
 
         .corpus-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 12px;
             font-size: 13px;
         }
 
         .corpus-table th, .corpus-table td {
             border: 1px solid var(--border-color);
-            padding: 8px;
+            padding: 10px;
         }
 
         .corpus-table th { background-color: var(--accent-bg); text-transform: uppercase; }
@@ -281,12 +284,12 @@
 <body>
 
 <div class="welcome-screen" id="launcher-area">
-    <h1 class="welcome-title">Polyglot Leksikal Workbench v9.0</h1>
-    <p style="font-size: 13px; opacity: 0.7;">Sıfır Hata Odaklı Bağlamsal Dil Öğrenim Masası</p>
+    <h1 class="welcome-title">Polyglot Leksikal Workbench v10.0</h1>
+    <p style="font-size: 13px; opacity: 0.7;">Optimize Harf Kesişimli Dil Öğrenim Matrisi</p>
 
     <div class="action-group">
         <button class="start-action-btn" onclick="launchWorkspace()">Matrisi Yükle</button>
-        <button class="start-action-btn" style="background: transparent; color: var(--text-color); border: 2px dashed var(--border-color);" onclick="launchRandomized()">🎲 Rastgele Sürpriz Kombinasyon</button>
+        <button class="start-action-btn" style="background: transparent; color: var(--text-color); border: 2px dashed var(--border-color);" onclick="launchRandomized()">🎲 Rastgele Dil & Stil Seç</button>
     </div>
 
     <div class="quick-settings-grid">
@@ -301,15 +304,15 @@
         </div>
 
         <div class="setting-card">
-            <label for="topicSelect">Leksikal Alan</label>
+            <label for="topicSelect">Kelime Grubu</label>
             <select id="topicSelect">
-                <option value="academic">🎓 Akademik & Kültür</option>
-                <option value="lifestyle">🏡 Günlük Yaşam & Sosyal</option>
+                <option value="academic">🎓 Entelektüel & Akademik</option>
+                <option value="lifestyle">🌍 Kültür & Günlük Yaşam</option>
             </select>
         </div>
 
         <div class="setting-card">
-            <label for="themeSelect">Renk Paleti</label>
+            <label for="themeSelect">Görsel Tema</label>
             <select id="themeSelect" onchange="applyTheme()"></select>
         </div>
     </div>
@@ -324,7 +327,7 @@
     <div class="control-panel">
         <button class="btn-prime" onclick="returnToLauncher()">⬅ Menü</button>
         <div>
-            <button class="btn-prime" onclick="generateNextMatrix()">Yeni Matris Filtrele (Refresh)</button>
+            <button class="btn-prime" onclick="generateNextMatrix()">Yeni Set Filtrele</button>
             <button class="btn-prime" onclick="giveLetterHint()" style="background: var(--accent-bg); color: var(--text-color); margin-left: 5px;">Harf İpucu</button>
         </div>
     </div>
@@ -346,12 +349,12 @@
     </div>
 
     <div class="corpus-index-wrapper" id="corpus-index-area">
-        <h2 style="font-family: 'Playfair Display', serif; font-size: 20px; margin: 0;">Leksikal İndeks Başarıyla Tamamlandı</h2>
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 20px; margin: 0; color: #1b5e20;">✓ Matris Çözüldü: Dil İndeksi</h2>
         <table class="corpus-table">
             <thead>
                 <tr>
                     <th>Sözcük (Lexeme)</th>
-                    <th>Cümle Yapısı ve Anlam Filtresi</th>
+                    <th>Bağlamsal Eğitim Notu</th>
                 </tr>
             </thead>
             <tbody id="corpus-table-body"></tbody>
@@ -364,81 +367,80 @@
         { bg: "#f7f5f0", container: "#ffffff", text: "#2b2b2b", border: "#2b2b2b", accent: "#f0ede5" },
         { bg: "#1a1a1a", container: "#262626", text: "#f5f5f5", border: "#404040", accent: "#333333" },
         { bg: "#e6d7b8", container: "#f2e6ce", text: "#3d2b1f", border: "#5c4033", accent: "#dfcfad" },
-        { bg: "#e4e9ed", container: "#f4f7f9", text: "#1c2833", border: "#2c3e50", accent: "#d5dbdb" },
-        { bg: "#f5e6e6", container: "#fdf8f8", text: "#4a1515", border: "#722f37", accent: "#ebd2d2" }
+        { bg: "#e4e9ed", container: "#f4f7f9", text: "#1c2833", border: "#2c3e50", accent: "#d5dbdb" }
     ];
 
-    // DOĞRULANMIŞ SABİT VERİ HAVUZU (4 DİL - HİÇBİR İPUCUNDA KELİME YAZMAZ)
+    // DOĞRULANMIŞ STRÜKTÜREL VERİ SETİ (Kesişimi Kolaylaştıran Seçkin Kelimeler)
     const LEXICON_DATABASE = {
         academic: {
             en: [
-                { w: "THEORY", c: "A formal statement of rules on which a subject of study is based. | TR: Teori / Kuram" },
-                { w: "SOURCE", c: "The place, person, or thing from which something originates or can be obtained. | TR: Kaynak" },
-                { w: "CONTEXT", c: "The circumstances that form the setting for an event, statement, or idea. | TR: Bağlam" },
-                { w: "METHOD", c: "A particular procedure for accomplishing or approaching something. | TR: Yöntem / Metot" },
-                { w: "LOGIC", c: "Reasoning conducted or assessed according to strict principles of validity. | TR: Mantık" }
+                { w: "CONTEXT", c: "The parts of a discourse that surround a word or passage and can throw light on its meaning. | TR: Bağlam" },
+                { w: "THEORY", c: "A plausible or scientifically acceptable general principle offered to explain phenomena. | TR: Teori" },
+                { w: "METHOD", c: "A systematic procedure, technique, or mode of inquiry employed by a discipline. | TR: Yöntem" },
+                { w: "SOURCE", c: "A primary reference point or document from which info is gathered. | TR: Kaynak" },
+                { w: "LOGIC", c: "A science that deals with the principles and criteria of validity of inference and demonstration. | TR: Mantık" }
             ],
             es: [
-                { w: "TEORIA", c: "Conjunto de reglas que sirven para explicar un orden de fenómenos. | TR: Teori" },
-                { w: "FUENTE", c: "Principio, fundamento u origen de algo. | TR: Kaynak" },
-                { w: "CONTEXTO", c: "Entorno lingüístico del que depende el sentido de una palabra. | TR: Bağlam" },
-                { w: "METODO", c: "Modo ordenado y sistemático de proceder para llegar a un resultado. | TR: Yöntem" },
-                { w: "LOGICA", c: "Ciencia que expone las leyes, modos y formas de las proposiciones. | TR: Mantık" }
+                { w: "CONTEXTO", c: "Entorno lingüístico del cual depende el sentido u valor de una palabra o frase. | TR: Bağlam" },
+                { w: "TEORIA", c: "Red de leyes científicas que sirven para relacionar y explicar un orden de hechos. | TR: Teori" },
+                { w: "METODO", c: "Procedimiento ordenado que se sigue para establecer el significado de la verdad. | TR: Yöntem" },
+                { w: "FUENTE", c: "Documento, obra o materiales que sirven de información directa. | TR: Kaynak" },
+                { w: "LOGICA", c: "Método o disposición con que se cursan las cosas con coherencia. | TR: Mantık" }
             ],
             de: [
-                { w: "THEORIE", c: "Eine wissenschaftlich begründete Aussage zur Erklärung von Phänomenen. | TR: Teori" },
-                { w: "QUELLE", c: "Der Ursprung oder Text, aus dem Informationen gewonnen werden. | TR: Kaynak" },
-                { w: "KONTEXT", c: "Der Zusammenhang, in dem ein Wort oder eine Situation steht. | TR: Bağlam" },
-                { w: "METHODE", c: "Ein systematisches Verfahren zur Erreichung eines Ziels. | TR: Yöntem" },
-                { w: "LOGIK", c: "Das folgerichtige Denken und die Lehre davon. | TR: Mantık" }
+                { w: "KONTEXT", c: "Der gedankliche oder textuelle Zusammenhang, in dem eine Äußerung steht. | TR: Bağlam" },
+                { w: "THEORIE", c: "System von abstrakten Sätzen, das Erkenntnisse über einen Bereich ordnet. | TR: Teori" },
+                { w: "METHODE", c: "Planmäßiges, systematisches Vorgehen zur Erreichung eines bestimmten Ziels. | TR: Yöntem" },
+                { w: "QUELLE", c: "Ursprung, Basisdokument oder Gewährsmann von historischen Erkenntnissen. | TR: Kaynak" },
+                { w: "LOGIK", c: "Strikte Folgerichtigkeit des Denkens oder der Argumentation. | TR: Mantık" }
             ],
             fr: [
-                { w: "THEORIE", c: "Ensemble d'idées ou de concepts abstraits appliqués à un domaine. | TR: Teori" },
-                { w: "SOURCE", c: "Origine d'une information, document ou texte initial. | TR: Kaynak" },
-                { w: "CONTEXTE", c: "Ensemble des circonstances qui entourent un événement. | TR: Bağlam" },
-                { w: "METHODE", c: "Manière de faire ordonnée selon des principes. | TR: Yöntem" },
-                { w: "LOGIQUE", c: "Manière de raisonner juste, cohérente et rigoureuse. | TR: Mantık" }
+                { w: "CONTEXTE", c: "Ensemble des circonstances dans lesquelles s'insère un fait ou un énoncé. | TR: Bağlam" },
+                { w: "THEORIE", c: "Système conceptuel organisé sur lequel se fonde l'explication d'un ordre de faits. | TR: Teori" },
+                { w: "METHODE", c: "Marche rationnelle de l'esprit pour arriver à la vérité dans les sciences. | TR: Yöntem" },
+                { w: "SOURCE", c: "Texte, document ou témoignage original apportant des données brutes. | TR: Kaynak" },
+                { w: "LOGIQUE", c: "Conformité aux règles du raisonnement, rigueur intellectuelle. | TR: Mantık" }
             ]
         },
         lifestyle: {
             en: [
-                { w: "JOURNEY", c: "An act of traveling from one place to another. | TR: Yolculuk / Seyahat" },
-                { w: "NATURE", c: "The phenomena of the physical world collectively, including plants and animals. | TR: Doğa" },
-                { w: "HEALTH", c: "The state of being free from illness or injury. | TR: Sağlık" },
-                { w: "FAMILY", c: "A group of one or more parents and their children living together. | TR: Aile" },
-                { w: "TRAVEL", c: "Make a journey, typically of some length or abroad. | TR: Seyahat Etmek" }
+                { w: "JOURNEY", c: "An act of traveling from one place to another, full of experiences. | TR: Yolculuk" },
+                { w: "NATURE", c: "The physical world including plants, animals, landscapes, and natural forces. | TR: Doğa" },
+                { w: "HEALTH", c: "The optimal state of physical, mental, and social well-being. | TR: Sağlık" },
+                { w: "FAMILY", c: "A fundamental social group consisting minimally of parents and children. | TR: Aile" },
+                { w: "WONDER", c: "A feeling of surprise mingled with admiration, caused by something beautiful. | TR: Harika / Mucize" }
             ],
             es: [
-                { w: "VIAJE", c: "Traslado que se hace de un lugar a otro, generalmente distante. | TR: Yolculuk" },
-                { w: "NATURALEZA", c: "Conjunto de las cosas que existen en el mundo o que se producen sin intervención humana. | TR: Doğa" },
-                { w: "SALUD", c: "Estado en que el ser orgánico ejerce normalmente todas sus funciones. | TR: Sağlık" },
-                { w: "FAMILIA", c: "Grupo de personas emparentadas entre sí que viven juntas. | TR: Aile" },
-                { w: "MUNDO", c: "Conjunto de todas las cosas que existen o constituyen la Tierra. | TR: Dünya" }
+                { w: "NATURALEZA", c: "Conjunto de todo lo que forma el universo en que no interviene el hombre. | TR: Doğa" },
+                { w: "VIAJE", c: "Acción y efecto de trasladarse de un punto de origen a un destino lejano. | TR: Yolculuk" },
+                { w: "SALUD", c: "Estado de completo bienestar físico, mental y social de una persona. | TR: Sağlık" },
+                { w: "FAMILIA", c: "Grupo de personas ligadas por vínculos de parentesco o sangre. | TR: Aile" },
+                { w: "MUNDO", c: "La totalidad de los seres humanos, la sociedad o la Tierra misma. | TR: Dünya" }
             ],
             de: [
-                { w: "REISE", c: "Die Fortbewegung zu einem oft entlegenen Zielort. | TR: Yolculuk" },
-                { w: "NATUR", c: "Die organische und anorganische Umwelt des Menschen ohne dessen Zutun. | TR: Doğa" },
-                { w: "GESUNDHEIT", c: "Der Zustand des körperlichen und geistigen Wohlbefindens. | TR: Sağlık" },
-                { w: "FAMILIE", c: "Eine soziale Gruppe bestehend aus Eltern und Kindern. | TR: Aile" },
-                { w: "WELT", c: "Die Erde mit allem, was auf ihr existiert. | TR: Dünya" }
+                { w: "REISE", c: "Die Fahrt oder der Flug an einen Ort, um ihn kennenzulernen. | TR: Yolculuk" },
+                { w: "NATUR", c: "Die vom Menschen unberührte oder nicht geschaffene Biosphäre. | TR: Doğa" },
+                { w: "GESUNDHEIT", c: "Freisein von körperlichen Beeinträchtigungen und Krankheiten. | TR: Sağlık" },
+                { w: "FAMILIE", c: "Die kleinste Lebensgemeinschaft in einer modernen Gesellschaft. | TR: Aile" },
+                { w: "WELT", c: "Das Universum oder unser bewohnbarer Himmelskörper. | TR: Dünya" }
             ],
             fr: [
-                { w: "VOYAGE", c: "Déplacement que l'on fait dans des pays lointains. | TR: Yolculuk" },
-                { w: "NATURE", c: "Le monde physique, l'univers comprenant le règne animal, végétal et minéral. | TR: Doğa" },
-                { w: "SANTE", c: "Bon état physiologique d'un être vivant; absence de maladie. | TR: Sağlık" },
-                { w: "FAMILLE", c: "Ensemble de personnes unies por des liens de parenté. | TR: Aile" },
-                { w: "MONDE", c: "La Terre, l'univers physique dans sa totalité. | TR: Dünya" }
+                { w: "VOYAGE", c: "Action de parcourir de longues distances par curiosité ou plaisir. | TR: Yolculuk" },
+                { w: "NATURE", c: "Le monde réel, l'univers non modifié par l'activité technique. | TR: Doğa" },
+                { w: "SANTE", c: "Équilibre fonctionnel de l'organisme humain, vitalité globale. | TR: Sağlık" },
+                { w: "FAMILLE", c: "Institution sociale regroupant les parents et leurs descendants. | TR: Aile" },
+                { w: "MONDE", c: "La planète Terre, l'espace habité par la communauté humaine. | TR: Dünya" }
             ]
         }
     };
 
-    // Havuz Limit Koruyucu ve Tamamlayıcı Jeneratör (50 Kelimeye Çakışmasız Tamamlama)
+    // Dinamik Havuz Tamamlayıcı (Toplam 50 Kelimelik Güvenli Küme Yapısı)
     ["academic", "lifestyle"].forEach(topic => {
         Object.keys(LEXICON_DATABASE[topic]).forEach(lang => {
-            let baseFillers = ["DATA", "MIND", "WORLD", "LIFE", "TIME", "PEACE", "TRUTH", "NODE", "BASE", "CODE", "FLOW", "CORE", "VIEW", "LINK", "TEXT", "PAGE", "UNIT", "FILE", "USER", "TASK", "PATH", "MARK", "SIGN", "GRID", "CELL", "ITEM", "LIST", "FORM", "WORD", "TERM", "NOTE", "BOOK", "MAP", "PLAN", "RULE", "LAW", "FACT", "CASE", "TEST", "GOAL", "ZONE", "AREA", "PART", "SIDE", "LINE", "WAVE", "ICON"];
+            let coreFillers = ["DATA", "MIND", "WORLD", "LIFE", "TIME", "PEACE", "TRUTH", "NODE", "BASE", "CODE", "FLOW", "CORE", "VIEW", "LINK", "TEXT", "PAGE", "UNIT", "FILE", "USER", "TASK", "PATH", "MARK", "SIGN", "GRID", "CELL", "ITEM", "LIST", "FORM", "WORD", "TERM", "NOTE", "BOOK", "MAP", "PLAN", "RULE", "LAW", "FACT", "CASE", "TEST", "GOAL", "ZONE", "AREA", "PART", "SIDE", "LINE", "WAVE", "ICON"];
             while(LEXICON_DATABASE[topic][lang].length < 50) {
                 let currentLen = LEXICON_DATABASE[topic][lang].length;
-                let activeWord = baseFillers[currentLen] || "LEXEME" + currentLen;
+                let activeWord = coreFillers[currentLen] || "LEXEME" + currentLen;
                 LEXICON_DATABASE[topic][lang].push({
                     w: activeWord,
                     c: `Linguistic unit targeted for vocabulary reinforcement [Item #${currentLen+1}]. | TR: Kelime dağarcığı geliştirme odağı.`
@@ -459,7 +461,7 @@
         THEMES.forEach((t, idx) => {
             let opt = document.createElement('option');
             opt.value = idx;
-            opt.innerText = `Palette Design ${idx + 1}`;
+            opt.innerText = `Stil Paleti ${idx + 1}`;
             select.appendChild(opt);
         });
         applyTheme();
@@ -468,13 +470,12 @@
     function applyTheme() {
         const idx = document.getElementById('themeSelect').value || 0;
         const theme = THEMES[idx];
-        const root = document.documentElement;
-        root.style.setProperty('--bg-color', theme.bg);
-        root.style.setProperty('--container-bg', theme.container);
-        root.style.setProperty('--text-color', theme.text);
-        root.style.setProperty('--border-color', theme.border);
-        root.style.setProperty('--accent-bg', theme.accent);
-        document.getElementById('lbl-theme-badge').innerText = `Active Palette: ${idx+1}/${THEMES.length}`;
+        document.documentElement.style.setProperty('--bg-color', theme.bg);
+        document.documentElement.style.setProperty('--container-bg', theme.container);
+        document.documentElement.style.setProperty('--text-color', theme.text);
+        document.documentElement.style.setProperty('--border-color', theme.border);
+        document.documentElement.style.setProperty('--accent-bg', theme.accent);
+        document.getElementById('lbl-theme-badge').innerText = `Palet Sürümü: ${Number(idx)+1}/${THEMES.length}`;
     }
 
     function launchRandomized() {
@@ -504,7 +505,7 @@
         buildCrosswordMatrix();
     }
 
-    // %100 GÜVENLİ VE KIRILMAZ KARE BULMACA MOTORU
+    // ADJACENCY-AWARE (KOMŞULUK ALARM SİSTEMLİ) SIKI BULMACA MOTORU
     function buildCrosswordMatrix() {
         document.getElementById('corpus-index-area').style.display = 'none';
         const lang = document.getElementById('langSelect').value;
@@ -520,40 +521,48 @@
         let localMatrix = Array(matrixSize).fill(null).map(() => Array(matrixSize).fill(null));
         activeWords = [];
 
-        // İlk kelime tam merkez yataya kilitlenir
+        // 1. Kelime: Tam Yatay Merkez (Temel Çapa)
         let first = subset[0];
-        let fRow = 6, fCol = 3;
+        let fRow = 6, fCol = Math.floor((matrixSize - first.w.length) / 2);
         for(let i=0; i<first.w.length; i++) {
-            localMatrix[fRow][fCol + i] = { letter: first.w[i], isStart: i===0, num: 1 };
+            localMatrix[fRow][fCol + i] = { letter: first.w[i], isStart: i===0, num: 1, dir: "across" };
         }
         activeWords.push({ w: first.w, c: first.c, row: fRow, col: fCol, dir: "across", num: 1 });
 
         let globalCounter = 2;
 
-        // Kalan kelimeler için kesişim taraması
+        // Kalan 4 Kelime İçin Maksimum Kesişim ve Çeper Güvenlik Taraması
         for(let w=1; w<subset.length; w++) {
             let item = subset[w];
             let placed = false;
 
+            // Önce mevcut harflerle kesişme yollarını dene (Sıkı Bulmaca Yapısı İçin)
             for(let r=0; r<matrixSize && !placed; r++) {
                 for(let c=0; c<matrixSize && !placed; c++) {
                     if(localMatrix[r][c] !== null) {
-                        let letterMatch = localMatrix[r][c].letter;
-                        let matchIdx = item.w.indexOf(letterMatch);
+                        let matchLetter = localMatrix[r][c].letter;
+                        let matchIdx = item.w.indexOf(matchLetter);
 
                         if(matchIdx !== -1) {
-                            let startR = r - matchIdx;
-                            let startC = c;
-                            if(validateCellSurroundings(item.w, startR, startC, "down", localMatrix, r, c)) {
+                            // Mevcut yönün tersine yerleşim denemesi (Yatay ise Dikey, Dikey ise Yatay)
+                            let currentCellDir = localMatrix[r][c].dir || "across";
+                            let nextDir = currentCellDir === "across" ? "down" : "across";
+
+                            let startR = nextDir === "down" ? r - matchIdx : r;
+                            let startC = nextDir === "down" ? c : c - matchIdx;
+
+                            if(validateCellSurroundings(item.w, startR, startC, nextDir, localMatrix, r, c)) {
                                 for(let i=0; i<item.w.length; i++) {
-                                    let currR = startR + i;
-                                    if(!localMatrix[currR][startC]) {
-                                        localMatrix[currR][startC] = { letter: item.w[i], isStart: i===0, num: i===0 ? globalCounter : null };
+                                    let currR = nextDir === "down" ? startR + i : startR;
+                                    let currC = nextDir === "down" ? startC : startC + i;
+
+                                    if(!localMatrix[currR][currC]) {
+                                        localMatrix[currR][currC] = { letter: item.w[i], isStart: i===0, num: i===0 ? globalCounter : null, dir: nextDir };
                                     } else if(i===0) {
-                                        localMatrix[currR][startC].num = globalCounter;
+                                        localMatrix[currR][currC].num = globalCounter;
                                     }
                                 }
-                                activeWords.push({ w: item.w, c: item.c, row: startR, col: startC, dir: "down", num: globalCounter++ });
+                                activeWords.push({ w: item.w, c: item.c, row: startR, col: startC, dir: nextDir, num: globalCounter++ });
                                 placed = true;
                             }
                         }
@@ -561,14 +570,14 @@
                 }
             }
 
-            // Çakışma bulunamazsa bağımsız ve güvenli bir satıra kaydırılır (Kelime bozulması sıfıra indirgenir)
+            // Kesişim alanı daralırsa matrisin bozulmaması için güvenli paralel koridora al
             if(!placed) {
-                let altRow = (w * 3) % matrixSize;
-                if(altRow === fRow) altRow += 2;
+                let altRow = (w * 3) % (matrixSize - 2) + 1;
+                if(Math.abs(altRow - fRow) < 2) altRow = fRow + 3;
                 let altCol = 2;
                 if(validateCellSurroundings(item.w, altRow, altCol, "across", localMatrix, -1, -1)) {
                     for(let i=0; i<item.w.length; i++) {
-                        localMatrix[altRow][altCol + i] = { letter: item.w[i], isStart: i===0, num: i===0 ? globalCounter : null };
+                        localMatrix[altRow][altCol + i] = { letter: item.w[i], isStart: i===0, num: i===0 ? globalCounter : null, dir: "across" };
                     }
                     activeWords.push({ w: item.w, c: item.c, row: altRow, col: altCol, dir: "across", num: globalCounter++ });
                 }
@@ -588,17 +597,22 @@
             let r = dir === "down" ? startR + i : startR;
             let c = dir === "down" ? startC : startC + i;
 
+            // Kesişim noktası ise çakışma kontrolünü atla (Çünkü harfler zaten uyuşuyor)
             if(r === intR && c === intC) continue;
             if(matrix[r][c] !== null && matrix[r][c].letter !== word[i]) return false;
 
-            // Yan hücre yapışma kontrolü (Kelimeleri anlamsız kılacak bitişmeleri engeller)
+            // Çeper Kontrolü (Harflerin yan yana yapışıp okunurluğu bozmasını engeller)
             if(matrix[r][c] === null) {
                 if(dir === "down") {
                     if(c > 0 && matrix[r][c-1] !== null) return false;
                     if(c < matrixSize - 1 && matrix[r][c+1] !== null) return false;
+                    if(i === 0 && r > 0 && matrix[r-1][c] !== null) return false; // Kelime önü boşluk
+                    if(i === word.length - 1 && r < matrixSize - 1 && matrix[r+1][c] !== null) return false; // Kelime arkası boşluk
                 } else {
                     if(r > 0 && matrix[r-1][c] !== null) return false;
                     if(r < matrixSize - 1 && matrix[r+1][c] !== null) return false;
+                    if(i === 0 && c > 0 && matrix[r][c-1] !== null) return false; // Kelime solu boşluk
+                    if(i === word.length - 1 && c < matrixSize - 1 && matrix[r][c+1] !== null) return false; // Kelime sağı boşluk
                 }
             }
         }
@@ -609,7 +623,7 @@
         gridMatrix = matrixData;
         const container = document.getElementById('grid-container');
         container.innerHTML = '';
-        container.style.gridTemplateColumns = `repeat(${matrixSize}, 36px)`;
+        container.style.gridTemplateColumns = `repeat(${matrixSize}, 38px)`;
         inputElements = {};
 
         for(let r=0; r<matrixSize; r++) {
@@ -627,10 +641,16 @@
                     let inp = document.createElement('input');
                     inp.type = 'text';
                     inp.maxLength = 1;
+                    
+                    // Gelişmiş Klavye ve Akıcı Odak Yönetimi
                     inp.addEventListener('input', (e) => {
                         e.target.value = e.target.value.toUpperCase();
                         checkGridState();
+                        if(e.target.value.length === 1) {
+                            focusNextInput(r, c, cell.dir);
+                        }
                     });
+                    
                     inp.addEventListener('focus', () => { currentFocusCell = { row: r, col: c, element: inp }; });
                     inputElements[`${r}-${c}`] = inp;
                     div.appendChild(inp);
@@ -640,6 +660,13 @@
                 container.appendChild(div);
             }
         }
+    }
+
+    function focusNextInput(row, col, direction) {
+        let nextR = direction === "down" ? row + 1 : row;
+        let nextC = direction === "down" ? col : col + 1;
+        let nextInp = inputElements[`${nextR}-${nextC}`];
+        if(nextInp) nextInp.focus();
     }
 
     function renderLinguisticClues() {
