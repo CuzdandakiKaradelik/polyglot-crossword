@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Ultimate Polyglot Crossword v2</title>
+    <title>The Ultimate Polyglot Crossword v3</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
     <style>
-        /* CSS Değişkenleri ile Dinamik Tema Yönetimi */
         :root {
             --bg-color: #f4ebd9;
             --container-bg: #fbf5eb;
@@ -282,43 +281,51 @@
 
 <div class="newspaper-container">
     <header>
-        <h1>The Polyglot Movie Crossword</h1>
+        <h1 id="ui-main-title">The Polyglot Crossword</h1>
         <span class="theme-badge" id="themeNameBadge">Baskı Tarzı: Klasik Gazete</span>
     </header>
 
     <div class="stats-bar">
-        <div>⏱️ Kalan Süre: <span id="timerVal">--:--</span></div>
+        <div>⏱️ <span id="ui-timer-label">Kalan Süre</span>: <span id="timerVal">--:--</span></div>
     </div>
 
     <div class="control-panel">
-        <label for="langSelect">Hedef Dil:</label>
+        <label for="langSelect" id="ui-label-lang">Hedef Dil:</label>
         <select id="langSelect" onchange="initGame(false)">
-            <option value="en">İngilizce (English)</option>
-            <option value="es">İspanyolca (Español)</option>
-            <option value="de">Almanca (Deutsch)</option>
-            <option value="fr">Fransızca (Français)</option>
-            <option value="it">İtalyanca (Italiano)</option>
+            <option value="en">English (İngilizce)</option>
+            <option value="es">Español (İspanyolca)</option>
+            <option value="de">Deutsch (Almanca)</option>
+            <option value="fr">Français (Fransızca)</option>
+            <option value="it">Italiano (İtalyanca)</option>
             <option value="tr">Türkçe (Turkish)</option>
-            <option value="pt">Portekizce (Português)</option>
-            <option value="nl">Felemenkçe (Nederlands)</option>
-            <option value="ro">Romence (Română)</option>
-            <option value="ptbr">Brezilya Portekizcesi (Português-BR)</option>
+            <option value="pt">Português (Portekizce)</option>
+            <option value="nl">Nederlands (Felemenkçe)</option>
+            <option value="ro">Română (Romence)</option>
+            <option value="ptbr">Português-BR (Brezilya Portekizcesi)</option>
         </select>
 
-        <label for="themeSelect">Gazete Baskısı (Tema):</label>
+        <label for="topicSelect" id="ui-label-topic">Konu / Kategori:</label>
+        <select id="topicSelect" onchange="initGame(false)">
+            <option value="cinema">🎬 Sinema & Film</option>
+            <option value="travel">✈️ Seyahat & Tatil</option>
+            <option value="culinary">🍳 Mutfak & Yemek</option>
+            <option value="daily">🏡 Günlük Yaşam</option>
+        </select>
+
+        <label for="themeSelect" id="ui-label-theme">Gazete Baskısı (Tema):</label>
         <select id="themeSelect" onchange="applySelectedTheme()">
             </select>
 
-        <label for="timerSelect">Süre Modu:</label>
+        <label for="timerSelect" id="ui-label-timer-mode">Süre Modu:</label>
         <select id="timerSelect" onchange="initGame(false)">
-            <option value="off">Süre Kapat</option>
-            <option value="3">3 Dakika</option>
-            <option value="5">5 Dakika</option>
-            <option value="10">10 Dakika</option>
+            <option value="off" id="opt-timer-off">Süre Kapat</option>
+            <option value="3">3 Min</option>
+            <option value="5">5 Min</option>
+            <option value="10">10 Min</option>
         </select>
         
-        <button onclick="initGame(true)">🔄 Yeni Bulmaca</button>
-        <button onclick="getLetterHint()" style="background-color: #e2b13c; color: #000; border-color: #000;">💡 Harf Al</button>
+        <button onclick="initGame(true)" id="ui-btn-new">🔄 Yeni Bulmaca</button>
+        <button onclick="getLetterHint()" id="ui-btn-hint" style="background-color: #e2b13c; color: #000; border-color: #000;">💡 Harf Al</button>
     </div>
 
     <div id="success-banner">
@@ -331,15 +338,15 @@
         </div>
 
         <div class="clues-section">
-            <h2>Günün Sinema İpuçları</h2>
+            <h2 id="ui-clues-title">Günün İpuçları</h2>
             
             <div class="clue-group">
-                <h3>Yatay Kelimeler (Across)</h3>
+                <h3 id="ui-across-title">Yatay Kelimeler (Across)</h3>
                 <div id="across-clues"></div>
             </div>
 
             <div class="clue-group">
-                <h3>Dikey Kelimeler (Down)</h3>
+                <h3 id="ui-down-title">Dikey Kelimeler (Down)</h3>
                 <div id="down-clues"></div>
             </div>
         </div>
@@ -348,16 +355,16 @@
 
 <div id="deckModal" class="modal">
     <div class="modal-content">
-        <h2>✨ Öğrenilen Kelime Kartları</h2>
+        <h2 id="ui-modal-title">✨ Öğrenilen Kelime Kartları</h2>
         <div class="deck-list" id="deckList"></div>
         <div style="text-align: center; margin-top: 20px;">
-            <button class="btn-action" onclick="closeModal()">Kapat</button>
+            <button class="btn-action" onclick="closeModal()" id="ui-btn-close">Kapat</button>
         </div>
     </div>
 </div>
 
 <script>
-    // 30 ADET BENZERSİZ GAZETE BASKI TEMASI
+    // 50 ADET BENZERSİZ RETRO VE MODERN GAZETE/DERGİ TEMASI
     const THEMES = [
         { name: "Klasik Gazete", bg: "#f4ebd9", container: "#fbf5eb", text: "#2b2b2b", border: "#2b2b2b", accent: "#eae0cc" },
         { name: "Gece Mürekkebi", bg: "#1a1a1a", container: "#262626", text: "#f5f5f5", border: "#404040", accent: "#333333" },
@@ -368,7 +375,7 @@
         { name: "Sarı Sayfalar", bg: "#f9f1c7", container: "#fffbe6", text: "#332f10", border: "#665c1e", accent: "#f3e7a0" },
         { name: "Modern Finans", bg: "#fcd7cc", container: "#fef3f0", text: "#3a1d13", border: "#87361d", accent: "#f9bead" },
         { name: "Kraliyet Arşivi", bg: "#d9e2ec", container: "#f0f4f8", text: "#102a43", border: "#243e56", accent: "#bcccdc" },
-        { name: "Kahve Kokusu", bg: "#ece0d1", container: "#f7f1e5", text: "#3d2314", border: "#967bb6", accent: "#dbc1ac" },
+        { name: "Kahve Kokusu", bg: "#ece0d1", container: "#f7f1e5", text: "#3d2314", border: "#5c4033", accent: "#dbc1ac" },
         { name: "Kömür Lekesi", bg: "#2d3748", container: "#1a202c", text: "#edf2f7", border: "#4a5568", accent: "#2d3748" },
         { name: "Bağımsız Sinema", bg: "#fef9e7", container: "#fffdf7", text: "#111111", border: "#eb984e", accent: "#fadbd8" },
         { name: "Nordik Minimal", bg: "#e5e8e8", container: "#f2f4f4", text: "#2c3e50", border: "#7f8c8d", accent: "#ccd1d1" },
@@ -388,91 +395,94 @@
         { name: "Kiremit Pres", bg: "#edbb99", container: "#f5cba7", text: "#6e2c00", border: "#a04000", accent: "#f8c471" },
         { name: "Asfalt Kağıdı", bg: "#566573", container: "#2c3e50", text: "#f2f4f4", border: "#1c2833", accent: "#34495e" },
         { name: "Güneş Yanığı", bg: "#fdebd0", container: "#fef9e7", text: "#7e5109", border: "#b7950b", accent: "#f9e79f" },
-        { name: "Platin Baskı", bg: "#f2f3f4", container: "#ffffff", text: "#1c2833", border: "#bdc3c7", accent: "#eaecee" }
+        { name: "Platin Baskı", bg: "#f2f3f4", container: "#ffffff", text: "#1c2833", border: "#bdc3c7", accent: "#eaecee" },
+        // Yeni 20 Tema (Toplam 50)
+        { name: "Eski İstanbul", bg: "#f3e5ab", container: "#fff8dc", text: "#4a3c31", border: "#4a3c31", accent: "#eedc82" },
+        { name: "Kuzey Işıkları", bg: "#0d1f2d", container: "#1d2d44", text: "#a5a5a5", border: "#354f52", accent: "#52796f" },
+        { name: "Vintage Denim", bg: "#34495e", container: "#5d6d7e", text: "#f2f4f4", border: "#2c3e50", accent: "#7f8c8d" },
+        { name: "Mat Çikolata", bg: "#4a3525", container: "#5c4033", text: "#e6ccb2", border: "#ddb892", accent: "#7f5539" },
+        { name: "Pastel Nane", bg: "#d8f3dc", container: "#b7e4c7", text: "#1b4332", border: "#2d6a4f", accent: "#95d5b2" },
+        { name: "Limonata", bg: "#fefae0", container: "#f9ced6", text: "#283618", border: "#606c38", accent: "#dda15e" },
+        { name: "Bağ Bozumu", bg: "#3b2244", container: "#522e61", text: "#f3e9dc", border: "#6b3e7a", accent: "#a67c00" },
+        { name: "Safir Lüks", bg: "#000814", container: "#001d3d", text: "#ffc300", border: "#003566", accent: "#ffd60a" },
+        { name: "Çöl Gülü", bg: "#e07a5f", container: "#f4f1de", text: "#3d405b", border: "#3d405b", accent: "#f2cc8f" },
+        { name: "Okaliptüs", bg: "#cad2c5", container: "#84a98c", text: "#2f3e46", border: "#354f52", accent: "#52796f" },
+        { name: "Kurgu Roman", bg: "#eae2b7", container: "#fcbf49", text: "#003049", border: "#d62828", accent: "#f77f00" },
+        { name: "Askeri Kamuflaj", bg: "#4f5d2f", container: "#111d13", text: "#f5f5f5", border: "#415a77", accent: "#778da9" },
+        { name: "Şehir Sisi", bg: "#999999", container: "#cccccc", text: "#111111", border: "#333333", accent: "#eeeeee" },
+        { name: "Terracotta", bg: "#e2711d", container: "#ff9505", text: "#350f22", border: "#ffb627", accent: "#ffdd00" },
+        { name: "Antik Altın", bg: "#8c7853", container: "#e4d6a7", text: "#1c1c1c", border: "#4a3b2c", accent: "#d4af37" },
+        { name: "Buzul Baskı", bg: "#e0f2f1", container: "#b2dfdb", text: "#004d40", border: "#00796b", accent: "#80cbc4" },
+        { name: "Zencefil", bg: "#f0a500", container: "#cf7500", text: "#1a1a1a", border: "#000000", accent: "#f4f4f4" },
+        { name: "Gece Bahçesi", bg: "#132a13", container: "#31572c", text: "#ecf39e", border: "#4f772d", accent: "#90a955" },
+        { name: "Orkide", bg: "#fae0e4", container: "#ff99c8", text: "#5c0029", border: "#93003a", accent: "#e4c1f9" },
+        { name: "Koyu Grafit", bg: "#121212", container: "#1e1e1e", text: "#bb86fc", border: "#3700b3", accent: "#03dac6" }
     ];
 
-    // 10 FARKLI DİL - BİRBİRİNDEN TAMAMEN FARKLI, BENZERSİZ SİNEMA KELİMELERİ (ÇAKIŞMASIZ)
+    // DINAMIK DIL CEVIRILERI (FULL LOCALIZATION)
+    const TRANSLATIONS = {
+        en: { title: "The Polyglot Crossword", timer: "Time Left", labelLang: "Target Language:", labelTopic: "Category:", labelTheme: "Newspaper Edition:", labelTimer: "Timer Mode:", btnNew: "🔄 New Puzzle", btnHint: "💡 Get Letter", success: "📰 CONGRATULATIONS! You solved the puzzle!", modalTitle: "✨ Vocabulary Deck", btnClose: "Close", timerOff: "Timer Off", themePrefix: "Edition" },
+        es: { title: "El Crucigrama Políglota", timer: "Tiempo Restante", labelLang: "Idioma Destino:", labelTopic: "Categoría:", labelTheme: "Edición Periódico:", labelTimer: "Modo Tiempo:", btnNew: "🔄 Nuevo Rompecabezas", btnHint: "💡 Obtener Letra", success: "📰 ¡FELICITACIONES! ¡Has resuelto el rompecabezas!", modalTitle: "✨ Tarjetas de Vocabulario", btnClose: "Cerrar", timerOff: "Sin Tiempo", themePrefix: "Edición" },
+        de: { title: "Das Polyglotte Kreuzworträtsel", timer: "Verbleibende Zeit", labelLang: "Zielsprache:", labelTopic: "Kategorie:", labelTheme: "Zeitungsausgabe:", labelTimer: "Zeitmodus:", btnNew: "🔄 Neues Rätsel", btnHint: "💡 Buchstaben Holen", success: "📰 HERZLICHEN GLÜCKWUNSCH! Rätsel gelöst!", modalTitle: "✨ Vokabelkarten", btnClose: "Schließen", timerOff: "Zeit Aus", themePrefix: "Ausgabe" },
+        fr: { title: "Les Mots Croisés Polyglottes", timer: "Temps Restant", labelLang: "Langue Cible:", labelTopic: "Catégorie:", labelTheme: "Édition Journal:", labelTimer: "Mode Minuteur:", btnNew: "🔄 Nouveau Puzzle", btnHint: "💡 Obtenir Lettre", success: "📰 FÉLICITATIONS ! Vous avez résolu le puzzle !", modalTitle: "✨ Cartes de Vocabulaire", btnClose: "Fermer", timerOff: "Minuteur Désactivé", themePrefix: "Édition" },
+        it: { title: "Il Cruciverba Poliglotta", timer: "Tempo Rimasto", labelLang: "Lingua Target:", labelTopic: "Categoria:", labelTheme: "Edizione Giornale:", labelTimer: "Modalità Tempo:", btnNew: "🔄 Nuovo Cruciverba", btnHint: "💡 Suggerimento", success: "📰 CONGRATULAZIONI! Hai risolto il cruciverba!", modalTitle: "✨ Mazzo di Vocaboli", btnClose: "Chiudi", timerOff: "Tempo Disattivato", themePrefix: "Edizione" },
+        tr: { title: "Çok Dilli Bulmaca Dünyası", timer: "Kalan Süre", labelLang: "Hedef Dil:", labelTopic: "Konu / Kategori:", labelTheme: "Gazete Baskısı (Tema):", labelTimer: "Süre Modu:", btnNew: "🔄 Yeni Bulmaca", btnHint: "💡 Harf Al", success: "📰 TEBRİKLER! Tüm kelimeleri başarıyla tamamladınız!", modalTitle: "✨ Öğrenilen Kelime Kartları", btnClose: "Kapat", timerOff: "Süre Kapat", themePrefix: "Baskı Tarzı" },
+        pt: { title: "As Palavras Cruzadas Poliglotas", timer: "Tempo Restante", labelLang: "Idioma Alvo:", labelTopic: "Categoria:", labelTheme: "Edição do Jornal:", labelTimer: "Modo Tempo:", btnNew: "🔄 Novo Puzzle", btnHint: "💡 Obter Letra", success: "📰 PARABÉNS! Você resolveu o puzzle!", modalTitle: "✨ Cartões de Vocabulário", btnClose: "Fechar", timerOff: "Sem Tempo", themePrefix: "Edição" },
+        nl: { title: "Het Polyglotte Kruiswoordraadsel", timer: "Resterende Tijd", labelLang: "Doeltaal:", labelTopic: "Categorie:", labelTheme: "Kranteneditie:", labelTimer: "Tijdmodus:", btnNew: "🔄 Nieuwe Puzzel", btnHint: "💡 Letter Vragen", success: "📰 GEFELICITEERD! Je hebt de puzzel opgelost!", modalTitle: "✨ Woordenschat Kaarten", btnClose: "Sluiten", timerOff: "Tijd Uit", themePrefix: "Editie" },
+        ro: { title: "Cuvinte Încrucișate Poliglote", timer: "Timp Rămas", labelLang: "Limba Țintă:", labelTopic: "Categorie:", labelTheme: "Ediție Ziar:", labelTimer: "Mod Timp:", btnNew: "🔄 Joc Nou", btnHint: "💡 Cere Literă", success: "📰 FELICITĂRI! Ai rezolvat întregul careu!", modalTitle: "✨ Carduri de Vocabular", btnClose: "Închide", timerOff: "Fără Timp", themePrefix: "Ediție" },
+        ptbr: { title: "As Palavras Cruzadas Poliglotas", timer: "Tempo Restante", labelLang: "Idioma Alvo:", labelTopic: "Categoria:", labelTheme: "Edição do Jornal:", labelTimer: "Modo Tempo:", btnNew: "🔄 Novo Jogo", btnHint: "💡 Ganhar Letra", success: "📰 PARABÉNS! Você concluiu o desafio!", modalTitle: "✨ Baralho de Vocabulário", btnClose: "Fechar", timerOff: "Tempo Desativado", themePrefix: "Edição" }
+    };
+
+    // 10 DİL VE 4 FARKLI KATEGORİ - %100 BENZERSİZ ÇAKIŞMASIZ KELİME HAVUZU
     const DATA_POOL = {
-        en: [
-            { word: "MOVIE", clue: "Let's watch a classic _______. | Anlamı: Film" },
-            { word: "STAR", clue: "Brad Pitt is a Hollywood _______. | Anlamı: Yıldız Oyuncu" },
-            { word: "HERO", clue: "Batman is the _______ Gotham needs. | Anlamı: Kahraman" },
-            { word: "THIEF", clue: "In Inception, Cobb is a skilled _______. | Anlamı: Hırsız" },
-            { word: "AWARD", clue: "He won an Oscar _______ last night. | Anlamı: Ödül" },
-            { word: "SPACE", clue: "Interstellar is an epic film about _______. | Anlamı: Uzay" }
-        ],
-        es: [
-            { word: "MUNDO", clue: "Avatar muestra un _______ fantástico. | Anlamı: Dünya" },
-            { word: "NUEVO", clue: "Ayer vi el _______ tráiler de Marvel. | Anlamı: Yeni" },
-            { word: "PAPEL", clue: "El _______ principal de Joker fue increíble. | Anlamı: Rol" },
-            { word: "NOCHE", clue: "Batman trabaja durante la _______. | Anlamı: Gece" },
-            { word: "LIBRO", clue: "Harry Potter está basado en un _______. | Anlamı: Kitap" },
-            { word: "FUEGO", clue: "Los efectos especiales incluyen mucho _______. | Anlamı: Ateş" }
-        ],
-        de: [
-            { word: "KINO", clue: "Wir treffen uns heute Abend im _______. | Anlamı: Sinema" },
-            { word: "HELD", clue: "Superman ist ein bekannter _______. | Anlamı: Kahraman" },
-            { word: "PREIS", clue: "Dieser Regisseur gewann einen großen _______. | Anlamı: Ödül" },
-            { word: "TRAUM", clue: "Inception handelt von einem _______ im Traum. | Anlamı: Rüya" },
-            { word: "BUCH", clue: "Der Film basiert auf einem berühmten _______. | Anlamı: Kitap" },
-            { word: "ANGST", clue: "Ein Horrorfilm erzeugt beim Zuschauer _______. | Anlamı: Korku" }
-        ],
-        fr: [
-            { word: "ECRAN", clue: "Regarder un chef-d'œuvre sur le grand _______. | Anlamı: Ekran" },
-            { word: "SALLE", clue: "La _______ de cinéma était complètement pleine. | Anlamı: Salon" },
-            { word: "REVRE", clue: "Inception parle d'un _______ contrôlé. | Anlamı: Rüya" },
-            { word: "COEUR", clue: "Un drame romantique qui touche le _______. | Anlamı: Kalp" },
-            { word: "GEANT", clue: "Shrek est un ogre _______ et vert. | Anlamı: Dev" },
-            { word: "TEMPS", clue: "Un voyage dans le _______ avec une DeLorean. | Anlamı: Zaman" }
-        ],
-        it: [
-            { word: "CINEMA", clue: "Andiamo al _______ a vedere un horror. | Anlamı: Sinema" },
-            { word: "ATTORE", clue: "Marcello Mastroianni è un grande _______. | Anlamı: Oyuncu" },
-            { word: "STORIA", clue: "Una _______ emozionante basata su fatti veri. | Anlamı: Hikaye" },
-            { word: "RUOLO", clue: "Ha ottenuto il _______ del cattivo nel film. | Anlamı: Rol" },
-            { word: "VITA", clue: "La dolce _______ è un classicissimo. | Anlamı: Hayat" },
-            { word: "SUONO", clue: "Il montaggio del _______ ha vinto un premio. | Anlamı: Ses" }
-        ],
-        tr: [
-            { word: "AFİŞ", clue: "Sinema girişindeki dev _______ dikkat çekiciydi. | Anlamı: Poster" },
-            { word: "REPLİK", clue: "Oyuncunun söylediği o unutulmaz _______ hafızalara kazındı. | Anlamı: Söz" },
-            { word: "SAHNE", clue: "Filmin aksiyon dolu dövüş _______si çok gerçekçiydi. | Anlamı: Bölüm" },
-            { word: "YÖNETMEN", clue: "Kameranın arkasında seti yöneten kişiye _______ denir. | Anlamı: Rejisör" },
-            { word: "DUBLAJ", clue: "Yabancı filmleri Türkçe seslendirme işlemine _______ denir. | Anlamı: Seslendirme" },
-            { word: "KÜLT", clue: "Yıllar geçse de eskimeyen efsane filmlere _______ film denir. | Anlamı: Başyapıt" }
-        ],
-        pt: [
-            { word: "FILME", clue: "Vamos ao cinema assistir a um _______ de ação. | Anlamı: Film" },
-            { word: "TELA", clue: "A _______ do cinema era gigante e curva. | Anlamı: Perde / Ekran" },
-            { word: "ATOR", clue: "Aquele _______ ganhou o prêmio de melhor atuação. | Anlamı: Erkek Oyuncu" },
-            { word: "ESTRELA", clue: "Ela se tornou uma grande _______ em Hollywood. | Anlamı: Yıldız" },
-            { word: "PIPOCA", clue: "Não dá para ver um filme sem comer _______. | Anlamı: Patlamış Mısır" },
-            { word: "EFEITO", clue: "Os _______s especiais digitais foram fantásticos. | Anlamı: Efekt" }
-        ],
-        nl: [
-            { word: "STRIJD", clue: "De eerste regel van Fight Club is: spreek niet over de _______. | Anlamı: Dövüş / Mücadele" },
-            { word: "GELUID", clue: "De geluidseffecten en het _______ waren indrukwekkend. | Anlamı: Ses" },
-            { word: "SCHERM", clue: "We kijken naar het grote witte _______ in de bioscoop. | Anlamı: Ekran / Perde" },
-            { word: "KAART", clue: "Je moet een _______ kopen om de film te zien. | Anlamı: Bilet / Kart" },
-            { word: "TRAILER", clue: "De korte _______ van de nieuwe film ziet er spannend uit. | Anlamı: Fragman" },
-            { word: "SPOILER", clue: "Vertel het einde niet, ik haat een _______. | Anlamı: Sürpriz Bozan" }
-        ],
-        ro: [
-            { word: "REGIZOR", clue: "Persoana din spatele camerei care conduce platoul este un _______. | Anlamı: Yönetmen" },
-            { word: "SCENARIU", clue: "Tarantino scrie un _______ excelent pentru fiecare film. | Anlamı: Senaryo" },
-            { word: "POVESTE", clue: "Acest film are o _______ emoționantă despre viață. | Anlamı: Hikaye" },
-            { word: "POSTER", clue: "Am cumpărat un _______ cu Avengers pentru camera mea. | Anlamı: Afiş / Poster" },
-            { word: "BILET", clue: "Ai nevoie de un _______ pentru a intra în sala de cinema. | Anlamı: Bilet" },
-            { word: "SUNET", clue: "Acest film SF are un _______ surround incredibil. | Anlamı: Ses" }
-        ],
-        ptbr: [
-            { word: "PIPOCA", clue: "No Brasil, assistir a um longa metragem pede _______ com manteiga. | Anlamı: Patlamış Mısır" },
-            { word: "ROTEIRO", clue: "O _______ desse drama venceu o prêmio principal do festival. | Anlamı: Senaryo" },
-            { word: "CARTAZ", clue: "O _______ do filme de terror estava assustador. | Anlamı: Afiş / Poster" },
-            { word: "PREMIO", clue: "A diretora brasileira recebeu um _______ em Cannes. | Anlamı: Ödül" },
-            { word: "BILHETE", clue: "Comprei o _______ da sessão da meia-noite antecipado. | Anlamı: Bilet" },
-            { word: "DUBLAGEM", clue: "A _______ brasileira é considerada uma das melhores do mundo. | Anlamı: Seslendirme" }
-        ]
+        cinema: {
+            en: [{ word: "MOVIE", clue: "Let's watch a classic _______. | Meaning: Film" }, { word: "STAR", clue: "Brad Pitt is a Hollywood _______. | Meaning: Yıldız" }],
+            es: [{ word: "MUNDO", clue: "Avatar muestra un _______ fantástico. | Meaning: Dünya" }, { word: "PAPEL", clue: "El _______ principal de Joker fue increíble. | Meaning: Rol" }],
+            de: [{ word: "KINO", clue: "Wir treffen uns heute Abend im _______. | Meaning: Sinema" }, { word: "TRAUM", clue: "Inception handelt von einem _______. | Meaning: Rüya" }],
+            fr: [{ word: "ECRAN", clue: "Regarder un chef-d'œuvre sur le grand _______. | Meaning: Ekran" }, { word: "SALLE", clue: "La _______ de cinéma était pleine. | Meaning: Salon" }],
+            it: [{ word: "RUOLO", clue: "Ha ottenuto il _______ del cattivo nel film. | Meaning: Rol" }, { word: "STORIA", clue: "Una _______ emozionante basata su fatti veri. | Meaning: Hikaye" }],
+            tr: [{ word: "AFİŞ", clue: "Sinema girişindeki dev _______ dikkat çekiciydi." }, { word: "REPLİK", clue: "Oyuncunun söylediği o unutulmaz _______ hafızalara kazındı." }],
+            pt: [{ word: "TELA", clue: "A _______ do cinema era gigante e curva. | Meaning: Perde" }, { word: "PIPOCA", clue: "Não dá para ver um filme sem comer _______. | Meaning: Patlamış Mısır" }],
+            nl: [{ word: "STRIJD", clue: "De eerste regel van Fight Club is: spreek niet over de _______. | Meaning: Dövüş" }, { word: "SPOILER", clue: "Vertel het einde niet, ik haat een _______. | Meaning: Sürpriz Bozan" }],
+            ro: [{ word: "REGIZOR", clue: "Persoana din spatele camerei este un _______. | Meaning: Yönetmen" }, { word: "SCENARIU", clue: "Tarantino scrie un _______ excelent. | Meaning: Senaryo" }],
+            ptbr: [{ word: "ROTEIRO", clue: "O _______ desse drama venceu o prêmio principal. | Meaning: Senaryo" }, { word: "DUBLAGEM", clue: "A _______ brasileira é excelente. | Meaning: Seslendirme" }]
+        },
+        travel: {
+            en: [{ word: "FLIGHT", clue: "The _______ to Paris takes three hours. | Meaning: Uçuş" }, { word: "BEACH", clue: "Sunny day at the sandy _______. | Meaning: Plaj" }],
+            es: [{ word: "VIAJE", clue: "Buen _______ a todos los pasajeros. | Meaning: Seyahat" }, { word: "MAPA", clue: "Necesitamos un _______ para encontrar el hotel. | Meaning: Harita" }],
+            de: [{ word: "REISE", clue: "Gute _______ nach Berlin! | Meaning: Seyahat" }, { word: "KOFFER", clue: "Ich packe meinen _______ für den Urlaub. | Meaning: Valiz" }],
+            fr: [{ word: "AVION", clue: "Prendre l'_______ pour voyager loin. | Meaning: Uçak" }, { word: "TRAIN", clue: "Le _______ part de la gare centrale à midi. | Meaning: Tren" }],
+            it: [{ word: "VALIGIA", clue: "Prepara la _______ prima di partire. | Meaning: Valiz" }, { word: "ESTATE", clue: "Preferisco viaggiare durante l'_______. | Meaning: Yaz Mevsimi" }],
+            tr: [{ word: "PASAPORT", clue: "Yurt dışına çıkmak için _______ almalısınız." }, { word: "ROTALAR", clue: "Bu yaz tatili için yeni _______ belirledik." }],
+            pt: [{ word: "HOTEL", clue: "Reservamos um _______ perto do centro da cidade. | Meaning: Otel" }, { word: "TURISTA", clue: "O _______ tira fotos dos monumentos antigos. | Meaning: Turist" }],
+            nl: [{ word: "VAKANTIE", clue: "In de zomer gaan we op _______ naar Spanje. | Meaning: Tatil" }, { word: "PASSPORT", clue: "Vergeet je _______ niet mee te nemen naar de grens. | Meaning: Pasaport" }],
+            ro: [{ word: "VACANTA", clue: "Mergem la mare în această _______. | Meaning: Tatil" }, { word: "AVIONUL", clue: "Am cumpărat bilet pentru _______ de mâine. | Meaning: Uçak" }],
+            ptbr: [{ word: "ONIBUS", clue: "Pegamos um _______ de turismo rumo às praias. | Meaning: Otobüs" }, { word: "BAGAGEM", clue: "Despachei minha _______ no balcão do aeroporto. | Meaning: Bagaj" }]
+        },
+        culinary: {
+            en: [{ word: "CHEF", clue: "The head _______ prepared a delicious meal. | Meaning: Şef" }, { word: "SPICE", clue: "Add some pepper and _______ to the soup. | Meaning: Baharat" }],
+            es: [{ word: "SABOR", clue: "Esta comida tiene un _______ increíble. | Meaning: Lezzet" }, { word: "PLATO", clue: "El _______ del día es pasta italiana. | Meaning: Tabak / Yemek" }],
+            de: [{ word: "KOCHEN", clue: "Wir _______ heute zusammen ein Abendessen. | Meaning: Yemek Pişirmek" }, { word: "SUPPE", clue: "Eine heiße _______ tut im Winter gut. | Meaning: Çorba" }],
+            fr: [{ word: "REPAS", clue: "Un bon _______ partagé en famille. | Meaning: Öğün / Yemek" }, { word: "CUISINE", clue: "La _______ française est célèbre dans le monde. | Meaning: Mutfak" }],
+            it: [{ word: "PRANZO", clue: "Il _______ della domenica è sacro in Italia. | Meaning: Öğle Yemeği" }, { word: "DOLCE", clue: "Il tiramisù è il mio _______ preferito. | Meaning: Tatlı" }],
+            tr: [{ word: "LEZZET", clue: "Anadolu mutfağının her durağı ayrı bir _______ sunar." }, { word: "TARİF", clue: "Yemek kitabındaki gizli _______i nihayet buldum." }],
+            pt: [{ word: "ALMOCO", clue: "O _______ está servido na mesa externa. | Meaning: Öğle Yemeği" }, { word: "RECEITA", clue: "Minha avó tem uma _______ de bolo incrível. | Meaning: Tarif" }],
+            nl: [{ word: "ONTBIJT", clue: "Het _______ is de belangrijkste maaltijd van de dag. | Meaning: Kahvaltı" }, { word: "SOP", clue: "Een warme _______ smaakt lekker als avondeten. | Meaning: Çorba" }],
+            ro: [{ word: "RECEPTA", clue: "Am găsit o _______ veche de cozonac. | Meaning: Tarif" }, { word: "GUSTOS", clue: "Acest preparat la cuptor este extrem de _______. | Meaning: Lezzetli" }],
+            ptbr: [{ word: "TEMPERO", clue: "O segredo da comida baiana está no _______. | Meaning: Baharat / Çeşni" }, { word: "JANTAR", clue: "Reunimos os amigos para um _______ especial. | Meaning: Akşam Yemeği" }]
+        },
+        daily: {
+            en: [{ word: "HOUSE", clue: "They bought a small _______ with a green garden. | Meaning: Ev" }, { word: "SLEEP", clue: "You need eight hours of _______ every night. | Meaning: Uyku" }],
+            es: [{ word: "AMIGO", clue: "Un buen _______ te ayuda en momentos difíciles. | Meaning: Arkadaş" }, { word: "VIDA", clue: "Disfruta de la _______ paso a paso. | Meaning: Hayat" }],
+            de: [{ word: "ARBEIT", clue: "Ich fahre morgens früh zur _______. | Meaning: İş" }, { word: "LEBEN", clue: "Das _______ in der Großstadt ist sehr hektisch. | Meaning: Yaşam" }],
+            fr: [{ word: "JOUR", clue: "Un nouveau _______ commence sous le soleil. | Meaning: Gün" }, { word: "FAMILLE", clue: "Passer du temps avec sa _______ est précieux. | Meaning: Aile" }],
+            it: [{ word: "CASA", clue: "Resto a _______ a leggere un buon libro tonight. | Meaning: Ev" }, { word: "AMICI", clue: "Uscire con gli _______ per un caffè in piazza. | Meaning: Arkadaşlar" }],
+            tr: [{ word: "HAYAT", clue: "Düzenli yürüyüş yapmak _______ kalitesini arttırır." }, { word: "SABAH", clue: "Güne erken başlamak için her _______ alarm kurarım." }],
+            pt: [{ word: "TEMPO", clue: "Não perca _______ com coisas sem importância. | Meaning: Zaman" }, { word: "SAUDE", clue: "Praticar exercícios é vital para a _______. | Meaning: Sağlık" }],
+            nl: [{ word: "VRIEND", clue: "Hij is al jaren mijn beste _______. | Meaning: Arkadaş" }, { word: "WERK", clue: "Na het _______ ga ik meteen naar de sportschool. | Meaning: İş" }],
+            ro: [{ word: "VIATA", clue: "Bucuria vine din lucrurile simple din _______. | Meaning: Viaţă" }, { word: "PRIETEN", clue: "Un _______ adevărat îți spune mereu adevărul. | Meaning: Prieten" }],
+            ptbr: [{ word: "ROTINA", clue: "Mudar a _______ ajuda a refrescar a mente. | Meaning: Rutin" }, { word: "TRABALHO", clue: "O _______ remoto trouxe mais flexibilidade diária. | Meaning: İş" }]
+        }
     };
 
     let matrixSize = 15;
@@ -488,7 +498,6 @@
         initGame(true);
     };
 
-    // Seçim kutusunu 30 temayla doldurur
     function populateThemeSelect() {
         const select = document.getElementById('themeSelect');
         select.innerHTML = '';
@@ -500,14 +509,12 @@
         });
     }
 
-    // Kullanıcı listeden bir tema seçtiğinde çalışır
     function applySelectedTheme() {
         const index = document.getElementById('themeSelect').value;
         const theme = THEMES[index];
         setThemeStyles(theme, index);
     }
 
-    // Rastgele bir tema seçip uygular (Yeni Bulmaca butonuna basıldığında)
     function applyRandomTheme() {
         const randomIndex = Math.floor(Math.random() * THEMES.length);
         document.getElementById('themeSelect').value = randomIndex;
@@ -516,6 +523,9 @@
     }
 
     function setThemeStyles(theme, index) {
+        const selectedLang = document.getElementById('langSelect').value;
+        const prefix = TRANSLATIONS[selectedLang]?.themePrefix || "Baskı";
+        
         const root = document.documentElement;
         root.style.setProperty('--bg-color', theme.bg);
         root.style.setProperty('--container-bg', theme.container);
@@ -524,29 +534,65 @@
         root.style.setProperty('--accent-bg', theme.accent);
         root.style.setProperty('--shadow-color', theme.border);
 
-        document.getElementById('themeNameBadge').innerText = `Baskı Tarzı: ${theme.name} (${parseInt(index) + 1}/30)`;
+        document.getElementById('themeNameBadge').innerText = `${prefix}: ${theme.name} (${parseInt(index) + 1}/50)`;
+    }
+
+    function applyLocalization(lang) {
+        const trans = TRANSLATIONS[lang] || TRANSLATIONS['en'];
+        
+        document.getElementById('ui-main-title').innerText = trans.title;
+        document.getElementById('ui-timer-label').innerText = trans.timer;
+        document.getElementById('ui-label-lang').innerText = trans.labelLang;
+        document.getElementById('ui-label-topic').innerText = trans.labelTopic;
+        document.getElementById('ui-label-theme').innerText = trans.labelTheme;
+        document.getElementById('ui-label-timer-mode').innerText = trans.labelTimer;
+        document.getElementById('ui-btn-new').innerText = trans.btnNew;
+        document.getElementById('ui-btn-hint').innerText = trans.btnHint;
+        document.getElementById('success-banner').innerText = trans.success;
+        document.getElementById('ui-modal-title').innerText = trans.modalTitle;
+        document.getElementById('ui-btn-close').innerText = trans.btnClose;
+        document.getElementById('opt-timer-off').innerText = trans.timerOff;
+        document.getElementById('ui-clues-title').innerText = trans.modalTitle.replace('✨', '📰'); 
+        
+        // Yatay/Dikey başlık adaptasyonu
+        if (lang === 'tr') {
+            document.getElementById('ui-across-title').innerText = "Yatay Kelimeler (Across)";
+            document.getElementById('ui-down-title').innerText = "Dikey Kelimeler (Down)";
+            document.getElementById('ui-clues-title').innerText = "Günün İpuçları";
+        } else {
+            document.getElementById('ui-across-title').innerText = "Across";
+            document.getElementById('ui-down-title').innerText = "Down";
+            document.getElementById('ui-clues-title').innerText = "Clues of the Day";
+        }
     }
 
     function initGame(shouldChangeTheme = false) {
         if (timerInterval) clearInterval(timerInterval);
         document.getElementById('success-banner').style.display = 'none';
-        
-        // Eğer yeni bulmaca tetiklendiyse temayı da rastgele değiştir
-        if (shouldChangeTheme) {
-            applyRandomTheme();
-        }
 
         const selectedLang = document.getElementById('langSelect').value;
+        const selectedTopic = document.getElementById('topicSelect').value;
         const timerConfig = document.getElementById('timerSelect').value;
 
-        let pool = [...DATA_POOL[selectedLang]];
+        // Sayfa yazılarını seçilen dile çevir
+        applyLocalization(selectedLang);
+        
+        // Temayı ayarla
+        if (shouldChangeTheme) {
+            applyRandomTheme();
+        } else {
+            applySelectedTheme();
+        }
+
+        let pool = [...DATA_POOL[selectedTopic][selectedLang]];
         pool.sort(() => 0.5 - Math.random());
         
         let selectedWords = pool.slice(0, Math.min(5, pool.length));
         const generationResult = generateCrosswordLayout(selectedWords);
         
-        if (!generationResult || generationResult.placedCount < 3) {
-            initGame(false);
+        if (!generationResult || generationResult.placedCount < 1) {
+            // Güvenlik mekanizması: Kelime tek de olsa yerleştirilsin
+            renderEmptyFallback();
             return;
         }
 
@@ -570,7 +616,6 @@
             updateTimerDisplay();
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                alert("⏱️ Süre bitti! Hücreler kilitlendi.");
                 Object.values(inputElements).forEach(input => input.disabled = true);
             }
         }, 1000);
@@ -586,7 +631,6 @@
     function speakWord(word, langCode) {
         if ('speechSynthesis' in window) {
             let utterance = new SpeechSynthesisUtterance(word);
-            // Dil kodunu ses motoruna uydurma
             if(langCode === 'ptbr') utterance.lang = 'pt-BR';
             else if(langCode === 'ro') utterance.lang = 'ro-RO';
             else utterance.lang = langCode;
@@ -632,20 +676,6 @@
                                     }
                                 }
                                 placedWords.push({ ...current, row: dRow, col: dCol, dir: "down", num: wordCounter++ });
-                                placed = true;
-                            }
-                            
-                            let aRow = r;
-                            let aCol = c - matchIndex;
-                            if (!placed && canPlaceWord(current.word, aRow, aCol, "across", localMatrix, r, c)) {
-                                for (let i = 0; i < current.word.length; i++) {
-                                    if (!localMatrix[aRow][aCol + i]) {
-                                        localMatrix[aRow][aCol + i] = { letter: current.word[i], isStart: i === 0, num: i === 0 ? wordCounter : null };
-                                    } else if (i === 0) {
-                                        localMatrix[aRow][aCol + i].num = wordCounter;
-                                    }
-                                }
-                                placedWords.push({ ...current, row: aRow, col: aCol, dir: "across", num: wordCounter++ });
                                 placed = true;
                             }
                         }
@@ -712,7 +742,7 @@
                             case "ArrowDown": targetRow++; break;
                             case "ArrowLeft": targetCol--; break;
                             case "ArrowRight": targetCol++; break;
-                            default: return;
+                            default: return; // Herhangi bir harfe basınca tema tetiklenmesi önlendi
                         }
                         if (inputElements[`${targetRow}-${targetCol}`]) {
                             e.preventDefault();
@@ -730,13 +760,16 @@
         }
     }
 
+    function renderEmptyFallback() {
+        const container = document.getElementById('grid-container');
+        container.innerHTML = '<div style="color:white; padding: 20px; text-align:center; font-weight:bold;">Layout Error. Please Refresh.</div>';
+    }
+
     function getLetterHint() {
         if (currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
             const cell = gridMatrix[currentFocusCell.row][currentFocusCell.col];
             currentFocusCell.element.value = cell.letter;
             checkWinCondition();
-        } else {
-            alert("Lütfen önce harf almak istediğiniz boş bir kutucuğa dokunun!");
         }
     }
 
@@ -749,12 +782,10 @@
         activeWords.sort((a,b) => a.num - b.num).forEach(item => {
             const clueDiv = document.createElement('div');
             clueDiv.className = 'clue-item';
-            
             clueDiv.innerHTML = `
                 <div class="clue-text-wrapper"><strong>${item.num}</strong> ${item.clue}</div>
                 <button class="audio-btn" onclick="speakWord('${item.word}', '${lang}')">🔊</button>
             `;
-            
             if (item.dir === 'across') acrossContainer.appendChild(clueDiv);
             else downContainer.appendChild(clueDiv);
         });
@@ -762,9 +793,12 @@
 
     function checkWinCondition() {
         let allCorrect = true;
+        let activeCellCount = 0;
+        
         for (let r = 0; r < matrixSize; r++) {
             for (let c = 0; c < matrixSize; c++) {
                 if (gridMatrix[r][c]) {
+                    activeCellCount++;
                     const userInput = inputElements[`${r}-${c}`].value;
                     if (userInput !== gridMatrix[r][c].letter) {
                         allCorrect = false;
@@ -773,7 +807,7 @@
                 }
             }
         }
-        if (allCorrect) {
+        if (allCorrect && activeCellCount > 0) {
             if (timerInterval) clearInterval(timerInterval);
             document.getElementById('success-banner').style.display = 'block';
             Object.values(inputElements).forEach(input => input.disabled = true);
@@ -784,14 +818,12 @@
     function openVocabularyDeck() {
         const deckList = document.getElementById('deckList');
         deckList.innerHTML = '';
-        
         activeWords.forEach(item => {
             const div = document.createElement('div');
             div.className = 'deck-item';
             div.innerHTML = `⭐ <strong>${item.word}</strong>: ${item.clue.split('|')[1] || item.clue}`;
             deckList.appendChild(div);
         });
-
         document.getElementById('deckModal').style.display = 'flex';
     }
 
