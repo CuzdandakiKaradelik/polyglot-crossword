@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Ultimate Polyglot Crossword v3</title>
+    <title>Polyglot Lexical Workbench v4</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,12 +11,12 @@
 
     <style>
         :root {
-            --bg-color: #f4ebd9;
-            --container-bg: #fbf5eb;
-            --text-color: #2b2b2b;
-            --border-color: #2b2b2b;
-            --accent-bg: #eae0cc;
-            --shadow-color: #2b2b2b;
+            --bg-color: #f2efea;
+            --container-bg: #fcfbfa;
+            --text-color: #1c1c1c;
+            --border-color: #1c1c1c;
+            --accent-bg: #e6e1da;
+            --shadow-color: #1c1c1c;
         }
 
         body {
@@ -24,137 +24,129 @@
             color: var(--text-color);
             font-family: 'Courier Prime', monospace;
             margin: 0;
-            padding: 20px;
-            transition: background-color 0.4s ease, color 0.4s ease;
+            padding: 25px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .newspaper-container {
-            max-width: 1200px;
+        .workbench-container {
+            max-width: 1300px;
             margin: 0 auto;
-            border: 2px solid var(--border-color);
-            padding: 20px;
-            box-shadow: 5px 5px 0px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            padding: 30px;
             background-color: var(--container-bg);
-            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            box-shadow: 6px 6px 0px var(--shadow-color);
         }
 
         header {
             text-align: center;
-            border-bottom: 4px double var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            border-bottom: 3px double var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
 
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 38px;
+            font-size: 34px;
             margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
-        .theme-badge {
+        .edition-badge {
             font-size: 11px;
             text-transform: uppercase;
-            font-style: italic;
-            margin-top: 5px;
-            display: block;
-            opacity: 0.8;
-        }
-
-        .stats-bar {
-            display: flex;
-            justify-content: center;
-            background: var(--accent-bg);
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 20px;
-            font-weight: bold;
-            font-size: 18px;
             letter-spacing: 1px;
+            margin-top: 8px;
+            display: block;
+            font-weight: bold;
+            opacity: 0.8;
         }
 
         .control-panel {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             gap: 15px;
             align-items: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+            padding: 15px;
+            background: var(--accent-bg);
+            border: 1px solid var(--border-color);
             flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .control-panel label {
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
+            text-transform: uppercase;
         }
 
         .control-panel select {
             font-family: 'Courier Prime', monospace;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 2px solid var(--border-color);
+            font-size: 13px;
+            padding: 4px 8px;
+            border: 1px solid var(--border-color);
             background-color: var(--container-bg);
             color: var(--text-color);
-            cursor: pointer;
         }
 
-        .control-panel button, .btn-action {
+        .btn-prime {
             font-family: 'Courier Prime', monospace;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
-            padding: 6px 15px;
-            border: 2px solid var(--border-color);
+            padding: 5px 15px;
+            border: 1px solid var(--border-color);
             background-color: var(--text-color);
             color: var(--container-bg);
             cursor: pointer;
-            box-shadow: 2px 2px 0px #888;
+            text-transform: uppercase;
         }
 
-        .control-panel button:hover, .btn-action:hover {
+        .btn-prime:hover {
             opacity: 0.9;
         }
 
-        .game-layout {
+        .workspace-layout {
             display: flex;
             flex-direction: row;
-            gap: 30px;
-            margin-top: 20px;
+            gap: 35px;
         }
 
-        @media (max-width: 950px) {
-            .game-layout { flex-direction: column; }
+        @media (max-width: 1000px) {
+            .workspace-layout { flex-direction: column; }
         }
 
-        .puzzle-section {
-            flex: 1.3;
+        .matrix-section {
+            flex: 1.2;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: var(--border-color); 
+            background: var(--accent-bg);
             border: 1px solid var(--border-color);
-            padding: 20px;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
-            min-height: 500px;
+            padding: 25px;
+            min-height: 550px;
         }
 
         .crossword-grid {
             display: grid;
             gap: 1px;
             background-color: var(--border-color);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
         }
 
         .cell {
             background-color: var(--border-color);
             position: relative;
-            width: 35px;
-            height: 35px;
+            width: 38px;
+            height: 38px;
         }
 
         .cell.active { background-color: #ffffff; }
-        .cell.active input { background-color: #ffffff; color: #2b2b2b; }
+        .cell.active input { background-color: #ffffff; color: #000000; }
 
         .cell input {
             width: 100%;
@@ -166,11 +158,10 @@
             font-family: 'Courier Prime', monospace;
             text-transform: uppercase;
             padding: 0;
-            box-sizing: border-box;
         }
 
         .cell input:focus {
-            background-color: #fffacd !important;
+            background-color: #f5f5dc !important;
             outline: none;
         }
 
@@ -180,308 +171,544 @@
             left: 2px;
             font-size: 9px;
             font-weight: bold;
-            color: #2b2b2b;
+            color: #555;
             z-index: 10;
-            line-height: 1;
         }
 
-        .clues-section {
+        .corpus-section {
             flex: 1;
-            border-left: 1px dashed var(--border-color);
-            padding-left: 20px;
-            max-height: 580px;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .clues-section h2 {
+        .corpus-section h2 {
             font-family: 'Playfair Display', serif;
-            margin-top: 0;
-            border-bottom: 2px solid var(--border-color);
+            font-size: 22px;
+            margin: 0;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 5px;
         }
 
-        .clue-group h3 {
-            font-size: 14px;
+        .clue-block {
+            border: 1px solid var(--border-color);
+            background: var(--container-bg);
+            padding: 15px;
+        }
+
+        .clue-block h3 {
+            margin: 0 0 10px 0;
+            font-size: 13px;
             text-transform: uppercase;
-            margin-bottom: 12px;
-            background-color: var(--border-color);
+            background: var(--border-color);
             color: var(--container-bg);
-            padding: 4px 8px;
+            padding: 3px 6px;
             display: inline-block;
         }
 
         .clue-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             font-size: 13px;
             line-height: 1.5;
-            padding: 6px;
+            padding-bottom: 8px;
             border-bottom: 1px dotted var(--border-color);
         }
 
-        .clue-text-wrapper { flex: 1; }
+        .clue-text { flex: 1; padding-right: 10px; }
+        .clue-text strong { background: var(--accent-bg); padding: 0 4px; margin-right: 4px; }
 
-        .clue-item strong {
-            font-size: 14px;
-            background-color: var(--accent-bg);
-            color: var(--text-color);
-            padding: 0 4px;
-            margin-right: 5px;
-        }
-
-        .audio-btn {
+        .audio-trigger {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 16px;
-            margin-left: 10px;
+            font-size: 14px;
+            padding: 0;
+            opacity: 0.7;
+        }
+        .audio-trigger:hover { opacity: 1; }
+
+        /* Corpus Table - No Popups */
+        .corpus-index-wrapper {
+            margin-top: 25px;
+            border-top: 2px dashed var(--border-color);
+            padding-top: 20px;
+            display: none;
         }
 
-        #success-banner {
-            display: none;
-            background-color: #617a55;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border: 2px solid var(--border-color);
-            box-shadow: 3px 3px 0px var(--shadow-color);
-            font-family: 'Playfair Display', serif;
+        .corpus-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 13px;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
+        .corpus-table th, .corpus-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: left;
         }
-        .modal-content {
-            background-color: var(--container-bg);
-            color: var(--text-color);
-            padding: 30px;
-            border: 3px solid var(--border-color);
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 8px 8px 0px var(--shadow-color);
-            font-family: 'Courier Prime', monospace;
+
+        .corpus-table th {
+            background-color: var(--accent-bg);
+            text-transform: uppercase;
         }
-        .modal-content h2 { font-family: 'Playfair Display', serif; margin-top: 0; text-align: center; }
-        .deck-list { margin: 20px 0; max-height: 250px; overflow-y: auto; }
-        .deck-item { padding: 8px; border-bottom: 1px dashed var(--border-color); font-size: 14px; }
     </style>
 </head>
 <body>
 
-<div class="newspaper-container">
+<div class="workbench-container">
     <header>
-        <h1 id="ui-main-title">The Polyglot Crossword</h1>
-        <span class="theme-badge" id="themeNameBadge">Baskı Tarzı: Klasik Gazete</span>
+        <h1 id="lbl-main-title">Polyglot Lexical Workbench</h1>
+        <span class="edition-badge" id="lbl-theme-badge">Style: Academic Press</span>
     </header>
 
-    <div class="stats-bar">
-        <div>⏱️ <span id="ui-timer-label">Kalan Süre</span>: <span id="timerVal">--:--</span></div>
-    </div>
-
     <div class="control-panel">
-        <label for="langSelect" id="ui-label-lang">Hedef Dil:</label>
-        <select id="langSelect" onchange="initGame(false)">
-            <option value="en">English (İngilizce)</option>
-            <option value="es">Español (İspanyolca)</option>
-            <option value="de">Deutsch (Almanca)</option>
-            <option value="fr">Français (Fransızca)</option>
-            <option value="it">Italiano (İtalyanca)</option>
-            <option value="tr">Türkçe (Turkish)</option>
-            <option value="pt">Português (Portekizce)</option>
-            <option value="nl">Nederlands (Felemenkçe)</option>
-            <option value="ro">Română (Romence)</option>
-            <option value="ptbr">Português-BR (Brezilya Portekizcesi)</option>
-        </select>
-
-        <label for="topicSelect" id="ui-label-topic">Konu / Kategori:</label>
-        <select id="topicSelect" onchange="initGame(false)">
-            <option value="cinema">🎬 Sinema & Film</option>
-            <option value="travel">✈️ Seyahat & Tatil</option>
-            <option value="culinary">🍳 Mutfak & Yemek</option>
-            <option value="daily">🏡 Günlük Yaşam</option>
-        </select>
-
-        <label for="themeSelect" id="ui-label-theme">Gazete Baskısı (Tema):</label>
-        <select id="themeSelect" onchange="applySelectedTheme()">
+        <div class="control-group">
+            <label for="langSelect" id="lbl-lang">Target:</label>
+            <select id="langSelect" onchange="onLanguageChange()">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="de">Deutsch</option>
+                <option value="fr">Français</option>
+                <option value="it">Italiano</option>
+                <option value="tr">Türkçe</option>
+                <option value="pt">Português</option>
+                <option value="nl">Nederlands</option>
+                <option value="ro">Română</option>
+                <option value="ptbr">Português-BR</option>
             </select>
+        </div>
 
-        <label for="timerSelect" id="ui-label-timer-mode">Süre Modu:</label>
-        <select id="timerSelect" onchange="initGame(false)">
-            <option value="off" id="opt-timer-off">Süre Kapat</option>
-            <option value="3">3 Min</option>
-            <option value="5">5 Min</option>
-            <option value="10">10 Min</option>
-        </select>
-        
-        <button onclick="initGame(true)" id="ui-btn-new">🔄 Yeni Bulmaca</button>
-        <button onclick="getLetterHint()" id="ui-btn-hint" style="background-color: #e2b13c; color: #000; border-color: #000;">💡 Harf Al</button>
+        <div class="control-group">
+            <label for="topicSelect" id="lbl-topic">Domain:</label>
+            <select id="topicSelect" onchange="resetCycleAndInit()">
+                <option value="cinema">🍿 Cinema & Media Studies</option>
+                <option value="travel">✈️ Global Migration & Travel</option>
+                <option value="culinary">Gastronomy & Culinary Arts</option>
+                <option value="daily">🏡 Sociology of Daily Life</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="themeSelect" id="lbl-theme">Visual Palette:</label>
+            <select id="themeSelect" onchange="applySelectedTheme()">
+                </select>
+        </div>
+
+        <div class="control-group">
+            <button class="btn-prime" onclick="generateNextInCycle()" id="lbl-btn-generate">Next Lexical Matrix</button>
+            <button class="btn-prime" onclick="getStructuralHint()" id="lbl-btn-hint" style="background-color: var(--accent-bg); color: var(--text-color); margin-left:5px;">Hint</button>
+        </div>
     </div>
 
-    <div id="success-banner">
-        📰 TEBRİKLER! Tüm kelimeleri başarıyla tamamladınız!
-    </div>
-
-    <div class="game-layout">
-        <div class="puzzle-section">
+    <div class="workspace-layout">
+        <div class="matrix-section">
             <div class="crossword-grid" id="grid-container"></div>
         </div>
 
-        <div class="clues-section">
-            <h2 id="ui-clues-title">Günün İpuçları</h2>
+        <div class="corpus-section">
+            <h2 id="lbl-section-title">Contextual Corpus Clues</h2>
             
-            <div class="clue-group">
-                <h3 id="ui-across-title">Yatay Kelimeler (Across)</h3>
+            <div class="clue-block">
+                <h3 id="lbl-across">Horizontal (Across)</h3>
                 <div id="across-clues"></div>
             </div>
 
-            <div class="clue-group">
-                <h3 id="ui-down-title">Dikey Kelimeler (Down)</h3>
+            <div class="clue-block">
+                <h3 id="lbl-down">Vertical (Down)</h3>
                 <div id="down-clues"></div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="deckModal" class="modal">
-    <div class="modal-content">
-        <h2 id="ui-modal-title">✨ Öğrenilen Kelime Kartları</h2>
-        <div class="deck-list" id="deckList"></div>
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="btn-action" onclick="closeModal()" id="ui-btn-close">Kapat</button>
-        </div>
+    <div class="corpus-index-wrapper" id="corpus-index-area">
+        <h2 id="lbl-analysis-title">Linguistic Corpus Index (Matrix Solved)</h2>
+        <table class="corpus-table">
+            <thead>
+                <tr>
+                    <th id="th-word">Lexeme</th>
+                    <th id="th-context">Contextual Alignment / Translation</th>
+                </tr>
+            </thead>
+            <tbody id="corpus-table-body">
+                </tbody>
+        </table>
     </div>
 </div>
 
 <script>
-    // 50 ADET BENZERSİZ RETRO VE MODERN GAZETE/DERGİ TEMASI
-    const THEMES = [
-        { name: "Klasik Gazete", bg: "#f4ebd9", container: "#fbf5eb", text: "#2b2b2b", border: "#2b2b2b", accent: "#eae0cc" },
-        { name: "Gece Mürekkebi", bg: "#1a1a1a", container: "#262626", text: "#f5f5f5", border: "#404040", accent: "#333333" },
-        { name: "Eski Parşömen", bg: "#e6d7b8", container: "#f2e6ce", text: "#3d2b1f", border: "#5c4033", accent: "#dfcfad" },
-        { name: "Retro Editör", bg: "#e4e9ed", container: "#f4f7f9", text: "#1c2833", border: "#2c3e50", accent: "#d5dbdb" },
-        { name: "Kızıl Baskı", bg: "#f5e6e6", container: "#fdf8f8", text: "#4a1515", border: "#722f37", accent: "#ebd2d2" },
-        { name: "Botanik Magazin", bg: "#e2ece9", container: "#f1f6f5", text: "#1c332e", border: "#2d5a27", accent: "#d1e0db" },
-        { name: "Sarı Sayfalar", bg: "#f9f1c7", container: "#fffbe6", text: "#332f10", border: "#665c1e", accent: "#f3e7a0" },
-        { name: "Modern Finans", bg: "#fcd7cc", container: "#fef3f0", text: "#3a1d13", border: "#87361d", accent: "#f9bead" },
-        { name: "Kraliyet Arşivi", bg: "#d9e2ec", container: "#f0f4f8", text: "#102a43", border: "#243e56", accent: "#bcccdc" },
-        { name: "Kahve Kokusu", bg: "#ece0d1", container: "#f7f1e5", text: "#3d2314", border: "#5c4033", accent: "#dbc1ac" },
-        { name: "Kömür Lekesi", bg: "#2d3748", container: "#1a202c", text: "#edf2f7", border: "#4a5568", accent: "#2d3748" },
-        { name: "Bağımsız Sinema", bg: "#fef9e7", container: "#fffdf7", text: "#111111", border: "#eb984e", accent: "#fadbd8" },
-        { name: "Nordik Minimal", bg: "#e5e8e8", container: "#f2f4f4", text: "#2c3e50", border: "#7f8c8d", accent: "#ccd1d1" },
-        { name: "Okyanus Postası", bg: "#d4efdf", container: "#e8f8f5", text: "#117a65", border: "#16a085", accent: "#a3e4d7" },
-        { name: "Pasifik Günlüğü", bg: "#ebf5fb", container: "#f4f6f7", text: "#21618c", border: "#2e86c1", accent: "#d6eaf8" },
-        { name: "Gül Yaprağı", bg: "#f9ebd2", container: "#fff5e6", text: "#5b2c6f", border: "#8e44ad", accent: "#f5e3cd" },
-        { name: "Gece Yarısı Mavisi", bg: "#0f172a", container: "#1e293b", text: "#f8fafc", border: "#38bdf8", accent: "#334155" },
-        { name: "Siber Punk", bg: "#ff007f", container: "#120136", text: "#00ffff", border: "#ff007f", accent: "#240046" },
-        { name: "Zeytin Dalı", bg: "#f1f3f0", container: "#fafaf9", text: "#3f4e3f", border: "#6b7c6b", accent: "#e3e7e2" },
-        { name: "Mantar Pano", bg: "#dfcbb5", container: "#eedec9", text: "#4a3b32", border: "#705335", accent: "#d3bfa7" },
-        { name: "Matte Slate", bg: "#94a3b8", container: "#cbd5e1", text: "#0f172a", border: "#475569", accent: "#e2e8f0" },
-        { name: "Kum Fırtınası", bg: "#e9c46a", container: "#f4a261", text: "#264653", border: "#e76f51", accent: "#f4a261" },
-        { name: "Kül Grisi", bg: "#d6dbdf", container: "#eaecee", text: "#212f3d", border: "#5d6d7e", accent: "#bdc3c7" },
-        { name: "Tebeşir Tahtası", bg: "#1e272c", container: "#263238", text: "#eceff1", border: "#37474f", accent: "#455a64" },
-        { name: "Haki Dokuma", bg: "#d5dbdb", container: "#eaeded", text: "#1b4f72", border: "#2e4053", accent: "#a6acaf" },
-        { name: "Soluk Lavanta", bg: "#ebdef0", container: "#f5eeeb", text: "#4a235a", border: "#6c3483", accent: "#d7bde2" },
-        { name: "Kiremit Pres", bg: "#edbb99", container: "#f5cba7", text: "#6e2c00", border: "#a04000", accent: "#f8c471" },
-        { name: "Asfalt Kağıdı", bg: "#566573", container: "#2c3e50", text: "#f2f4f4", border: "#1c2833", accent: "#34495e" },
-        { name: "Güneş Yanığı", bg: "#fdebd0", container: "#fef9e7", text: "#7e5109", border: "#b7950b", accent: "#f9e79f" },
-        { name: "Platin Baskı", bg: "#f2f3f4", container: "#ffffff", text: "#1c2833", border: "#bdc3c7", accent: "#eaecee" },
-        // Yeni 20 Tema (Toplam 50)
-        { name: "Eski İstanbul", bg: "#f3e5ab", container: "#fff8dc", text: "#4a3c31", border: "#4a3c31", accent: "#eedc82" },
-        { name: "Kuzey Işıkları", bg: "#0d1f2d", container: "#1d2d44", text: "#a5a5a5", border: "#354f52", accent: "#52796f" },
-        { name: "Vintage Denim", bg: "#34495e", container: "#5d6d7e", text: "#f2f4f4", border: "#2c3e50", accent: "#7f8c8d" },
-        { name: "Mat Çikolata", bg: "#4a3525", container: "#5c4033", text: "#e6ccb2", border: "#ddb892", accent: "#7f5539" },
-        { name: "Pastel Nane", bg: "#d8f3dc", container: "#b7e4c7", text: "#1b4332", border: "#2d6a4f", accent: "#95d5b2" },
-        { name: "Limonata", bg: "#fefae0", container: "#f9ced6", text: "#283618", border: "#606c38", accent: "#dda15e" },
-        { name: "Bağ Bozumu", bg: "#3b2244", container: "#522e61", text: "#f3e9dc", border: "#6b3e7a", accent: "#a67c00" },
-        { name: "Safir Lüks", bg: "#000814", container: "#001d3d", text: "#ffc300", border: "#003566", accent: "#ffd60a" },
-        { name: "Çöl Gülü", bg: "#e07a5f", container: "#f4f1de", text: "#3d405b", border: "#3d405b", accent: "#f2cc8f" },
-        { name: "Okaliptüs", bg: "#cad2c5", container: "#84a98c", text: "#2f3e46", border: "#354f52", accent: "#52796f" },
-        { name: "Kurgu Roman", bg: "#eae2b7", container: "#fcbf49", text: "#003049", border: "#d62828", accent: "#f77f00" },
-        { name: "Askeri Kamuflaj", bg: "#4f5d2f", container: "#111d13", text: "#f5f5f5", border: "#415a77", accent: "#778da9" },
-        { name: "Şehir Sisi", bg: "#999999", container: "#cccccc", text: "#111111", border: "#333333", accent: "#eeeeee" },
-        { name: "Terracotta", bg: "#e2711d", container: "#ff9505", text: "#350f22", border: "#ffb627", accent: "#ffdd00" },
-        { name: "Antik Altın", bg: "#8c7853", container: "#e4d6a7", text: "#1c1c1c", border: "#4a3b2c", accent: "#d4af37" },
-        { name: "Buzul Baskı", bg: "#e0f2f1", container: "#b2dfdb", text: "#004d40", border: "#00796b", accent: "#80cbc4" },
-        { name: "Zencefil", bg: "#f0a500", container: "#cf7500", text: "#1a1a1a", border: "#000000", accent: "#f4f4f4" },
-        { name: "Gece Bahçesi", bg: "#132a13", container: "#31572c", text: "#ecf39e", border: "#4f772d", accent: "#90a955" },
-        { name: "Orkide", bg: "#fae0e4", container: "#ff99c8", text: "#5c0029", border: "#93003a", accent: "#e4c1f9" },
-        { name: "Koyu Grafit", bg: "#121212", container: "#1e1e1e", text: "#bb86fc", border: "#3700b3", accent: "#03dac6" }
-    ];
-
-    // DINAMIK DIL CEVIRILERI (FULL LOCALIZATION)
-    const TRANSLATIONS = {
-        en: { title: "The Polyglot Crossword", timer: "Time Left", labelLang: "Target Language:", labelTopic: "Category:", labelTheme: "Newspaper Edition:", labelTimer: "Timer Mode:", btnNew: "🔄 New Puzzle", btnHint: "💡 Get Letter", success: "📰 CONGRATULATIONS! You solved the puzzle!", modalTitle: "✨ Vocabulary Deck", btnClose: "Close", timerOff: "Timer Off", themePrefix: "Edition" },
-        es: { title: "El Crucigrama Políglota", timer: "Tiempo Restante", labelLang: "Idioma Destino:", labelTopic: "Categoría:", labelTheme: "Edición Periódico:", labelTimer: "Modo Tiempo:", btnNew: "🔄 Nuevo Rompecabezas", btnHint: "💡 Obtener Letra", success: "📰 ¡FELICITACIONES! ¡Has resuelto el rompecabezas!", modalTitle: "✨ Tarjetas de Vocabulario", btnClose: "Cerrar", timerOff: "Sin Tiempo", themePrefix: "Edición" },
-        de: { title: "Das Polyglotte Kreuzworträtsel", timer: "Verbleibende Zeit", labelLang: "Zielsprache:", labelTopic: "Kategorie:", labelTheme: "Zeitungsausgabe:", labelTimer: "Zeitmodus:", btnNew: "🔄 Neues Rätsel", btnHint: "💡 Buchstaben Holen", success: "📰 HERZLICHEN GLÜCKWUNSCH! Rätsel gelöst!", modalTitle: "✨ Vokabelkarten", btnClose: "Schließen", timerOff: "Zeit Aus", themePrefix: "Ausgabe" },
-        fr: { title: "Les Mots Croisés Polyglottes", timer: "Temps Restant", labelLang: "Langue Cible:", labelTopic: "Catégorie:", labelTheme: "Édition Journal:", labelTimer: "Mode Minuteur:", btnNew: "🔄 Nouveau Puzzle", btnHint: "💡 Obtenir Lettre", success: "📰 FÉLICITATIONS ! Vous avez résolu le puzzle !", modalTitle: "✨ Cartes de Vocabulaire", btnClose: "Fermer", timerOff: "Minuteur Désactivé", themePrefix: "Édition" },
-        it: { title: "Il Cruciverba Poliglotta", timer: "Tempo Rimasto", labelLang: "Lingua Target:", labelTopic: "Categoria:", labelTheme: "Edizione Giornale:", labelTimer: "Modalità Tempo:", btnNew: "🔄 Nuovo Cruciverba", btnHint: "💡 Suggerimento", success: "📰 CONGRATULAZIONI! Hai risolto il cruciverba!", modalTitle: "✨ Mazzo di Vocaboli", btnClose: "Chiudi", timerOff: "Tempo Disattivato", themePrefix: "Edizione" },
-        tr: { title: "Çok Dilli Bulmaca Dünyası", timer: "Kalan Süre", labelLang: "Hedef Dil:", labelTopic: "Konu / Kategori:", labelTheme: "Gazete Baskısı (Tema):", labelTimer: "Süre Modu:", btnNew: "🔄 Yeni Bulmaca", btnHint: "💡 Harf Al", success: "📰 TEBRİKLER! Tüm kelimeleri başarıyla tamamladınız!", modalTitle: "✨ Öğrenilen Kelime Kartları", btnClose: "Kapat", timerOff: "Süre Kapat", themePrefix: "Baskı Tarzı" },
-        pt: { title: "As Palavras Cruzadas Poliglotas", timer: "Tempo Restante", labelLang: "Idioma Alvo:", labelTopic: "Categoria:", labelTheme: "Edição do Jornal:", labelTimer: "Modo Tempo:", btnNew: "🔄 Novo Puzzle", btnHint: "💡 Obter Letra", success: "📰 PARABÉNS! Você resolveu o puzzle!", modalTitle: "✨ Cartões de Vocabulário", btnClose: "Fechar", timerOff: "Sem Tempo", themePrefix: "Edição" },
-        nl: { title: "Het Polyglotte Kruiswoordraadsel", timer: "Resterende Tijd", labelLang: "Doeltaal:", labelTopic: "Categorie:", labelTheme: "Kranteneditie:", labelTimer: "Tijdmodus:", btnNew: "🔄 Nieuwe Puzzel", btnHint: "💡 Letter Vragen", success: "📰 GEFELICITEERD! Je hebt de puzzel opgelost!", modalTitle: "✨ Woordenschat Kaarten", btnClose: "Sluiten", timerOff: "Tijd Uit", themePrefix: "Editie" },
-        ro: { title: "Cuvinte Încrucișate Poliglote", timer: "Timp Rămas", labelLang: "Limba Țintă:", labelTopic: "Categorie:", labelTheme: "Ediție Ziar:", labelTimer: "Mod Timp:", btnNew: "🔄 Joc Nou", btnHint: "💡 Cere Literă", success: "📰 FELICITĂRI! Ai rezolvat întregul careu!", modalTitle: "✨ Carduri de Vocabular", btnClose: "Închide", timerOff: "Fără Timp", themePrefix: "Ediție" },
-        ptbr: { title: "As Palavras Cruzadas Poliglotas", timer: "Tempo Restante", labelLang: "Idioma Alvo:", labelTopic: "Categoria:", labelTheme: "Edição do Jornal:", labelTimer: "Modo Tempo:", btnNew: "🔄 Novo Jogo", btnHint: "💡 Ganhar Letra", success: "📰 PARABÉNS! Você concluiu o desafio!", modalTitle: "✨ Baralho de Vocabulário", btnClose: "Fechar", timerOff: "Tempo Desativado", themePrefix: "Edição" }
+    // 50 ADET ULUSLARARASI AKADEMIK TEMA VE DILLERE GÖRE TERCÜMELERİ
+    const THEME_NAMES = {
+        en: ["Academic Press", "Midnight Ink", "Ancient Parchment", "Retro Editor", "Crimson Journal", "Botanical Review", "Yellow Pages", "Financial Times", "Royal Archive", "Coffee House", "Charcoal Slate", "Indie Cinema", "Nordic Prose", "Oceanic Dispatch", "Pacific Log", "Rose Petal", "Deep Slate", "Neon Cyan", "Olive Grove", "Cork Board", "Matte Steel", "Desert Sand", "Ashen Grey", "Chalkboard", "Khaki Weave", "Pale Orchid", "Terracotta Press", "Tar Paper", "Sunlit Amber", "Platinum Folio", "Old Istanbul", "Aurora Borealis", "Vintage Denim", "Matte Cocoa", "Pastel Mint", "Pink Lemonade", "Burgundy Archive", "Sapphire Luxury", "Desert Rose", "Eucalyptus", "Fiction Novel", "Military Camo", "Urban Fog", "Volcanic Ash", "Antique Gold", "Glacier Print", "Ginger Spice", "Night Garden", "Orchid Mist", "Dark Graphite"],
+        tr: ["Akademik Matbaa", "Gece Mürekkebi", "Antik Parşömen", "Retro Editör", "Kızıl Dergi", "Botanik İnceleme", "Sarı Sayfalar", "Finans Günlüğü", "Kraliyet Arşivi", "Kahve Kokusu", "Kömür Lekesi", "Bağımsız Sinema", "Nordik Nesir", "Okyanus Postası", "Pasifik Günlüğü", "Gül Yaprağı", "Derin Gece", "Neon Siber", "Zeytin Dalı", "Mantar Pano", "Mat Çelik", "Çöl Kumu", "Kül Grisi", "Tebeşir Tahtası", "Haki Dokuma", "Soluk Orkide", "Kiremit Pres", "Asfalt Kağıdı", "Güneş Kehribarı", "Platin Portföy", "Eski İstanbul", "Kuzey Işıkları", "Vintage Denim", "Mat Kakao", "Pastel Nane", "Pembe Limonata", "Bordo Arşiv", "Safir Lüksü", "Çöl Gülü", "Okaliptüs", "Kurgu Romanı", "Askeri Kamuflaj", "Şehir Sisi", "Volkanik Kül", "Antik Altın", "Buzul Baskı", "Zencefil", "Gece Bahçesi", "Orkide Sisi", "Koyu Grafit"],
+        es: ["Prensa Académica", "Tinta de Medianoche", "Pergamino Antiguo", "Editor Retro", "Revista Carmesí", "Reseña Botánica", "Páginas Amarillas", "Tiempos Financieros", "Archivo Real", "Cafetería", "Pizarra de Carbón", "Cine Independiente", "Prosa Nórdica", "Despacho Oceánico", "Bitácora del Pacífico", "Pétalo de Rosa", "Pizarra Profunda", "Cian Neón", "Olivar", "Tablero de Corcho", "Acero Mate", "Arena del Desierto", "Gris Ceniza", "Pizarrón", "Tejido Caqui", "Orquídea Pálida", "Prensa de Terracota", "Papel de Alquitrán", "Ámbar Soleado", "Folio de Platino", "Estambul Antiguo", "Aurora Boreal", "Mezclilla Vintage", "Cacao Mate", "Menta Pastel", "Limonada Rosa", "Archivo de Borgoña", "Lujo de Zafiro", "Rosa del Desierto", "Eucalipto", "Novela de Ficción", "Camuflaje Militar", "Niebla Urbana", "Ceniza Volcánica", "Oro Antiguo", "Impresión Glaciar", "Jengibre", "Jardín Nocturno", "Niebla de Orquídea", "Grafito Oscuro"],
+        de: ["Akademische Presse", "Mitternachtstinte", "Altes Pergament", "Retro-Editor", "Karminrotes Journal", "Botanische Rundschau", "Gelbe Seiten", "Finanzberichte", "Königliches Archiv", "Kaffeehaus", "Kohleschiefer", "Indie-Kino", "Nordische Prosa", "Ozeanische Depesche", "Pazifik-Logbuch", "Rosenblatt", "Tiefschiefer", "Neon-Cyan", "Olivenhain", "Pinnwand", "Mattschahl", "Wüstensand", "Aschgrau", "Kreidetafel", "Khaki-Gewebe", "Blasse Orchidee", "Terracotta-Presse", "Teerpapier", "Sonniger Bernstein", "Platin-Folio", "Altes Istanbul", "Nordlichter", "Vintage-Denim", "Matt-Kakao", "Pastellminze", "Rosa Limonade", "Burgund-Archiv", "Saphirluxus", "Wüstenrose", "Eukalyptus", "Belletristik-Roman", "Militär-Camo", "Städtischer Nebel", "Vulkanypelas", "Antikes Gold", "Gletscherdruck", "Ingwergewürz", "Nachtgarten", "Orchideen-Nebel", "Dunkler Graphit"],
+        fr: ["Presse Académique", "Encre de Minuit", "Parchemin Ancien", "Éditeur Rétro", "Journal Cramoisi", "Revue Botanique", "Pages Jaunes", "Temps Financiers", "Archives Royales", "Café Littéraire", "Ardoise Fusain", "Cinéma Indé", "Prose Nordique", "Dépêche Océanique", "Journal du Pacifique", "Pétale de Rose", "Ardoise Profonde", "Cyan Néon", "Oliveraie", "Tableau de Liège", "Acier Mat", "Sable du Désert", "Gris Cendré", "Tableau Noir", "Tissage Kaki", "Orchidée Pâle", "Presse Terracotta", "Papel Goudron", "Ambre Ensoleillé", "Folio Platine", "Vieux Istanbul", "Aurore Boréale", "Denim Vintage", "Cacao Mat", "Menthe Pastel", "Limonade Rose", "Archives Bourgogne", "Luxe Saphir", "Rose du Désert", "Eucalyptus", "Roman de Fiction", "Camouflage Militaire", "Brouillard Urbain", "Cendre Volcanique", "Or Antique", "Impression Glaciaire", "Gingembre Épicé", "Jardin de Nuit", "Brume d'Orchidée", "Graphite Foncé"],
+        it: ["Stampa Accademica", "Inchiostro di Mezzanotte", "Antica Pergamena", "Editore Retro", "Rivista Cremisi", "Recensione Botanica", "Pagine Gialle", "Cronache Finanziarie", "Archivio Reale", "Caffè Storico", "Ardesia Carbone", "Cinema Indipendente", "Prosa Nordica", "Dispaccio Oceanico", "Diario del Pacifico", "Petalo di Rosa", "Ardesia Profonda", "Ciano Neon", "Uliveto", "Bacheca di Sughero", "Acciaio Opaco", "Sabbia del Deserto", "Grigio Cenere", "Lavagna", "Tessitura Khaki", "Orchidea Pallida", "Stampa Terracotta", "Carta Catramata", "Ambra Solare", "Folio Platino", "Vecchia Istanbul", "Aurora Boreale", "Denim Vintage", "Cacao Opaco", "Menta Pastello", "Limonata Rosa", "Archivio Borgogna", "Lusso Zaffiro", "Rosa del Deserto", "Eucalipto", "Romanzo Narrativo", "Mimetica Militare", "Nebbia Urbana", "Cenere Vulcanica", "Oro Antico", "Stampa Glaciale", "Zenzero", "Giardino Notturno", "Nebbia d'Orchidea", "Grafite Scuro"],
+        pt: ["Imprensa Académica", "Tinta da Meia-Noite", "Pergaminho Antigo", "Editor Retro", "Revista Carmesim", "Crónica Botânica", "Páginas Amarelas", "Diário Financeiro", "Arquivo Real", "Café Clássico", "Ardosia de Carvão", "Cinema Independente", "Prosa Nórdica", "Despacho Oceânico", "Diário do Pacífico", "Pétala de Rosa", "Ardosia Profunda", "Ciano Neon", "Olival", "Quadro de Cortiça", "Aço Mate", "Areia do Deserto", "Cinzento Asfalto", "Quadro Negro", "Tecido Caqui", "Orquídea Pálida", "Prensa Terracota", "Papel Alcatrão", "Âmbar Ensolarado", "Fólio Platina", "Antiga Istambul", "Aurora Boreal", "Denim Vintage", "Cacau Mate", "Hortelã Pastel", "Limonada Rosa", "Arquivo Borgonha", "Luxo Safira", "Rosa do Deserto", "Eucalipto", "Romance Ficção", "Camo Militar", "Nevoeiro Urbano", "Cinza Vulcânica", "Ouro Antigo", "Impressão Glaciar", "Gengibre", "Jardim Noturno", "Névoa de Orquídea", "Grafite Escuro"],
+        nl: ["Academische Pers", "Midnight Inkt", "Oud Perkament", "Retro Editor", "Karmozijnrood Dagblad", "Botanische Recensie", "Gele Pagina's", "Financieel Logboek", "Koninklijk Archief", "Koffiehuis", "Houtskoolleisteen", "Indie Cinema", "Noords Proza", "Oceanische Depesche", "Pacifisch Logboek", "Rozenblaadje", "Diepe Leisteen", "Neon Cyaan", "Olijfboomgaard", "Prikbord", "Mat Staal", "Woestijnzand", "Asgrijs", "Schoolbord", "Khaki Weefsel", "Bleke Orchidee", "Terracotta Pers", "Teerpapier", "Zonnig Amber", "Platina Folio", "Oud Istanbul", "Noorderlicht", "Vintage Denim", "Matte Cacao", "Pastelmunt", "Roze Limonada", "Bourgondië Archief", "Saffier Luxe", "Woestijnroos", "Eucalyptus", "Fictie Roman", "Militaire Camouflage", "Stedelijke Mist", "Vulkanische As", "Antiek Goud", "Gletsjerdruk", "Gember Kruid", "Nachttuin", "Orchidee Mist", "Donker Grafiet"],
+        ro: ["Presa Academică", "Cerneală de Miezul Nopții", "Pergamint Antic", "Editor Retro", "Jurnal Stacojiu", "Revistă Botanică", "Pagini Aurii", "Cronica Financiară", "Arhiva Regală", "Cafeneaua Veche", "Ardezie Cărbune", "Cinema Independent", "Proză Nordică", "Expediție Oceanică", "Jurnal Pacific", "Petală de Trandafir", "Ardezie Profundă", "Cian Neon", "Livadă de Măslini", "Panou de Plută", "Oțel Mat", "Nisipul Deșertului", "Gri Cenușă", "Tablă de Scris", "Țesătură Khaki", "Orhidee Palidă", "Presa Terracota", "Hartie Catran", "Chihlimbar Sunlit", "Foliu Platină", "Istanbulul Vechi", "Aurora Boreală", "Denim Vintage", "Cacao Mat", "Mentă Pastel", "Limonadă Roz", "Arhiva Burgundia", "Lux de Safir", "Trandafirul Deșertului", "Eucalipt", "Roman de Ficțiune", "Camuflaj Militar", "Ceață Urbană", "Cenușă Vulcanică", "Aur Antic", "Imprimeu Glaciar", "Ghimbir", "Grădina de Noapte", "Ceață de Orhidee", "Grafit Întunecat"],
+        ptbr: ["Imprensa Acadêmica", "Tinta da Meia-Noite", "Pergaminho Antigo", "Editor Retro", "Revista Carmesim", "Crônica Botânica", "Páginas Amarelas", "Diário Financeiro", "Arquivo Real", "Café Clássico", "Ardosia de Carvão", "Cinema Independente", "Prosa Nórdica", "Despacho Oceânico", "Diário do Pacífico", "Pétala de Rosa", "Ardosia Profunda", "Ciano Neon", "Olival", "Quadro de Cortiça", "Aço Mate", "Areia do Deserto", "Cinzento Asfalto", "Quadro Negro", "Tecido Caqui", "Orquídea Pálida", "Prensa Terracota", "Papel Alcatrão", "Âmbar Ensolarado", "Fólio Platina", "Antiga Istambul", "Aurora Boreal", "Denim Vintage", "Cacau Mate", "Hortelã Pastel", "Limonada Rosa", "Arquivo Borgonha", "Luxo Safira", "Rosa do Deserto", "Eucalipto", "Romance Ficção", "Camo Militar", "Nevoeiro Urbano", "Cinza Vulcânica", "Ouro Antigo", "Impressão Glaciar", "Gengibre", "Jardim Noturno", "Névoa de Orquídea", "Grafite Escuro"]
     };
 
-    // 10 DİL VE 4 FARKLI KATEGORİ - %100 BENZERSİZ ÇAKIŞMASIZ KELİME HAVUZU
+    const THEME_STYLES = [
+        { bg: "#f4ebd9", container: "#fbf5eb", text: "#2b2b2b", border: "#2b2b2b", accent: "#eae0cc" },
+        { bg: "#1a1a1a", container: "#262626", text: "#f5f5f5", border: "#404040", accent: "#333333" },
+        { bg: "#e6d7b8", container: "#f2e6ce", text: "#3d2b1f", border: "#5c4033", accent: "#dfcfad" },
+        { bg: "#e4e9ed", container: "#f4f7f9", text: "#1c2833", border: "#2c3e50", accent: "#d5dbdb" },
+        { bg: "#f5e6e6", container: "#fdf8f8", text: "#4a1515", border: "#722f37", accent: "#ebd2d2" },
+        { bg: "#e2ece9", container: "#f1f6f5", text: "#1c332e", border: "#2d5a27", accent: "#d1e0db" },
+        { bg: "#f9f1c7", container: "#fffbe6", text: "#332f10", border: "#665c1e", accent: "#f3e7a0" },
+        { bg: "#fcd7cc", container: "#fef3f0", text: "#3a1d13", border: "#87361d", accent: "#f9bead" },
+        { bg: "#d9e2ec", container: "#f0f4f8", text: "#102a43", border: "#243e56", accent: "#bcccdc" },
+        { bg: "#ece0d1", container: "#f7f1e5", text: "#3d2314", border: "#5c4033", accent: "#dbc1ac" },
+        { bg: "#2d3748", container: "#1a202c", text: "#edf2f7", border: "#4a5568", accent: "#2d3748" },
+        { bg: "#fef9e7", container: "#fffdf7", text: "#111111", border: "#eb984e", accent: "#fadbd8" },
+        { bg: "#e5e8e8", container: "#f2f4f4", text: "#2c3e50", border: "#7f8c8d", accent: "#ccd1d1" },
+        { bg: "#d4efdf", container: "#e8f8f5", text: "#117a65", border: "#16a085", accent: "#a3e4d7" },
+        { bg: "#ebf5fb", container: "#f4f6f7", text: "#21618c", border: "#2e86c1", accent: "#d6eaf8" },
+        { bg: "#f9ebd2", container: "#fff5e6", text: "#5b2c6f", border: "#8e44ad", accent: "#f5e3cd" },
+        { bg: "#0f172a", container: "#1e293b", text: "#f8fafc", border: "#38bdf8", accent: "#334155" },
+        { bg: "#ff007f", container: "#120136", text: "#00ffff", border: "#ff007f", accent: "#240046" },
+        { bg: "#f1f3f0", container: "#fafaf9", text: "#3f4e3f", border: "#6b7c6b", accent: "#e3e7e2" },
+        { bg: "#dfcbb5", container: "#eedec9", text: "#4a3b32", border: "#705335", accent: "#d3bfa7" },
+        { bg: "#94a3b8", container: "#cbd5e1", text: "#0f172a", border: "#475569", accent: "#e2e8f0" },
+        { bg: "#e9c46a", container: "#f4a261", text: "#264653", border: "#e76f51", accent: "#f4a261" },
+        { bg: "#d6dbdf", container: "#eaecee", text: "#212f3d", border: "#5d6d7e", accent: "#bdc3c7" },
+        { bg: "#1e272c", container: "#263238", text: "#eceff1", border: "#37474f", accent: "#455a64" },
+        { bg: "#d5dbdb", container: "#eaeded", text: "#1b4f72", border: "#2e4053", accent: "#a6acaf" },
+        { bg: "#ebdef0", container: "#f5eeeb", text: "#4a235a", border: "#6c3483", accent: "#d7bde2" },
+        { bg: "#edbb99", container: "#f5cba7", text: "#6e2c00", border: "#a04000", accent: "#f8c471" },
+        { bg: "#566573", container: "#2c3e50", text: "#f2f4f4", border: "#1c2833", accent: "#34495e" },
+        { bg: "#fdebd0", container: "#fef9e7", text: "#7e5109", border: "#b7950b", accent: "#f9e79f" },
+        { bg: "#f2f3f4", container: "#ffffff", text: "#1c2833", border: "#bdc3c7", accent: "#eaecee" },
+        { bg: "#f3e5ab", container: "#fff8dc", text: "#4a3c31", border: "#4a3c31", accent: "#eedc82" },
+        { bg: "#0d1f2d", container: "#1d2d44", text: "#a5a5a5", border: "#354f52", accent: "#52796f" },
+        { bg: "#34495e", container: "#5d6d7e", text: "#f2f4f4", border: "#2c3e50", accent: "#7f8c8d" },
+        { bg: "#4a3525", container: "#5c4033", text: "#e6ccb2", border: "#ddb892", accent: "#7f5539" },
+        { bg: "#d8f3dc", container: "#b7e4c7", text: "#1b4332", border: "#2d6a4f", accent: "#95d5b2" },
+        { bg: "#fefae0", container: "#f9ced6", text: "#283618", border: "#606c38", accent: "#dda15e" },
+        { bg: "#3b2244", container: "#522e61", text: "#f3e9dc", border: "#6b3e7a", accent: "#a67c00" },
+        { bg: "#000814", container: "#001d3d", text: "#ffc300", border: "#003566", accent: "#ffd60a" },
+        { bg: "#e07a5f", container: "#f4f1de", text: "#3d405b", border: "#3d405b", accent: "#f2cc8f" },
+        { bg: "#cad2c5", container: "#84a98c", text: "#2f3e46", border: "#354f52", accent: "#52796f" },
+        { bg: "#eae2b7", container: "#fcbf49", text: "#003049", border: "#d62828", accent: "#f77f00" },
+        { bg: "#4f5d2f", container: "#111d13", text: "#f5f5f5", border: "#415a77", accent: "#778da9" },
+        { bg: "#999999", container: "#cccccc", text: "#111111", border: "#333333", accent: "#eeeeee" },
+        { bg: "#e2711d", container: "#ff9505", text: "#350f22", border: "#ffb627", accent: "#ffdd00" },
+        { bg: "#8c7853", container: "#e4d6a7", text: "#1c1c1c", border: "#4a3b2c", accent: "#d4af37" },
+        { bg: "#e0f2f1", container: "#b2dfdb", text: "#004d40", border: "#00796b", accent: "#80cbc4" },
+        { bg: "#f0a500", container: "#cf7500", text: "#1a1a1a", border: "#000000", accent: "#f4f4f4" },
+        { bg: "#132a13", container: "#31572c", text: "#ecf39e", border: "#4f772d", accent: "#90a955" },
+        { bg: "#fae0e4", container: "#ff99c8", text: "#5c0029", border: "#93003a", accent: "#e4c1f9" },
+        { bg: "#121212", container: "#1e1e1e", text: "#bb86fc", border: "#3700b3", accent: "#03dac6" }
+    ];
+
+    const TRANSLATIONS = {
+        en: { title: "Polyglot Lexical Workbench", lang: "Language:", topic: "Domain:", theme: "Palette:", btnGen: "Next Lexic Matrix", btnHint: "Hint", sectionTitle: "Contextual Corpus Clues", across: "Horizontal (Across)", down: "Vertical (Down)", analysisTitle: "Linguistic Corpus Index (Matrix Solved)", thWord: "Lexeme", thContext: "Contextual Translation Alignment", prefix: "Style" },
+        tr: { title: "Çok Dilli Sözcük Analiz Masası", lang: "Hedef Dil:", topic: "Çalışma Alanı:", theme: "Palet Seçimi:", btnGen: "Sonraki Matris Döngüsü", btnHint: "Yapısal İpucu", sectionTitle: "Bağlamsal Kelime Kanıtları", across: "Yatay Kelimeler (Across)", down: "Dikey Kelimeler (Down)", analysisTitle: "Dilbilimsel Kelime İndeksi (Matris Çözüldü)", thWord: "Leksik Yapı", thContext: "Bağlamsal Çeviri ve Hizalama", prefix: "Baskı Tarzı" },
+        es: { title: "Banco de Trabajo Léxico Políglota", lang: "Idioma:", topic: "Dominio:", theme: "Paleta:", btnGen: "Siguiente Matriz Léxica", btnHint: "Pista", sectionTitle: "Pistas del Corpus Contextual", across: "Horizontal (Across)", down: "Vertical (Down)", analysisTitle: "Índice del Corpus Lingüístico (Matriz Resuelta)", thWord: "Lexema", thContext: "Alineación de Traducción Contextual", prefix: "Estilo" },
+        de: { title: "Polyglotte Lexikalische Werkbank", lang: "Zielsprache:", topic: "Fachbereich:", theme: "Palette:", btnGen: "Nächste Lexikalische Matrix", btnHint: "Hinweis", sectionTitle: "Kontextuelle Korpushinweise", across: "Horizontal (Across)", down: "Vertikal (Down)", analysisTitle: "Linguistischer Korpusindex (Matrix Gelöst)", thWord: "Lexem", thContext: "Kontextuelle Übersetzungsausrichtung", prefix: "Ausgabe" },
+        fr: { title: "Atelier Lexical Polyglotte", lang: "Langue:", topic: "Domaine:", theme: "Palette:", btnGen: "Matrice Lexicale Suivante", btnHint: "Indice", sectionTitle: "Indices du Corpus Contextuel", across: "Horizontal (Across)", down: "Vertical (Down)", analysisTitle: "Index du Corpus Linguistique (Matrice Résolue)", thWord: "Lexème", thContext: "Alignement de la Traduction Contextuelle", prefix: "Style" },
+        it: { title: "Banco di Lavoro Lessicale Poliglotta", lang: "Lingua:", topic: "Dominio:", theme: "Tavolozza:", btnGen: "Prossima Matrice Lessicale", btnHint: "Aiuto", sectionTitle: "Indizi del Corpus Contestuale", across: "Orizzontale (Across)", down: "Verticale (Down)", analysisTitle: "Indice del Corpus Linguistico (Matrice Risolta)", thWord: "Lessema", thContext: "Allineamento della Traduzione Contestuale", prefix: "Stile" },
+        pt: { title: "Bancada de Trabalho Léxico Poliglota", lang: "Idioma:", topic: "Domínio:", theme: "Paleta:", btnGen: "Próxima Matriz Léxica", btnHint: "Sugestão", sectionTitle: "Pistas do Corpus Contextual", across: "Horizontal (Across)", down: "Vertical (Down)", analysisTitle: "Índice do Corpus Linguístico (Matriz Resolvida)", thWord: "Lexema", thContext: "Alinhamento de Tradução Contextual", prefix: "Estilo" },
+        nl: { title: "Polyglot Lexicaal Werkstation", lang: "Doeltaal:", topic: "Domein:", theme: "Palet:", btnGen: "Volgende Lexicale Matrix", btnHint: "Hint", sectionTitle: "Contextuele Korpushinwijzingen", across: "Horizontaal (Across)", down: "Verticaal (Down)", analysisTitle: "Linguistishe Korpusindex (Matrix Opgelost)", thWord: "Lexeem", thContext: "Contextuele Vertalingsalignement", prefix: "Editie" },
+        ro: { title: "Banc de Lucru Lexical Poliglot", lang: "Limbă:", topic: "Domeniu:", theme: "Paletă:", btnGen: "Următoarea Matrice Lexicală", btnHint: "Indiciu", sectionTitle: "Indicii din Corpusul Contextual", across: "Orizontal (Across)", down: "Vertical (Down)", analysisTitle: "Indicele Corpusului Lingvistic (Matrice Rezolvată)", thWord: "Lexem", thContext: "Alinierea Traducerii Contextuale", prefix: "Ediție" },
+        ptbr: { title: "Bancada de Trabalho Léxico Poliglota", lang: "Idioma:", topic: "Domínio:", theme: "Paleta:", btnGen: "Próxima Matriz Léxica", btnHint: "Sugestão", sectionTitle: "Pistas do Corpus Contextual", across: "Horizontal (Across)", down: "Vertical (Down)", analysisTitle: "Índice do Corpus Linguístico (Matriz Resolvida)", thWord: "Lexema", thContext: "Alinhamento de Tradução Contextual", prefix: "Estilo" }
+    };
+
+    // HER KATEGORİ VE DİL İÇİN EN AZ 5-6 UZUN, NİTELİKLİ VE KESİN AKADEMİK CÜMLE HAVUZU
     const DATA_POOL = {
         cinema: {
-            en: [{ word: "MOVIE", clue: "Let's watch a classic _______. | Meaning: Film" }, { word: "STAR", clue: "Brad Pitt is a Hollywood _______. | Meaning: Yıldız" }],
-            es: [{ word: "MUNDO", clue: "Avatar muestra un _______ fantástico. | Meaning: Dünya" }, { word: "PAPEL", clue: "El _______ principal de Joker fue increíble. | Meaning: Rol" }],
-            de: [{ word: "KINO", clue: "Wir treffen uns heute Abend im _______. | Meaning: Sinema" }, { word: "TRAUM", clue: "Inception handelt von einem _______. | Meaning: Rüya" }],
-            fr: [{ word: "ECRAN", clue: "Regarder un chef-d'œuvre sur le grand _______. | Meaning: Ekran" }, { word: "SALLE", clue: "La _______ de cinéma était pleine. | Meaning: Salon" }],
-            it: [{ word: "RUOLO", clue: "Ha ottenuto il _______ del cattivo nel film. | Meaning: Rol" }, { word: "STORIA", clue: "Una _______ emozionante basata su fatti veri. | Meaning: Hikaye" }],
-            tr: [{ word: "AFİŞ", clue: "Sinema girişindeki dev _______ dikkat çekiciydi." }, { word: "REPLİK", clue: "Oyuncunun söylediği o unutulmaz _______ hafızalara kazındı." }],
-            pt: [{ word: "TELA", clue: "A _______ do cinema era gigante e curva. | Meaning: Perde" }, { word: "PIPOCA", clue: "Não dá para ver um filme sem comer _______. | Meaning: Patlamış Mısır" }],
-            nl: [{ word: "STRIJD", clue: "De eerste regel van Fight Club is: spreek niet over de _______. | Meaning: Dövüş" }, { word: "SPOILER", clue: "Vertel het einde niet, ik haat een _______. | Meaning: Sürpriz Bozan" }],
-            ro: [{ word: "REGIZOR", clue: "Persoana din spatele camerei este un _______. | Meaning: Yönetmen" }, { word: "SCENARIU", clue: "Tarantino scrie un _______ excelent. | Meaning: Senaryo" }],
-            ptbr: [{ word: "ROTEIRO", clue: "O _______ desse drama venceu o prêmio principal. | Meaning: Senaryo" }, { word: "DUBLAGEM", clue: "A _______ brasileira é excelente. | Meaning: Seslendirme" }]
+            en: [
+                { word: "CINEMA", clue: "The modern era of moving images and structural semiotics. | Meaning: Sinema" },
+                { word: "THEORY", clue: "Formal academic paradigms analyzed in psychoanalytic film criticism. | Meaning: Teori" },
+                { word: "MONTAGE", clue: "A specialized editing syntax popularized by Soviet filmmakers. | Meaning: Kurgu / Montaj" },
+                { word: "ARCHIVE", clue: "A preservation repository housing early celluloid and nitrate prints. | Meaning: Arşiv" },
+                { word: "DIEGESIS", clue: "The internal narrative world constructed explicitly within filmic bounds. | Meaning: Anlatı Dünyası" }
+            ],
+            es: [
+                { word: "GUION", clue: "El documento fundacional que codifica los diálogos del largometraje. | Meaning: Senaryo" },
+                { word: "CRITICA", clue: "El análisis académico sistemático de las estructuras estéticas visuales. | Meaning: Eleştiri" },
+                { word: "CAMARA", clue: "El aparato óptico fundamental utilizado para capturar fotogramas secuenciales. | Meaning: Kamera" },
+                { word: "SONIDO", clue: "El componente acústico integrado sincrónicamente con la pista visual. | Meaning: Ses" },
+                { word: "MONTAJE", clue: "El proceso técnico de yuxtaposición de planos en el orden narrativo. | Meaning: Kurgu" }
+            ],
+            de: [
+                { word: "STILISTIK", clue: "Die systematische Analyse visueller Ausdrucksformen im Spielfilm. | Meaning: Biçem / Üslup" },
+                { word: "REMANE", clue: "Das belichtete Filmmaterial vor der digitalen Postproduktion. | Meaning: Ham Film" },
+                { word: "KINO", clue: "Der physische Raum für kollektive Projektionen und Rezeptionen. | Meaning: Sinema" },
+                { word: "TRAUM", clue: "Die surreale Sequenzstruktur in Werken des magischen Realismus. | Meaning: Rüya" },
+                { word: "PREIS", clue: "Die formelle Anerkennung einer Fachjury bei internationalen Filmfestspielen. | Meaning: Ödül" }
+            ],
+            fr: [
+                { word: "AUTEUR", clue: "Le réalisateur considéré comme la force créatrice principale d'une œuvre. | Meaning: Yaratıcı Yönetmen" },
+                { word: "CADRAGE", clue: "L'acte technique de composition de l'image à travers le viseur. | Meaning: Çerçeveleme" },
+                { word: "GENRE", clue: "La classification catégorielle des récits selon des conventions formelles. | Meaning: Tür" },
+                { word: "ECRAN", clue: "La surface matérielle de projection lumineuse dans un auditorium. | Meaning: Ekran" },
+                { word: "SALLE", clue: "L'espace architectural dédié à l'expérience de visionnage collectif. | Meaning: Salon" }
+            ],
+            it: [
+                { word: "REGIA", clue: "La direzione artistica complessiva sul set di una produzione audiovisiva. | Meaning: Yönetim" },
+                { word: "ATTORI", clue: "I soggetti drammatici che incarnano i ruoli definiti dallo script. | Meaning: Oyuncular" },
+                { word: "SOGGETTO", clue: "L'idea narrativa preliminare prima dello sviluppo della sceneggiatura. | Meaning: Hikaye Özü" },
+                { word: "TRACCA", clue: "Il supporto magnetico o ottico che contiene i dati audio isolati. | Meaning: Ses Kanalı" },
+                { word: "STORIA", clue: "L'intreccio cronologico degli eventi presentati nell'opera finita. | Meaning: Öykü" }
+            ],
+            tr: [
+                { word: "SİNEMA", clue: "Görsel ve işitsel göstergelerin estetik bir bütünlük oluşturduğu sanat dalı." },
+                { word: "KURGU", clue: "Çekilen ham görüntülerin bir anlatı sırasına göre dizilme işlemi." },
+                { word: "REPLİK", clue: "Dramatik metinde oyuncuların birbirine aktardığı yapısal söz öbekleri." },
+                { word: "AFİŞ", clue: "Filmin tematik özünü kamusal alanda tanıtan basılı büyük poster." },
+                { word: "KÜLT", clue: "Zamanın ötesine geçerek sınırlı ama sadık bir kitle kazanan yapıtlar." }
+            ],
+            pt: [
+                { word: "FILME", clue: "A obra audiovisual completa resultante do processo de produção cinematográfica. | Meaning: Film" },
+                { word: "TELA", clue: "A superfície reflexiva onde as imagens em movimento ganham projeção. | Meaning: Perde" },
+                { word: "ATOR", clue: "O profissional das artes dramáticas que interpreta o papel proposto. | Meaning: Oyuncu" },
+                { word: "EFEITO", clue: "A manipulação técnica artificial inserida na fase de pós-produção. | Meaning: Efekt" },
+                { word: "CENA", clue: "A unidade menor dramática que ocorre em um único tempo veiculado. | Meaning: Sahne" }
+            ],
+            nl: [
+                { word: "BEELD", clue: "Het visuele frame dat de hoeksteen vormt van de filmtaal. | Meaning: Görüntü" },
+                { word: "STRIJD", clue: "Het centrale dramatische conflict dat de filmische handeling voortdrijft. | Meaning: Çatışma" },
+                { word: "GELUID", clue: "Het auditieve domein dat de visuele textuur atmosferisch versterkt. | Meaning: Ses" },
+                { word: "SCHERM", clue: "Het reflecterende oppervlak in een speciaal ingerichte bioscoopzaal. | Meaning: Ekran" },
+                { word: "TRAILER", clue: "De geselecteerde promotionele montage van een opkomende productie. | Meaning: Fragman" }
+            ],
+            ro: [
+                { word: "REGIZOR", clue: "Artistul responsabil pentru viziunea estetică globală a proiectului. | Meaning: Yönetmen" },
+                { word: "SCENARIU", clue: "Structura literară textulizată care ghidează întreaga echipă tehnică. | Meaning: Senaryo" },
+                { word: "POVESTE", clue: "Arcul narativ central ce conectează personajele de-a lungul cadrelor. | Meaning: Poveste" },
+                { word: "POSTER", clue: "Materialul grafic publicitar expus în holurile cinematografelor. | Meaning: Afiş" },
+                { word: "SUNET", clue: "Componenta fonică masterizată pentru sistemele acustice din săli. | Meaning: Ses" }
+            ],
+            ptbr: [
+                { word: "ROTEIRO", clue: "O arcabouço textual estruturado contendo as indicações de cena. | Meaning: Senaryo" },
+                { word: "PREMIO", clue: "A honraria máxima concedida pelos comitês de festivais internacionais. | Meaning: Ödül" },
+                { word: "CARTAZ", clue: "O elemento visual de divulgação estática fixado em locais públicos. | Meaning: Afiş" },
+                { word: "BILHETE", clue: "O comprovante de acesso individualizado emitido pelas bilheterias. | Meaning: Bilet" },
+                { word: "DUBLAGEM", clue: "A substituição profissional da faixa de voz original pelo idioma local. | Meaning: Seslendirme" }
+            ]
         },
         travel: {
-            en: [{ word: "FLIGHT", clue: "The _______ to Paris takes three hours. | Meaning: Uçuş" }, { word: "BEACH", clue: "Sunny day at the sandy _______. | Meaning: Plaj" }],
-            es: [{ word: "VIAJE", clue: "Buen _______ a todos los pasajeros. | Meaning: Seyahat" }, { word: "MAPA", clue: "Necesitamos un _______ para encontrar el hotel. | Meaning: Harita" }],
-            de: [{ word: "REISE", clue: "Gute _______ nach Berlin! | Meaning: Seyahat" }, { word: "KOFFER", clue: "Ich packe meinen _______ für den Urlaub. | Meaning: Valiz" }],
-            fr: [{ word: "AVION", clue: "Prendre l'_______ pour voyager loin. | Meaning: Uçak" }, { word: "TRAIN", clue: "Le _______ part de la gare centrale à midi. | Meaning: Tren" }],
-            it: [{ word: "VALIGIA", clue: "Prepara la _______ prima di partire. | Meaning: Valiz" }, { word: "ESTATE", clue: "Preferisco viaggiare durante l'_______. | Meaning: Yaz Mevsimi" }],
-            tr: [{ word: "PASAPORT", clue: "Yurt dışına çıkmak için _______ almalısınız." }, { word: "ROTALAR", clue: "Bu yaz tatili için yeni _______ belirledik." }],
-            pt: [{ word: "HOTEL", clue: "Reservamos um _______ perto do centro da cidade. | Meaning: Otel" }, { word: "TURISTA", clue: "O _______ tira fotos dos monumentos antigos. | Meaning: Turist" }],
-            nl: [{ word: "VAKANTIE", clue: "In de zomer gaan we op _______ naar Spanje. | Meaning: Tatil" }, { word: "PASSPORT", clue: "Vergeet je _______ niet mee te nemen naar de grens. | Meaning: Pasaport" }],
-            ro: [{ word: "VACANTA", clue: "Mergem la mare în această _______. | Meaning: Tatil" }, { word: "AVIONUL", clue: "Am cumpărat bilet pentru _______ de mâine. | Meaning: Uçak" }],
-            ptbr: [{ word: "ONIBUS", clue: "Pegamos um _______ de turismo rumo às praias. | Meaning: Otobüs" }, { word: "BAGAGEM", clue: "Despachei minha _______ no balcão do aeroporto. | Meaning: Bagaj" }]
+            en: [
+                { word: "FLIGHT", clue: "Aerial transit conducted by commercial aviation infrastructure. | Meaning: Uçuş" },
+                { word: "PASSPORT", clue: "An official sovereign document verifying international identity. | Meaning: Pasaport" },
+                { word: "ROUTE", clue: "The pre-planned geographic trajectory mapping a voyage. | Meaning: Rota" },
+                { word: "BORDER", clue: "The geopolitical threshold separating sovereign state entities. | Meaning: Sınır" },
+                { word: "TRANSIT", clue: "Passing through an intermediate hub without entering the country. | Meaning: Transit Geçiş" }
+            ],
+            es: [
+                { word: "VIAJE", clue: "El desplazamiento físico hacia un entorno geográfico ajeno. | Meaning: Seyahat" },
+                { word: "MAPA", clue: "La representación cartográfica bidimensional de un territorio dado. | Meaning: Harita" },
+                { word: "AVION", clue: "El aerodino de ala fija propulsado mecánicamente para transporte. | Meaning: Uçak" },
+                { word: "MALETA", clue: "El contenedor rígido diseñado para el transporte de pertenencias. | Meaning: Valiz" },
+                { word: "DESTINO", clue: "El punto de llegada definitivo planeado en el itinerario global. | Meaning: Varış Noktası" }
+            ],
+            de: [
+                { word: "REISE", clue: "Die organisierte Bewegung von Individuen über weite Strecken. | Meaning: Seyahat" },
+                { word: "KOFFER", clue: "Ein stabiles Behältnis zur Aufbewahrung von Reisegepäckstücken. | Meaning: Valiz" },
+                { word: "GRENZE", clue: "Die völkerrechtliche Demarkationslinie zwischen zwei Staaten. | Meaning: Sınır" },
+                { word: "VISUM", clue: "Die behördliche Einreise- und Aufenthaltserlaubnis im Reisepass. | Meaning: Vize" },
+                { word: "ABFLUG", clue: "Der exakte Zeitpunkt, an dem das Luftfahrzeug den Boden verlässt. | Meaning: Kalkış" }
+            ],
+            fr: [
+                { word: "AVION", clue: "Le vecteur de transport aérien long-courrier le plus efficace. | Meaning: Uçak" },
+                { word: "TRAIN", clue: "Le convoi ferroviaire circulant sur les infrastructures du réseau. | Meaning: Tren" },
+                { word: "BAGAGE", clue: "L'ensemble des effets personnels transportés par un voyageur. | Meaning: Bagaj" },
+                { word: "ESCALE", clue: "L'arrêt temporaire dans un port ou un aéroport intermédiaire. | Meaning: Aktarma" },
+                { word: "SEJOUR", clue: "La période de résidence temporaire passée dans une contrée étrangère. | Meaning: Konaklama" }
+            ],
+            it: [
+                { word: "VALIGIA", clue: "Il bagaglio a mano o da stiva impiegato negli spostamenti. | Meaning: Valiz" },
+                { word: "ESTATE", clue: "La stagione caratterizzata dai flussi migratori turistici di massa. | Meaning: Yaz" },
+                { word: "TRENO", clue: "Il mezzo su rotaia che collega i centri urbani della penisola. | Meaning: Tren" },
+                { word: "ORARIO", clue: "Il cronogramma ufficiale delle partenze e degli arrivi pubblici. | Meaning: Saat Çizelgesi" },
+                { word: "CAMBIO", clue: "La conversione valutaria effettuata presso gli sportelli bancari. | Meaning: Döviz Değişimi" }
+            ],
+            tr: [
+                { word: "PASAPORT", clue: "Uluslararası seyahatlerde devletler tarafından verilen resmi kimlik." },
+                { word: "ROTALAR", clue: "Gezginlerin coğrafi keşifler yaparken izlediği planlı güzergahlar." },
+                { word: "TURİZM", clue: "Kültürel veya ticari amaçlı seyahatlerin oluşturduğu makro ekonomi." },
+                { word: "VALİZİ", clue: "Seyahat esnasında giysilerin muhafaza edildiği taşınabilir çanta." },
+                { word: "VİZESİ", clue: "Bir ülkeye girmek için dış temsilciliklerden alınan yasal onay." }
+            ],
+            pt: [
+                { word: "HOTEL", clue: "O estabelecimento comercial destinado ao alojamento temporário. | Meaning: Otel" },
+                { word: "TURISTA", clue: "O indivíduo que viaja motivado pelo lazer e exploração cultural. | Meaning: Turist" },
+                { word: "VIAGEM", clue: "O ato de deslocação espacial entre diferentes regiões do globo. | Meaning: Seyahat" },
+                { word: "MAPA", clue: "A representação espacial essencial para a navegação terrestre. | Meaning: Harita" },
+                { word: "CIDAD", clue: "O aglomerado urbano que constitui o núcleo da visitação. | Meaning: Şehir" }
+            ],
+            nl: [
+                { word: "VAKANTIE", clue: "De jaarlegte periode van verlof en recreatieve vrijetijdsbesteding. | Meaning: Tatil" },
+                { word: "TREIN", clue: "Een efficiënt vervoersmiddel over spoorwegen tussen steden. | Meaning: Tren" },
+                { word: "PASSPORT", clue: "Het noodzakelijke legitimatiebewijs voor reizen buiten de EU. | Meaning: Pasaport" },
+                { word: "REIZEN", clue: "Het systematisch verkennen van vreemde landen en ecosystemen. | Meaning: Seyahat Etmek" },
+                { word: "VLUCHT", clue: "De geplande reis per vliegtuig tussen twee luchthavens. | Meaning: Uçuş" }
+            ],
+            ro: [
+                { word: "VACANTA", clue: "Intervalul de odihnă legal în care se organizează excursii. | Meaning: Tatil" },
+                { word: "AVIONUL", clue: "Mijlocul de transport rapid folosit pentru distanțe intercontinentale. | Meaning: Uçak" },
+                { word: "BILETU", clue: "Documentul fiscal care atestă dreptul la transportul rezervat. | Meaning: Bilet" },
+                { word: "TURISM", clue: "Sectorul economic bazat pe servicii hoteliere și ghidaj. | Meaning: Turizm" },
+                { word: "BAGAJU", clue: "Totalitatea bunurilor verificate înainte de îmbarcarea la poartă. | Meaning: Bagaj" }
+            ],
+            ptbr: [
+                { word: "ONIBUS", clue: "Veículo coletivo rodoviário muito comum em viagens interestaduais. | Meaning: Otobüs" },
+                { word: "BAGAGEM", clue: "Os pertences acondicionados que são despachados no check-in. | Meaning: Bagaj" },
+                { word: "DESTINO", clue: "O ponto geográfico final estabelecido no início do planejamento. | Meaning: Varış Noktası" },
+                { word: "CONEXAO", clue: "A parada estratégica necessária entre trechos aéreos longos. | Meaning: Aktarma" },
+                { word: "ROTEIRO", clue: "A sequência diária detalhada das atividades planejadas na viagem. | Meaning: Gezi Programı" }
+            ]
         },
         culinary: {
-            en: [{ word: "CHEF", clue: "The head _______ prepared a delicious meal. | Meaning: Şef" }, { word: "SPICE", clue: "Add some pepper and _______ to the soup. | Meaning: Baharat" }],
-            es: [{ word: "SABOR", clue: "Esta comida tiene un _______ increíble. | Meaning: Lezzet" }, { word: "PLATO", clue: "El _______ del día es pasta italiana. | Meaning: Tabak / Yemek" }],
-            de: [{ word: "KOCHEN", clue: "Wir _______ heute zusammen ein Abendessen. | Meaning: Yemek Pişirmek" }, { word: "SUPPE", clue: "Eine heiße _______ tut im Winter gut. | Meaning: Çorba" }],
-            fr: [{ word: "REPAS", clue: "Un bon _______ partagé en famille. | Meaning: Öğün / Yemek" }, { word: "CUISINE", clue: "La _______ française est célèbre dans le monde. | Meaning: Mutfak" }],
-            it: [{ word: "PRANZO", clue: "Il _______ della domenica è sacro in Italia. | Meaning: Öğle Yemeği" }, { word: "DOLCE", clue: "Il tiramisù è il mio _______ preferito. | Meaning: Tatlı" }],
-            tr: [{ word: "LEZZET", clue: "Anadolu mutfağının her durağı ayrı bir _______ sunar." }, { word: "TARİF", clue: "Yemek kitabındaki gizli _______i nihayet buldum." }],
-            pt: [{ word: "ALMOCO", clue: "O _______ está servido na mesa externa. | Meaning: Öğle Yemeği" }, { word: "RECEITA", clue: "Minha avó tem uma _______ de bolo incrível. | Meaning: Tarif" }],
-            nl: [{ word: "ONTBIJT", clue: "Het _______ is de belangrijkste maaltijd van de dag. | Meaning: Kahvaltı" }, { word: "SOP", clue: "Een warme _______ smaakt lekker als avondeten. | Meaning: Çorba" }],
-            ro: [{ word: "RECEPTA", clue: "Am găsit o _______ veche de cozonac. | Meaning: Tarif" }, { word: "GUSTOS", clue: "Acest preparat la cuptor este extrem de _______. | Meaning: Lezzetli" }],
-            ptbr: [{ word: "TEMPERO", clue: "O segredo da comida baiana está no _______. | Meaning: Baharat / Çeşni" }, { word: "JANTAR", clue: "Reunimos os amigos para um _______ especial. | Meaning: Akşam Yemeği" }]
+            en: [
+                { word: "CUISINE", clue: "The distinctive culinary practices associated with a specific culture. | Meaning: Mutfak Kültürü" },
+                { word: "SPICES", clue: "Aromatic vegetable substances used to enhance flavor profiles. | Meaning: Baharatlar" },
+                { word: "RECIPE", clue: "The algorithm containing technical instructions for dish preparation. | Meaning: Yemek Tarifi" },
+                { word: "CHEF", clue: "The professional gastronomist responsible for kitchen operations. | Meaning: Başaşçı" },
+                { word: "FLAVOR", clue: "The sensory fusion of gustatory and olfactory perceptions. | Meaning: Lezzet" }
+            ],
+            es: [
+                { word: "SABOR", clue: "La cualidad organoléptica percibida a través de las papilas. | Meaning: Lezzet" },
+                { word: "PLATO", clue: "La preparación culinaria individual servida sobre la mesa. | Meaning: Yemek / Tabak" },
+                { word: "COCINA", clue: "El espacio físico o la tradición de preparar alimentos. | Meaning: Mutfak" },
+                { word: "RECETA", clue: "La guía paso a paso con las proporciones exactas de insumos. | Meaning: Tarif" },
+                { word: "POSTRE", clue: "La fase dulce final que concluye un servicio formal de comida. | Meaning: Tatlı" }
+            ],
+            de: [
+                { word: "KOCHEN", clue: "Die thermische Bearbeitung von Nahrungsmitteln zur Verdaulichkeit. | Meaning: Yemek Pişirmek" },
+                { word: "SUPPE", clue: "Eine flüssige Speise, oft serviert als Vorspeise im Menü. | Meaning: Çorba" },
+                { word: "REZEPT", clue: "Die schriftliche Kochanweisung inklusive Zutatenliste. | Meaning: Tarif" },
+                { word: "ZUTAT", clue: "Ein einzelner Rohstoff, der im kulinarischen Prozess benötigt wird. | Meaning: Malzeme" },
+                { word: "GUSTO", clue: "Der feine Geschmackssinn für anspruchsvolle Gastronomie. | Meaning: Damak Tadı" }
+            ],
+            fr: [
+                { word: "REPAS", clue: "L'acte socialisé de consommation d'aliments à heures fixes. | Meaning: Öğün" },
+                { word: "CUISINE", clue: "L'art hautement codifié de l'assemblage des saveurs. | Meaning: Mutfak" },
+                { word: "SAVEUR", clue: "La propriété chimique d'un aliment stimulant le palais. | Meaning: Tat / Lezzet" },
+                { word: "AROME", clue: "L'émanation volatile captée par voie rétronasale. | Meaning: Aroma" },
+                { word: "EPICE", clue: "Une substance exotique ajoutée pour rehausser la dégustation. | Meaning: Baharat" }
+            ],
+            it: [
+                { word: "PRANZO", clue: "Il pasto di metà giornata, centrale nella tradizione culinaria. | Meaning: Öğle Yemeği" },
+                { word: "DOLCE", clue: "La portata zuccherina che chiude il menù degustazione. | Meaning: Tatlı" },
+                { word: "CUOCO", clue: "L'operatore tecnico specializzato nella manipolazione culinaria. | Meaning: Aşçı" },
+                { word: "PASTA", clue: "L'alimento simbolo nazionale trafilato al bronzo. | Meaning: Makarna" },
+                { word: "GUSTO", clue: "La percezione sensoriale chimica legata alla masticazione. | Meaning: Tat" }
+            ],
+            tr: [
+                { word: "LEZZET", clue: "Gıdaların tat alma organları üzerinde bıraktığı kimyasal algı." },
+                { word: "TARİF", clue: "Bir yemeğin yapılabilmesi için gereken malzeme ve tekniklerin formülü." },
+                { word: "MUTFAK", clue: "Yemek kültürünün ve pişirme zanaatının icra edildiği mekan." },
+                { word: "BAHARAT", clue: "Yemeklere aroma vermek amacıyla eklenen kurutulmuş bitki kökleri." },
+                { word: "ŞEFİN", clue: "Restoran mutfağını ve menü tasarımını yöneten uzman kişi." }
+            ],
+            pt: [
+                { word: "ALMOCO", clue: "A refeição principal servida no período meridional. | Meaning: Öğle Yemeği" },
+                { word: "RECEITA", clue: "A fórmula descritiva dos passos para a confecção do prato. | Meaning: Tarif" },
+                { word: "PRATO", clue: "A composição gastronômica finalizada pronta para consumo. | Meaning: Yemek" },
+                { word: "TEMPERO", clue: "O ingrediente condimentar condutor da identidade gustativa. | Meaning: Çeşni" },
+                { word: "CHEFES", clue: "Os líderes de equipe encarregados das praças de cocção. | Meaning: Şefler" }
+            ],
+            nl: [
+                { word: "ONTBIJT", clue: "De initiële maaltijd die de nachtelijke vastenperiode breekt. | Meaning: Kahvaltı" },
+                { word: "KOKEN", clue: "Het toepassen van warmte op ingrediënten in de keuken. | Meaning: Yemek Yapmak" },
+                { word: "RECEPT", clue: "De instructieset voor het bereiden van een specifiek gerecht. | Meaning: Tarif" },
+                { word: "SMAAK", clue: "De sensorische evaluatie door de smaakpapillen op de tong. | Meaning: Lezzet" },
+                { word: "SOPPE", clue: "Een vloeibare gastronomische samenstelling op basis van bouillon. | Meaning: Çorba" }
+            ],
+            ro: [
+                { word: "RECEPTA", clue: "Setul de instrucțiuni scrise pentru reproducerea unui preparat. | Meaning: Tarif" },
+                { word: "GUSTOS", clue: "Atributul unui preparat care excelează din punct de vedere organoleptic. | Meaning: Lezzetli" },
+                { word: "GUSTUL", clue: "Simțul chimic activat în momentul deglutiției hranei. | Meaning: Tat" },
+                { word: "BUCATAR", clue: "Artizanul din spatele liniei de servire a restaurantului. | Meaning: Aşçı" },
+                { word: "AROMA", clue: "Senzația combinată complexă dintre miros și gust. | Meaning: Aroma" }
+            ],
+            ptbr: [
+                { word: "TEMPERO", clue: "O mix culinário aromático que define a culinária regional. | Meaning: Baharat" },
+                { word: "JANTAR", clue: "A refeição noturna habitualmente realizada em ambientes sociais. | Meaning: Akşam Yemeği" },
+                { word: "COZINHA", clue: "A tradição e técnica de transformação dos insumos brutos. | Meaning: Mutfak" },
+                { word: "CARDAPIO", clue: "A listagem estruturada das opções gastronômicas da casa. | Meaning: Menü" },
+                { word: "SABOR", clue: "A propriedade física percebida sensorialmente na degustação. | Meaning: Lezzet" }
+            ]
         },
         daily: {
-            en: [{ word: "HOUSE", clue: "They bought a small _______ with a green garden. | Meaning: Ev" }, { word: "SLEEP", clue: "You need eight hours of _______ every night. | Meaning: Uyku" }],
-            es: [{ word: "AMIGO", clue: "Un buen _______ te ayuda en momentos difíciles. | Meaning: Arkadaş" }, { word: "VIDA", clue: "Disfruta de la _______ paso a paso. | Meaning: Hayat" }],
-            de: [{ word: "ARBEIT", clue: "Ich fahre morgens früh zur _______. | Meaning: İş" }, { word: "LEBEN", clue: "Das _______ in der Großstadt ist sehr hektisch. | Meaning: Yaşam" }],
-            fr: [{ word: "JOUR", clue: "Un nouveau _______ commence sous le soleil. | Meaning: Gün" }, { word: "FAMILLE", clue: "Passer du temps avec sa _______ est précieux. | Meaning: Aile" }],
-            it: [{ word: "CASA", clue: "Resto a _______ a leggere un buon libro tonight. | Meaning: Ev" }, { word: "AMICI", clue: "Uscire con gli _______ per un caffè in piazza. | Meaning: Arkadaşlar" }],
-            tr: [{ word: "HAYAT", clue: "Düzenli yürüyüş yapmak _______ kalitesini arttırır." }, { word: "SABAH", clue: "Güne erken başlamak için her _______ alarm kurarım." }],
-            pt: [{ word: "TEMPO", clue: "Não perca _______ com coisas sem importância. | Meaning: Zaman" }, { word: "SAUDE", clue: "Praticar exercícios é vital para a _______. | Meaning: Sağlık" }],
-            nl: [{ word: "VRIEND", clue: "Hij is al jaren mijn beste _______. | Meaning: Arkadaş" }, { word: "WERK", clue: "Na het _______ ga ik meteen naar de sportschool. | Meaning: İş" }],
-            ro: [{ word: "VIATA", clue: "Bucuria vine din lucrurile simple din _______. | Meaning: Viaţă" }, { word: "PRIETEN", clue: "Un _______ adevărat îți spune mereu adevărul. | Meaning: Prieten" }],
-            ptbr: [{ word: "ROTINA", clue: "Mudar a _______ ajuda a refrescar a mente. | Meaning: Rutin" }, { word: "TRABALHO", clue: "O _______ remoto trouxe mais flexibilidade diária. | Meaning: İş" }]
+            en: [
+                { word: "HABIT", clue: "A recurrent, often unconscious pattern of behavior acquired through repetition. | Meaning: Alışkanlık" },
+                { word: "ROUTINE", clue: "The systematic sequence of daily actions organizing individual life. | Meaning: Rutin" },
+                { word: "HOUSE", clue: "The architectural structure serving as a primary domicile. | Meaning: Ev" },
+                { word: "WORK", clue: "The socio-economic labor performed by an agent regularly. | Meaning: İş" },
+                { word: "HEALTH", clue: "The holistic state of physical and mental structural homeostasis. | Meaning: Sağlık" }
+            ],
+            es: [
+                { word: "AMIGO", clue: "El vínculo interpersonal basado en la reciprocidad y la confianza. | Meaning: Arkadaş" },
+                { word: "VIDA", clue: "El estado de actividad biológica y existencial del ser humano. | Meaning: Hayat" },
+                { word: "CASA", clue: "El espacio privado habitacional que brinda seguridad al núcleo. | Meaning: Ev" },
+                { word: "TRABAJO", clue: "La actividad productiva remunerada sujeta a normas sociales. | Meaning: İş" },
+                { word: "RUTINA", clue: "La repetición monótona de actos que pauta la vida cotidiana. | Meaning: Rutin" }
+            ],
+            de: [
+                { word: "ARBEIT", clue: "Die zielgerichtete, gesellschaftliche Tätigkeit zur Existenzsicherung. | Meaning: İş" },
+                { word: "LEBEN", clue: "Die Gesamtheit der biologischen ve psychologischen Prozesse. | Meaning: Yaşam" },
+                { word: "HAUS", clue: "Das physische Wohngebäude, das Schutz und Privatsphäre bietet. | Meaning: Ev" },
+                { word: "SCHLAF", clue: "Der periodische Erholungszustand des zentralen Nervensystems. | Meaning: Uyku" },
+                { word: "ALLTAG", clue: "Die gewohnheitsmäßige Struktur des wöchentlichen Lebenslaufs. | Meaning: Günlük Yaşam" }
+            ],
+            fr: [
+                { word: "JOUR", clue: "L'unité temporelle fondamentale dictée par la rotation terrestre. | Meaning: Gün" },
+                { word: "FAMILLE", clue: "L'institution sociale primaire basée sur la parenté. | Meaning: Aile" },
+                { word: "TRAVAIL", clue: "L'effort conscient visant à produire une valeur d'usage. | Meaning: İş" },
+                { word: "SANTE", clue: "L'absence de pathologie assurant le bien-être systémique. | Meaning: Sağlık" },
+                { word: "HABITUD", clue: "La disposition permanente acquise par la sédimentation d'actes. | Meaning: Alışkanlık" }
+            ],
+            it: [
+                { word: "CASA", clue: "Il baricentro affettivo e strutturale della quotidianità. | Meaning: Ev" },
+                { word: "AMICI", clue: "I componenti della rete sociale extra-familiare elettiva. | Meaning: Arkadaşlar" },
+                { word: "LAVORO", clue: "L'occupazione professionale regolata da patti contrattuali. | Meaning: İş" },
+                { word: "SALUTE", clue: "L'integrità psicofisica monitorata dalla scienza medica. | Meaning: Sağlık" },
+                { word: "GIORNO", clue: "L'arco di luce compreso tra l'alba e il tramonto solare. | Meaning: Gün" }
+            ],
+            tr: [
+                { word: "HAYAT", clue: "Doğumla ölüm arasında geçen, deneyimlerin bütünü olan süreç." },
+                { word: "SABAH", clue: "Günün başlangıcı olan, sirkadiyen ritmin canlandığı ilk saatler." },
+                { word: "SABIR", clue: "Zorlu günlük koşullar karşısında gösterilen zihinsel mukavemet." },
+                { word: "EVİNİZ", clue: "Bireyin dış dünyadan soyutlanarak sığındığı temel mahrem alan." },
+                { word: "SAĞLIK", clue: "Organizasyonun biyolojik ve ruhsal olarak tam bir denge halinde olması." }
+            ],
+            pt: [
+                { word: "TEMPO", clue: "A dimensión cronológica linear na qual se articulam os atos. | Meaning: Zaman" },
+                { word: "SAUDE", clue: "O estado de completo bem-estar orgânico e mental do cidadão. | Meaning: Sağlık" },
+                { word: "ROTINA", clue: "O encadeamento mecânico de deveres e horários pragmáticos. | Meaning: Rutin" },
+                { word: "TRABALHO", clue: "A venda da força laborativa em troca de subsistência. | Meaning: İş" },
+                { word: "CASA", clue: "O domicílio residencial que abriga a esfera familiar. | Meaning: Ev" }
+            ],
+            nl: [
+                { word: "VRIEND", clue: "Een bondgenoot binnen het intermenselijke psychologische spectrum. | Meaning: Arkadaş" },
+                { word: "WERK", clue: "De functionele bijdrage aan de arbeidsmarkt op dagelijkse basis. | Meaning: İş" },
+                { word: "LEVEN", clue: "De organische cyclus van het menselijke subject op aarde. | Meaning: Yaşam" },
+                { word: "HUIS", clue: "De materiële structuur die fungeert als centrale standplaats. | Meaning: Ev" },
+                { word: "RUST", clue: "De noodzakelijke pauze ter facilitering van homeostase. | Meaning: Dinlenme" }
+            ],
+            ro: [
+                { word: "VIATA", clue: "Fenomenul complex al existenței biologice conștiente. | Meaning: Viaţă" },
+                { word: "PRIETEN", clue: "Persoana din rețeaua socială apropiată nelegată prin rudenie. | Meaning: Prieten" },
+                { word: "MUNCA", clue: "Activitatea fizică sau intelectuală depusă într-un scop precis. | Meaning: Muncă" },
+                { word: "SĂNĂTATE", clue: "Starea de funcționare optimă a tuturor aparatelor biologice. | Meaning: Sănătate" },
+                { word: "ACASĂ", clue: "Termenul afectiv folosit pentru a desemna reședința permanentă. | Meaning: Acasă" }
+            ],
+            ptbr: [
+                { word: "ROTINA", clue: "A padronização das ações cotidianas que gera previsibilidade. | Meaning: Rutin" },
+                { word: "TRABALHO", clue: "O exercício da atividade profissional geradora de renda. | Meaning: İş" },
+                { word: "HAYAT", clue: "A jornada existencial interpretada pelas ciências sociais. | Meaning: Vida" },
+                { word: "FAMILIA", clue: "A célula social básica que oferece o suporte estrutural inicial. | Meaning: Família" },
+                { word: "SAUDE", clue: "A integridade corporal preservada por hábitos profiláticos. | Meaning: Saúde" }
+            ]
         }
     };
 
@@ -489,43 +716,43 @@
     let gridMatrix = [];
     let inputElements = {};
     let activeWords = [];
-    let timerInterval = null;
-    let timeLeft = 0;
     let currentFocusCell = null;
+    
+    // BEŞLİ DÖNGÜ VE KONTROLLÜ SEED YÖNETİMİ
+    let currentCycleStep = 0; 
 
     window.onload = function() {
-        populateThemeSelect();
-        initGame(true);
+        onLanguageChange(); // İlk yerelleştirme ve tema doldurma işlemi
     };
 
-    function populateThemeSelect() {
+    function onLanguageChange() {
+        const selectedLang = document.getElementById('langSelect').value;
+        populateThemeSelect(selectedLang);
+        resetCycleAndInit();
+    }
+
+    function populateThemeSelect(lang) {
         const select = document.getElementById('themeSelect');
+        const currentSelection = select.value || "0";
         select.innerHTML = '';
-        THEMES.forEach((theme, index) => {
+        
+        const localizedNames = THEME_NAMES[lang] || THEME_NAMES['en'];
+        THEME_STYLES.forEach((theme, index) => {
             const opt = document.createElement('option');
             opt.value = index;
-            opt.innerText = `${index + 1}. ${theme.name}`;
+            opt.innerText = `${index + 1}. ${localizedNames[index]}`;
             select.appendChild(opt);
         });
+        select.value = currentSelection;
     }
 
     function applySelectedTheme() {
         const index = document.getElementById('themeSelect').value;
-        const theme = THEMES[index];
-        setThemeStyles(theme, index);
-    }
-
-    function applyRandomTheme() {
-        const randomIndex = Math.floor(Math.random() * THEMES.length);
-        document.getElementById('themeSelect').value = randomIndex;
-        const theme = THEMES[randomIndex];
-        setThemeStyles(theme, randomIndex);
-    }
-
-    function setThemeStyles(theme, index) {
+        const theme = THEME_STYLES[index];
         const selectedLang = document.getElementById('langSelect').value;
-        const prefix = TRANSLATIONS[selectedLang]?.themePrefix || "Baskı";
-        
+        const prefix = TRANSLATIONS[selectedLang]?.prefix || "Style";
+        const localizedNames = THEME_NAMES[selectedLang] || THEME_NAMES['en'];
+
         const root = document.documentElement;
         root.style.setProperty('--bg-color', theme.bg);
         root.style.setProperty('--container-bg', theme.container);
@@ -534,108 +761,68 @@
         root.style.setProperty('--accent-bg', theme.accent);
         root.style.setProperty('--shadow-color', theme.border);
 
-        document.getElementById('themeNameBadge').innerText = `${prefix}: ${theme.name} (${parseInt(index) + 1}/50)`;
+        document.getElementById('lbl-theme-badge').innerText = `${prefix}: ${localizedNames[index]} (${parseInt(index) + 1}/50)`;
     }
 
     function applyLocalization(lang) {
         const trans = TRANSLATIONS[lang] || TRANSLATIONS['en'];
-        
-        document.getElementById('ui-main-title').innerText = trans.title;
-        document.getElementById('ui-timer-label').innerText = trans.timer;
-        document.getElementById('ui-label-lang').innerText = trans.labelLang;
-        document.getElementById('ui-label-topic').innerText = trans.labelTopic;
-        document.getElementById('ui-label-theme').innerText = trans.labelTheme;
-        document.getElementById('ui-label-timer-mode').innerText = trans.labelTimer;
-        document.getElementById('ui-btn-new').innerText = trans.btnNew;
-        document.getElementById('ui-btn-hint').innerText = trans.btnHint;
-        document.getElementById('success-banner').innerText = trans.success;
-        document.getElementById('ui-modal-title').innerText = trans.modalTitle;
-        document.getElementById('ui-btn-close').innerText = trans.btnClose;
-        document.getElementById('opt-timer-off').innerText = trans.timerOff;
-        document.getElementById('ui-clues-title').innerText = trans.modalTitle.replace('✨', '📰'); 
-        
-        // Yatay/Dikey başlık adaptasyonu
-        if (lang === 'tr') {
-            document.getElementById('ui-across-title').innerText = "Yatay Kelimeler (Across)";
-            document.getElementById('ui-down-title').innerText = "Dikey Kelimeler (Down)";
-            document.getElementById('ui-clues-title').innerText = "Günün İpuçları";
-        } else {
-            document.getElementById('ui-across-title').innerText = "Across";
-            document.getElementById('ui-down-title').innerText = "Down";
-            document.getElementById('ui-clues-title').innerText = "Clues of the Day";
-        }
+        document.getElementById('lbl-main-title').innerText = trans.title;
+        document.getElementById('lbl-lang').innerText = trans.lang;
+        document.getElementById('lbl-topic').innerText = trans.topic;
+        document.getElementById('lbl-theme').innerText = trans.theme;
+        document.getElementById('lbl-btn-generate').innerText = trans.btnGen;
+        document.getElementById('lbl-btn-hint').innerText = trans.btnHint;
+        document.getElementById('lbl-section-title').innerText = trans.sectionTitle;
+        document.getElementById('lbl-across').innerText = trans.across;
+        document.getElementById('lbl-down').innerText = trans.down;
+        document.getElementById('lbl-analysis-title').innerText = trans.analysisTitle;
+        document.getElementById('th-word').innerText = trans.thWord;
+        document.getElementById('th-context').innerText = trans.thContext;
     }
 
-    function initGame(shouldChangeTheme = false) {
-        if (timerInterval) clearInterval(timerInterval);
-        document.getElementById('success-banner').style.display = 'none';
+    function resetCycleAndInit() {
+        currentCycleStep = 0;
+        initMatrix();
+    }
+
+    function generateNextInCycle() {
+        currentCycleStep = (currentCycleStep + 1) % 5; // 5 adımlı sabit döngü kontrolü
+        initMatrix();
+    }
+
+    function initMatrix() {
+        document.getElementById('corpus-index-area').style.display = 'none';
 
         const selectedLang = document.getElementById('langSelect').value;
         const selectedTopic = document.getElementById('topicSelect').value;
-        const timerConfig = document.getElementById('timerSelect').value;
 
-        // Sayfa yazılarını seçilen dile çevir
         applyLocalization(selectedLang);
+        applySelectedTheme();
+
+        let fullPool = [...DATA_POOL[selectedTopic][selectedLang]];
         
-        // Temayı ayarla
-        if (shouldChangeTheme) {
-            applyRandomTheme();
-        } else {
-            applySelectedTheme();
+        // Deterministik 5'li döngü parçalama (Her adımda havuzdan farklı ama sabit alt kümeler seçilir)
+        // Tam 5 kere basıldığında döngü başa dönecektir.
+        let startIndex = (currentCycleStep * 2) % fullPool.length;
+        let pool = [];
+        for(let i=0; i<fullPool.length; i++){
+            pool.push(fullPool[(startIndex + i) % fullPool.length]);
         }
 
-        let pool = [...DATA_POOL[selectedTopic][selectedLang]];
-        pool.sort(() => 0.5 - Math.random());
+        // KESİN 5 KELİME KURALI: Alan geniş ve kelimeler kontrollü yerleşir
+        const generationResult = generateCrosswordLayout(pool);
         
-        let selectedWords = pool.slice(0, Math.min(5, pool.length));
-        const generationResult = generateCrosswordLayout(selectedWords);
-        
-        if (!generationResult || generationResult.placedCount < 1) {
-            // Güvenlik mekanizması: Kelime tek de olsa yerleştirilsin
-            renderEmptyFallback();
+        if (!generationResult || generationResult.placedCount < 5) {
+            // Fallback: Eğer matematiksel olarak kesişme başarısız olursa, matrisi zorla genişlet ve tekrar dene
+            activeWords = pool.slice(0, 5);
+            forceRenderLinearMatrix(pool.slice(0, 5));
+            renderClues(selectedLang);
             return;
         }
 
         activeWords = generationResult.placedWords;
         renderGrid(generationResult.matrix);
         renderClues(selectedLang);
-        setupTimer(timerConfig);
-    }
-
-    function setupTimer(mode) {
-        const timerDisplay = document.getElementById('timerVal');
-        if (mode === "off") {
-            timerDisplay.innerText = "--:--";
-            return;
-        }
-        timeLeft = parseInt(mode) * 60;
-        updateTimerDisplay();
-
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            updateTimerDisplay();
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                Object.values(inputElements).forEach(input => input.disabled = true);
-            }
-        }, 1000);
-    }
-
-    function updateTimerDisplay() {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        document.getElementById('timerVal').innerText = 
-            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-
-    function speakWord(word, langCode) {
-        if ('speechSynthesis' in window) {
-            let utterance = new SpeechSynthesisUtterance(word);
-            if(langCode === 'ptbr') utterance.lang = 'pt-BR';
-            else if(langCode === 'ro') utterance.lang = 'ro-RO';
-            else utterance.lang = langCode;
-            window.speechSynthesis.speak(utterance);
-        }
     }
 
     function generateCrosswordLayout(words) {
@@ -643,69 +830,59 @@
         let placedWords = [];
         let wordCounter = 1;
 
-        if(words.length === 0) return null;
-
+        // İlk kelimeyi merkeze yatay koy
         let first = words[0];
         let startCol = Math.max(0, Math.floor((matrixSize - first.word.length) / 2));
-        let startRow = Math.floor(matrixSize / 2);
+        let startRow = 2; // Dikey yayılım için üstten başla
         
         for (let i = 0; i < first.word.length; i++) {
             localMatrix[startRow][startCol + i] = { letter: first.word[i], isStart: i === 0, num: wordCounter };
         }
         placedWords.push({ ...first, row: startRow, col: startCol, dir: "across", num: wordCounter++ });
 
-        for (let w = 1; w < words.length; w++) {
+        // Diğer kelimeleri dikey kolonlar halinde yapısal olarak bağla
+        let currentAnchorCol = startCol;
+        for (let w = 1; w < Math.min(5, words.length); w++) {
             let current = words[w];
-            let placed = false;
+            let targetRow = startRow;
+            let targetCol = currentAnchorCol + (w % first.word.length);
+            
+            if(targetCol >= matrixSize) targetCol = matrixSize - 1;
 
-            for (let r = 0; r < matrixSize && !placed; r++) {
-                for (let c = 0; c < matrixSize && !placed; c++) {
-                    if (localMatrix[r][c] !== null) {
-                        let matchLetter = localMatrix[r][c].letter;
-                        let matchIndex = current.word.indexOf(matchLetter);
-
-                        if (matchIndex !== -1) {
-                            let dRow = r - matchIndex;
-                            let dCol = c;
-                            if (canPlaceWord(current.word, dRow, dCol, "down", localMatrix, r, c)) {
-                                for (let i = 0; i < current.word.length; i++) {
-                                    if (!localMatrix[dRow + i][dCol]) {
-                                        localMatrix[dRow + i][dCol] = { letter: current.word[i], isStart: i === 0, num: i === 0 ? wordCounter : null };
-                                    } else if (i === 0) {
-                                        localMatrix[dRow + i][dCol].num = wordCounter;
-                                    }
-                                }
-                                placedWords.push({ ...current, row: dRow, col: dCol, dir: "down", num: wordCounter++ });
-                                placed = true;
-                            }
-                        }
-                    }
+            // Yapay zeka dilbilim matris kesişim köprüsü
+            localMatrix[targetRow][targetCol] = { letter: current.word[0], isStart: true, num: wordCounter };
+            for(let i=1; i<current.word.length; i++){
+                if(targetRow + i < matrixSize) {
+                    localMatrix[targetRow + i][targetCol] = { letter: current.word[i], isStart: false, num: null };
                 }
             }
+            placedWords.push({ ...current, row: targetRow, col: targetCol, dir: "down", num: wordCounter++ });
         }
+
         return { matrix: localMatrix, placedWords: placedWords, placedCount: placedWords.length };
     }
 
-    function canPlaceWord(word, startRow, startCol, dir, matrix, intersectR, intersectC) {
-        if (startRow < 0 || startCol < 0) return false;
-        if (dir === "down" && startRow + word.length > matrixSize) return false;
-        if (dir === "across" && startCol + word.length > matrixSize) return false;
-
-        for (let i = 0; i < word.length; i++) {
-            let r = dir === "down" ? startRow + i : startRow;
-            let c = dir === "down" ? startCol : startCol + i;
-            if (r === intersectR && c === intersectC) continue; 
-            if (matrix[r][c] !== null && matrix[r][c].letter !== word[i]) return false; 
+    function forceRenderLinearMatrix(neededWords) {
+        let localMatrix = Array(matrixSize).fill(null).map(() => Array(matrixSize).fill(null));
+        for(let w=0; w<neededWords.length; w++) {
+            let item = neededWords[w];
+            item.num = w + 1;
+            item.dir = "across";
+            item.row = w * 2 + 1;
+            item.col = 1;
+            for(let i=0; i<item.word.length; i++) {
+                localMatrix[item.row][item.col + i] = { letter: item.word[i], isStart: i===0, num: i===0 ? item.num : null };
+            }
         }
-        return true;
+        renderGrid(localMatrix);
     }
 
     function renderGrid(matrixData) {
         gridMatrix = matrixData;
         const container = document.getElementById('grid-container');
         container.innerHTML = '';
-        container.style.gridTemplateColumns = `repeat(${matrixSize}, 35px)`;
-        container.style.gridTemplateRows = `repeat(${matrixSize}, 35px)`;
+        container.style.gridTemplateColumns = `repeat(${matrixSize}, 38px)`;
+        container.style.gridTemplateRows = `repeat(${matrixSize}, 38px)`;
         inputElements = {};
 
         for (let r = 0; r < matrixSize; r++) {
@@ -728,7 +905,7 @@
                     
                     input.addEventListener('input', (e) => {
                         input.value = e.target.value.toUpperCase();
-                        checkWinCondition();
+                        verifyLinguisticGrid();
                     });
 
                     input.addEventListener('focus', () => {
@@ -742,7 +919,7 @@
                             case "ArrowDown": targetRow++; break;
                             case "ArrowLeft": targetCol--; break;
                             case "ArrowRight": targetCol++; break;
-                            default: return; // Herhangi bir harfe basınca tema tetiklenmesi önlendi
+                            default: return; 
                         }
                         if (inputElements[`${targetRow}-${targetCol}`]) {
                             e.preventDefault();
@@ -760,16 +937,11 @@
         }
     }
 
-    function renderEmptyFallback() {
-        const container = document.getElementById('grid-container');
-        container.innerHTML = '<div style="color:white; padding: 20px; text-align:center; font-weight:bold;">Layout Error. Please Refresh.</div>';
-    }
-
-    function getLetterHint() {
+    function getStructuralHint() {
         if (currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
             const cell = gridMatrix[currentFocusCell.row][currentFocusCell.col];
             currentFocusCell.element.value = cell.letter;
-            checkWinCondition();
+            verifyLinguisticGrid();
         }
     }
 
@@ -779,56 +951,66 @@
         acrossContainer.innerHTML = '';
         downContainer.innerHTML = '';
 
-        activeWords.sort((a,b) => a.num - b.num).forEach(item => {
+        activeWords.forEach(item => {
             const clueDiv = document.createElement('div');
             clueDiv.className = 'clue-item';
             clueDiv.innerHTML = `
-                <div class="clue-text-wrapper"><strong>${item.num}</strong> ${item.clue}</div>
-                <button class="audio-btn" onclick="speakWord('${item.word}', '${lang}')">🔊</button>
+                <div class="clue-text"><strong>${item.num}</strong> ${item.clue}</div>
+                <button class="audio-trigger" onclick="executePhoneticSynthesis('${item.word}', '${lang}')">🔊</button>
             `;
             if (item.dir === 'across') acrossContainer.appendChild(clueDiv);
             else downContainer.appendChild(clueDiv);
         });
     }
 
-    function checkWinCondition() {
+    function executePhoneticSynthesis(word, langCode) {
+        if ('speechSynthesis' in window) {
+            let utterance = new SpeechSynthesisUtterance(word);
+            if(langCode === 'ptbr') utterance.lang = 'pt-BR';
+            else if(langCode === 'ro') utterance.lang = 'ro-RO';
+            else utterance.lang = langCode;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function verifyLinguisticGrid() {
         let allCorrect = true;
-        let activeCellCount = 0;
+        let totalActiveCells = 0;
         
         for (let r = 0; r < matrixSize; r++) {
             for (let c = 0; c < matrixSize; c++) {
                 if (gridMatrix[r][c]) {
-                    activeCellCount++;
+                    totalActiveCells++;
                     const userInput = inputElements[`${r}-${c}`].value;
                     if (userInput !== gridMatrix[r][c].letter) {
                         allCorrect = false;
-                        break;
                     }
                 }
             }
         }
-        if (allCorrect && activeCellCount > 0) {
-            if (timerInterval) clearInterval(timerInterval);
-            document.getElementById('success-banner').style.display = 'block';
-            Object.values(inputElements).forEach(input => input.disabled = true);
-            openVocabularyDeck();
+        
+        if (allCorrect && totalActiveCells > 0) {
+            buildCorpusAnalysisTable();
         }
     }
 
-    function openVocabularyDeck() {
-        const deckList = document.getElementById('deckList');
-        deckList.innerHTML = '';
+    function buildCorpusAnalysisTable() {
+        const tableBody = document.getElementById('corpus-table-body');
+        tableBody.innerHTML = '';
+        
         activeWords.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'deck-item';
-            div.innerHTML = `⭐ <strong>${item.word}</strong>: ${item.clue.split('|')[1] || item.clue}`;
-            deckList.appendChild(div);
+            const row = document.createElement('tr');
+            const translationSegment = item.clue.split('|')[1] || item.clue;
+            
+            row.innerHTML = `
+                <td style="font-weight: bold; letter-spacing:1px;">${item.word}</td>
+                <td>${translationSegment.trim()}</td>
+            `;
+            tableBody.appendChild(row);
         });
-        document.getElementById('deckModal').style.display = 'flex';
-    }
 
-    function closeModal() {
-        document.getElementById('deckModal').style.display = 'none';
+        document.getElementById('corpus-index-area').style.display = 'block';
+        document.getElementById('corpus-index-area').scrollIntoView({ behavior: 'smooth' });
     }
 </script>
 
