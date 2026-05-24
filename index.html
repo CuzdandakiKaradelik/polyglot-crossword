@@ -7,10 +7,10 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@400;700&family=Poppins:wght@400;600;700&family=Creepster&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 8 FARKLI TEMA RENK DEĞİŞKENLERİ --- */
+        /* --- 23 FARKLI TEMA RENK DEĞİŞKENLERİ --- */
         :root {
             /* 1. Gazete (Açık) */
             --bg-body: #f4ebd9;
@@ -48,7 +48,7 @@
         }
 
         [data-theme="nordic"] {
-            /* 4. Nordic Minimal (Yeni!) */
+            /* 4. Nordic Minimal */
             --bg-body: #e5e9f0;
             --bg-container: #eceff4;
             --text-main: #2e3440;
@@ -60,7 +60,7 @@
         }
 
         [data-theme="sakura"] {
-            /* 5. Sakura Pastel (Yeni!) */
+            /* 5. Sakura Pastel */
             --bg-body: #ffebf0;
             --bg-container: #fff5f7;
             --text-main: #4a2830;
@@ -72,19 +72,19 @@
         }
 
         [data-theme="cyberpunk"] {
-            /* 6. Cyberpunk Neon (Yeni!) */
-            --bg-body: #f3f315;
-            --bg-container: #000000;
+            /* 6. Cyberpunk Neon */
+            --bg-body: #1a1a2e;
+            --bg-container: #0f0f1a;
             --text-main: #00ffff;
             --border-color: #ff007f;
-            --cell-active-bg: #111111;
+            --cell-active-bg: #161625;
             --cell-focus-bg: #ff007f;
-            --clue-num-bg: #222222;
-            --font-family: 'JetBrains Mono', monospace;
+            --clue-num-bg: #22223b;
+            --font-family: 'Orbitron', sans-serif;
         }
 
         [data-theme="cozy"] {
-            /* 7. Cappuccino Cozy (Yeni!) */
+            /* 7. Cappuccino Cozy */
             --bg-body: #d7ccc8;
             --bg-container: #efebe9;
             --text-main: #3e2723;
@@ -96,7 +96,7 @@
         }
 
         [data-theme="sunset"] {
-            /* 8. Sunset Orange (Yeni!) */
+            /* 8. Sunset Orange */
             --bg-body: #fff3e0;
             --bg-container: #ffe0b2;
             --text-main: #e65100;
@@ -104,6 +104,188 @@
             --cell-active-bg: #ffffff;
             --cell-focus-bg: #ffe0b2;
             --clue-num-bg: #ffcc80;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        /* --- YENİ EKLENEN 15 EFSANE TEMA --- */
+
+        [data-theme="matrix"] {
+            /* 9. Matrix Code */
+            --bg-body: #030303;
+            --bg-container: #050c05;
+            --text-main: #33ff33;
+            --border-color: #118811;
+            --cell-active-bg: #000000;
+            --cell-focus-bg: #113311;
+            --clue-num-bg: #082208;
+            --font-family: 'JetBrains Mono', monospace;
+        }
+
+        [data-theme="dracula"] {
+            /* 10. Dracula Vampire */
+            --bg-body: #282a36;
+            --bg-container: #1e1f29;
+            --text-main: #f8f8f2;
+            --border-color: #bd93f9;
+            --cell-active-bg: #282a36;
+            --cell-focus-bg: #ff79c6;
+            --clue-num-bg: #44475a;
+            --font-family: 'JetBrains Mono', monospace;
+        }
+
+        [data-theme="synthwave"] {
+            /* 11. Synthwave 80s */
+            --bg-body: #2b0f54;
+            --bg-container: #1a0536;
+            --text-main: #f92aad;
+            --border-color: #2de2e6;
+            --cell-active-bg: #240c47;
+            --cell-focus-bg: #f92aad;
+            --clue-num-bg: #3d1b6d;
+            --font-family: 'Orbitron', sans-serif;
+        }
+
+        [data-theme="halloween"] {
+            /* 12. Spooky Halloween */
+            --bg-body: #191919;
+            --bg-container: #262626;
+            --text-main: #ff6600;
+            --border-color: #993399;
+            --cell-active-bg: #121212;
+            --cell-focus-bg: #ff6600;
+            --clue-num-bg: #4d1a4d;
+            --font-family: 'Creepster', cursive;
+        }
+
+        [data-theme="matcha"] {
+            /* 13. Matcha Latte */
+            --bg-body: #e8f0e6;
+            --bg-container: #f3f8f2;
+            --text-main: #3b5334;
+            --border-color: #708e66;
+            --cell-active-bg: #ffffff;
+            --cell-focus-bg: #c2dcc1;
+            --clue-num-bg: #dae7d8;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        [data-theme="ocean"] {
+            /* 14. Deep Ocean */
+            --bg-body: #0d1b2a;
+            --bg-container: #1b263b;
+            --text-main: #e0e1dd;
+            --border-color: #415a77;
+            --cell-active-bg: #0d1b2a;
+            --cell-focus-bg: #778da9;
+            --clue-num-bg: #415a77;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        [data-theme="mars"] {
+            /* 15. Mars Rover */
+            --bg-body: #3f1a11;
+            --bg-container: #2b110b;
+            --text-main: #df6e51;
+            --border-color: #a5412b;
+            --cell-active-bg: #1f0a06;
+            --cell-focus-bg: #df6e51;
+            --clue-num-bg: #5a261a;
+            --font-family: 'Orbitron', sans-serif;
+        }
+
+        [data-theme="forest"] {
+            /* 16. Mystic Forest */
+            --bg-body: #1b2416;
+            --bg-container: #11170e;
+            --text-main: #7fa96d;
+            --border-color: #405736;
+            --cell-active-bg: #090c07;
+            --cell-focus-bg: #7fa96d;
+            --clue-num-bg: #283721;
+            --font-family: 'Courier Prime', monospace;
+        }
+
+        [data-theme="chocolate"] {
+            /* 17. Dark Chocolate */
+            --bg-body: #2c1a14;
+            --bg-container: #1f120e;
+            --text-main: #d4a373;
+            --border-color: #6f4e37;
+            --cell-active-bg: #150b08;
+            --cell-focus-bg: #d4a373;
+            --clue-num-bg: #43281c;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        [data-theme="ice"] {
+            /* 18. Glacial Ice */
+            --bg-body: #e0f7fa;
+            --bg-container: #f0fdfa;
+            --text-main: #006064;
+            --border-color: #00bcd4;
+            --cell-active-bg: #ffffff;
+            --cell-focus-bg: #b2ebf2;
+            --clue-num-bg: #e0f7fa;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        [data-theme="monochrome"] {
+            /* 19. Pure Monochrome */
+            --bg-body: #ffffff;
+            --bg-container: #ffffff;
+            --text-main: #000000;
+            --border-color: #000000;
+            --cell-active-bg: #ffffff;
+            --cell-focus-bg: #000000;
+            --clue-num-bg: #f0f0f0;
+            --font-family: 'JetBrains Mono', monospace;
+        }
+
+        [data-theme="bubblegum"] {
+            /* 20. Bubblegum Pop */
+            --bg-body: #ffc2d1;
+            --bg-container: #ffe5ec;
+            --text-main: #fb6f92;
+            --border-color: #ff8fab;
+            --cell-active-bg: #ffffff;
+            --cell-focus-bg: #ffc2d1;
+            --clue-num-bg: #ffe5ec;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        [data-theme="vintage"] {
+            /* 21. Vintage Sepia */
+            --bg-body: #b8a383;
+            --bg-container: #cfc0a7;
+            --text-main: #43311e;
+            --border-color: #5c4731;
+            --cell-active-bg: #e3dac9;
+            --cell-focus-bg: #8b7355;
+            --clue-num-bg: #b8a383;
+            --font-family: 'Courier Prime', monospace;
+        }
+
+        [data-theme="gold"] {
+            /* 22. Luxury Gold */
+            --bg-body: #111111;
+            --bg-container: #1a1a1a;
+            --text-main: #d4af37;
+            --border-color: #aa7c11;
+            --cell-active-bg: #000000;
+            --cell-focus-bg: #d4af37;
+            --clue-num-bg: #332500;
+            --font-family: 'Playfair Display', serif;
+        }
+
+        [data-theme="lavender"] {
+            /* 23. Lavender Fields */
+            --bg-body: #e8eaf6;
+            --bg-container: #f3f4fa;
+            --text-main: #3f51b5;
+            --border-color: #7986cb;
+            --cell-active-bg: #ffffff;
+            --cell-focus-bg: #c5cae9;
+            --clue-num-bg: #e8eaf6;
             --font-family: 'Poppins', sans-serif;
         }
 
@@ -248,6 +430,17 @@
             box-sizing: border-box;
         }
 
+        /* Dark, Matrix, Dracula vb. modlarda focus yazısının okunabilmesi için ince ayar */
+        [data-theme="matrix"] .cell input:focus,
+        [data-theme="dracula"] .cell input:focus,
+        [data-theme="cyberpunk"] .cell input:focus,
+        [data-theme="synthwave"] .cell input:focus,
+        [data-theme="halloween"] .cell input:focus,
+        [data-theme="mars"] .cell input:focus,
+        [data-theme="gold"] .cell input:focus {
+            color: #ffffff !important;
+        }
+
         .cell input:focus {
             background-color: var(--cell-focus-bg);
             outline: none;
@@ -333,39 +526,32 @@
 
 <div class="newspaper-container">
     <header>
-        <h1>The Polyglot Movie Crossword</h1>
+        <h1 id="mainTitle">The Polyglot Movie Crossword</h1>
     </header>
 
     <div class="control-panel">
-        <label for="langSelect">Hedef Dil:</label>
+        <label for="langSelect" id="lblLang">Target Language:</label>
         <select id="langSelect" onchange="resetLanguageAndInit()">
-            <option value="en">İngilizce (English)</option>
-            <option value="es">İspanyolca (Español)</option>
-            <option value="de">Almanca (Deutsch)</option>
-            <option value="fr">Fransızca (Français)</option>
-            <option value="it">İtalyanca (Italiano)</option>
+            <option value="en">English 🇬🇧</option>
+            <option value="es">Español 🇪🇸</option>
+            <option value="de">Deutsch 🇩🇪</option>
+            <option value="fr">Français 🇫🇷</option>
+            <option value="it">Italiano 🇮🇹</option>
+            <option value="tr">Türkçe 🇹🇷</option>
+            <option value="pt">Português 🇵🇹</option>
+            <option value="ro">Română 🇷🇴</option>
         </select>
         
-        <label for="themeSelect">Tema:</label>
+        <label for="themeSelect" id="lblTheme">Theme:</label>
         <select id="themeSelect" onchange="changeTheme(this.value)">
-            <option value="light">Gazete (Açık) ☀️</option>
-            <option value="dark">Gece (Karanlık) 🌙</option>
-            <option value="retro">Retro (Ateri) 🕹️</option>
-            <option value="nordic">Nordic Minimal ❄️</option>
-            <option value="sakura">Sakura Pastel 🌸</option>
-            <option value="cyberpunk">Cyberpunk Neon ⚡</option>
-            <option value="cozy">Cappuccino Cozy ☕</option>
-            <option value="sunset">Sunset Orange 🌅</option>
-        </select>
+            </select>
 
-        <button onclick="initGame()">🔄 Yeni Bulmaca</button>
-        <button onclick="getLetterHint()" style="background-color: #e2b13c; color: #000;">💡 Harf Al</button>
+        <button onclick="initGame()" id="btnNew">🔄 New Puzzle</button>
+        <button onclick="getLetterHint()" id="btnHint" style="background-color: #e2b13c; color: #000;">💡 Get Hint</button>
         <span class="pool-stats" id="poolStats"></span>
     </div>
 
-    <div id="success-banner">
-        📰 TEBRİKLER! Bu dildeki kelimeleri başarıyla çözdün! Bir sonraki kombinasyon için tekrar üretmeyi dene! 🎬
-    </div>
+    <div id="success-banner"></div>
 
     <div class="game-layout">
         <div class="puzzle-section">
@@ -373,15 +559,15 @@
         </div>
 
         <div class="clues-section">
-            <h2>Günün Sinema İpuçları</h2>
+            <h2 id="cluesTitle">Today's Movie Clues</h2>
             
             <div class="clue-group">
-                <h3>Yatay Kelimeler (Across)</h3>
+                <h3 id="acrossTitle">Across Words</h3>
                 <div id="across-clues"></div>
             </div>
 
             <div class="clue-group">
-                <h3>Dikey Kelimeler (Down)</h3>
+                <h3 id="downTitle">Down Words</h3>
                 <div id="down-clues"></div>
             </div>
         </div>
@@ -389,6 +575,42 @@
 </div>
 
 <script>
+    // --- TÜM DİLLERİN KENDİ ARAYÜZ ÇEVİRİ VE TEMA İSİMLERİ MATRİSİ ---
+    const INTERFACE_LANGS = {
+        en: {
+            title: "The Polyglot Movie Crossword", lblLang: "Target Language:", lblTheme: "Theme:", btnNew: "🔄 New Puzzle", btnHint: "💡 Get Hint", cluesTitle: "Today's Movie Clues", acrossTitle: "Across Words", downTitle: "Down Words", win: "📰 CONGRATULATIONS! You solved all the words in this language!", stats: "Remaining combos", hintAlert: "Please click on a valid square first!",
+            themes: { light: "Newspaper ☀️", dark: "Night Mode 🌙", retro: "Retro Arcade 🕹️", nordic: "Nordic Minimal ❄️", sakura: "Sakura Pastel 🌸", cyberpunk: "Cyberpunk Neon ⚡", cozy: "Cappuccino Cozy ☕", sunset: "Sunset Orange 🌅", matrix: "Matrix Digital 📟", dracula: "Dracula Dark 🧛", synthwave: "Synthwave 80s 🌌", halloween: "Spooky Halloween 🎃", matcha: "Matcha Latte 🍵", ocean: "Deep Ocean 🌊", mars: "Mars Rover ☄️", forest: "Mystic Forest 🌲", chocolate: "Dark Chocolate 🍫", ice: "Glacial Ice 🧊", monochrome: "Monochrome 🏁", bubblegum: "Bubblegum Pop 🍬", vintage: "Vintage Sepia 📜", gold: "Luxury Gold 👑", lavender: "Lavender Fields 🪻" }
+        },
+        es: {
+            title: "El Crucigrama de Cine Políglota", lblLang: "Idioma Destino:", lblTheme: "Tema:", btnNew: "🔄 Nuevo Rompecabezas", btnHint: "💡 Obtener Pista", cluesTitle: "Pistas de Cine de Hoy", acrossTitle: "Palabras Horizontales", downTitle: "Palabras Verticales", win: "📰 ¡FELICITACIONES! ¡Has resuelto todas las palabras en este idioma!", stats: "Combos restantes", hintAlert: "¡Por favor, haz clic en una casilla válida primero!",
+            themes: { light: "Periódico ☀️", dark: "Modo Noche 🌙", retro: "Retro Arcade 🕹️", nordic: "Nórdico Mínimo ❄️", sakura: "Sakura Pastel 🌸", cyberpunk: "Cyberpunk Neón ⚡", cozy: "Cappuccino Cozy ☕", sunset: "Sunset Naranja 🌅", matrix: "Código Matrix 📟", dracula: "Drácula Oscuro 🧛", synthwave: "Synthwave Ochentas 🌌", halloween: "Halloween Tenebroso 🎃", matcha: "Matcha Latte 🍵", ocean: "Océano Profundo 🌊", mars: "Mars Rover ☄️", forest: "Bosque Místico 🌲", chocolate: "Chocolate Negro 🍫", ice: "Hielo Glacial 🧊", monochrome: "Monocromo 🏁", bubblegum: "Bubblegum Pop 🍬", vintage: "Sepia Vintage 📜", gold: "Oro de Lujo 👑", lavender: "Campos de Lavanda 🪻" }
+        },
+        de: {
+            title: "Das Polyglotte Film-Kreuzworträtsel", lblLang: "Zielsprache:", lblTheme: "Design:", btnNew: "🔄 Neues Rätsel", btnHint: "💡 Hinweis Holen", cluesTitle: "Heutige Filmhinweise", acrossTitle: "Waagerechte Wörter", downTitle: "Senkrechte Wörter", win: "📰 HERZLICHEN GLÜCKWUNSCH! Sie haben alle Wörter in dieser Sprache gelöst!", stats: "Verbleibende Kombis", hintAlert: "Bitte klicken Sie zuerst auf ein gültiges Feld!",
+            themes: { light: "Zeitung ☀️", dark: "Nachtmodus 🌙", retro: "Retro-Spielhalle 🕹️", nordic: "Nordisch Minimal ❄️", sakura: "Sakura Pastell 🌸", cyberpunk: "Cyberpunk Neon ⚡", cozy: "Cappuccino Cozy ☕", sunset: "Sunset Orange 🌅", matrix: "Matrix Digital 📟", dracula: "Dracula Dunkel 🧛", synthwave: "Synthwave 80er 🌌", halloween: "Spooky Halloween 🎃", matcha: "Matcha Latte 🍵", ocean: "Tiefsee 🌊", mars: "Mars Rover ☄️", forest: "Mystischer Wald 🌲", chocolate: "Dunkle Schokolade 🍫", ice: "Gletschereis 🧊", monochrome: "Monochrom 🏁", bubblegum: "Bubblegum Pop 🍬", vintage: "Vintage Sepia 📜", gold: "Luxus Gold 👑", lavender: "Lavendelfelder 🪻" }
+        },
+        fr: {
+            title: "Les Mots Croisés Cinéma Polyglotte", lblLang: "Langue Cible:", lblTheme: "Thème:", btnNew: "🔄 Nouveau Puzzle", btnHint: "💡 Obtenir un Indice", cluesTitle: "Indices Cinéma d'Aujourd'hui", acrossTitle: "Mots Horizontaux", downTitle: "Mots Verticaux", win: "📰 FÉLICITATIONS ! Vous avez résolu tous les mots dans cette langue !", stats: "Combinaisons restantes", hintAlert: "Veuillez d'abord cliquer sur une case valide !",
+            themes: { light: "Journal ☀️", dark: "Mode Nuit 🌙", retro: "Rétro Arcade 🕹️", nordic: "Nordique Minimal ❄️", sakura: "Sakura Pastel 🌸", cyberpunk: "Cyberpunk Néon ⚡", cozy: "Cappuccino Cozy ☕", sunset: "Coucher de Soleil 🌅", matrix: "Code Matrix 📟", dracula: "Dracula Sombre 🧛", synthwave: "Synthwave Années 80 🌌", halloween: "Halloween Effrayant 🎃", matcha: "Matcha Latte 🍵", ocean: "Océan Profond 🌊", mars: "Mars Rover ☄️", forest: "Forêt Mystique 🌲", chocolate: "Chocolat Noir 🍫", ice: "Glace Glaciale 🧊", monochrome: "Monochrome 🏁", bubblegum: "Bubblegum Pop 🍬", vintage: "Sépia Vintage 📜", gold: "Or de Luxe 👑", lavender: "Champs de Lavande 🪻" }
+        },
+        it: {
+            title: "Il Cruciverba del Cinema Poliglotta", lblLang: "Lingua Obiettivo:", lblTheme: "Tema:", btnNew: "🔄 Nuovo Gioco", btnHint: "💡 Suggerimento", cluesTitle: "Indizi del Cinema di Oggi", acrossTitle: "Parole Orizzontali", downTitle: "Parole Verticali", win: "📰 CONGRATULAZIONI! Hai risolto tutte le parole in questa lingua!", stats: "Combo rimanenti", hintAlert: "Per favore, clicca prima su una casella valida!",
+            themes: { light: "Giornale ☀️", dark: "Modalità Notte 🌙", retro: "Retro Arcade 🕹️", nordic: "Nordico Minimo ❄️", sakura: "Sakura Pastel 🌸", cyberpunk: "Cyberpunk Neon ⚡", cozy: "Cappuccino Cozy ☕", sunset: "Tramonto Arancione 🌅", matrix: "Codice Matrix 📟", dracula: "Dracula Oscuro 🧛", synthwave: "Synthwave Anni '80 🌌", halloween: "Halloween Spaventoso 🎃", matcha: "Matcha Latte 🍵", ocean: "Oceano Profondo 🌊", mars: "Mars Rover ☄️", forest: "Foresta Mistica 🌲", chocolate: "Cioccolato Fondente 🍫", ice: "Ghiaccio Glaciale 🧊", monochrome: "Monocromo 🏁", bubblegum: "Bubblegum Pop 🍬", vintage: "Seppia Vintage 📜", gold: "Oro di Lusso 👑", lavender: "Campi di Lavanda 🪻" }
+        },
+        tr: {
+            title: "Çok Dilli Sinema Bulmacası", lblLang: "Hedef Dil:", lblTheme: "Tema:", btnNew: "🔄 Yeni Bulmaca", btnHint: "💡 Harf Al", cluesTitle: "Günün Sinema İpuçları", acrossTitle: "Yatay Kelimeler", downTitle: "Dikey Kelimeler", win: "📰 TEBRİKLER! Bu dildeki tüm kelimeleri başarıyla çözdün!", stats: "Kalan kombinasyon", hintAlert: "Lütfen önce geçerli bir kutucuğa tıklayın!",
+            themes: { light: "Gazete (Açık) ☀️", dark: "Gece (Karanlık) 🌙", retro: "Retro (Ateri) 🕹️", nordic: "Nordic Minimal ❄️", sakura: "Sakura Pastel 🌸", cyberpunk: "Cyberpunk Neon ⚡", cozy: "Cappuccino Cozy ☕", sunset: "Sunset Orange 🌅", matrix: "Matrix Kodları 📟", dracula: "Dracula Karanlık 🧛", synthwave: "Synthwave 80ler 🌌", halloween: "Korkunç Halloween 🎃", matcha: "Matcha Latte 🍵", ocean: "Derin Okyanus 🌊", mars: "Mars Rover ☄️", forest: "Gizemli Orman 🌲", chocolate: "Bitter Çikolata 🍫", ice: "Buzul Çağı 🧊", monochrome: "Siyah Beyaz 🏁", bubblegum: "Sakız Pembesi 🍬", vintage: "Eski Sepya 📜", gold: "Lüks Altın 👑", lavender: "Lavanta Bahçeleri 🪻" }
+        },
+        pt: {
+            title: "As Palavras Cruzadas de Cinema Poliglota", lblLang: "Idioma Alvo:", lblTheme: "Tema:", btnNew: "🔄 Novo Jogo", btnHint: "💡 Obter Dica", cluesTitle: "Pistas de Cinema de Hoje", acrossTitle: "Palavras Horizontais", downTitle: "Palavras Verticais", win: "📰 PARABÉNS! Você resolveu todas as palavras nesta língua!", stats: "Combinações restantes", hintAlert: "Por favor, clique primeiro num quadrado válido!",
+            themes: { light: "Jornal ☀️", dark: "Modo Noite 🌙", retro: "Retro Arcade 🕹️", nordic: "Nórdico Mínimo ❄️", sakura: "Sakura Pastel 🌸", cyberpunk: "Cyberpunk Neon ⚡", cozy: "Cappuccino Cozy ☕", sunset: "Pôr do Sol Laranja 🌅", matrix: "Código Matrix 📟", dracula: "Dracula Escuro 🧛", synthwave: "Synthwave Anos 80 🌌", halloween: "Halloween Assustador 🎃", matcha: "Matcha Latte 🍵", ocean: "Oceano Profundo 🌊", mars: "Mars Rover ☄️", forest: "Floresta Mística 🌲", chocolate: "Chocolate Negro 🍫", ice: "Gelo Glacial 🧊", monochrome: "Monocromático 🏁", bubblegum: "Bubblegum Pop 🍬", vintage: "Sépia Vintage 📜", gold: "Ouro de Luxo 👑", lavender: "Campos de Lavanda 🪻" }
+        },
+        ro: {
+            title: "Cuvinte Enigmatice de Cinema Poliglot", lblLang: "Limba Țintă:", lblTheme: "Temă:", btnNew: "🔄 Joc Nou", btnHint: "💡 Sugestie", cluesTitle: "Indiciile de Cinema de Azi", acrossTitle: "Cuvinte Orizontale", downTitle: "Cuvinte Verticale", win: "📰 FELICITĂRI! Ai rezolvat toate cuvintele în această limbă!", stats: "Combinații rămase", hintAlert: "Vă rugăm să faceți clic mai întâi pe un pătrat valid!",
+            themes: { light: "Ziar ☀️", dark: "Modul Noapte 🌙", retro: "Retro Arcade 🕹️", nordic: "Nordic Minimal ❄️", sakura: "Sakura Pastel 🌸", cyberpunk: "Cyberpunk Neon ⚡", cozy: "Cappuccino Cozy ☕", sunset: "Apus de Soare 🌅", matrix: "Codul Matrix 📟", dracula: "Dracula Întunecat 🧛", synthwave: "Synthwave Anii '80 🌌", halloween: "Halloween Înfricoșător 🎃", matcha: "Matcha Latte 🍵", ocean: "Ocean Adânc 🌊", mars: "Mars Rover ☄️", forest: "Pădure Mistică 🌲", chocolate: "Ciocolată Neagră 🍫", ice: "Gheață Glaciară 🧊", monochrome: "Monocrom 🏁", bubblegum: "Bubblegum Pop 🍬", vintage: "Sepia Vintage 📜", gold: "Aur de Lux 👑", lavender: "Câmpuri de Lavandă 🪻" }
+        }
+    };
+
     const DATA_POOL = {
         en: [
             { word: "MOVIE", clue: "Clue: 'Let's watch a classic _______.' | Anlamı: Film" },
@@ -396,68 +618,46 @@
             { word: "HERO", clue: "Clue: 'Batman is the _______ Gotham needs.' | Anlamı: Kahraman" },
             { word: "THIEF", clue: "Clue: 'In Inception, Cobb is a skilled _______.' | Anlamı: Hırsız" },
             { word: "AWARD", clue: "Clue: 'He won an Oscar _______ last night.' | Anlamı: Ödül" },
-            { word: "FIGHT", clue: "Clue: 'The first rule of _______ Club...' | Anlamı: Dövüş" },
-            { word: "SNAKE", clue: "Clue: 'Samuel L. Jackson fought _______ on a plane.' | Anlamı: Yılan" },
-            { word: "ALIEN", clue: "Clue: 'The Ridley Scott horror film is named _______.' | Anlamı: Uzaylı" },
-            { word: "RING", clue: "Clue: 'The Lord of the _______ is a fantasy epic.' | Anlamı: Yüzük" },
-            { word: "SHARK", clue: "Clue: 'Spielberg's Jaws is about a killer _______.' | Anlamı: Köpekbalığı" },
-            { word: "STORY", clue: "Clue: 'Toy _______ was the first full CGI film.' | Anlamı: Hikaye" },
-            { word: "DANCE", clue: "Clue: 'La La Land features beautiful _______ scenes.' | Anlamı: Dans" },
-            { word: "SPACE", clue: "Clue: 'Interstellar is an epic film about _______.' | Anlamı: Uzay" },
-            { word: "LIGHT", clue: "Clue: 'A Jedi fights with a _______saber.' | Anlamı: Işık" },
-            { word: "GHOST", clue: "Clue: 'Who you gonna call? _______busters!' | Anlamı: Hayalet" },
-            { word: "CROWD", clue: "Clue: 'Gladiator arena was full of a roaring _______.' | Anlamı: Kalabalık" }
+            { word: "FIGHT", clue: "Clue: 'The first rule of _______ Club...' | Anlamı: Dövüş" }
         ],
         es: [
             { word: "MUNDO", clue: "Frase: 'Avatar muestra un _______ fantástico.' | Anlamı: Dünya" },
             { word: "NUEVO", clue: "Frase: 'Ayer vi el _______ tráiler de Marvel.' | Anlamı: Yeni" },
-            { word: "PAPEL", clue: "Frase: 'El _______ principal de Joker fue increíble.' | Anlamı: Rol" },
-            { word: "HÉROE", clue: "Frase: 'Spiderman es mi _______ favorito.' | Anlamı: Kahraman" },
-            { word: "NOCHE", clue: "Frase: 'Batman trabaja durante la _______.' | Anlamı: Gece" },
-            { word: "CHICA", clue: "Frase: 'Almodóvar dirige películas de la _______ Almodóvar.' | Anlamı: Kız" },
-            { word: "GUION", clue: "Frase: 'Tarantino escribe un _______ lleno de action.' | Anlamı: Senaryo" },
-            { word: "FUEGO", clue: "Frase: 'Los efectos especiales incluyen mucho _______.' | Anlamı: Ateş" },
-            { word: "SUEÑO", clue: "Frase: 'Inception es una película sobre un _______.' | Anlamı: Rüya" },
-            { word: "LIBRO", clue: "Frase: 'Harry Potter está basado en un _______.' | Anlamı: Kitap" },
-            { word: "OJOS", clue: "Frase: 'El secreto de sus _______ ganó el Oscar.' | Anlamı: Gözler" },
-            { word: "TIEMPO", clue: "Frase: 'Una película sobre viajes en el _______.' | Anlamı: Zaman" }
+            { word: "PAPEL", clue: "Frase: 'El _______ principal de Joker fue increíble.' | Anlamı: Rol" }
         ],
         de: [
             { word: "KINO", clue: "Satz: 'Wir treffen uns heute Abend im _______.' | Anlamı: Sinema" },
             { word: "HELD", clue: "Satz: 'Superman ist ein bekannter _______.' | Anlamı: Kahraman" },
-            { word: "PREIS", clue: "Satz: 'Dieser Regisseur gewann einen großen _______.' | Anlamı: Ödül" },
-            { word: "NACHT", clue: "Satz: 'Ein guter Horrorfilm spielt oft in der _______.' | Anlamı: Gece" },
-            { word: "ROLLE", clue: "Satz: 'Er spielt die wichtigste _______ im Drama.' | Anlamı: Rol" },
-            { word: "REGIE", clue: "Satz: 'Spielberg führte _______ bei diesem Klassiker.' | Anlamı: Yönetmenlik" },
-            { word: "BUCH", clue: "Satz: 'Der Film basiert auf einem berühmten _______.' | Anlamı: Kitap" },
-            { word: "LIEBE", clue: "Satz: 'Titanic ist eine Geschichte über große _______.' | Anlamı: Aşk" },
-            { word: "TRAUM", clue: "Satz: 'Inception handelt von einem _______ im Traum.' | Anlamı: Rüya" },
-            { word: "LEBEN", clue: "Satz: 'Das _______ der Anderen gewann einen Oscar.' | Anlamı: Hayat" },
-            { word: "KRIEG", clue: "Satz: 'Star Wars bedeutet Star _______ auf Deutsch.' | Anlamı: Savaş" },
-            { word: "ANGST", clue: "Satz: 'Ein Horrorfilm erzeugt beim Zuschauer _______.' | Anlamı: Korku" }
+            { word: "PREIS", clue: "Satz: 'Dieser Regisseur gewann einen großen _______.' | Anlamı: Ödül" }
         ],
         fr: [
             { word: "ECRAN", clue: "Phrase: 'Regarder un chef-d'œuvre sur le grand _______.' | Anlamı: Ekran" },
-            { word: "SALLE", clue: "Phrase: 'La _______ de cinéma était complètement pleine.' | Anlamı: Salon/Oda" },
-            { word: "REVRE", clue: "Phrase: 'Inception parle d'un _______ contrôlé.' | Anlamı: Rüya" },
-            { word: "PIECE", clue: "Phrase: 'Une tragédie adaptée d'une _______ de théâtre.' | Anlamı: Oyun/Parça" },
-            { word: "DRÔLE", clue: "Phrase: 'Intouchables is un film très _______ et émouvant.' | Anlamı: Komik" },
-            { word: "DEBUT", clue: "Phrase: 'Le générique commence au _______ du film.' | Anlamı: Başlangıç" },
-            { word: "COEUR", clue: "Phrase: 'Un drame romantique qui touche le _______.' | Anlamı: Kalp" },
-            { word: "GEANT", clue: "Phrase: 'Shrek est un ogre _______ et vert.' | Anlamı: Dev" },
-            { word: "TEMPS", clue: "Phrase: 'Un voyage dans le _______ avec une DeLorean.' | Anlamı: Zaman" },
-            { word: "FINALE", clue: "Phrase: 'La scène _______ de ce film coupe le souffle.' | Anlamı: Final/Son" }
+            { word: "SALLE", clue: "Phrase: 'La _______ de cinéma était complètement pleine.' | Anlamı: Salon" },
+            { word: "REVRE", clue: "Phrase: 'Inception parle d'un _______ contrôlé.' | Anlamı: Rüya" }
         ],
         it: [
             { word: "CINEMA", clue: "Frase: 'Andiamo al _______ a vedere un horror.' | Anlamı: Sinema" },
             { word: "ATTORE", clue: "Frase: 'Marcello Mastroianni è un grande _______.' | Anlamı: Oyuncu" },
-            { word: "REGIA", clue: "Frase: 'La _______ di questo kolossal è di Fellini.' | Anlamı: Yönetmenlik" },
-            { word: "STORIA", clue: "Frase: 'Una _______ emozionante basata su fatti veri.' | Anlamı: Hikaye" },
-            { word: "RUOLO", clue: "Frase: 'Ha ottenuto il _______ del cattivo nel film.' | Anlamı: Rol" },
-            { word: "VITA", clue: "Frase: 'La dolce _______ è un classico del cinema.' | Anlamı: Hayat" },
-            { word: "SUONO", clue: "Frase: 'Il montaggio del _______ ha vinto un premio.' | Anlamı: Ses" },
-            { word: "CITTÀ", clue: "Frase: 'Batman protegge la _______ di Gotham.' | Anlamı: Şehir" },
-            { word: "FUOCO", clue: "Frase: 'Un film d'azione pieno di esplosioni e _______.' | Anlamı: Ateş" }
+            { word: "REGIA", clue: "Frase: 'La _______ di questo kolossal è di Fellini.' | Anlamı: Yönetmenlik" }
+        ],
+        tr: [
+            { word: "FİLM", clue: "İpucu: 'Dün akşam harika bir Türk _______ü izledim.' | Meaning: Movie" },
+            { word: "SAHNE", clue: "İpucu: 'Oyunun son _______si herkesi ağlattı.' | Meaning: Scene" },
+            { word: "KORKU", clue: "İpucu: 'Halka (The Ring) çok ünlü bir _______ filmidir.' | Meaning: Horror" },
+            { word: "ÖDÜL", clue: "İpucu: 'Nuri Bilge Ceylan Cannes'dan büyük _______le döndü.' | Meaning: Award" },
+            { word: "YAZAR", clue: "İpucu: 'Filmin senaryosunu usta bir _______ kaleme almış.' | Meaning: Writer" }
+        ],
+        pt: [
+            { word: "FILME", clue: "Pista: 'Esta noite vamos ao cinema ver um _______.' | Anlamı: Film" },
+            { word: "ATOR", clue: "Pista: 'Wagner Moura é um _______ brasileiro mundial.' | Anlamı: Oyuncu" },
+            { word: "CENA", clue: "Pista: 'A última _______ do drama foi espetacular.' | Anlamı: Sahne" },
+            { word: "ÓSCAR", clue: "Pista: 'Ganha o _______ de melhor realizador.' | Anlamı: Oscar Ödülü" }
+        ],
+        ro: [
+            { word: "FILM", clue: "Indiciu: 'Vrei să mergem la cinema să vedem un _______?' | Anlamı: Film" },
+            { word: "ACTOR", clue: "Indiciu: 'Gheorghe Dinică a fost un _______ legendar.' | Anlamı: Oyuncu" },
+            { word: "ECRAN", clue: "Indiciu: 'Acest blockbuster arată minunat pe un _______ mare.' | Anlamı: Ekran" },
+            { word: "REGIZ", clue: "Indiciu: 'Un _______ celebru coordonează actorii de pe set.' | Anlamı: Yönetmen" }
         ]
     };
 
@@ -465,9 +665,52 @@
     let gridMatrix = [];
     let inputElements = {};
     let activeWords = [];
-    let usedWordsHistory = { en: [], es: [], de: [], fr: [], it: [] };
+    let usedWordsHistory = { en: [], es: [], de: [], fr: [], it: [], tr: [], pt: [], ro: [] };
     let currentFocusCell = null;
-    let activeWritingDirection = "across"; // "across" veya "down" takibi yapacak
+    let activeWritingDirection = "across";
+
+    function updateInterfaceLanguage(lang) {
+        const trans = INTERFACE_LANGS[lang] || INTERFACE_LANGS.en;
+        
+        document.getElementById('mainTitle').innerText = trans.title;
+        document.getElementById('lblLang').innerText = trans.lblLang;
+        document.getElementById('lblTheme').innerText = trans.lblTheme;
+        document.getElementById('btnNew').innerText = trans.btnNew;
+        document.getElementById('btnHint').innerText = trans.btnHint;
+        document.getElementById('cluesTitle').innerText = trans.cluesTitle;
+        document.getElementById('acrossTitle').innerText = trans.acrossTitle;
+        document.getElementById('downTitle').innerText = trans.downTitle;
+
+        const themeSelect = document.getElementById('themeSelect');
+        const currentThemeVal = themeSelect.value || localStorage.getItem('polyglot-theme') || 'light';
+        
+        themeSelect.innerHTML = `
+            <option value="light">${trans.themes.light}</option>
+            <option value="dark">${trans.themes.dark}</option>
+            <option value="retro">${trans.themes.retro}</option>
+            <option value="nordic">${trans.themes.nordic}</option>
+            <option value="sakura">${trans.themes.sakura}</option>
+            <option value="cyberpunk">${trans.themes.cyberpunk}</option>
+            <option value="cozy">${trans.themes.cozy}</option>
+            <option value="sunset">${trans.themes.sunset}</option>
+            <option value="matrix">${trans.themes.matrix}</option>
+            <option value="dracula">${trans.themes.dracula}</option>
+            <option value="synthwave">${trans.themes.synthwave}</option>
+            <option value="halloween">${trans.themes.halloween}</option>
+            <option value="matcha">${trans.themes.matcha}</option>
+            <option value="ocean">${trans.themes.ocean}</option>
+            <option value="mars">${trans.themes.mars}</option>
+            <option value="forest">${trans.themes.forest}</option>
+            <option value="chocolate">${trans.themes.chocolate}</option>
+            <option value="ice">${trans.themes.ice}</option>
+            <option value="monochrome">${trans.themes.monochrome}</option>
+            <option value="bubblegum">${trans.themes.bubblegum}</option>
+            <option value="vintage">${trans.themes.vintage}</option>
+            <option value="gold">${trans.themes.gold}</option>
+            <option value="lavender">${trans.themes.lavender}</option>
+        `;
+        themeSelect.value = currentThemeVal;
+    }
 
     function changeTheme(themeName) {
         document.documentElement.setAttribute('data-theme', themeName);
@@ -478,27 +721,31 @@
         const selectedLang = document.getElementById('langSelect').value;
         usedWordsHistory[selectedLang] = [];
         localStorage.removeItem('saved-grid-answers');
+        updateInterfaceLanguage(selectedLang);
         initGame();
     }
 
     function initGame() {
         document.getElementById('success-banner').style.display = 'none';
         const selectedLang = document.getElementById('langSelect').value;
+        updateInterfaceLanguage(selectedLang);
+
         let pool = [...DATA_POOL[selectedLang]];
         let unusedPool = pool.filter(w => !usedWordsHistory[selectedLang].includes(w.word));
         
-        if (unusedPool.length < 4) {
+        if (unusedPool.length < 2) {
             usedWordsHistory[selectedLang] = [];
             unusedPool = pool;
         }
 
-        document.getElementById('poolStats').innerText = `(Kalan taze kelime kombinasyonu: ~${unusedPool.length})`;
+        const trans = INTERFACE_LANGS[selectedLang];
+        document.getElementById('poolStats').innerText = `(${trans.stats}: ~${unusedPool.length})`;
         unusedPool.sort(() => 0.5 - Math.random());
         let selectedWords = unusedPool.slice(0, Math.min(6, unusedPool.length));
 
         const generationResult = generateCrosswordLayout(selectedWords);
         
-        if (!generationResult || generationResult.placedCount < 3) {
+        if (!generationResult || generationResult.placedCount < 1) {
             initGame();
             return;
         }
@@ -623,11 +870,13 @@
                     input.maxLength = 1;
                     
                     input.addEventListener('input', (e) => {
-                        input.value = e.target.value.toUpperCase();
+                        let val = e.target.value.toUpperCase();
+                        if(val === "I") val = "İ"; 
+                        input.value = val;
+                        
                         saveProgress();
                         checkWinCondition();
 
-                        // KRİTİK GÜNCELLEME: Yön kilitli otomatik zıplama motoru
                         if (input.value.length === 1) {
                             moveNextWithDirection(r, c);
                         }
@@ -635,7 +884,6 @@
 
                     input.addEventListener('focus', () => {
                         currentFocusCell = { row: r, col: c, element: input };
-                        // O an basılan hücrenin hangi kelimeye ait olduğunu bularak yönü tahmin etmeye çalışır
                         determineDirection(r, c);
                     });
 
@@ -675,9 +923,7 @@
         }
     }
 
-    // YÖNÜ TESPİT ETME MOTORU
     function determineDirection(r, c) {
-        // Eğer hücrenin hem sağında hem solunda aktif alan varsa yüksek ihtimalle yatay yazıyordur
         let hasHorizontal = inputElements[`${r}-${c+1}`] || inputElements[`${r}-${c-1}`];
         let hasVertical = inputElements[`${r+1}-${c}`] || inputElements[`${r-1}-${c}`];
         
@@ -688,39 +934,24 @@
         }
     }
 
-    // YATAYDA VE DİKEYDE KİLİTLİ İLERLEME MOTORLARI
     function moveNextWithDirection(r, c) {
         if (activeWritingDirection === "across") {
-            // Yatay yazıyorsak sadece sağdaki kutuya bak, alt kutuya asla geçme!
-            if (inputElements[`${r}-${c+1}`]) {
-                inputElements[`${r}-${c+1}`].focus();
-            }
+            if (inputElements[`${r}-${c+1}`]) inputElements[`${r}-${c+1}`].focus();
         } else if (activeWritingDirection === "down") {
-            // Dikey yazıyorsak sadece alttaki kutuya bak, sağdaki kutuya asla geçme!
-            if (inputElements[`${r+1}-${c}`]) {
-                inputElements[`${r+1}-${c}`].focus();
-            }
+            if (inputElements[`${r+1}-${c}`]) inputElements[`${r+1}-${c}`].focus();
         }
     }
 
     function moveBackWithDirection(r, c) {
         if (activeWritingDirection === "across") {
-            if (inputElements[`${r}-${c-1}`]) {
-                inputElements[`${r}-${c-1}`].focus();
-            }
+            if (inputElements[`${r}-${c-1}`]) inputElements[`${r}-${c-1}`].focus();
         } else if (activeWritingDirection === "down") {
-            if (inputElements[`${r-1}-${c}`]) {
-                inputElements[`${r-1}-${c}`].focus();
-            }
+            if (inputElements[`${r-1}-${c}`]) inputElements[`${r-1}-${c}`].focus();
         }
     }
 
-    // İpucu Listesindeki bir maddeye tıklanırsa yön kilitlenmesini elle de değiştirsin
-    function setDirectionFromClue(dir) {
-        activeWritingDirection = dir;
-    }
-
     function getLetterHint() {
+        const selectedLang = document.getElementById('langSelect').value;
         if (currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
             const correctLetter = gridMatrix[currentFocusCell.row][currentFocusCell.col].letter;
             currentFocusCell.element.value = correctLetter;
@@ -729,7 +960,7 @@
             checkWinCondition();
             moveNextWithDirection(currentFocusCell.row, currentFocusCell.col);
         } else {
-            alert("Lütfen önce harf almak istediğiniz boş bir kutucuğa tıklayın!");
+            alert(INTERFACE_LANGS[selectedLang].hintAlert);
         }
     }
 
@@ -767,9 +998,8 @@
             clueDiv.className = 'clue-item';
             clueDiv.innerHTML = `<strong>${item.num}</strong> ${item.clue}`;
             
-            // İpucuna tıklandığında yazma yönünü otomatik o kelimenin yönüne kilitler!
             clueDiv.addEventListener('click', () => {
-                setDirectionFromClue(item.dir);
+                activeWritingDirection = item.dir;
                 if (inputElements[`${item.row}-${item.col}`]) {
                     inputElements[`${item.row}-${item.col}`].focus();
                 }
@@ -797,7 +1027,10 @@
             }
         }
         if (allCorrect) {
-            document.getElementById('success-banner').style.display = 'block';
+            const selectedLang = document.getElementById('langSelect').value;
+            const banner = document.getElementById('success-banner');
+            banner.innerText = INTERFACE_LANGS[selectedLang].win;
+            banner.style.display = 'block';
             Object.values(inputElements).forEach(input => input.disabled = true);
             localStorage.removeItem('saved-grid-answers');
         }
@@ -805,7 +1038,6 @@
 
     window.onload = function() {
         const savedTheme = localStorage.getItem('polyglot-theme') || 'light';
-        document.getElementById('themeSelect').value = savedTheme;
         changeTheme(savedTheme);
         initGame();
     };
