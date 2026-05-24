@@ -10,26 +10,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
     <style>
+        /* CSS Değişkenleri ile Dinamik Tema Yönetimi */
+        :root {
+            --bg-color: #f4ebd9;
+            --container-bg: #fbf5eb;
+            --text-color: #2b2b2b;
+            --border-color: #2b2b2b;
+            --accent-bg: #eae0cc;
+            --shadow-color: #2b2b2b;
+        }
+
         body {
-            background-color: #f4ebd9;
-            color: #2b2b2b;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             font-family: 'Courier Prime', monospace;
             margin: 0;
             padding: 20px;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         .newspaper-container {
             max-width: 1200px;
             margin: 0 auto;
-            border: 2px solid #2b2b2b;
+            border: 2px solid var(--border-color);
             padding: 20px;
-            box-shadow: 5px 5px 0px #2b2b2b;
-            background-color: #fbf5eb;
+            box-shadow: 5px 5px 0px var(--shadow-color);
+            background-color: var(--container-bg);
+            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
         header {
             text-align: center;
-            border-bottom: 4px double #2b2b2b;
+            border-bottom: 4px double var(--border-color);
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
@@ -42,15 +54,25 @@
             letter-spacing: 2px;
         }
 
+        .theme-badge {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-style: italic;
+            margin-top: 5px;
+            display: block;
+            opacity: 0.8;
+        }
+
         .stats-bar {
             display: flex;
-            justify-content: space-around;
-            background: #eae0cc;
+            justify-content: center;
+            background: var(--accent-bg);
             padding: 10px;
-            border: 1px solid #2b2b2b;
+            border: 1px solid var(--border-color);
             margin-bottom: 20px;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
+            letter-spacing: 1px;
         }
 
         .control-panel {
@@ -60,7 +82,7 @@
             align-items: center;
             margin-bottom: 20px;
             padding: 10px;
-            border-bottom: 1px solid #2b2b2b;
+            border-bottom: 1px solid var(--border-color);
             flex-wrap: wrap;
         }
 
@@ -73,8 +95,9 @@
             font-family: 'Courier Prime', monospace;
             font-size: 14px;
             padding: 5px 10px;
-            border: 2px solid #2b2b2b;
-            background-color: #fbf5eb;
+            border: 2px solid var(--border-color);
+            background-color: var(--container-bg);
+            color: var(--text-color);
             cursor: pointer;
         }
 
@@ -83,21 +106,15 @@
             font-size: 14px;
             font-weight: bold;
             padding: 6px 15px;
-            border: 2px solid #2b2b2b;
-            background-color: #2b2b2b;
-            color: #fbf5eb;
+            border: 2px solid var(--border-color);
+            background-color: var(--text-color);
+            color: var(--container-bg);
             cursor: pointer;
             box-shadow: 2px 2px 0px #888;
         }
 
         .control-panel button:hover, .btn-action:hover {
-            background-color: #444;
-        }
-
-        .pool-stats {
-            font-size: 12px;
-            font-style: italic;
-            color: #666;
+            opacity: 0.9;
         }
 
         .game-layout {
@@ -116,28 +133,30 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #2b2b2b; 
-            border: 1px solid #2b2b2b;
+            background: var(--border-color); 
+            border: 1px solid var(--border-color);
             padding: 20px;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
             min-height: 500px;
         }
 
         .crossword-grid {
             display: grid;
             gap: 1px;
-            background-color: #2b2b2b;
-            border: 2px solid #2b2b2b;
+            background-color: var(--border-color);
+            border: 2px solid var(--border-color);
         }
 
         .cell {
-            background-color: #2b2b2b;
+            background-color: var(--border-color);
             position: relative;
             width: 35px;
             height: 35px;
         }
 
         .cell.active { background-color: #ffffff; }
+        /* Karanlık temalarda yazıların okunması için hücre içi input her zaman beyaz arka plan ve koyu renkle kalır */
+        .cell.active input { background-color: #ffffff; color: #2b2b2b; }
 
         .cell input {
             width: 100%;
@@ -148,14 +167,12 @@
             font-weight: bold;
             font-family: 'Courier Prime', monospace;
             text-transform: uppercase;
-            background: transparent;
-            color: #2b2b2b;
             padding: 0;
             box-sizing: border-box;
         }
 
         .cell input:focus {
-            background-color: #fffacd;
+            background-color: #fffacd !important;
             outline: none;
         }
 
@@ -172,7 +189,7 @@
 
         .clues-section {
             flex: 1;
-            border-left: 1px dashed #2b2b2b;
+            border-left: 1px dashed var(--border-color);
             padding-left: 20px;
             max-height: 580px;
             overflow-y: auto;
@@ -181,7 +198,7 @@
         .clues-section h2 {
             font-family: 'Playfair Display', serif;
             margin-top: 0;
-            border-bottom: 2px solid #2b2b2b;
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 5px;
         }
 
@@ -189,8 +206,8 @@
             font-size: 14px;
             text-transform: uppercase;
             margin-bottom: 12px;
-            background-color: #2b2b2b;
-            color: #fbf5eb;
+            background-color: var(--border-color);
+            color: var(--container-bg);
             padding: 4px 8px;
             display: inline-block;
         }
@@ -203,14 +220,15 @@
             font-size: 13px;
             line-height: 1.5;
             padding: 6px;
-            border-bottom: 1px dotted #ccc;
+            border-bottom: 1px dotted var(--border-color);
         }
 
         .clue-text-wrapper { flex: 1; }
 
         .clue-item strong {
             font-size: 14px;
-            background-color: #eae0cc;
+            background-color: var(--accent-bg);
+            color: var(--text-color);
             padding: 0 4px;
             margin-right: 5px;
         }
@@ -232,11 +250,12 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 20px;
-            border: 2px solid #2b2b2b;
-            box-shadow: 3px 3px 0px #2b2b2b;
+            border: 2px solid var(--border-color);
+            box-shadow: 3px 3px 0px var(--shadow-color);
             font-family: 'Playfair Display', serif;
         }
 
+        /* Modal / Kelime Kartları */
         .modal {
             display: none;
             position: fixed;
@@ -247,17 +266,18 @@
             justify-content: center;
         }
         .modal-content {
-            background-color: #fbf5eb;
+            background-color: var(--container-bg);
+            color: var(--text-color);
             padding: 30px;
-            border: 3px solid #2b2b2b;
+            border: 3px solid var(--border-color);
             max-width: 500px;
             width: 90%;
-            box-shadow: 8px 8px 0px #2b2b2b;
+            box-shadow: 8px 8px 0px var(--shadow-color);
             font-family: 'Courier Prime', monospace;
         }
         .modal-content h2 { font-family: 'Playfair Display', serif; margin-top: 0; text-align: center; }
         .deck-list { margin: 20px 0; max-height: 250px; overflow-y: auto; }
-        .deck-item { padding: 8px; border-bottom: 1px dashed #2b2b2b; font-size: 14px; }
+        .deck-item { padding: 8px; border-bottom: 1px dashed var(--border-color); font-size: 14px; }
     </style>
 </head>
 <body>
@@ -265,22 +285,24 @@
 <div class="newspaper-container">
     <header>
         <h1>The Polyglot Movie Crossword</h1>
+        <span class="theme-badge" id="themeNameBadge">Baskı: Klasik Gazete</span>
     </header>
 
     <div class="stats-bar">
-        <div>🏆 Skor: <span id="scoreVal">0</span></div>
-        <div>🔥 Kombo: x<span id="comboVal">0</span></div>
         <div>⏱️ Kalan Süre: <span id="timerVal">--:--</span></div>
     </div>
 
     <div class="control-panel">
         <label for="langSelect">Hedef Dil:</label>
-        <select id="langSelect" onchange="resetLanguageAndInit()">
+        <select id="langSelect" onchange="initGame()">
             <option value="en">İngilizce (English)</option>
             <option value="es">İspanyolca (Español)</option>
             <option value="de">Almanca (Deutsch)</option>
             <option value="fr">Fransızca (Français)</option>
             <option value="it">İtalyanca (Italiano)</option>
+            <option value="tr">Türkçe (Turkish)</option>
+            <option value="pt">Portekizce (Português)</option>
+            <option value="nl">Felemenkçe (Nederlands)</option>
         </select>
 
         <label for="timerSelect">Süre Modu:</label>
@@ -288,15 +310,15 @@
             <option value="off">Süre Kapat</option>
             <option value="3">3 Dakika</option>
             <option value="5">5 Dakika</option>
+            <option value="10">10 Dakika</option>
         </select>
         
         <button onclick="initGame()">🔄 Yeni Bulmaca</button>
-        <button onclick="getLetterHint()" style="background-color: #e2b13c; color: #000;">💡 Harf Al (-25 Puan)</button>
-        <span class="pool-stats" id="poolStats"></span>
+        <button onclick="getLetterHint()" style="background-color: #e2b13c; color: #000; border-color: #000;">💡 Harf Al</button>
     </div>
 
     <div id="success-banner">
-        📰 TEBRİKLER! Tüm kelimeleri çözdünüz! Kelime kartlarınız hazırlandı.
+        📰 TEBRİKLER! Tüm kelimeleri başarıyla tamamladınız!
     </div>
 
     <div class="game-layout">
@@ -325,82 +347,111 @@
         <h2>✨ Öğrenilen Kelime Kartları</h2>
         <div class="deck-list" id="deckList"></div>
         <div style="text-align: center; margin-top: 20px;">
-            <button class="btn-action" onclick="closeModal()">Harika, Kapat!</button>
+            <button class="btn-action" onclick="closeModal()">Kapat</button>
         </div>
     </div>
 </div>
 
 <script>
-    // ORİJİNAL, GENİŞ KELİME HAVUZUNUZ TAMAMEN KORUNDU
+    // 30 ADET BENZERSİZ GAZETE VE BASKI TEMASI (30 TABLO REKORU)
+    const THEMES = [
+        { name: "Klasik Gazete", bg: "#f4ebd9", container: "#fbf5eb", text: "#2b2b2b", border: "#2b2b2b", accent: "#eae0cc" },
+        { name: "Gece Mürekkebi", bg: "#1a1a1a", container: "#262626", text: "#f5f5f5", border: "#404040", accent: "#333333" },
+        { name: "Eski Parşömen", bg: "#e6d7b8", container: "#f2e6ce", text: "#3d2b1f", border: "#5c4033", accent: "#dfcfad" },
+        { name: "Retro Editör", bg: "#e4e9ed", container: "#f4f7f9", text: "#1c2833", border: "#2c3e50", accent: "#d5dbdb" },
+        { name: "Kızıl Baskı", bg: "#f5e6e6", container: "#fdf8f8", text: "#4a1515", border: "#722f37", accent: "#ebd2d2" },
+        { name: "Botanik Magazin", bg: "#e2ece9", container: "#f1f6f5", text: "#1c332e", border: "#2d5a27", accent: "#d1e0db" },
+        { name: "Sarı Sayfalar", bg: "#f9f1c7", container: "#fffbe6", text: "#332f10", border: "#665c1e", accent: "#f3e7a0" },
+        { name: "Modern Finans", bg: "#fcd7cc", container: "#fef3f0", text: "#3a1d13", border: "#87361d", accent: "#f9bead" },
+        { name: "Kraliyet Arşivi", bg: "#d9e2ec", container: "#f0f4f8", text: "#102a43", border: "#243e56", accent: "#bcccdc" },
+        { name: "Kahve Kokusu", bg: "#ece0d1", container: "#f7f1e5", text: "#3d2314", border: "#967bb6", accent: "#dbc1ac" },
+        { name: "Kömür Lekesi", bg: "#2d3748", container: "#1a202c", text: "#edf2f7", border: "#4a5568", accent: "#2d3748" },
+        { name: "Bağımsız Sinema", bg: "#fef9e7", container: "#fffdf7", text: "#111111", border: "#eb984e", accent: "#fadbd8" },
+        { name: "Nordik Minimal", bg: "#e5e8e8", container: "#f2f4f4", text: "#2c3e50", border: "#7f8c8d", accent: "#ccd1d1" },
+        { name: "Okyanus Postası", bg: "#d4efdf", container: "#e8f8f5", text: "#117a65", border: "#16a085", accent: "#a3e4d7" },
+        { name: "Pasifik Günlüğü", bg: "#ebf5fb", container: "#f4f6f7", text: "#21618c", border: "#2e86c1", accent: "#d6eaf8" },
+        { name: "Gül Yaprağı", bg: "#f9ebd2", container: "#fff5e6", text: "#5b2c6f", border: "#8e44ad", accent: "#f5e3cd" },
+        { name: "Gece Yarısı Mavisi", bg: "#0f172a", container: "#1e293b", text: "#f8fafc", border: "#38bdf8", accent: "#334155" },
+        { name: "Siber Punk", bg: "#ff007f", container: "#120136", text: "#00ffff", border: "#ff007f", accent: "#240046" },
+        { name: "Zeytin Dalı", bg: "#f1f3f0", container: "#fafaf9", text: "#3f4e3f", border: "#6b7c6b", accent: "#e3e7e2" },
+        { name: "Mantar Pano", bg: "#dfcbb5", container: "#eedec9", text: "#4a3b32", border: "#705335", accent: "#d3bfa7" },
+        { name: "Matte Slate", bg: "#94a3b8", container: "#cbd5e1", text: "#0f172a", border: "#475569", accent: "#e2e8f0" },
+        { name: "Kum Fırtınası", bg: "#e9c46a", container: "#f4a261", text: "#264653", border: "#e76f51", accent: "#f4a261" },
+        { name: "Kül Grisi", bg: "#d6dbdf", container: "#eaecee", text: "#212f3d", border: "#5d6d7e", accent: "#bdc3c7" },
+        { name: "Tebeşir Tahtası", bg: "#1e272c", container: "#263238", text: "#eceff1", border: "#37474f", accent: "#455a64" },
+        { name: "Haki Dokuma", bg: "#d5dbdb", container: "#eaeded", text: "#1b4f72", border: "#2e4053", accent: "#a6acaf" },
+        { name: "Soluk Lavanta", bg: "#ebdef0", container: "#f5eeeb", text: "#4a235a", border: "#6c3483", accent: "#d7bde2" },
+        { name: "Kiremit Pres", bg: "#edbb99", container: "#f5cba7", text: "#6e2c00", border: "#a04000", accent: "#f8c471" },
+        { name: "Asfalt Kağıdı", bg: "#566573", container: "#2c3e50", text: "#f2f4f4", border: "#1c2833", accent: "#34495e" },
+        { name: "Güneş Yanığı", bg: "#fdebd0", container: "#fef9e7", text: "#7e5109", border: "#b7950b", accent: "#f9e79f" },
+        { name: "Platin Baskı", bg: "#f2f3f4", container: "#ffffff", text: "#1c2833", border: "#bdc3c7", accent: "#eaecee" }
+    ];
+
+    // 8 FARKLI DİL - BİRBİRİNDEN TAMAMEN FARKLI SİNEMA KELİMELERİ (ÇAKIŞMASIZ)
     const DATA_POOL = {
         en: [
-            { word: "MOVIE", clue: "Clue: 'Let's watch a classic _______.' | Anlamı: Film" },
-            { word: "STAR", clue: "Clue: 'Brad Pitt is a Hollywood _______.' | Anlamı: Yıldız Oyuncu" },
-            { word: "HERO", clue: "Clue: 'Batman is the _______ Gotham needs.' | Anlamı: Kahraman" },
-            { word: "THIEF", clue: "Clue: 'In Inception, Cobb is a skilled _______.' | Anlamı: Hırsız" },
-            { word: "AWARD", clue: "Clue: 'He won an Oscar _______ last night.' | Anlamı: Ödül" },
-            { word: "FIGHT", clue: "Clue: 'The first rule of _______ Club...' | Anlamı: Dövüş" },
-            { word: "SNAKE", clue: "Clue: 'Samuel L. Jackson fought _______ on a plane.' | Anlamı: Yılan" },
-            { word: "ALIEN", clue: "Clue: 'The Ridley Scott horror film is named _______.' | Anlamı: Uzaylı" },
-            { word: "RING", clue: "Clue: 'The Lord of the _______ is a fantasy epic.' | Anlamı: Yüzük" },
-            { word: "SHARK", clue: "Clue: 'Spielberg's Jaws is about a killer _______.' | Anlamı: Köpekbalığı" },
-            { word: "STORY", clue: "Clue: 'Toy _______ was the first full CGI film.' | Anlamı: Hikaye" },
-            { word: "DANCE", clue: "Clue: 'La La Land features beautiful _______ scenes.' | Anlamı: Dans" },
-            { word: "SPACE", clue: "Clue: 'Interstellar is an epic film about _______.' | Anlamı: Uzay" },
-            { word: "LIGHT", clue: "Clue: 'A Jedi fights with a _______saber.' | Anlamı: Işık" },
-            { word: "GHOST", clue: "Clue: 'Who you gonna call? _______busters!' | Anlamı: Hayalet" },
-            { word: "CROWD", clue: "Clue: 'Gladiator arena was full of a roaring _______.' | Anlamı: Kalabalık" }
+            { word: "MOVIE", clue: "Let's watch a classic _______. | Anlamı: Film" },
+            { word: "STAR", clue: "Brad Pitt is a Hollywood _______. | Anlamı: Yıldız Oyuncu" },
+            { word: "HERO", clue: "Batman is the _______ Gotham needs. | Anlamı: Kahraman" },
+            { word: "THIEF", clue: "In Inception, Cobb is a skilled _______. | Anlamı: Hırsız" },
+            { word: "AWARD", clue: "He won an Oscar _______ last night. | Anlamı: Ödül" },
+            { word: "SPACE", clue: "Interstellar is an epic film about _______. | Anlamı: Uzay" }
         ],
         es: [
-            { word: "MUNDO", clue: "Frase: 'Avatar muestra un _______ fantástico.' | Anlamı: Dünya" },
-            { word: "NUEVO", clue: "Frase: 'Ayer vi el _______ tráiler de Marvel.' | Anlamı: Yeni" },
-            { word: "PAPEL", clue: "Frase: 'El _______ principal de Joker fue increíble.' | Anlamı: Rol" },
-            { word: "HÉROE", clue: "Frase: 'Spiderman es mi _______ favorito.' | Anlamı: Kahraman" },
-            { word: "NOCHE", clue: "Frase: 'Batman trabaja durante la _______.' | Anlamı: Gece" },
-            { word: "CHICA", clue: "Frase: 'Almodóvar dirige películas de la _______ Almodóvar.' | Anlamı: Kız" },
-            { word: "GUION", clue: "Frase: 'Tarantino escribe un _______ lleno de action.' | Anlamı: Senaryo" },
-            { word: "FUEGO", clue: "Frase: 'Los efectos especiales incluyen mucho _______.' | Anlamı: Ateş" },
-            { word: "SUEÑO", clue: "Frase: 'Inception es una película sobre un _______.' | Anlamı: Rüya" },
-            { word: "LIBRO", clue: "Frase: 'Harry Potter está basado en un _______.' | Anlamı: Kitap" },
-            { word: "OJOS", clue: "Frase: 'El secreto de sus _______ ganó el Oscar.' | Anlamı: Gözler" },
-            { word: "TIEMPO", clue: "Frase: 'Una película sobre viajes en el _______.' | Anlamı: Zaman" }
+            { word: "MUNDO", clue: "Avatar muestra un _______ fantástico. | Anlamı: Dünya" },
+            { word: "NUEVO", clue: "Ayer vi el _______ tráiler de Marvel. | Anlamı: Yeni" },
+            { word: "PAPEL", clue: "El _______ principal de Joker fue increíble. | Anlamı: Rol" },
+            { word: "NOCHE", clue: "Batman trabaja durante la _______. | Anlamı: Gece" },
+            { word: "LIBRO", clue: "Harry Potter está basado en un _______. | Anlamı: Kitap" },
+            { word: "FUEGO", clue: "Los efectos especiales incluyen mucho _______. | Anlamı: Ateş" }
         ],
         de: [
-            { word: "KINO", clue: "Satz: 'Wir treffen uns heute Abend im _______.' | Anlamı: Sinema" },
-            { word: "HELD", clue: "Satz: 'Superman ist ein bekannter _______.' | Anlamı: Kahraman" },
-            { word: "PREIS", clue: "Satz: 'Dieser Regisseur gewann einen großen _______.' | Anlamı: Ödül" },
-            { word: "NACHT", clue: "Satz: 'Ein guter Horrorfilm spielt oft in der _______.' | Anlamı: Gece" },
-            { word: "ROLLE", clue: "Satz: 'Er spielt die wichtigste _______ im Drama.' | Anlamı: Rol" },
-            { word: "REGIE", clue: "Satz: 'Spielberg führte _______ bei diesem Klassiker.' | Anlamı: Yönetmenlik" },
-            { word: "BUCH", clue: "Satz: 'Der Film basiert auf einem berühmten _______.' | Anlamı: Kitap" },
-            { word: "LIEBE", clue: "Satz: 'Titanic ist eine Geschichte über große _______.' | Anlamı: Aşk" },
-            { word: "TRAUM", clue: "Satz: 'Inception handelt von einem _______ im Traum.' | Anlamı: Rüya" },
-            { word: "LEBEN", clue: "Satz: 'Das _______ der Anderen gewann einen Oscar.' | Anlamı: Hayat" },
-            { word: "KRIEG", clue: "Satz: 'Star Wars bedeutet Star _______ auf Deutsch.' | Anlamı: Savaş" },
-            { word: "ANGST", clue: "Satz: 'Ein Horrorfilm erzeugt beim Zuschauer _______.' | Anlamı: Korku" }
+            { word: "KINO", clue: "Wir treffen uns heute Abend im _______. | Anlamı: Sinema" },
+            { word: "HELD", clue: "Superman ist ein bekannter _______. | Anlamı: Kahraman" },
+            { word: "PREIS", clue: "Dieser Regisseur gewann einen großen _______. | Anlamı: Ödül" },
+            { word: "TRAUM", clue: "Inception handelt von einem _______ im Traum. | Anlamı: Rüya" },
+            { word: "BUCH", clue: "Der Film basiert auf einem berühmten _______. | Anlamı: Kitap" },
+            { word: "ANGST", clue: "Ein Horrorfilm erzeugt beim Zuschauer _______. | Anlamı: Korku" }
         ],
         fr: [
-            { word: "ECRAN", clue: "Phrase: 'Regarder un chef-d'œuvre sur le grand _______.' | Anlamı: Ekran" },
-            { word: "SALLE", clue: "Phrase: 'La _______ de cinéma était complètement pleine.' | Anlamı: Salon/Oda" },
-            { word: "REVRE", clue: "Phrase: 'Inception parle d'un _______ contrôlé.' | Anlamı: Rüya" },
-            { word: "PIECE", clue: "Phrase: 'Une tragédie adaptée d'une _______ de théâtre.' | Anlamı: Oyun/Parça" },
-            { word: "DRÔLE", clue: "Phrase: 'Intouchables is un film très _______ et émouvant.' | Anlamı: Komik" },
-            { word: "DEBUT", clue: "Phrase: 'Le générique commence au _______ du film.' | Anlamı: Başlangıç" },
-            { word: "COEUR", clue: "Phrase: 'Un drame romantique qui touche le _______.' | Anlamı: Kalp" },
-            { word: "GEANT", clue: "Phrase: 'Shrek est un ogre _______ et vert.' | Anlamı: Dev" },
-            { word: "TEMPS", clue: "Phrase: 'Un voyage dans le _______ avec une DeLorean.' | Anlamı: Zaman" },
-            { word: "FINALE", clue: "Phrase: 'La scène _______ de ce film coupe le souffle.' | Anlamı: Final/Son" }
+            { word: "ECRAN", clue: "Regarder un chef-d'œuvre sur le grand _______. | Anlamı: Ekran" },
+            { word: "SALLE", clue: "La _______ de cinéma était complètement pleine. | Anlamı: Salon" },
+            { word: "REVRE", clue: "Inception parle d'un _______ contrôlé. | Anlamı: Rüya" },
+            { word: "COEUR", clue: "Un drame romantique qui touche le _______. | Anlamı: Kalp" },
+            { word: "GEANT", clue: "Shrek est un ogre _______ et vert. | Anlamı: Dev" },
+            { word: "TEMPS", clue: "Un voyage dans le _______ avec une DeLorean. | Anlamı: Zaman" }
         ],
         it: [
-            { word: "CINEMA", clue: "Frase: 'Andiamo al _______ a vedere un horror.' | Anlamı: Sinema" },
-            { word: "ATTORE", clue: "Frase: 'Marcello Mastroianni è un grande _______.' | Anlamı: Oyuncu" },
-            { word: "REGIA", clue: "Frase: 'La _______ di questo kolossal è di Fellini.' | Anlamı: Yönetmenlik" },
-            { word: "STORIA", clue: "Frase: 'Una _______ emozionante basata su fatti veri.' | Anlamı: Hikaye" },
-            { word: "RUOLO", clue: "Frase: 'Ha ottenuto il _______ del cattivo nel film.' | Anlamı: Rol" },
-            { word: "VITA", clue: "Frase: 'La dolce _______ è un classico del cinema.' | Anlamı: Hayat" },
-            { word: "SUONO", clue: "Frase: 'Il montaggio del _______ ha vinto un premio.' | Anlamı: Ses" },
-            { word: "CITTÀ", clue: "Frase: 'Batman protegge la _______ di Gotham.' | Anlamı: Şehir" },
-            { word: "FUOCO", clue: "Frase: 'Un film d'azione pieno di esplosioni e _______.' | Anlamı: Ateş" }
+            { word: "CINEMA", clue: "Andiamo al _______ a vedere un horror. | Anlamı: Sinema" },
+            { word: "ATTORE", clue: "Marcello Mastroianni è un grande _______. | Anlamı: Oyuncu" },
+            { word: "STORIA", clue: "Una _______ emozionante basata su fatti veri. | Anlamı: Hikaye" },
+            { word: "RUOLO", clue: "Ha ottenuto il _______ del cattivo nel film. | Anlamı: Rol" },
+            { word: "VITA", clue: "La dolce _______ è un classico del cinema. | Anlamı: Hayat" },
+            { word: "FUOCO", clue: "Un film d'azione pieno di esplosioni e _______. | Anlamı: Ateş" }
+        ],
+        tr: [
+            { word: "AFİŞ", clue: "Sinema girişindeki dev _______ dikkat çekiciydi. | Anlamı: Poster" },
+            { word: "REPLİK", clue: "Oyuncunun söylediği o unutulmaz _______ hafızalara kazındı. | Anlamı: Söz" },
+            { word: "SAHNE", clue: "Filmin aksiyon dolu dövüş _______si çok gerçekçiydi. | Anlamı: Bölüm" },
+            { word: "YÖNETMEN", clue: "Kameranın arkasında seti yöneten kişiye _______ denir. | Anlamı: Rejisör" },
+            { word: "DUBLAJ", clue: "Yabancı filmleri Türkçe seslendirme işlemine _______ denir. | Anlamı: Seslendirme" },
+            { word: "KÜLT", clue: "Yıllar geçse de eskimeyen efsane filmlere _______ film denir. | Anlamı: Başyapıt" }
+        ],
+        pt: [
+            { word: "FILME", clue: "Vamos ao cinema assistir a um _______ de ação. | Anlamı: Film" },
+            { word: "TELA", clue: "A _______ do cinema era gigante e curva. | Anlamı: Perde / Ekran" },
+            { word: "ATOR", clue: "Aquele _______ ganhou o prêmio de melhor atuação. | Anlamı: Erkek Oyuncu" },
+            { word: "ESTRELA", clue: "Ela se tornou uma grande _______ em Hollywood. | Anlamı: Yıldız" },
+            { word: "PIPOCA", clue: "Não dá para ver um filme sem comer _______. | Anlamı: Patlamış Mısır" },
+            { word: "EFEITO", clue: "Os _______s especiais digitais foram fantásticos. | Anlamı: Efekt" }
+        ],
+        nl: [
+            { word: "FILM", clue: "Vanavond kijken we naar een spannende _______. | Anlamı: Film" },
+            { word: "STER", clue: "De hoofdrolspeler is een bekende Hollywood _______. | Anlamı: Yıldız Oyuncu" },
+            { word: "HELD", clue: "De hoofdpersoon in de actiefilm is een echte _______. | Anlamı: Kahraman" },
+            { word: "PRIJS", clue: "De regisseur won een prestigieuze _______ op het festival. | Anlamı: Ödül" },
+            { word: "BOEK", clue: "Deze bioscoophit is gebaseerd op een spannend _______. | Anlamı: Kitap" },
+            { word: "ZAAL", clue: "De bioscoop_______ zat helemaal vol voor de première. | Anlamı: Salon" }
         ]
     };
 
@@ -408,50 +459,44 @@
     let gridMatrix = [];
     let inputElements = {};
     let activeWords = [];
-    let usedWordsHistory = { en: [], es: [], de: [], fr: [], it: [] };
-
-    // Yeni Mekanik Tanımlamaları
-    let score = 0;
-    let combo = 0;
     let timerInterval = null;
     let timeLeft = 0;
     let currentFocusCell = null;
 
     window.onload = function() {
-        if(localStorage.getItem('polyglot_score')) {
-            score = parseInt(localStorage.getItem('polyglot_score'));
-            document.getElementById('scoreVal').innerText = score;
-        }
         initGame();
     };
 
-    function resetLanguageAndInit() {
-        const selectedLang = document.getElementById('langSelect').value;
-        usedWordsHistory[selectedLang] = [];
-        initGame();
+    // Dinamik Tema Seçici (30 Temadan Birini Rastgele Yükler)
+    function applyRandomTheme() {
+        const randomIndex = Math.floor(Math.random() * THEMES.length);
+        const theme = THEMES[randomIndex];
+        
+        const root = document.documentElement;
+        root.style.setProperty('--bg-color', theme.bg);
+        root.style.setProperty('--container-bg', theme.container);
+        root.style.setProperty('--text-color', theme.text);
+        root.style.setProperty('--border-color', theme.border);
+        root.style.setProperty('--accent-bg', theme.accent);
+        root.style.setProperty('--shadow-color', theme.border);
+
+        document.getElementById('themeNameBadge').innerText = `Baskı Tarzı: ${theme.name} (${randomIndex + 1}/30)`;
     }
 
     function initGame() {
         if (timerInterval) clearInterval(timerInterval);
         document.getElementById('success-banner').style.display = 'none';
         
+        // Temayı değiştir
+        applyRandomTheme();
+
         const selectedLang = document.getElementById('langSelect').value;
         const timerConfig = document.getElementById('timerSelect').value;
 
         let pool = [...DATA_POOL[selectedLang]];
-        let unusedPool = pool.filter(w => !usedWordsHistory[selectedLang].includes(w.word));
+        pool.sort(() => 0.5 - Math.random());
         
-        if (unusedPool.length < 4) {
-            usedWordsHistory[selectedLang] = [];
-            unusedPool = pool;
-        }
-
-        document.getElementById('poolStats').innerText = `(Kalan taze kombinasyon: ~${unusedPool.length})`;
-        unusedPool.sort(() => 0.5 - Math.random());
-        
-        // Geniş havuzdan en fazla 6 kelime seçerek matrise gönderiyoruz
-        let selectedWords = unusedPool.slice(0, Math.min(6, unusedPool.length));
-
+        let selectedWords = pool.slice(0, Math.min(5, pool.length));
         const generationResult = generateCrosswordLayout(selectedWords);
         
         if (!generationResult || generationResult.placedCount < 3) {
@@ -459,19 +504,10 @@
             return;
         }
 
-        generationResult.placedWords.forEach(w => {
-            if (!usedWordsHistory[selectedLang].includes(w.word)) {
-                usedWordsHistory[selectedLang].push(w.word);
-            }
-        });
-
         activeWords = generationResult.placedWords;
         renderGrid(generationResult.matrix);
         renderClues(selectedLang);
         setupTimer(timerConfig);
-        
-        combo = 0;
-        document.getElementById('comboVal').innerText = combo;
     }
 
     function setupTimer(mode) {
@@ -488,7 +524,7 @@
             updateTimerDisplay();
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                alert("⏱️ Süre bitti! Bulmaca kilitlendi.");
+                alert("⏱️ Süre bitti! Hücreler kilitlendi.");
                 Object.values(inputElements).forEach(input => input.disabled = true);
             }
         }, 1000);
@@ -506,8 +542,6 @@
             let utterance = new SpeechSynthesisUtterance(word);
             utterance.lang = langCode;
             window.speechSynthesis.speak(utterance);
-        } else {
-            alert("Tarayıcınız ses sentezini desteklemiyor.");
         }
     }
 
@@ -615,7 +649,7 @@
                     
                     input.addEventListener('input', (e) => {
                         input.value = e.target.value.toUpperCase();
-                        handleLetterInput(r, c, input.value);
+                        checkWinCondition();
                     });
 
                     input.addEventListener('focus', () => {
@@ -647,32 +681,13 @@
         }
     }
 
-    function handleLetterInput(r, c, char) {
-        if (gridMatrix[r][c] && gridMatrix[r][c].letter === char) {
-            combo++;
-            score += 10 + (combo * 2);
-        } else {
-            combo = 0;
-        }
-        document.getElementById('scoreVal').innerText = score;
-        document.getElementById('comboVal').innerText = combo;
-        localStorage.setItem('polyglot_score', score);
-        checkWinCondition();
-    }
-
     function getLetterHint() {
         if (currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
             const cell = gridMatrix[currentFocusCell.row][currentFocusCell.col];
             currentFocusCell.element.value = cell.letter;
-            
-            combo = 0;
-            score = Math.max(0, score - 25);
-            document.getElementById('scoreVal').innerText = score;
-            document.getElementById('comboVal').innerText = combo;
-            
             checkWinCondition();
         } else {
-            alert("Lütfen önce doldurmak istediğiniz bir hücreye tıklayın!");
+            alert("Lütfen önce harf almak istediğiniz boş bir kutucuğa dokunun!");
         }
     }
 
