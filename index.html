@@ -1,4 +1,4 @@
-,<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -290,23 +290,22 @@
     };
 
     // ==========================================================================
-    // DETAYLI SİNEMA VE REPLİK VERİTABANI
-    // Bulunacak kelimeler ipuçlarında "____" olarak maskelenmiştir.
+    // DETAYLI SİNEMA VE REPLİK VERİTABANI (Hatalı Alt Tireler Temizlendi)
     // ==========================================================================
     const LEXICON_DATABASE = {
         tr: [
             [
-                {w:"SİNEMA", c:'"Yedinci sanat dalı olan ____, kitleleri peşinden sürükleyen sihirli bir beyaz perdedir."'_}, 
-                {w:"AKTOR", c:'"Yeşilçam sinemasında başrol üstlenen usta ____, performansıyla ödül aldı."'_}, 
-                {w:"SAHNE", c:'"Filmin en can alıcı dövüşü, yağmurlu bir sokak ____sinde çekilmişti."'_}, 
-                {w:"KAMERA", c:'"Yönetmen, vizörden bakıp oyunculara döndü ve \'____ arkası ekibi hazır mı?\' diye sordu."'_}, 
+                {w:"SİNEMA", c:'"Yedinci sanat dalı olan ____, kitleleri peşinden sürükleyen sihirli bir beyaz perdedir."'}, 
+                {w:"AKTOR", c:'"Yeşilçam sinemasında başrol üstlenen usta ____, performansıyla ödül aldı."'}, 
+                {w:"SAHNE", c:'"Filmin en can alıcı dövüşü, yağmurlu bir sokak ____sinde çekilmişti."'}, 
+                {w:"KAMERA", c:'"Yönetmen, vizörden bakıp oyunculara döndü ve \'____ arkası ekibi hazır mı?\' diye sordu."'}, 
                 {w:"KÜLTÜR", c:'"Bir toplumun popüler sineması, o ülkenin sanatsal ve toplumsal ____ünü yansıtır."'}
             ],
             [
-                {w:"ROMAN", c:'"Ünlü yönetmenin Oscar kazanan filmi, aslında ödüllü bir psikolojik ____dan uyarlanmış."'_}, 
-                {w:"YAZAR", c:'"Filmin etkileyici diyaloglarını kaleme alan senarist, aynı zamanda tanınan bir ____dır."'_}, 
-                {w:"DRAMA", c:'"Komedi unsurları taşımayan, tamamen hüzün ve gerçekçi çatışmalar barındıran film bir ____dır."'_}, 
-                {w:"REJİSÖR", c:'"Setin tek hakimi olan ünlü ____, oyuncuların sahne içindeki tüm hareketlerini yönetti."'_}, 
+                {w:"ROMAN", c:'"Ünlü yönetmenin Oscar kazanan filmi, aslında ödüllü bir psikolojik ____dan uyarlanmış."'}, 
+                {w:"YAZAR", c:'"Filmin etkileyici diyaloglarını kaleme alan senarist, aynı zamanda tanınan bir ____dır."'}, 
+                {w:"DRAMA", c:'"Komedi unsurları taşımayan, tamamen hüzün ve gerçekçi çatışmalar barındıran film bir ____dır."'}, 
+                {w:"REJİSÖR", c:'"Setin tek hakimi olan ünlü ____, oyuncuların sahne içindeki tüm hareketlerini yönetti."'}, 
                 {w:"BELGE", c:'"Tarihi gerçekleri çarpıtmadan, arşiv görüntüleriyle aktaran türe ____sel sinema denir."'}
             ]
         ],
@@ -386,17 +385,11 @@
     let currentFocusCell = null;
     let activeDirection = "across";
 
-    // ==========================================================================
-    // TEMA UYGULAMA MOTORU
-    // ==========================================================================
     function applyTheme() {
         const themeIdx = document.getElementById('themeSelect').value;
         document.getElementById('body-root').className = `theme-${themeIdx}`;
     }
 
-    // ==========================================================================
-    // YEREL KARAKTER DÖNÜŞTÜRÜCÜ (GÜVENLİ TÜRKÇE MOTORU)
-    // ==========================================================================
     function safeUpperCase(str, lang) {
         if (!str) return "";
         if (lang === 'tr') {
@@ -405,9 +398,6 @@
         return str.toUpperCase();
     }
 
-    // ==========================================================================
-    // DİL DEĞİŞTİRME VE YERELLEŞTİRME TETİKLEYİCİSİ
-    // ==========================================================================
     function changeLanguage() {
         const lang = document.getElementById('langSelect').value;
         const pack = TRANSLATIONS[lang];
@@ -431,9 +421,6 @@
         buildCrosswordMatrix();
     }
 
-    // ==========================================================================
-    // BASKI VERSİYONU DEĞİŞTİRİCİSİ (SETLER ARASI GEÇİŞ)
-    // ==========================================================================
     function toggleMatrixVersion() {
         const selectElement = document.getElementById('matrixVersion');
         if (!selectElement) return;
@@ -441,9 +428,6 @@
         buildCrosswordMatrix();
     }
 
-    // ==========================================================================
-    // BULMACA MATRİS YAPICI VE KESİŞİM YÖNETİCİSİ
-    // ==========================================================================
     function buildCrosswordMatrix() {
         const indexArea = document.getElementById('corpus-index-area');
         if (indexArea) indexArea.style.display = 'none';
@@ -457,14 +441,14 @@
         let localMatrix = Array(matrixSize).fill(null).map(() => Array(matrixSize).fill(null));
         activeWords = [];
 
-        // Kelime 1: Merkez Yatay Çapa
+        // Kelime 1
         let w1 = subset[0]; let r1 = 4, c1 = 2;
         for(let i = 0; i < w1.w.length; i++) {
             localMatrix[r1][c1 + i] = { letter: w1.w[i], isStart: i === 0, num: 1, dir: "across" };
         }
         activeWords.push({ w: w1.w, c: w1.c, row: r1, col: c1, dir: "across", num: 1 });
 
-        // Kelime 2: Dikey Kesişen Hat
+        // Kelime 2
         let w2 = subset[1]; let r2 = 1, c2 = 4;
         for(let i = 0; i < w2.w.length; i++) {
             if(!localMatrix[r2 + i][c2]) {
@@ -476,7 +460,7 @@
         }
         activeWords.push({ w: w2.w, c: w2.c, row: r2, col: c2, dir: "down", num: 2 });
 
-        // Kelime 3: Alt Bölge Yatay Kesişen Hat
+        // Kelime 3
         let w3 = subset[2]; let r3 = 6, c3 = 1;
         for(let i = 0; i < w3.w.length; i++) {
             if(!localMatrix[r3][c3 + i]) {
@@ -488,7 +472,7 @@
         }
         activeWords.push({ w: w3.w, c: w3.c, row: r3, col: c3, dir: "across", num: 3 });
 
-        // Kelime 4: Sağ Dikey Koridor Hattı
+        // Kelime 4
         let w4 = subset[3]; let r4 = 2, c4 = 7;
         for(let i = 0; i < w4.w.length; i++) {
             if(!localMatrix[r4 + i][c4]) {
@@ -500,7 +484,7 @@
         }
         activeWords.push({ w: w4.w, c: w4.c, row: r4, col: c4, dir: "down", num: 4 });
 
-        // Kelime 5: Küçük Ara Kesişim Koridoru
+        // Kelime 5
         let w5 = subset[4]; let r5 = 5, c5 = 6;
         for(let i = 0; i < w5.w.length; i++) {
             if(!localMatrix[r5][c5 + i]) {
@@ -516,9 +500,6 @@
         renderLinguisticClues();
     }
 
-    // ==========================================================================
-    // MATRİS GÖRSELLEŞTİRME VE KAPSAMLI EVENT AKIŞ MOTORU
-    // ==========================================================================
     function renderVisualGrid(matrixData) {
         gridMatrix = matrixData;
         const container = document.getElementById('grid-container');
@@ -549,7 +530,6 @@
                     inp.setAttribute('autocomplete', 'off');
                     inp.setAttribute('spellcheck', 'false');
                     
-                    // Giriş İzleme ve Dinamik İleri Taşıma Algoritması
                     inp.addEventListener('input', (e) => {
                         const currentLang = document.getElementById('langSelect').value;
                         e.target.value = safeUpperCase(e.target.value, currentLang);
@@ -564,7 +544,6 @@
                         }
                     });
 
-                    // Geliştirilmiş Klavye Navigasyon ve Backspace Koruma Sistemi
                     inp.addEventListener('keydown', (e) => {
                         let dir = (cell.altDir && activeDirection === cell.altDir) ? cell.altDir : cell.dir;
                         
@@ -586,7 +565,6 @@
                             }
                         }
                         
-                        // Yön Tuşları ile Serbest Matris Gezinme Desteği
                         if (e.key === 'ArrowRight') {
                             let target = inputElements[`${r}-${c + 1}`];
                             if (target) { activeDirection = "across"; target.focus(); }
@@ -619,9 +597,6 @@
         }
     }
 
-    // ==========================================================================
-    // İPUCU KUTULARINI OLUŞTURMA MOTORU
-    // ==========================================================================
     function renderLinguisticClues() {
         const acrossBox = document.getElementById('across-clues');
         const downBox = document.getElementById('down-clues');
@@ -636,7 +611,6 @@
             div.className = 'clue-item';
             div.innerHTML = `<div><strong>${item.num}</strong> ${item.c}</div>`;
             
-            // İpucuna tıklandığında kelimenin başlangıç kutusuna odaklanma desteği
             div.addEventListener('click', () => {
                 let startInp = inputElements[`${item.row}-${item.col}`];
                 if (startInp) {
@@ -650,9 +624,6 @@
         });
     }
 
-    // ==========================================================================
-    // AKILLI HARF İPUCU ALMA MOTORU
-    // ==========================================================================
     function giveLetterHint() {
         if(currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
             const cellData = gridMatrix[currentFocusCell.row][currentFocusCell.col];
@@ -662,9 +633,6 @@
         }
     }
 
-    // ==========================================================================
-    // MATRİS DOĞRULUK VE BAŞARI DURUMU KONTROLÜ
-    // ==========================================================================
     function checkGridState() {
         let accurate = true;
         let cellsTested = 0;
@@ -700,9 +668,6 @@
         }
     }
 
-    // ==========================================================================
-    // INITIALIZATION (SİSTEMİ BAŞLATAN ANA ÇARK)
-    // ==========================================================================
     window.addEventListener('DOMContentLoaded', () => {
         changeLanguage();
     });
