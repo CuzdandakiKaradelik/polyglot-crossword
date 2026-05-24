@@ -13,16 +13,16 @@
            TEMA TANIMLAMALARI (10 Özgün Gazete/Baskı Teması)
            ========================================================================== */
         :root { --bg: #2b2b2b; --page: #ffffff; --grid: #bcbfc2; --text: #1a1a1a; --hint: #fbc02d; --btn: #1f3a52; --accent: #777; }
-        .theme-0 { --bg: #2b2b2b; --page: #ffffff; --grid: #bcbfc2; --text: #1a1a1a; --hint: #fbc02d; --btn: #1f3a52; --accent: #777; } /* Platin */
-        .theme-1 { --bg: #1c1c1c; --page: #f4edd2; --grid: #cfc4a2; --text: #3d2b1f; --hint: #d4af37; --btn: #5c4033; --accent: #8b7355; } /* Altın Vintaj */
-        .theme-2 { --bg: #0f172a; --page: #1e293b; --grid: #475569; --text: #f8fafc; --hint: #38bdf8; --btn: #0ea5e9; --accent: #94a3b8; } /* Gece Baskısı */
-        .theme-3 { --bg: #2d3748; --page: #edf2f7; --grid: #cbd5e0; --text: #2d3748; --hint: #ed8936; --btn: #2b6cb0; --accent: #4a5568; } /* Modern Günlük */
-        .theme-4 { --bg: #741b47; --page: #fff2cc; --grid: #e6b8af; --text: #4c1130; --hint: #f1c232; --btn: #a64d79; --accent: #741b47; } /* Gotik Kültür */
-        .theme-5 { --bg: #1e3f20; --page: #f1f8f5; --grid: #c2d6cc; --text: #0f2912; --hint: #81c784; --btn: #2e7d32; --accent: #4caf50; } /* Botanik Gazete */
-        .theme-6 { --bg: #3a3a3a; --page: #e5e5e5; --grid: #b5b5b5; --text: #111111; --hint: #ff5722; --btn: #e64a19; --accent: #616161; } /* Endüstriyel */
-        .theme-7 { --bg: #4a148c; --page: #f3e5f5; --grid: #d1c4e9; --text: #311b92; --hint: #ffb74d; --btn: #6a1b9a; --accent: #7e57c2; } /* Siber Klasik */
-        .theme-8 { --bg: #004d40; --page: #e0f2f1; --grid: #b2dfdb; --text: #004d40; --hint: #ffb300; --btn: #00695c; --accent: #4db6ac; } /* Deniz Esintisi */
-        .theme-9 { --bg: #5d4037; --page: #efebe9; --grid: #d7ccc8; --text: #3e2723; --hint: #d4a373; --btn: #4e342e; --accent: #8d6e63; } /* Espresso Akademik */
+        .theme-0 { --bg: #2b2b2b; --page: #ffffff; --grid: #bcbfc2; --text: #1a1a1a; --hint: #fbc02d; --btn: #1f3a52; --accent: #777; } 
+        .theme-1 { --bg: #1c1c1c; --page: #f4edd2; --grid: #cfc4a2; --text: #3d2b1f; --hint: #d4af37; --btn: #5c4033; --accent: #8b7355; } 
+        .theme-2 { --bg: #0f172a; --page: #1e293b; --grid: #475569; --text: #f8fafc; --hint: #38bdf8; --btn: #0ea5e9; --accent: #94a3b8; } 
+        .theme-3 { --bg: #2d3748; --page: #edf2f7; --grid: #cbd5e0; --text: #2d3748; --hint: #ed8936; --btn: #2b6cb0; --accent: #4a5568; } 
+        .theme-4 { --bg: #741b47; --page: #fff2cc; --grid: #e6b8af; --text: #4c1130; --hint: #f1c232; --btn: #a64d79; --accent: #741b47; } 
+        .theme-5 { --bg: #1e3f20; --page: #f1f8f5; --grid: #c2d6cc; --text: #0f2912; --hint: #81c784; --btn: #2e7d32; --accent: #4caf50; } 
+        .theme-6 { --bg: #3a3a3a; --page: #e5e5e5; --grid: #b5b5b5; --text: #111111; --hint: #ff5722; --btn: #e64a19; --accent: #616161; } 
+        .theme-7 { --bg: #4a148c; --page: #f3e5f5; --grid: #d1c4e9; --text: #311b92; --hint: #ffb74d; --btn: #6a1b9a; --accent: #7e57c2; } 
+        .theme-8 { --bg: #004d40; --page: #e0f2f1; --grid: #b2dfdb; --text: #004d40; --hint: #ffb300; --btn: #00695c; --accent: #4db6ac; } 
+        .theme-9 { --bg: #5d4037; --page: #efebe9; --grid: #d7ccc8; --text: #3e2723; --hint: #d4a373; --btn: #4e342e; --accent: #8d6e63; } 
 
         body {
             background-color: var(--bg);
@@ -278,7 +278,7 @@
 
 <script>
     // ==========================================================================
-    // ARAYÜZ DİL PAKETLERİ (Tam Sayfa Yerelleştirme İçin)
+    // ARAYÜZ DİL PAKETLERİ (Tam Sayfa Yerelleştirme)
     // ==========================================================================
     const TRANSLATIONS = {
         tr: { title: "Leksikal Matris Masası", edition: "Baskı Serisi: Özel Matbaa Sürümü", timer: "⏱ Kalan Süre: Sınırsız", lang: "Hedef Dil:", theme: "Gazete Teması:", version: "Baskı Versiyonu:", btnNew: "🔄 Yeni Kelimeler", btnHint: "💡 Harf Al (İpucu)", clues: "Günün Kültür İpuçları", across: "Yatay Kelimeler", down: "Dikey Kelimeler", success: "✓ Matris Başarıyla Çözüldü!", thWord: "Sözcük", thNote: "Bağlamsal Eğitim Notu" },
@@ -289,7 +289,7 @@
     };
 
     // ==========================================================================
-    // TAMAMEN ÖZGÜN KELİME HAVUZU (5 Dil x 2 Farklı Set = 50 Farklı Kelime)
+    // VERİ VERİTABANI (5 Dil x 2 Set = 50 Özgün Kelime)
     // ==========================================================================
     const LEXICON_DATABASE = {
         tr: [
@@ -320,15 +320,19 @@
     let activeWords = [];
     let currentFocusCell = null;
 
-    // TEMA UYGULAYICI (10 Farklı Gazete CSS Kombinasyonu)
     function applyTheme() {
         const themeIdx = document.getElementById('themeSelect').value;
-        const body = document.getElementById('body-root');
-        body.className = ''; 
-        body.classList.add(`theme-${themeIdx}`);
+        document.getElementById('body-root').className = `theme-${themeIdx}`;
     }
 
-    // DİL DEĞİŞTİRİCİ (Seçilen Dile Göre Bütün Sayfa Çevrilir)
+    // Dil bazlı güvenli büyük harf dönüştürücü (Özellikle Türkçe karakter koruması için)
+    function safeUpperCase(str, lang) {
+        if (lang === 'tr') {
+            return str.replace(/i/g, 'İ').replace(/ı/g, 'I').toUpperCase();
+        }
+        return str.toUpperCase();
+    }
+
     function changeLanguage() {
         const lang = document.getElementById('langSelect').value;
         const pack = TRANSLATIONS[lang];
@@ -351,15 +355,12 @@
         buildCrosswordMatrix();
     }
 
-    // YENİ KELİMELERİN GELMESİ (Set Değiştirici)
     function toggleMatrixVersion() {
         const selectElement = document.getElementById('matrixVersion');
-        let currentVer = parseInt(selectElement.value);
-        selectElement.value = (currentVer === 0) ? "1" : "0";
+        selectElement.value = (parseInt(selectElement.value) === 0) ? "1" : "0";
         buildCrosswordMatrix();
     }
 
-    // BULMACA MATRİS MOTORU (Dinamik Kelime Yerleştirici)
     function buildCrosswordMatrix() {
         document.getElementById('corpus-index-area').style.display = 'none';
         const lang = document.getElementById('langSelect').value;
@@ -422,6 +423,7 @@
         container.innerHTML = '';
         container.style.gridTemplateColumns = `repeat(${matrixSize}, 34px)`;
         inputElements = {};
+        currentFocusCell = null; // Eski odağı temizle
 
         for(let r=0; r<matrixSize; r++) {
             for(let c=0; c<matrixSize; c++) {
@@ -439,14 +441,31 @@
                     inp.type = 'text';
                     inp.maxLength = 1;
                     
+                    // Geliştirilmiş Klavye ve Otomatik Yön Algılama Motoru
                     inp.addEventListener('input', (e) => {
-                        e.target.value = e.target.value.toUpperCase();
+                        const currentLang = document.getElementById('langSelect').value;
+                        e.target.value = safeUpperCase(e.target.value, currentLang);
                         checkGridState();
+                        
                         if(e.target.value.length === 1) {
                             let nextR = cell.dir === "down" ? r + 1 : r;
                             let nextC = cell.dir === "down" ? c : c + 1;
                             let nextInp = inputElements[`${nextR}-${nextC}`];
                             if(nextInp) nextInp.focus();
+                        }
+                    });
+
+                    // Geliştirilmiş Backspace (Geri Silme) Navigasyonu
+                    inp.addEventListener('keydown', (e) => {
+                        if (e.key === 'Backspace' && e.target.value === '') {
+                            let prevR = cell.dir === "down" ? r - 1 : r;
+                            let prevC = cell.dir === "down" ? c - 1 : c;
+                            let prevInp = inputElements[`${prevR}-${prevC}`];
+                            if (prevInp) {
+                                prevInp.focus();
+                                prevInp.value = '';
+                                checkGridState();
+                            }
                         }
                     });
                     
@@ -476,10 +495,10 @@
         });
     }
 
-    // İPUCU SİSTEMİ (Seçili Hücreye Doğru Harfi Basar)
     function giveLetterHint() {
         if(currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
             currentFocusCell.element.value = gridMatrix[currentFocusCell.row][currentFocusCell.col].letter;
+            currentFocusCell.element.focus();
             checkGridState();
         }
     }
@@ -507,7 +526,7 @@
         }
     }
 
-    // Sayfa Açılış Kurulumu
+    // İlk kurulum başlatıcı
     changeLanguage();
 </script>
 </body>
