@@ -7,11 +7,12 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- TEMA RENK DEĞİŞKENLERİ (Orijinal Tasarıma Sadık Kalındı) --- */
+        /* --- 8 FARKLI TEMA RENK DEĞİŞKENLERİ --- */
         :root {
+            /* 1. Gazete (Açık) */
             --bg-body: #f4ebd9;
             --bg-container: #fbf5eb;
             --text-main: #2b2b2b;
@@ -19,9 +20,11 @@
             --cell-active-bg: #ffffff;
             --cell-focus-bg: #fffacd;
             --clue-num-bg: #eae0cc;
+            --font-family: 'Courier Prime', monospace;
         }
 
         [data-theme="dark"] {
+            /* 2. Gece (Karanlık) */
             --bg-body: #121214;
             --bg-container: #1e1e22;
             --text-main: #e2e2e6;
@@ -29,9 +32,11 @@
             --cell-active-bg: #2d2d34;
             --cell-focus-bg: #4c4a37;
             --clue-num-bg: #44403c;
+            --font-family: 'Courier Prime', monospace;
         }
 
         [data-theme="retro"] {
+            /* 3. Retro (Ateri) */
             --bg-body: #0a0a0a;
             --bg-container: #111111;
             --text-main: #00ff00;
@@ -39,12 +44,73 @@
             --cell-active-bg: #000000;
             --cell-focus-bg: #004400;
             --clue-num-bg: #002200;
+            --font-family: 'JetBrains Mono', monospace;
+        }
+
+        [data-theme="nordic"] {
+            /* 4. Nordic Minimal (Yeni!) */
+            --bg-body: #e5e9f0;
+            --bg-container: #eceff4;
+            --text-main: #2e3440;
+            --border-color: #4c566a;
+            --cell-active-bg: #ffffff;
+            --cell-focus-bg: #88c0d0;
+            --clue-num-bg: #d8dee9;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        [data-theme="sakura"] {
+            /* 5. Sakura Pastel (Yeni!) */
+            --bg-body: #ffebf0;
+            --bg-container: #fff5f7;
+            --text-main: #4a2830;
+            --border-color: #ffb7c5;
+            --cell-active-bg: #ffffff;
+            --cell-focus-bg: #ffd1dc;
+            --clue-num-bg: #ffe3e8;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        [data-theme="cyberpunk"] {
+            /* 6. Cyberpunk Neon (Yeni!) */
+            --bg-body: #f3f315;
+            --bg-container: #000000;
+            --text-main: #00ffff;
+            --border-color: #ff007f;
+            --cell-active-bg: #111111;
+            --cell-focus-bg: #ff007f;
+            --clue-num-bg: #222222;
+            --font-family: 'JetBrains Mono', monospace;
+        }
+
+        [data-theme="cozy"] {
+            /* 7. Cappuccino Cozy (Yeni!) */
+            --bg-body: #d7ccc8;
+            --bg-container: #efebe9;
+            --text-main: #3e2723;
+            --border-color: #5d4037;
+            --cell-active-bg: #ffffff;
+            --cell-focus-bg: #bcaaa4;
+            --clue-num-bg: #d7ccc8;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        [data-theme="sunset"] {
+            /* 8. Sunset Orange (Yeni!) */
+            --bg-body: #fff3e0;
+            --bg-container: #ffe0b2;
+            --text-main: #e65100;
+            --border-color: #f57c00;
+            --cell-active-bg: #ffffff;
+            --cell-focus-bg: #ffe0b2;
+            --clue-num-bg: #ffcc80;
+            --font-family: 'Poppins', sans-serif;
         }
 
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-family);
             margin: 0;
             padding: 20px;
             transition: background-color 0.3s, color 0.3s;
@@ -92,7 +158,7 @@
         }
 
         .control-panel select {
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-family);
             font-size: 16px;
             padding: 5px 10px;
             border: 2px solid var(--border-color);
@@ -102,7 +168,7 @@
         }
 
         .control-panel button {
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-family);
             font-size: 16px;
             font-weight: bold;
             padding: 6px 15px;
@@ -174,7 +240,7 @@
             text-align: center;
             font-size: 16px;
             font-weight: bold;
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-family);
             text-transform: uppercase;
             background: transparent;
             color: var(--text-main);
@@ -233,6 +299,12 @@
             line-height: 1.5;
             padding: 6px;
             border-bottom: 1px dotted #ccc;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .clue-item:hover {
+            background-color: var(--clue-num-bg);
         }
 
         .clue-item strong {
@@ -279,6 +351,11 @@
             <option value="light">Gazete (Açık) ☀️</option>
             <option value="dark">Gece (Karanlık) 🌙</option>
             <option value="retro">Retro (Ateri) 🕹️</option>
+            <option value="nordic">Nordic Minimal ❄️</option>
+            <option value="sakura">Sakura Pastel 🌸</option>
+            <option value="cyberpunk">Cyberpunk Neon ⚡</option>
+            <option value="cozy">Cappuccino Cozy ☕</option>
+            <option value="sunset">Sunset Orange 🌅</option>
         </select>
 
         <button onclick="initGame()">🔄 Yeni Bulmaca</button>
@@ -389,9 +466,9 @@
     let inputElements = {};
     let activeWords = [];
     let usedWordsHistory = { en: [], es: [], de: [], fr: [], it: [] };
-    let currentFocusCell = null; // Aktif seçili hücreyi takip etmek için
+    let currentFocusCell = null;
+    let activeWritingDirection = "across"; // "across" veya "down" takibi yapacak
 
-    // YENİ: Tema değiştirme fonksiyonu
     function changeTheme(themeName) {
         document.documentElement.setAttribute('data-theme', themeName);
         localStorage.setItem('polyglot-theme', themeName);
@@ -400,7 +477,6 @@
     function resetLanguageAndInit() {
         const selectedLang = document.getElementById('langSelect').value;
         usedWordsHistory[selectedLang] = [];
-        // Dil değiştiğinde eski kayıtları temizle
         localStorage.removeItem('saved-grid-answers');
         initGame();
     }
@@ -436,8 +512,6 @@
         activeWords = generationResult.placedWords;
         renderGrid(generationResult.matrix);
         renderClues();
-
-        // YENİ: Kayıtlı ilerleme varsa geri yükle
         loadProgress();
     }
 
@@ -548,24 +622,23 @@
                     input.type = 'text';
                     input.maxLength = 1;
                     
-                    // YENİ: Mobil Klavye Desteği ve Otomatik İleri Zıplama
                     input.addEventListener('input', (e) => {
                         input.value = e.target.value.toUpperCase();
-                        saveProgress(); // Değişikliği anlık kaydet
+                        saveProgress();
                         checkWinCondition();
 
-                        // Eğer bir harf yazıldıysa, otomatik sonraki aktif kutuya geç (UX iyileştirmesi)
+                        // KRİTİK GÜNCELLEME: Yön kilitli otomatik zıplama motoru
                         if (input.value.length === 1) {
-                            moveToNextCell(r, c);
+                            moveNextWithDirection(r, c);
                         }
                     });
 
-                    // Hücre seçildiğinde ipucu için takibe al
                     input.addEventListener('focus', () => {
                         currentFocusCell = { row: r, col: c, element: input };
+                        // O an basılan hücrenin hangi kelimeye ait olduğunu bularak yönü tahmin etmeye çalışır
+                        determineDirection(r, c);
                     });
 
-                    // KLAVYE YÖN TUŞLARI NAVİGASYON MOTORU
                     input.addEventListener('keydown', (e) => {
                         let targetRow = r;
                         let targetCol = c;
@@ -577,7 +650,7 @@
                             case "ArrowRight": targetCol++; break;
                             case "Backspace":
                                 if (input.value === "") {
-                                    moveToPreviousCell(r, c);
+                                    moveBackWithDirection(r, c);
                                 } else {
                                     input.value = "";
                                     saveProgress();
@@ -602,37 +675,64 @@
         }
     }
 
-    // YENİ: Mobilde yazmayı kolaylaştıran yön zıplama motorları
-    function moveToNextCell(r, c) {
-        if (inputElements[`${r}-${c+1}`]) {
-            inputElements[`${r}-${c+1}`].focus();
-        } else if (inputElements[`${r+1}-${c}`]) {
-            inputElements[`${r+1}-${c}`].focus();
+    // YÖNÜ TESPİT ETME MOTORU
+    function determineDirection(r, c) {
+        // Eğer hücrenin hem sağında hem solunda aktif alan varsa yüksek ihtimalle yatay yazıyordur
+        let hasHorizontal = inputElements[`${r}-${c+1}`] || inputElements[`${r}-${c-1}`];
+        let hasVertical = inputElements[`${r+1}-${c}`] || inputElements[`${r-1}-${c}`];
+        
+        if (hasHorizontal && !hasVertical) {
+            activeWritingDirection = "across";
+        } else if (hasVertical && !hasHorizontal) {
+            activeWritingDirection = "down";
         }
     }
 
-    function moveToPreviousCell(r, c) {
-        if (inputElements[`${r}-${c-1}`]) {
-            inputElements[`${r}-${c-1}`].focus();
-        } else if (inputElements[`${r-1}-${c}`]) {
-            inputElements[`${r-1}-${c}`].focus();
+    // YATAYDA VE DİKEYDE KİLİTLİ İLERLEME MOTORLARI
+    function moveNextWithDirection(r, c) {
+        if (activeWritingDirection === "across") {
+            // Yatay yazıyorsak sadece sağdaki kutuya bak, alt kutuya asla geçme!
+            if (inputElements[`${r}-${c+1}`]) {
+                inputElements[`${r}-${c+1}`].focus();
+            }
+        } else if (activeWritingDirection === "down") {
+            // Dikey yazıyorsak sadece alttaki kutuya bak, sağdaki kutuya asla geçme!
+            if (inputElements[`${r+1}-${c}`]) {
+                inputElements[`${r+1}-${c}`].focus();
+            }
         }
     }
 
-    // YENİ: Harf İpucu / Harf Al Mekanizması
+    function moveBackWithDirection(r, c) {
+        if (activeWritingDirection === "across") {
+            if (inputElements[`${r}-${c-1}`]) {
+                inputElements[`${r}-${c-1}`].focus();
+            }
+        } else if (activeWritingDirection === "down") {
+            if (inputElements[`${r-1}-${c}`]) {
+                inputElements[`${r-1}-${c}`].focus();
+            }
+        }
+    }
+
+    // İpucu Listesindeki bir maddeye tıklanırsa yön kilitlenmesini elle de değiştirsin
+    function setDirectionFromClue(dir) {
+        activeWritingDirection = dir;
+    }
+
     function getLetterHint() {
         if (currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
             const correctLetter = gridMatrix[currentFocusCell.row][currentFocusCell.col].letter;
             currentFocusCell.element.value = correctLetter;
-            currentFocusCell.element.style.color = "#a61c1c"; // İpucu olduğu belli olsun diye kırmızı/farklı renk yapalım
+            currentFocusCell.element.style.color = "#a61c1c";
             saveProgress();
             checkWinCondition();
+            moveNextWithDirection(currentFocusCell.row, currentFocusCell.col);
         } else {
             alert("Lütfen önce harf almak istediğiniz boş bir kutucuğa tıklayın!");
         }
     }
 
-    // YENİ: İlerlemeyi LocalStorage'a kaydetme fonksiyonu
     function saveProgress() {
         let savedAnswers = {};
         for (let key in inputElements) {
@@ -643,7 +743,6 @@
         localStorage.setItem('saved-grid-answers', JSON.stringify(savedAnswers));
     }
 
-    // YENİ: İlerlemeyi LocalStorage'dan geri yükleme fonksiyonu
     function loadProgress() {
         let savedAnswers = localStorage.getItem('saved-grid-answers');
         if (savedAnswers) {
@@ -668,6 +767,14 @@
             clueDiv.className = 'clue-item';
             clueDiv.innerHTML = `<strong>${item.num}</strong> ${item.clue}`;
             
+            // İpucuna tıklandığında yazma yönünü otomatik o kelimenin yönüne kilitler!
+            clueDiv.addEventListener('click', () => {
+                setDirectionFromClue(item.dir);
+                if (inputElements[`${item.row}-${item.col}`]) {
+                    inputElements[`${item.row}-${item.col}`].focus();
+                }
+            });
+
             if (item.dir === 'across') {
                 acrossContainer.appendChild(clueDiv);
             } else {
@@ -692,16 +799,14 @@
         if (allCorrect) {
             document.getElementById('success-banner').style.display = 'block';
             Object.values(inputElements).forEach(input => input.disabled = true);
-            localStorage.removeItem('saved-grid-answers'); // Kazanınca eski kaydı silelim
+            localStorage.removeItem('saved-grid-answers');
         }
     }
 
     window.onload = function() {
-        // Kayıtlı tema varsa yükle
         const savedTheme = localStorage.getItem('polyglot-theme') || 'light';
         document.getElementById('themeSelect').value = savedTheme;
         changeTheme(savedTheme);
-
         initGame();
     };
 </script>
