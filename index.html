@@ -9,12 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <style>
-        /* TEMA TANIMLAMALARI (10 Özgün Gazete/Baskı Teması) */
+        /* ==========================================================================
+           TEMA TANIMLAMALARI (10 Özgün Gazete/Baskı Teması)
+           ========================================================================== */
         :root { --bg: #2b2b2b; --page: #ffffff; --grid: #bcbfc2; --text: #1a1a1a; --hint: #fbc02d; --btn: #1f3a52; --accent: #777; }
         .theme-0 { --bg: #2b2b2b; --page: #ffffff; --grid: #bcbfc2; --text: #1a1a1a; --hint: #fbc02d; --btn: #1f3a52; --accent: #777; } /* Platin */
         .theme-1 { --bg: #1c1c1c; --page: #f4edd2; --grid: #cfc4a2; --text: #3d2b1f; --hint: #d4af37; --btn: #5c4033; --accent: #8b7355; } /* Altın Vintaj */
         .theme-2 { --bg: #0f172a; --page: #1e293b; --grid: #475569; --text: #f8fafc; --hint: #38bdf8; --btn: #0ea5e9; --accent: #94a3b8; } /* Gece Baskısı */
-        .theme-3 { --bg: #2d3748; --page: #edf2f7; --grid: #cbd5e0; --text: --text: #2d3748; --hint: #ed8936; --btn: #2b6cb0; --accent: #4a5568; } /* Modern Günlük */
+        .theme-3 { --bg: #2d3748; --page: #edf2f7; --grid: #cbd5e0; --text: #2d3748; --hint: #ed8936; --btn: #2b6cb0; --accent: #4a5568; } /* Modern Günlük */
         .theme-4 { --bg: #741b47; --page: #fff2cc; --grid: #e6b8af; --text: #4c1130; --hint: #f1c232; --btn: #a64d79; --accent: #741b47; } /* Gotik Kültür */
         .theme-5 { --bg: #1e3f20; --page: #f1f8f5; --grid: #c2d6cc; --text: #0f2912; --hint: #81c784; --btn: #2e7d32; --accent: #4caf50; } /* Botanik Gazete */
         .theme-6 { --bg: #3a3a3a; --page: #e5e5e5; --grid: #b5b5b5; --text: #111111; --hint: #ff5722; --btn: #e64a19; --accent: #616161; } /* Endüstriyel */
@@ -208,7 +210,7 @@
                 <option value="en">English (İngilizce)</option>
                 <option value="es">Español (İspanyolca)</option>
                 <option value="de">Deutsch (Almanca)</option>
-                <option value="fr">Fransızca (Fransızca)</option>
+                <option value="fr">Français (Fransızca)</option>
             </select>
         </div>
 
@@ -230,15 +232,15 @@
 
         <div class="control-group">
             <label id="lbl-version">Baskı Versiyonu:</label>
-            <select id="matrixVersion" onchange="generateNextMatrix()">
-                <option value="0">Set #1 (A Sınıfı)</option>
-                <option value="1">Set #2 (B Sınıfı)</option>
+            <select id="matrixVersion" onchange="buildCrosswordMatrix()">
+                <option value="0">Set #1 (Klasik Sinema)</option>
+                <option value="1">Set #2 (Kültür & Sanat)</option>
             </select>
         </div>
 
         <div class="action-buttons">
-            <button class="btn btn-new" id="btn-new" onclick="generateNextMatrix()">🔄 Yeni Bulmaca</button>
-            <button class="btn btn-hint" id="btn-hint" onclick="giveLetterHint()">💡 Harf Al</button>
+            <button class="btn btn-new" id="btn-new" onclick="toggleMatrixVersion()">🔄 Yeni Kelimeler</button>
+            <button class="btn btn-hint" id="btn-hint" onclick="giveLetterHint()">💡 Harf Al (İpucu)</button>
         </div>
     </div>
 
@@ -250,11 +252,11 @@
         <div class="corpus-section">
             <h2 id="ui-clues-title">Günün Kültür İpuçları</h2>
             <div class="clue-block">
-                <h3 id="ui-across">Yatay Kelimeler (Across)</h3>
+                <h3 id="ui-across">Yatay Kelimeler</h3>
                 <div id="across-clues"></div>
             </div>
             <div class="clue-block">
-                <h3 id="ui-down">Dikey Kelimeler (Down)</h3>
+                <h3 id="ui-down">Dikey Kelimeler</h3>
                 <div id="down-clues"></div>
             </div>
         </div>
@@ -275,36 +277,40 @@
 </div>
 
 <script>
+    // ==========================================================================
     // ARAYÜZ DİL PAKETLERİ (Tam Sayfa Yerelleştirme İçin)
+    // ==========================================================================
     const TRANSLATIONS = {
-        tr: { title: "Leksikal Matris Masası", edition: "Baskı Serisi: Özel Matbaa Sürümü", timer: "⏱ Kalan Süre: Sınırsız", lang: "Hedef Dil:", theme: "Gazete Teması:", version: "Baskı Versiyonu:", btnNew: "🔄 Yeni Bulmaca", btnHint: "💡 Harf Al", clues: "Günün Kültür İpuçları", across: "Yatay Kelimeler", down: "Dikey Kelimeler", success: "✓ Matris Başarıyla Çözüldü!", thWord: "Sözcük", thNote: "Bağlamsal Eğitim Notu" },
-        en: { title: "The Polyglot Movie Crossword", edition: "Edition: Premium Press Version", timer: "⏱ Time Remaining: Unlimited", lang: "Target Language:", theme: "Press Theme:", version: "Print Version:", btnNew: "🔄 New Puzzle", btnHint: "💡 Get Letter", clues: "Daily Culture Clues", across: "Across Words", down: "Down Words", success: "✓ Matrix Successfully Solved!", thWord: "Word", thNote: "Contextual Study Note" },
-        es: { title: "El Crucigrama Políglota", edition: "Edición: Versión de Prensa Premium", timer: "⏱ Tiempo Restante: Ilimitado", lang: "Idioma Destino:", theme: "Tema de Prensa:", version: "Versión de Impresión:", btnNew: "🔄 Nueva Matriz", btnHint: "💡 Obtener Letra", clues: "Pistas Culturales del Día", across: "Palabras Horizontales", down: "Palabras Verticales", success: "✓ ¡Matriz Resuelta Con Éxito!", thWord: "Palabra", thNote: "Nota de Estudio Contextual" },
-        de: { title: "Das Polyglotte Kreuzworträtsel", edition: "Ausgabe: Premium-Presseversion", timer: "⏱ Verbleibende Zeit: Unbegrenzt", lang: "Zielsprache:", theme: "Zeitungsthema:", version: "Druckversion:", btnNew: "🔄 Neues Rätsel", btnHint: "💡 Tipp Holen", clues: "Kulturhinweise des Tages", across: "Waagerecht", down: "Senkrecht", success: "✓ Matrix erfolgreich gelöst!", thWord: "Wort", thNote: "Kontextuelle Studiennotiz" },
-        fr: { title: "Les Mots Croisés Polyglottes", edition: "Édition: Version Presse Premium", timer: "⏱ Temps Restant: Illimité", lang: "Langue Cible:", theme: "Thème de Presse:", version: "Version d'Impression:", btnNew: "🔄 Nouveau Puzzle", btnHint: "💡 Obtenir Lettre", clues: "Indices Culturels du Jour", across: "Mots Horizontaux", down: "Mots Verticaux", success: "✓ Matrice résolue avec succès!", thWord: "Mot", thNote: "Note d'Étude Contextuelle" }
+        tr: { title: "Leksikal Matris Masası", edition: "Baskı Serisi: Özel Matbaa Sürümü", timer: "⏱ Kalan Süre: Sınırsız", lang: "Hedef Dil:", theme: "Gazete Teması:", version: "Baskı Versiyonu:", btnNew: "🔄 Yeni Kelimeler", btnHint: "💡 Harf Al (İpucu)", clues: "Günün Kültür İpuçları", across: "Yatay Kelimeler", down: "Dikey Kelimeler", success: "✓ Matris Başarıyla Çözüldü!", thWord: "Sözcük", thNote: "Bağlamsal Eğitim Notu" },
+        en: { title: "The Polyglot Movie Crossword", edition: "Edition: Premium Press Version", timer: "⏱ Time Remaining: Unlimited", lang: "Target Language:", theme: "Press Theme:", version: "Print Version:", btnNew: "🔄 New Words", btnHint: "💡 Get Hint (Letter)", clues: "Daily Culture Clues", across: "Across Words", down: "Down Words", success: "✓ Matrix Successfully Solved!", thWord: "Word", thNote: "Contextual Study Note" },
+        es: { title: "El Crucigrama Políglota", edition: "Edición: Versión de Prensa Premium", timer: "⏱ Tiempo Restante: Ilimitado", lang: "Idioma Destino:", theme: "Tema de Prensa:", version: "Versión de Impresión:", btnNew: "🔄 Nuevas Palabras", btnHint: "💡 Obtener Letra", clues: "Pistas Culturales del Día", across: "Palabras Horizontales", down: "Palabras Verticales", success: "✓ ¡Matriz Resuelta Con Éxito!", thWord: "Palabra", thNote: "Nota de Estudio Contextual" },
+        de: { title: "Das Polyglotte Kreuzworträtsel", edition: "Ausgabe: Premium-Presseversion", timer: "⏱ Verbleibende Zeit: Unbegrenzt", lang: "Zielsprache:", theme: "Zeitungsthema:", version: "Druckversion:", btnNew: "🔄 Neue Wörter", btnHint: "💡 Tipp Holen", clues: "Kulturhinweise des Tages", across: "Waagerecht", down: "Senkrecht", success: "✓ Matrix erfolgreich gelöst!", thWord: "Wort", thNote: "Kontextuelle Studiennotiz" },
+        fr: { title: "Les Mots Croisés Polyglottes", edition: "Édition: Version Presse Premium", timer: "⏱ Temps Restant: Illimité", lang: "Langue Cible:", theme: "Thème de Presse:", version: "Version d'Impression:", btnNew: "🔄 Nouveaux Mots", btnHint: "💡 Obtenir Lettre", clues: "Indices Culturels du Jour", across: "Mots Horizontaux", down: "Mots Verticaux", success: "✓ Matrice résolue avec succès!", thWord: "Mot", thNote: "Note d'Étude Contextuelle" }
     };
 
-    // TAMAMEN ÖZGÜN KELİME HAVUZU (5 Dil x 2 Set x 5 Kelime = 50 Birbirinden Farklı Kelime)
+    // ==========================================================================
+    // TAMAMEN ÖZGÜN KELİME HAVUZU (5 Dil x 2 Farklı Set = 50 Farklı Kelime)
+    // ==========================================================================
     const LEXICON_DATABASE = {
         tr: [
-            [{w:"SİNEMA", c:"Yedinci sanat dalı, beyaz perde. | Not: Film izleme alanı."}, {w:"AKTOR", c:"Erkek oyuncu, sahnede rol yapan kişi."}, {w:"SAHNE", c:"Bir filmin veya tiyatronun kesiti, platform."}, {w:"KAMERA", c:"Görüntü kaydı yapan optik cihaz."}, {w:"KÜLTÜR", c:"Toplumların sanatsal ve entelektüel birikimi."}],
-            [{w:"ROMAN", c:"Uzun anlatı içeren edebi kitap türü."}, {w:"YAZAR", c:"Kitap veya metin kaleme alan fikir işçisi."}, {w:"DRAMA", c:"Ciddi ve duygusal tonlu tiyatro veya film."}, {w:"SENARYO", c:"Filmin çekim planını içeren yazılı metin."}, {w:"BELGE", c:"Gerçeği ispatlayan nitelikteki sinema türü."}]
+            [{w:"SİNEMA", c:"Yedinci sanat dalı, beyaz perde."}, {w:"AKTOR", c:"Sahnede veya kamera önünde rol yapan erkek sanatçı."}, {w:"SAHNE", c:"Bir filmin veya tiyatro oyununun bölünmüş kesitlerinden her biri."}, {w:"KAMERA", c:"Görüntüleri kaydetmeye yarayan optik cihaz."}, {w:"KÜLTÜR", c:"Toplumların sanatsal ve entelektüel birikimlerinin bütünü."}],
+            [{w:"ROMAN", c:"Gerçek ya da kurgusal olayları uzun uzadıya anlatan edebi tür."}, {w:"YAZAR", c:"Kitap, senaryo veya fikir metinleri kaleme alan sanatçı."}, {w:"DRAMA", c:"Ciddi ve duygusal tonların ağır bastığı tiyatro veya film türü."}, {w:"REJİSÖR", c:"Filmin çekimlerini ve sanatsal yönetimini yöneten kişi, yönetmen."}, {w:"BELGE", c:"Gerçek olayları ve kanıtları sinema diliyle aktaran film türü."}]
         ],
         en: [
-            [{w:"AWARD", c:"An honor or prize given for film merit."}, {w:"THIEF", c:"A person who steals; central focus in Inception."}, {w:"MOVIE", c:"A motion picture; cinema presentation."}, {w:"SPACE", c:"The cosmos; main setting of Interstellar."}, {w:"HERO", c:"A person admired for courage or noble qualities."}],
-            [{w:"SCRIPT", c:"The written text of a movie or broadcast."}, {w:"SCENE", c:"A sequence of continuous action in a play or movie."}, {w:"STAGE", c:"A raised floor or platform for performers."}, {w:"SHOCK", c:"A sudden upsetting or surprising event in thriller plots."}, {w:"SOUND", c:"Auditory effect elements of a film production."}]
+            [{w:"AWARD", c:"An honor or prize given for exceptional film merit."}, {w:"THIEF", c:"A person who steals; central job of Cobb in Inception."}, {w:"MOVIE", c:"A motion picture production; cinema presentation."}, {w:"SPACE", c:"The cosmos; the main settings of the movie Interstellar."}, {w:"HERO", c:"A protagonist admired for courage or outstanding achievements."}],
+            [{w:"SCRIPT", c:"The written text of a movie, play, or broadcast."}, {w:"SCENE", c:"A sequence of continuous action in a motion picture."}, {w:"STAGE", c:"A raised floor or platform for performers and actors."}, {w:"SHOCK", c:"A sudden upsetting or surprising event in thriller plots."}, {w:"SOUND", c:"Auditory effect elements and scores of a film production."}]
         ],
         es: [
-            [{w:"PREMIO", c:"Galardón entregado por mérito artístico."}, {w:"LADRON", c:"Persona que hurta; clave en la película Inception."}, {w:"CINE", c:"Establecimiento para la proyección de películas."}, {w:"ESPACIO", c:"El cosmos exterior; tema de Interstellar."}, {w:"HEROE", c:"Personaje con virtudes ideales o sobrenaturales."}],
-            [{w:"GUION", c:"Texto escrito preparado para la filmación."}, {w:"ESCENA", c:"Parte de una obra cinematográfica en un mismo lugar."}, {w:"TEATRO", c:"Edificio o sala destinada al espectáculo dramático."}, {w:"DRAMA", c:"Obra de carácter triste o profundamente serio."}, {w:"MUNDO", c:"El planeta tierra o conjunto de todo lo existente."}]
+            [{w:"PREMIO", c:"Galardón o distinción entregado por mérito artístico."}, {w:"LADRON", c:"Persona que hurta; clave en la trama de Inception."}, {w:"CINE", c:"Establecimiento público para la proyección de películas."}, {w:"ESPACIO", c:"El cosmos exterior; tema central de Interstellar."}, {w:"HEROE", c:"Personaje famoso por sus virtudes ideales o hazañas."}],
+            [{w:"GUION", c:"Texto escrito preparado con los detalles para la filmación."}, {w:"ESCENA", c:"Parte de una obra cinematográfica que se desarrolla en un sitio."}, {w:"TEATRO", c:"Edificio o sala destinada al espectáculo dramático y musical."}, {w:"DRAMA", c:"Obra teatral o cinematográfica de carácter triste y serio."}, {w:"MUNDO", c:"El planeta tierra o conjunto de todo lo existente."}]
         ],
         de: [
-            [{w:"PREIS", c:"Auszeichnung für hervorragende Leistungen."}, {w:"DIEB", c:"Jemand, der stiehlt; Fokus im Film Inception."}, {w:"FILM", c:"Eine Folge von bewegten Bildern auf der Leinwand."}, {w:"WELTRAUM", c:"Das Universum außerhalb der Erdatmosphäre."}, {w:"HELD", c:"Eine Person mit besonders mutigen Taten."}],
-            [{w:"SKRIPT", c:"Das gedruckte Drehbuch für Schauspieler."}, {w:"SZENE", c:"Ein Teilabschnitt einer Filmhandlung."}, {w:"BUEHNE", c:"Der erhöhte Ort für künstlerische Auftritte."}, {w:"MUSIK", c:"Akustische Begleitung der Filmszenen."}, {w:"KUNST", c:"Schöpferisches Gestalten aus verschiedenen Materialien."}]
+            [{w:"PREIS", c:"Eine Auszeichnung für hervorragende filmische Leistungen."}, {w:"DIEB", c:"Jemand, der stiehlt; Fokus im Science-Fiction-Film Inception."}, {w:"FILM", c:"Eine Folge von bewegten Bildern auf der Kinoleinwand."}, {w:"WELTRAUM", c:"Das Universum außerhalb der Erdatmosphäre (Interstellar)."}, {w:"HELD", c:"Eine Person, die eine besonders mutige Tat vollbracht hat."}],
+            [{w:"SKRIPT", c:"Das gedruckte Drehbuch für Schauspieler und Regisseure."}, {w:"SZENE", c:"Ein in sich geschlossener Teilabschnitt einer Filmhandlung."}, {w:"BUEHNE", c:"Der erhöhte Ort für künstlerische und theatralische Auftritte."}, {w:"MUSIK", c:"Akustische und melodische Begleitung der Filmszenen."}, {w:"KUNST", c:"Schöpferisches Gestalten aus verschiedenen Materialien und Ideen."}]
         ],
         fr: [
-            [{w:"PRIX", c:"Récompense accordée à un vainqueur."}, {w:"VOLEUR", c:"Personne qui commet un larcin; voir Inception."}, {w:"SALLE", c:"Lieu où le public se réunit pour le cinéma."}, {w:"ESPACE", c:"Lieu infini au-delà de l'atmosphère."}, {w:"HEROS", c:"Personnage principal d'une œuvre littéraire ou film."}],
-            [{w:"TEXTE", c:"Le document écrit servant de base aux acteurs."}, {w:"ECRAN", c:"Surface blanche sur laquelle est projeté le film."}, {w:"IMAGE", c:"Représentation visuelle capturée par la caméra."}, {w:"DRAME", c:"Pièce ou film dont l'action est tragique."}, {w:"PHASE", c:"Chaque étape successive d'une production."}]
+            [{w:"PRIX", c:"Récompense honorifique accordée à un vainqueur du cinéma."}, {w:"VOLEUR", c:"Personne qui commet un larcin; voir le film Inception."}, {w:"SALLE", c:"Lieu public où le public se réunit pour voir le film."}, {w:"ESPACE", c:"Lieu infini au-delà de l'atmosphère terrestre (Interstellar)."}, {w:"HEROS", c:"Personnage principal d'une œuvre littéraire ou cinématographique."}],
+            [{w:"TEXTE", c:"Le document écrit servant de base narrative aux acteurs."}, {w:"ECRAN", c:"Surface blanche sur laquelle est projeté le film au cinéma."}, {w:"IMAGE", c:"Représentation visuelle capturée par l'objectif de la caméra."}, {w:"DRAME", c:"Pièce ou film dont l'action présente un caractère tragique."}, {w:"PHASE", c:"Chaque étape successive d'une production ou d'un montage."}]
         ]
     };
 
@@ -314,7 +320,7 @@
     let activeWords = [];
     let currentFocusCell = null;
 
-    // TEMA UYGULAYICI
+    // TEMA UYGULAYICI (10 Farklı Gazete CSS Kombinasyonu)
     function applyTheme() {
         const themeIdx = document.getElementById('themeSelect').value;
         const body = document.getElementById('body-root');
@@ -322,7 +328,7 @@
         body.classList.add(`theme-${themeIdx}`);
     }
 
-    // DİL DEĞİŞTİRİCİ (Bütün Sayfayı Çevirir)
+    // DİL DEĞİŞTİRİCİ (Seçilen Dile Göre Bütün Sayfa Çevrilir)
     function changeLanguage() {
         const lang = document.getElementById('langSelect').value;
         const pack = TRANSLATIONS[lang];
@@ -345,13 +351,15 @@
         buildCrosswordMatrix();
     }
 
-    function generateNextMatrix() {
-        let currentVer = parseInt(document.getElementById('matrixVersion').value);
-        document.getElementById('matrixVersion').value = (currentVer === 0) ? 1 : 0;
+    // YENİ KELİMELERİN GELMESİ (Set Değiştirici)
+    function toggleMatrixVersion() {
+        const selectElement = document.getElementById('matrixVersion');
+        let currentVer = parseInt(selectElement.value);
+        selectElement.value = (currentVer === 0) ? "1" : "0";
         buildCrosswordMatrix();
     }
 
-    // SIKI BULMACA MATRİS MOTORU (Yerleşim Algoritması)
+    // BULMACA MATRİS MOTORU (Dinamik Kelime Yerleştirici)
     function buildCrosswordMatrix() {
         document.getElementById('corpus-index-area').style.display = 'none';
         const lang = document.getElementById('langSelect').value;
@@ -362,16 +370,14 @@
         activeWords = [];
 
         // Kelime 1: Sabit Merkez Çapa Yatay
-        let w1 = subset[0]; 
-        let r1 = 4, c1 = 3;
+        let w1 = subset[0]; let r1 = 4, c1 = 3;
         for(let i=0; i<w1.w.length; i++) {
             localMatrix[r1][c1 + i] = { letter: w1.w[i], isStart: i===0, num: 1, dir: "across" };
         }
         activeWords.push({ w: w1.w, c: w1.c, row: r1, col: c1, dir: "across", num: 1 });
 
         // Kelime 2: Dikey Kesişen
-        let w2 = subset[1];
-        let r2 = 2, c2 = 5;
+        let w2 = subset[1]; let r2 = 2, c2 = 5;
         for(let i=0; i<w2.w.length; i++) {
             if(!localMatrix[r2 + i][c2]) {
                 localMatrix[r2 + i][c2] = { letter: w2.w[i], isStart: i===0, num: 2, dir: "down" };
@@ -380,8 +386,7 @@
         activeWords.push({ w: w2.w, c: w2.c, row: r2, col: c2, dir: "down", num: 2 });
 
         // Kelime 3: Yatay Alt Bölge Kesişen
-        let w3 = subset[2];
-        let r3 = 6, c3 = 2;
+        let w3 = subset[2]; let r3 = 6, c3 = 2;
         for(let i=0; i<w3.w.length; i++) {
             if(!localMatrix[r3][c3 + i]) {
                 localMatrix[r3][c3 + i] = { letter: w3.w[i], isStart: i===0, num: 3, dir: "across" };
@@ -390,8 +395,7 @@
         activeWords.push({ w: w3.w, c: w3.c, row: r3, col: c3, dir: "across", num: 3 });
 
         // Kelime 4: Sağ Dikey Koridor
-        let w4 = subset[3];
-        let r4 = 2, c4 = 8;
+        let w4 = subset[3]; let r4 = 2, c4 = 8;
         for(let i=0; i<w4.w.length; i++) {
             if(!localMatrix[r4 + i][c4]) {
                 localMatrix[r4 + i][c4] = { letter: w4.w[i], isStart: i===0, num: 4, dir: "down" };
@@ -400,8 +404,7 @@
         activeWords.push({ w: w4.w, c: w4.c, row: r4, col: c4, dir: "down", num: 4 });
 
         // Kelime 5: Küçük Ara Kesişim
-        let w5 = subset[4];
-        let r5 = 5, c5 = 7;
+        let w5 = subset[4]; let r5 = 5, c5 = 7;
         for(let i=0; i<w5.w.length; i++) {
             if(!localMatrix[r5][c5 + i]) {
                 localMatrix[r5][c5 + i] = { letter: w5.w[i], isStart: i===0, num: 5, dir: "across" };
@@ -473,6 +476,7 @@
         });
     }
 
+    // İPUCU SİSTEMİ (Seçili Hücreye Doğru Harfi Basar)
     function giveLetterHint() {
         if(currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
             currentFocusCell.element.value = gridMatrix[currentFocusCell.row][currentFocusCell.col].letter;
@@ -503,7 +507,7 @@
         }
     }
 
-    // İlk açılış kurulumu
+    // Sayfa Açılış Kurulumu
     changeLanguage();
 </script>
 </body>
