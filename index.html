@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Lexical Workbench v5</title>
+    <title>Sözcük Matrisi Masası v5.1</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,12 +11,12 @@
 
     <style>
         :root {
-            --bg-color: #f2efea;
-            --container-bg: #fcfbfa;
-            --text-color: #1c1c1c;
-            --border-color: #1c1c1c;
-            --accent-bg: #e6e1da;
-            --shadow-color: #1c1c1c;
+            --bg-color: #f7f5f0;
+            --container-bg: #ffffff;
+            --text-color: #2b2b2b;
+            --border-color: #2b2b2b;
+            --accent-bg: #f0ede5;
+            --shadow-color: rgba(43, 43, 43, 0.15);
         }
 
         body {
@@ -24,17 +24,114 @@
             color: var(--text-color);
             font-family: 'Courier Prime', monospace;
             margin: 0;
-            padding: 25px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 20px;
+            transition: all 0.3s ease;
         }
 
-        .workbench-container {
-            max-width: 1300px;
-            margin: 0 auto;
+        /* --- BASİT GİRİŞ EKRANI (WELCOME SCREEN) STYLES --- */
+        .welcome-screen {
+            max-width: 650px;
+            margin: 80px auto;
+            background: var(--container-bg);
+            border: 2px solid var(--border-color);
+            padding: 40px;
+            box-shadow: 8px 8px 0px var(--border-color);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .welcome-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            margin: 0 0 10px 0;
+        }
+
+        .welcome-subtitle {
+            font-size: 14px;
+            opacity: 0.7;
+            display: block;
+            margin-bottom: 40px;
+        }
+
+        /* Büyük ve Net Başlatma Butonu */
+        .start-action-btn {
+            font-family: 'Courier Prime', monospace;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: var(--text-color);
+            color: var(--container-bg);
+            border: 2px solid var(--border-color);
+            padding: 16px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            width: 100%;
+            max-width: 320px;
+            margin-bottom: 40px;
+        }
+
+        .start-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px var(--shadow-color);
+            background-color: var(--accent-bg);
+            color: var(--text-color);
+        }
+
+        /* Kolay Ayar Kartları */
+        .quick-settings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: left;
+            border-top: 1px solid var(--accent-bg);
+            padding-top: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .quick-settings-grid { grid-template-columns: 1fr; }
+        }
+
+        .setting-card {
+            background: var(--accent-bg);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+        }
+
+        .setting-card label {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+
+        .setting-card select {
+            width: 100%;
+            font-family: 'Courier Prime', monospace;
+            font-size: 13px;
+            padding: 8px;
             border: 1px solid var(--border-color);
+            background: var(--container-bg);
+            color: var(--text-color);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* --- OYUN ALANI (MAIN WORKSPACE) STYLES --- */
+        .main-workspace {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 2px solid var(--border-color);
             padding: 30px;
             background-color: var(--container-bg);
-            box-shadow: 6px 6px 0px var(--shadow-color);
+            box-shadow: 8px 8px 0px var(--border-color);
+            border-radius: 12px;
         }
 
         header {
@@ -46,130 +143,16 @@
 
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 34px;
+            font-size: 32px;
             margin: 0;
-            letter-spacing: 1px;
         }
 
         .edition-badge {
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 8px;
-            display: block;
-            font-weight: bold;
-            opacity: 0.8;
-        }
-
-        /* --- LAUNCHER (GİRİŞ EKRANI) STYLES --- */
-        .launcher-screen {
-            max-width: 700px;
-            margin: 60px auto;
-            border: 1px solid var(--border-color);
-            background: var(--container-bg);
-            padding: 40px;
-            box-shadow: 6px 6px 0px var(--shadow-color);
-            text-align: center;
-        }
-
-        .launcher-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 36px;
-            margin-bottom: 5px;
-        }
-
-        .launcher-subtitle {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 35px;
+            margin-top: 5px;
             display: block;
             opacity: 0.7;
-        }
-
-        .menu-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .menu-btn {
-            font-family: 'Courier Prime', monospace;
-            font-size: 14px;
-            font-weight: bold;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            background-color: var(--container-bg);
-            color: var(--text-color);
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.2s ease;
-        }
-
-        .menu-btn:hover {
-            background-color: var(--text-color);
-            color: var(--container-bg);
-        }
-
-        .menu-btn.primary {
-            background-color: var(--text-color);
-            color: var(--container-bg);
-        }
-
-        .menu-btn.primary:hover {
-            background-color: var(--accent-bg);
-            color: var(--text-color);
-        }
-
-        /* Sub-panels for Settings and Methodology */
-        .config-subpanel {
-            display: none;
-            margin-top: 25px;
-            padding: 20px;
-            border: 1px dashed var(--border-color);
-            background: var(--accent-bg);
-            text-align: left;
-        }
-
-        .config-subpanel h3 {
-            margin-top: 0;
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-
-        .config-row {
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .config-row label {
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .config-row select {
-            font-family: 'Courier Prime', monospace;
-            padding: 6px;
-            border: 1px solid var(--border-color);
-            background: var(--container-bg);
-            color: var(--text-color);
-        }
-
-        .methodology-text {
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        /* --- MAIN WORKSPACE STYLES (HIDDEN BY DEFAULT) --- */
-        .main-workspace {
-            display: none;
         }
 
         .control-panel {
@@ -178,34 +161,23 @@
             gap: 15px;
             align-items: center;
             margin-bottom: 25px;
-            padding: 15px;
+            padding: 12px;
             background: var(--accent-bg);
-            border: 1px solid var(--border-color);
+            border-radius: 6px;
             flex-wrap: wrap;
-        }
-
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .control-panel label {
-            font-weight: bold;
-            font-size: 13px;
-            text-transform: uppercase;
         }
 
         .btn-prime {
             font-family: 'Courier Prime', monospace;
             font-size: 13px;
             font-weight: bold;
-            padding: 5px 15px;
+            padding: 8px 16px;
             border: 1px solid var(--border-color);
             background-color: var(--text-color);
             color: var(--container-bg);
             cursor: pointer;
             text-transform: uppercase;
+            border-radius: 4px;
         }
 
         .btn-prime:hover {
@@ -215,10 +187,10 @@
         .workspace-layout {
             display: flex;
             flex-direction: row;
-            gap: 35px;
+            gap: 30px;
         }
 
-        @media (max-width: 1000px) {
+        @media (max-width: 950px) {
             .workspace-layout { flex-direction: column; }
         }
 
@@ -229,15 +201,15 @@
             align-items: center;
             background: var(--accent-bg);
             border: 1px solid var(--border-color);
-            padding: 25px;
-            min-height: 550px;
+            padding: 20px;
+            min-height: 500px;
+            border-radius: 6px;
         }
 
         .crossword-grid {
             display: grid;
             gap: 1px;
             background-color: var(--border-color);
-            border: 1px solid var(--border-color);
         }
 
         .cell {
@@ -295,16 +267,18 @@
             border: 1px solid var(--border-color);
             background: var(--container-bg);
             padding: 15px;
+            border-radius: 6px;
         }
 
         .clue-block h3 {
             margin: 0 0 10px 0;
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
             background: var(--border-color);
             color: var(--container-bg);
             padding: 3px 6px;
             display: inline-block;
+            border-radius: 3px;
         }
 
         .clue-item {
@@ -359,70 +333,59 @@
 </head>
 <body>
 
-<div class="launcher-screen" id="launcher-area">
-    <h1 class="launcher-title" id="lbl-launch-title">Polyglot Lexical Workbench</h1>
-    <span class="launcher-subtitle">Version 5.0 // Academic Workspace</span>
+<div class="welcome-screen" id="launcher-area">
+    <h1 class="welcome-title" id="lbl-launch-title">Dil Bulmacası</h1>
+    <span class="welcome-subtitle" id="lbl-launch-subtitle">Kelimeleri keşfetmeye başlamak için butona tıklayın</span>
 
-    <div class="menu-options">
-        <button class="menu-btn primary" onclick="launchWorkspace()" id="btn-menu-start">Launch Workspace</button>
-        <button class="menu-btn" onclick="toggleSubpanel('settings-panel')" id="btn-menu-settings">Lexical Settings</button>
-        <button class="menu-btn" onclick="toggleSubpanel('methodology-panel')" id="btn-menu-method">Corpus & Methodology</button>
-    </div>
+    <button class="start-action-btn" onclick="launchWorkspace()" id="btn-menu-start">Oyunu Başlat</button>
 
-    <div class="config-subpanel" id="settings-panel">
-        <h3 id="lbl-sub-settings">Lexical Configurations</h3>
-        <div class="config-row">
-            <label for="langSelect" id="lbl-cfg-lang">Target Language:</label>
+    <div class="quick-settings-grid">
+        <div class="setting-card">
+            <label for="langSelect" id="lbl-cfg-lang">Hedef Dil</label>
             <select id="langSelect" onchange="onLanguageChange()">
+                <option value="tr">Türkçe</option>
                 <option value="en">English</option>
                 <option value="es">Español</option>
                 <option value="de">Deutsch</option>
                 <option value="fr">Français</option>
                 <option value="it">Italiano</option>
-                <option value="tr">Türkçe</option>
                 <option value="pt">Português</option>
                 <option value="nl">Nederlands</option>
                 <option value="ro">Română</option>
-                <option value="ptbr">Português-BR</option>
             </select>
         </div>
-        <div class="config-row">
-            <label for="topicSelect" id="lbl-cfg-topic">Linguistic Domain:</label>
+
+        <div class="setting-card">
+            <label for="topicSelect" id="lbl-cfg-topic">Kelime Alanı</label>
             <select id="topicSelect" onchange="resetCycle()">
-                <option value="cinema">🍿 Cinema & Media Studies</option>
-                <option value="travel">✈️ Global Migration & Travel</option>
-                <option value="culinary">Gastronomy & Culinary Arts</option>
-                <option value="daily">🏡 Sociology of Daily Life</option>
+                <option value="cinema">🍿 Sinema & Medya</option>
+                <option value="travel">✈️ Seyahat & Göç</option>
+                <option value="culinary">🍳 Gastronomi & Mutfak</option>
+                <option value="daily">🏡 Günlük Yaşam</option>
             </select>
         </div>
-        <div class="config-row">
-            <label for="themeSelect" id="lbl-cfg-theme">Visual Palette Style:</label>
+
+        <div class="setting-card">
+            <label for="themeSelect" id="lbl-cfg-theme">Renk Teması</label>
             <select id="themeSelect" onchange="applySelectedTheme()">
                 </select>
         </div>
     </div>
-
-    <div class="config-subpanel" id="methodology-panel">
-        <h3 id="lbl-sub-method">Academic Infrastructure</h3>
-        <div class="methodology-text" id="lbl-method-text">
-            This workbench is engineered for polyglots to analyze syntactical alignments across multiple linguistic corpuses. By avoiding gamified micro-rewards, it focuses entirely on comparative lexical retention and contextual decoding.
-        </div>
-    </div>
 </div>
 
-<div class="workbench-container main-workspace" id="workspace-area">
+<div class="main-workspace" id="workspace-area">
     <header>
-        <h1 id="lbl-main-title">Polyglot Lexical Workbench</h1>
-        <span class="edition-badge" id="lbl-theme-badge">Style: Academic Press</span>
+        <h1 id="lbl-main-title">Dil Bulmacası Masası</h1>
+        <span class="edition-badge" id="lbl-theme-badge">Tema: Akademik</span>
     </header>
 
     <div class="control-panel">
         <div class="control-group">
-            <button class="btn-prime" onclick="returnToLauncher()" id="lbl-btn-back">⬅ Return Menu</button>
+            <button class="btn-prime" onclick="returnToLauncher()" id="lbl-btn-back">⬅ Giriş Ekranına Dön</button>
         </div>
         <div class="control-group">
-            <button class="btn-prime" onclick="generateNextInCycle()" id="lbl-btn-generate">Next Lexical Matrix</button>
-            <button class="btn-prime" onclick="getStructuralHint()" id="lbl-btn-hint" style="background-color: var(--accent-bg); color: var(--text-color); margin-left:5px;">Hint</button>
+            <button class="btn-prime" onclick="generateNextInCycle()" id="lbl-btn-generate">Yeni Bulmaca Üret</button>
+            <button class="btn-prime" onclick="getStructuralHint()" id="lbl-btn-hint" style="background-color: var(--accent-bg); color: var(--text-color); margin-left:5px;">İpucu Ver</button>
         </div>
     </div>
 
@@ -432,27 +395,27 @@
         </div>
 
         <div class="corpus-section">
-            <h2 id="lbl-section-title">Contextual Corpus Clues</h2>
+            <h2 id="lbl-section-title">Kelime İpuçları ve Kanıtlar</h2>
             
             <div class="clue-block">
-                <h3 id="lbl-across">Horizontal (Across)</h3>
+                <h3 id="lbl-across">Yatay (Across)</h3>
                 <div id="across-clues"></div>
             </div>
 
             <div class="clue-block">
-                <h3 id="lbl-down">Vertical (Down)</h3>
+                <h3 id="lbl-down">Dikey (Down)</h3>
                 <div id="down-clues"></div>
             </div>
         </div>
     </div>
 
     <div class="corpus-index-wrapper" id="corpus-index-area">
-        <h2 id="lbl-analysis-title">Linguistic Corpus Index (Matrix Solved)</h2>
+        <h2 id="lbl-analysis-title">Tebrikler! Kelime Analiz İndeksi</h2>
         <table class="corpus-table">
             <thead>
                 <tr>
-                    <th id="th-word">Lexeme</th>
-                    <th id="th-context">Contextual Alignment / Translation</th>
+                    <th id="th-word">Kelime</th>
+                    <th id="th-context">Bağlam / Anlam Açıklaması</th>
                 </tr>
             </thead>
             <tbody id="corpus-table-body">
@@ -462,15 +425,14 @@
 </div>
 
 <script>
-    // 50 ADET DİNAMİK TEMA TERCÜMELERİ
+    // 50 ADET DİNAMİK TEMA ADLARI
     const THEME_NAMES = {
-        en: ["Academic Press", "Midnight Ink", "Ancient Parchment", "Retro Editor", "Crimson Journal", "Botanical Review", "Yellow Pages", "Financial Times", "Royal Archive", "Coffee House", "Charcoal Slate", "Indie Cinema", "Nordic Prose", "Oceanic Dispatch", "Pacific Log", "Rose Petal", "Deep Slate", "Neon Cyan", "Olive Grove", "Cork Board", "Matte Steel", "Desert Sand", "Ashen Grey", "Chalkboard", "Khaki Weave", "Pale Orchid", "Terracotta Press", "Tar Paper", "Sunlit Amber", "Platinum Folio", "Old Istanbul", "Aurora Borealis", "Vintage Denim", "Matte Cocoa", "Pastel Mint", "Pink Lemonade", "Burgundy Archive", "Sapphire Luxury", "Desert Rose", "Eucalyptus", "Fiction Novel", "Military Camo", "Urban Fog", "Volcanic Ash", "Antique Gold", "Glacier Print", "Ginger Spice", "Night Garden", "Orchid Mist", "Dark Graphite"],
-        tr: ["Akademik Matbaa", "Gece Mürekkebi", "Antik Parşömen", "Retro Editör", "Kızıl Dergi", "Botanik İnceleme", "Sarı Sayfalar", "Finans Günlüğü", "Kraliyet Arşivi", "Kahve Kokusu", "Kömür Lekesi", "Bağımsız Sinema", "Nordik Nesir", "Okyanus Postası", "Pasifik Günlüğü", "Gül Yaprağı", "Derin Gece", "Neon Siber", "Zeytin Dalı", "Mantar Pano", "Mat Çelik", "Çöl Kumu", "Kül Grisi", "Tebeşir Tahtası", "Haki Dokuma", "Soluk Orkide", "Kiremit Pres", "Asfalt Kağıdı", "Güneş Kehribarı", "Platin Portföy", "Eski İstanbul", "Kuzey Işıkları", "Vintage Denim", "Mat Kakao", "Pastel Nane", "Pembe Limonata", "Bordo Arşiv", "Safir Lüksü", "Çöl Gülü", "Okaliptüs", "Kurgu Romanı", "Askeri Kamuflaj", "Şehir Sisi", "Volkanik Kül", "Antik Altın", "Buzul Baskı", "Zencefil", "Gece Bahçesi", "Orkide Sisi", "Koyu Grafit"],
-        es: ["Prensa Académica", "Tinta de Medianoche", "Pergamino Antiguo", "Editor Retro", "Revista Carmesí", "Reseña Botánica", "Páginas Amarillas", "Tiempos Financieros", "Archivo Real", "Cafetería", "Pizarra de Carbón", "Cine Independiente", "Prosa Nórdica", "Despacho Oceánico", "Bitácora del Pacífico", "Pétalo de Rosa", "Pizarra Profunda", "Cian Neón", "Olivar", "Tablero de Corcho", "Acero Mate", "Arena del Desierto", "Gris Ceniza", "Pizarrón", "Tejido Caqui", "Orquídea Pálida", "Prensa de Terracota", "Papel de Alquitrán", "Ámbar Soleado", "Folio de Platino", "Estambul Antiguo", "Aurora Boreal", "Mezclilla Vintage", "Cacao Mate", "Menta Pastel", "Limonada Rosa", "Archivo de Borgoña", "Lujo de Zafiro", "Rosa del Desierto", "Eucalipto", "Novela de Ficción", "Camuflaje Militar", "Niebla Urbana", "Ceniza Volcánica", "Oro Antiguo", "Impresión Glaciar", "Jengibre", "Jardín Nocturno", "Niebla de Orquídea", "Grafito Oscuro"]
+        tr: ["Akademik Basım", "Gece Mürekkebi", "Antik Parşömen", "Retro Editör", "Kızıl Dergi", "Botanik İnceleme", "Sarı Sayfalar", "Finans Günlüğü", "Kraliyet Arşivi", "Kahve Kokusu", "Kömür Lekesi", "Bağımsız Sinema", "Nordik Nesir", "Okyanus Postası", "Pasifik Günlüğü", "Gül Yaprağı", "Derin Gece", "Neon Siber", "Zeytin Dalı", "Mantar Pano", "Mat Çelik", "Çöl Kumu", "Kül Grisi", "Tebeşir Tahtası", "Haki Dokuma", "Soluk Orkide", "Kiremit Pres", "Asfalt Kağıdı", "Güneş Kehribarı", "Platin Portföy", "Eski İstanbul", "Kuzey Işıkları", "Vintage Denim", "Mat Kakao", "Pastel Nane", "Pembe Limonata", "Bordo Arşiv", "Safir Lüksü", "Çöl Gülü", "Okaliptüs", "Kurgu Romanı", "Askeri Kamuflaj", "Şehir Sisi", "Volkanik Kül", "Antik Altın", "Buzul Baskı", "Zencefil", "Gece Bahçesi", "Orkide Sisi", "Koyu Grafit"],
+        en: ["Academic Press", "Midnight Ink", "Ancient Parchment", "Retro Editor", "Crimson Journal", "Botanical Review", "Yellow Pages", "Financial Times", "Royal Archive", "Coffee House", "Charcoal Slate", "Indie Cinema", "Nordic Prose", "Oceanic Dispatch", "Pacific Log", "Rose Petal", "Deep Slate", "Neon Cyan", "Olive Grove", "Cork Board", "Matte Steel", "Desert Sand", "Ashen Grey", "Chalkboard", "Khaki Weave", "Pale Orchid", "Terracotta Press", "Tar Paper", "Sunlit Amber", "Platinum Folio", "Old Istanbul", "Aurora Borealis", "Vintage Denim", "Matte Cocoa", "Pastel Mint", "Pink Lemonade", "Burgundy Archive", "Sapphire Luxury", "Desert Rose", "Eucalyptus", "Fiction Novel", "Military Camo", "Urban Fog", "Volcanic Ash", "Antique Gold", "Glacier Print", "Ginger Spice", "Night Garden", "Orchid Mist", "Dark Graphite"]
     };
 
     const THEME_STYLES = [
-        { bg: "#f4ebd9", container: "#fbf5eb", text: "#2b2b2b", border: "#2b2b2b", accent: "#eae0cc" },
+        { bg: "#f7f5f0", container: "#ffffff", text: "#2b2b2b", border: "#2b2b2b", accent: "#f0ede5" },
         { bg: "#1a1a1a", container: "#262626", text: "#f5f5f5", border: "#404040", accent: "#333333" },
         { bg: "#e6d7b8", container: "#f2e6ce", text: "#3d2b1f", border: "#5c4033", accent: "#dfcfad" },
         { bg: "#e4e9ed", container: "#f4f7f9", text: "#1c2833", border: "#2c3e50", accent: "#d5dbdb" },
@@ -523,91 +485,85 @@
     ];
 
     const TRANSLATIONS = {
-        en: { 
-            title: "Polyglot Lexical Workbench", launchTitle: "Polyglot Lexical Workbench",
-            menuStart: "Launch Workspace", menuSettings: "Lexical Settings", menuMethod: "Corpus & Methodology",
-            subSettings: "Lexical Configurations", subMethod: "Academic Infrastructure",
-            cfgLang: "Target Language:", cfgTopic: "Linguistic Domain:", cfgTheme: "Visual Palette Style:",
-            methodText: "This workbench is engineered for polyglots to analyze syntactical alignments across multiple linguistic corpuses. By avoiding gamified micro-rewards, it focuses entirely on comparative lexical retention and contextual decoding.",
-            btnGen: "Next Lexical Matrix", btnHint: "Hint", btnBack: "⬅ Return Menu",
-            sectionTitle: "Contextual Corpus Clues", across: "Horizontal (Across)", down: "Vertical (Down)",
-            analysisTitle: "Linguistic Corpus Index (Matrix Solved)", thWord: "Lexeme", thContext: "Contextual Translation Alignment", prefix: "Style"
-        },
         tr: { 
-            title: "Çok Dilli Sözcük Analiz Masası", launchTitle: "Sözcük Analiz Masası Konsolu",
-            menuStart: "Çalışma Masasını Başlat", menuSettings: "Leksik Ayarlar", menuMethod: "Külliyat & Metodoloji",
-            subSettings: "Dilbilimsel Yapılandırmalar", subMethod: "Akademik Altyapı",
-            cfgLang: "Hedef Dil Seçimi:", cfgTopic: "Çalışma Alanı (Alan):", cfgTheme: "Görsel Palet Tarzı:",
-            methodText: "Bu çalışma masası, polyglotların birden fazla dil külliyatındaki sözdizimsel eşleşmeleri analiz etmesi için tasarlanmıştır. Oyunlaştırılmış yapay ödüllerden kaçınarak, tamamen karşılaştırmalı kelime tutma ve bağlamsal kod çözmeye odaklanır.",
-            btnGen: "Sonraki Matris Döngüsü", btnHint: "Yapısal İpucu", btnBack: "⬅ Ana Menüye Dön",
-            sectionTitle: "Bağlamsal Kelime Kanıtları", across: "Yatay Kelimeler (Across)", down: "Dikey Kelimeler (Down)",
-            analysisTitle: "Dilbilimsel Kelime İndeksi (Matris Çözüldü)", thWord: "Leksik Yapı", thContext: "Bağlamsal Çeviri ve Hizalama", prefix: "Baskı Tarzı"
+            launchTitle: "Sözcük Matrisi Masası", launchSubtitle: "Dil becerilerinizi test etmek ve yeni kelimeler keşfetmek için başlayın.",
+            menuStart: "Oyunu Başlat", cfgLang: "Hedef Dil:", cfgTopic: "Kelime Alanı:", cfgTheme: "Renk Teması:",
+            title: "Sözcük Matrisi Masası", btnBack: "⬅ Giriş Ekranına Dön", btnGen: "Yeni Bulmaca Üret", btnHint: "İpucu Ver",
+            sectionTitle: "Kelime İpuçları ve Kanıtlar", across: "Yatay (Across)", down: "Dikey (Down)",
+            analysisTitle: "Tebrikler! Kelime Analiz İndeksi", thWord: "Kelime", thContext: "Bağlam / Anlam Açıklaması", prefix: "Tema"
+        },
+        en: { 
+            launchTitle: "Lexical Matrix Workbench", launchSubtitle: "Start practicing to test your skills and discover new vocabulary.",
+            menuStart: "Launch Matrix", cfgLang: "Target Language:", cfgTopic: "Domain Topic:", cfgTheme: "Color Theme:",
+            title: "Lexical Matrix Workbench", btnBack: "⬅ Return to Main Menu", btnGen: "Next Matrix Puzzle", btnHint: "Give Hint",
+            sectionTitle: "Contextual Clues & Evidence", across: "Horizontal (Across)", down: "Vertical (Down)",
+            analysisTitle: "Incredible! Word Analysis Index", thWord: "Lexeme", thContext: "Contextual Translation Alignment", prefix: "Theme"
         }
     };
 
     const DATA_POOL = {
         cinema: {
-            en: [
-                { word: "CINEMA", clue: "The modern era of moving images and structural semiotics. | Meaning: Sinema" },
-                { word: "THEORY", clue: "Formal academic paradigms analyzed in psychoanalytic film criticism. | Meaning: Teori" },
-                { word: "MONTAGE", clue: "A specialized editing syntax popularized by Soviet filmmakers. | Meaning: Kurgu / Montaj" },
-                { word: "ARCHIVE", clue: "A preservation repository housing early celluloid and nitrate prints. | Meaning: Arşiv" },
-                { word: "DIEGESIS", clue: "The internal narrative world constructed explicitly within filmic bounds. | Meaning: Anlatı Dünyası" }
-            ],
             tr: [
-                { word: "SİNEMA", clue: "Görsel ve işitsel göstergelerin estetik bir bütünlük oluşturduğu sanat dalı." },
-                { word: "KURGU", clue: "Çekilen ham görüntülerin bir anlatı sırasına göre dizilme işlemi." },
-                { word: "REPLİK", clue: "Dramatik metinde oyuncuların birbirine aktardığı yapısal söz öbekleri." },
-                { word: "AFİŞ", clue: "Filmin tematik özünü kamusal alanda tanıtan basılı büyük poster." },
-                { word: "KÜLT", clue: "Zamanın ötesine geçerek sınırlı ama sadık bir kitle kazanan yapıtlar." }
+                { word: "SİNEMA", clue: "Görsel ve işitsel öğelerin bütünlük oluşturduğu modern sanat." },
+                { word: "KURGU", clue: "Çekilen sahnelerin bir senaryo sırasına göre birleştirilmesi." },
+                { word: "REPLİK", clue: "Oyuncuların sahnede birbirlerine söylediği metne dayalı sözler." },
+                { word: "AFİŞ", clue: "Filmin vizyon duyurusunu yapan basılı tanıtım posteri." },
+                { word: "KÜLT", clue: "Zamanla çok sadık ve geniş bir hayran kitlesi edinen yapıtlar." }
+            ],
+            en: [
+                { word: "CINEMA", clue: "The modern art and world of moving pictures. | Anlamı: Sinema" },
+                { word: "THEORY", clue: "Academic framework for film analysis. | Anlamı: Teori" },
+                { word: "MONTAGE", clue: "An editing technique popular in classic films. | Anlamı: Kurgu" },
+                { word: "ARCHIVE", clue: "A place where old movie prints and papers are kept. | Anlamı: Arşiv" },
+                { word: "DIEGESIS", clue: "The total world of a story inside a film. | Anlamı: Anlatı Dünyası" }
             ]
         },
         travel: {
-            en: [
-                { word: "FLIGHT", clue: "Aerial transit conducted by commercial aviation infrastructure. | Meaning: Uçuş" },
-                { word: "PASSPORT", clue: "An official sovereign document verifying international identity. | Meaning: Pasaport" },
-                { word: "ROUTE", clue: "The pre-planned geographic trajectory mapping a voyage. | Meaning: Rota" },
-                { word: "BORDER", clue: "The geopolitical threshold separating sovereign state entities. | Meaning: Sınır" },
-                { word: "TRANSIT", clue: "Passing through an intermediate hub without entering the country. | Meaning: Transit Geçiş" }
-            ],
             tr: [
-                { word: "PASAPORT", clue: "Uluslararası seyahatlerde devletler tarafından verilen resmi kimlik." },
-                { word: "ROTALAR", clue: "Gezginlerin coğrafi keşifler yaparken izlediği planlı güzergahlar." },
-                { word: "TURİZM", clue: "Kültürel veya ticari amaçlı seyahatlerin oluşturduğu makro ekonomi." },
-                { word: "VALİZİ", clue: "Seyahat esnasında giysilerin muhafaza edildiği taşınabilir çanta." },
-                { word: "VİZESİ", clue: "Bir ülkeye girmek için dış temsilciliklerden alınan yasal onay." }
+                { word: "PASAPORT", clue: "Uluslararası yolculuklarda devletçe verilen resmi kimlik belgesi." },
+                { word: "ROTALAR", clue: "Gezginlerin yolculuk boyunca takip ettiği önceden planlı yollar." },
+                { word: "TURİZM", clue: "Kültürel ya da dinlenme amaçlı seyahat hareketlerinin tümü." },
+                { word: "VALİZİ", clue: "Yolculuk eşyalarının taşındığı bavul veya büyük çanta." },
+                { word: "VİZESİ", clue: "Yabancı bir ülkeye girmek için resmi makamlardan alınan izin." }
+            ],
+            en: [
+                { word: "FLIGHT", clue: "A journey made through the air by a plane. | Anlamı: Uçuş" },
+                { word: "PASSPORT", clue: "Official document required for international travel. | Anlamı: Pasaport" },
+                { word: "ROUTE", clue: "The path or direction taken to reach a destination. | Anlamı: Rota" },
+                { word: "BORDER", clue: "The division line between two foreign nations. | Anlamı: Sınır" },
+                { word: "TRANSIT", clue: "Passing through an airport without entering the country. | Anlamı: Transit" }
             ]
         },
         culinary: {
-            en: [
-                { word: "CUISINE", clue: "The distinctive culinary practices associated with a specific culture. | Meaning: Mutfak Kültürü" },
-                { word: "SPICES", clue: "Aromatic vegetable substances used to enhance flavor profiles. | Meaning: Baharatlar" },
-                { word: "RECIPE", clue: "The algorithm containing technical instructions for dish preparation. | Meaning: Yemek Tarifi" },
-                { word: "CHEF", clue: "The professional gastronomist responsible for kitchen operations. | Meaning: Başaşçı" },
-                { word: "FLAVOR", clue: "The sensory fusion of gustatory and olfactory perceptions. | Meaning: Lezzet" }
-            ],
             tr: [
-                { word: "LEZZET", clue: "Gıdaların tat alma organları üzerinde bıraktığı kimyasal algı." },
-                { word: "TARİF", clue: "Bir yemeğin yapılabilmesi için gereken malzeme ve tekniklerin formülü." },
-                { word: "MUTFAK", clue: "Yemek kültürünün ve pişirme zanaatının icra edildiği mekan." },
-                { word: "BAHARAT", clue: "Yemeklere aroma vermek amacıyla eklenen kurutulmuş bitki kökleri." },
-                { word: "ŞEFİN", clue: "Restoran mutfağını ve menü tasarımını yöneten uzman kişi." }
+                { word: "LEZZET", clue: "Yiyeceklerin dil ve damakta bıraktığı hoş kimyasal his." },
+                { word: "TARİF", clue: "Bir yemeğin hazırlanma aşamalarını gösteren kılavuz formül." },
+                { word: "MUTFAK", clue: "Yemek pişirme sanatının ve araçlarının bulunduğu oda." },
+                { word: "BAHARAT", clue: "Yemeklere koku ve tat katmak için kullanılan kurutulmuş bitkiler." },
+                { word: "ŞEFİN", clue: "Restoran mutfağındaki tüm operasyonu yöneten profesyonel." }
+            ],
+            en: [
+                { word: "CUISINE", clue: "A style or method of cooking characteristic of a country. | Anlamı: Mutfak" },
+                { word: "SPICES", clue: "Flavorings made from plants used in cooking food. | Anlamı: Baharat" },
+                { word: "RECIPE", clue: "A set of instructions used for preparing a specific dish. | Anlamı: Tarif" },
+                { word: "CHEF", clue: "A professional cook in charge of a kitchen. | Anlamı: Şef" },
+                { word: "FLAVOR", clue: "The distinctive taste of a food or drink item. | Anlamı: Lezzet" }
             ]
         },
         daily: {
-            en: [
-                { word: "HABIT", clue: "A recurrent, often unconscious pattern of behavior acquired through repetition. | Meaning: Alışkanlık" },
-                { word: "ROUTINE", clue: "The systematic sequence of daily actions organizing individual life. | Meaning: Rutin" },
-                { word: "HOUSE", clue: "The architectural structure serving as a primary domicile. | Meaning: Ev" },
-                { word: "WORK", clue: "The socio-economic labor performed by an agent regularly. | Meaning: İş" },
-                { word: "HEALTH", clue: "The holistic state of physical and mental structural homeostasis. | Meaning: Sağlık" }
-            ],
             tr: [
-                { word: "HAYAT", clue: "Doğumla ölüm arasında geçen, deneyimlerin bütünü olan süreç." },
-                { word: "SABAH", clue: "Günün başlangıcı olan, sirkadiyen ritmin canlandığı ilk saatler." },
-                { word: "SABIR", clue: "Zorlu günlük koşullar karşısında gösterilen zihinsel mukavemet." },
-                { word: "EVİNİZ", clue: "Bireyin dış dünyadan soyutlanarak sığındığı temel mahrem alan." },
-                { word: "SAĞLIK", clue: "Organizasyonun biyolojik ve ruhsal olarak tam bir denge halinde olması." }
+                { word: "HAYAT", clue: "Doğumdan ölüme kadar geçen canlılık ve deneyim süreci." },
+                { word: "SABAH", clue: "Günün ilk saatleri, güneşin doğuşuna yakın zaman dilimi." },
+                { word: "SABIR", clue: "Zor durumlar karşısında sükuneti koruma becerisi." },
+                { word: "EVİNİZ", clue: "İnsanın gün sonunda sığındığı korunaklı kişisel yaşam alanı." },
+                { word: "SAĞLIK", clue: "Vücudun ve zihnin hastalıksız, tam bir iyilik hali." }
+            ],
+            en: [
+                { word: "HABIT", clue: "Something you do regularly or automatically every day. | Anlamı: Alışkanlık" },
+                { word: "ROUTINE", clue: "A sequence of actions regularly followed. | Anlamı: Rutin" },
+                { word: "HOUSE", clue: "A building in which people live comfortably. | Anlamı: Ev" },
+                { word: "WORK", clue: "Activity involving mental or physical effort done for money. | Anlamı: İş" },
+                { word: "HEALTH", clue: "The state of being free from illness or injury. | Anlamı: Sağlık" }
             ]
         }
     };
@@ -623,22 +579,11 @@
         onLanguageChange();
     };
 
-    function toggleSubpanel(panelId) {
-        const panel = document.getElementById(panelId);
-        const isOpen = panel.style.display === 'block';
-        
-        // Önce tüm alt panelleri kapat
-        document.getElementById('settings-panel').style.display = 'none';
-        document.getElementById('methodology-panel').style.display = 'none';
-        
-        if (!isOpen) {
-            panel.style.display = 'block';
-        }
-    }
-
     function onLanguageChange() {
         const selectedLang = document.getElementById('langSelect').value;
-        populateThemeSelect(selectedLang);
+        // Eğer dil en ise ingilizce, tr ise türkçe temaları/çevirileri getir
+        const themeLang = (selectedLang === 'tr') ? 'tr' : 'en';
+        populateThemeSelect(themeLang);
         applyLocalization(selectedLang);
         applySelectedTheme();
     }
@@ -662,7 +607,7 @@
         const index = document.getElementById('themeSelect').value || 0;
         const theme = THEME_STYLES[index];
         const selectedLang = document.getElementById('langSelect').value;
-        const trans = TRANSLATIONS[selectedLang] || TRANSLATIONS['en'];
+        const trans = TRANSLATIONS[selectedLang] || TRANSLATIONS['tr'];
 
         const root = document.documentElement;
         root.style.setProperty('--bg-color', theme.bg);
@@ -670,28 +615,25 @@
         root.style.setProperty('--text-color', theme.text);
         root.style.setProperty('--border-color', theme.border);
         root.style.setProperty('--accent-bg', theme.accent);
-        root.style.setProperty('--shadow-color', theme.border);
+        root.style.setProperty('--shadow-color', 'rgba(0,0,0,0.05)');
 
-        const localizedNames = THEME_NAMES[selectedLang] || THEME_NAMES['en'];
-        document.getElementById('lbl-theme-badge').innerText = `${trans.prefix}: ${localizedNames[index]} (${parseInt(index) + 1}/50)`;
+        const themeLang = (selectedLang === 'tr') ? 'tr' : 'en';
+        const localizedNames = THEME_NAMES[themeLang] || THEME_NAMES['en'];
+        document.getElementById('lbl-theme-badge').innerText = `${trans.prefix}: ${localizedNames[index]}`;
     }
 
     function applyLocalization(lang) {
-        const trans = TRANSLATIONS[lang] || TRANSLATIONS['en'];
+        const trans = TRANSLATIONS[lang] || TRANSLATIONS['tr'];
         
-        // Launcher Screen Elements
+        // Giriş Ekranı Elemanları
         document.getElementById('lbl-launch-title').innerText = trans.launchTitle;
+        document.getElementById('lbl-launch-subtitle').innerText = trans.launchSubtitle;
         document.getElementById('btn-menu-start').innerText = trans.menuStart;
-        document.getElementById('btn-menu-settings').innerText = trans.menuSettings;
-        document.getElementById('btn-menu-method').innerText = trans.menuMethod;
-        document.getElementById('lbl-sub-settings').innerText = trans.subSettings;
-        document.getElementById('lbl-sub-method').innerText = trans.subMethod;
         document.getElementById('lbl-cfg-lang').innerText = trans.cfgLang;
         document.getElementById('lbl-cfg-topic').innerText = trans.cfgTopic;
         document.getElementById('lbl-cfg-theme').innerText = trans.cfgTheme;
-        document.getElementById('lbl-method-text').innerText = trans.methodText;
 
-        // Main Workspace Elements
+        // Oyun Masası Elemanları
         document.getElementById('lbl-main-title').innerText = trans.title;
         document.getElementById('lbl-btn-back').innerText = trans.btnBack;
         document.getElementById('lbl-btn-generate').innerText = trans.btnGen;
@@ -708,14 +650,12 @@
         currentCycleStep = 0;
     }
 
-    /* KONSOLDAN ÇALIŞMA ALANINA GEÇİŞ */
     function launchWorkspace() {
         document.getElementById('launcher-area').style.display = 'none';
         document.getElementById('workspace-area').style.display = 'block';
         initMatrix();
     }
 
-    /* ÇALIŞMA ALANINDAN KONSOLA DÖNÜŞ */
     function returnToLauncher() {
         document.getElementById('workspace-area').style.display = 'none';
         document.getElementById('launcher-area').style.display = 'block';
@@ -732,8 +672,7 @@
         const selectedLang = document.getElementById('langSelect').value;
         const selectedTopic = document.getElementById('topicSelect').value;
 
-        // Güvenli havuz kontrolü fallback (Eğer seçilen dilde veri yoksa İngilizceye düşer)
-        let topicPool = DATA_POOL[selectedTopic][selectedLang] || DATA_POOL[selectedTopic]['en'];
+        let topicPool = DATA_POOL[selectedTopic][selectedLang] || DATA_POOL[selectedTopic]['tr'];
         let fullPool = [...topicPool];
         
         let startIndex = (currentCycleStep * 2) % fullPool.length;
@@ -763,7 +702,7 @@
 
         let first = words[0];
         let startCol = Math.max(0, Math.floor((matrixSize - first.word.length) / 2));
-        let startRow = 2; 
+        let startRow = 3; 
         
         for (let i = 0; i < first.word.length; i++) {
             localMatrix[startRow][startCol + i] = { letter: first.word[i], isStart: i === 0, num: wordCounter };
@@ -893,9 +832,7 @@
     function executePhoneticSynthesis(word, langCode) {
         if ('speechSynthesis' in window) {
             let utterance = new SpeechSynthesisUtterance(word);
-            if(langCode === 'ptbr') utterance.lang = 'pt-BR';
-            else if(langCode === 'ro') utterance.lang = 'ro-RO';
-            else utterance.lang = langCode;
+            utterance.lang = langCode;
             window.speechSynthesis.speak(utterance);
         }
     }
