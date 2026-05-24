@@ -155,7 +155,6 @@
         }
 
         .cell.active { background-color: #ffffff; }
-        /* Karanlık temalarda yazıların okunması için hücre içi input her zaman beyaz arka plan ve koyu renkle kalır */
         .cell.active input { background-color: #ffffff; color: #2b2b2b; }
 
         .cell input {
@@ -255,7 +254,6 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* Modal / Kelime Kartları */
         .modal {
             display: none;
             position: fixed;
@@ -285,7 +283,7 @@
 <div class="newspaper-container">
     <header>
         <h1>The Polyglot Movie Crossword</h1>
-        <span class="theme-badge" id="themeNameBadge">Baskı: Klasik Gazete</span>
+        <span class="theme-badge" id="themeNameBadge">Baskı Tarzı: Klasik Gazete</span>
     </header>
 
     <div class="stats-bar">
@@ -294,7 +292,7 @@
 
     <div class="control-panel">
         <label for="langSelect">Hedef Dil:</label>
-        <select id="langSelect" onchange="initGame()">
+        <select id="langSelect" onchange="initGame(false)">
             <option value="en">İngilizce (English)</option>
             <option value="es">İspanyolca (Español)</option>
             <option value="de">Almanca (Deutsch)</option>
@@ -303,17 +301,23 @@
             <option value="tr">Türkçe (Turkish)</option>
             <option value="pt">Portekizce (Português)</option>
             <option value="nl">Felemenkçe (Nederlands)</option>
+            <option value="ro">Romence (Română)</option>
+            <option value="ptbr">Brezilya Portekizcesi (Português-BR)</option>
         </select>
 
+        <label for="themeSelect">Gazete Baskısı (Tema):</label>
+        <select id="themeSelect" onchange="applySelectedTheme()">
+            </select>
+
         <label for="timerSelect">Süre Modu:</label>
-        <select id="timerSelect" onchange="initGame()">
+        <select id="timerSelect" onchange="initGame(false)">
             <option value="off">Süre Kapat</option>
             <option value="3">3 Dakika</option>
             <option value="5">5 Dakika</option>
             <option value="10">10 Dakika</option>
         </select>
         
-        <button onclick="initGame()">🔄 Yeni Bulmaca</button>
+        <button onclick="initGame(true)">🔄 Yeni Bulmaca</button>
         <button onclick="getLetterHint()" style="background-color: #e2b13c; color: #000; border-color: #000;">💡 Harf Al</button>
     </div>
 
@@ -353,7 +357,7 @@
 </div>
 
 <script>
-    // 30 ADET BENZERSİZ GAZETE VE BASKI TEMASI (30 TABLO REKORU)
+    // 30 ADET BENZERSİZ GAZETE BASKI TEMASI
     const THEMES = [
         { name: "Klasik Gazete", bg: "#f4ebd9", container: "#fbf5eb", text: "#2b2b2b", border: "#2b2b2b", accent: "#eae0cc" },
         { name: "Gece Mürekkebi", bg: "#1a1a1a", container: "#262626", text: "#f5f5f5", border: "#404040", accent: "#333333" },
@@ -387,7 +391,7 @@
         { name: "Platin Baskı", bg: "#f2f3f4", container: "#ffffff", text: "#1c2833", border: "#bdc3c7", accent: "#eaecee" }
     ];
 
-    // 8 FARKLI DİL - BİRBİRİNDEN TAMAMEN FARKLI SİNEMA KELİMELERİ (ÇAKIŞMASIZ)
+    // 10 FARKLI DİL - BİRBİRİNDEN TAMAMEN FARKLI, BENZERSİZ SİNEMA KELİMELERİ (ÇAKIŞMASIZ)
     const DATA_POOL = {
         en: [
             { word: "MOVIE", clue: "Let's watch a classic _______. | Anlamı: Film" },
@@ -426,8 +430,8 @@
             { word: "ATTORE", clue: "Marcello Mastroianni è un grande _______. | Anlamı: Oyuncu" },
             { word: "STORIA", clue: "Una _______ emozionante basata su fatti veri. | Anlamı: Hikaye" },
             { word: "RUOLO", clue: "Ha ottenuto il _______ del cattivo nel film. | Anlamı: Rol" },
-            { word: "VITA", clue: "La dolce _______ è un classico del cinema. | Anlamı: Hayat" },
-            { word: "FUOCO", clue: "Un film d'azione pieno di esplosioni e _______. | Anlamı: Ateş" }
+            { word: "VITA", clue: "La dolce _______ è un classicissimo. | Anlamı: Hayat" },
+            { word: "SUONO", clue: "Il montaggio del _______ ha vinto un premio. | Anlamı: Ses" }
         ],
         tr: [
             { word: "AFİŞ", clue: "Sinema girişindeki dev _______ dikkat çekiciydi. | Anlamı: Poster" },
@@ -446,12 +450,28 @@
             { word: "EFEITO", clue: "Os _______s especiais digitais foram fantásticos. | Anlamı: Efekt" }
         ],
         nl: [
-            { word: "FILM", clue: "Vanavond kijken we naar een spannende _______. | Anlamı: Film" },
-            { word: "STER", clue: "De hoofdrolspeler is een bekende Hollywood _______. | Anlamı: Yıldız Oyuncu" },
-            { word: "HELD", clue: "De hoofdpersoon in de actiefilm is een echte _______. | Anlamı: Kahraman" },
-            { word: "PRIJS", clue: "De regisseur won een prestigieuze _______ op het festival. | Anlamı: Ödül" },
-            { word: "BOEK", clue: "Deze bioscoophit is gebaseerd op een spannend _______. | Anlamı: Kitap" },
-            { word: "ZAAL", clue: "De bioscoop_______ zat helemaal vol voor de première. | Anlamı: Salon" }
+            { word: "STRIJD", clue: "De eerste regel van Fight Club is: spreek niet over de _______. | Anlamı: Dövüş / Mücadele" },
+            { word: "GELUID", clue: "De geluidseffecten en het _______ waren indrukwekkend. | Anlamı: Ses" },
+            { word: "SCHERM", clue: "We kijken naar het grote witte _______ in de bioscoop. | Anlamı: Ekran / Perde" },
+            { word: "KAART", clue: "Je moet een _______ kopen om de film te zien. | Anlamı: Bilet / Kart" },
+            { word: "TRAILER", clue: "De korte _______ van de nieuwe film ziet er spannend uit. | Anlamı: Fragman" },
+            { word: "SPOILER", clue: "Vertel het einde niet, ik haat een _______. | Anlamı: Sürpriz Bozan" }
+        ],
+        ro: [
+            { word: "REGIZOR", clue: "Persoana din spatele camerei care conduce platoul este un _______. | Anlamı: Yönetmen" },
+            { word: "SCENARIU", clue: "Tarantino scrie un _______ excelent pentru fiecare film. | Anlamı: Senaryo" },
+            { word: "POVESTE", clue: "Acest film are o _______ emoționantă despre viață. | Anlamı: Hikaye" },
+            { word: "POSTER", clue: "Am cumpărat un _______ cu Avengers pentru camera mea. | Anlamı: Afiş / Poster" },
+            { word: "BILET", clue: "Ai nevoie de un _______ pentru a intra în sala de cinema. | Anlamı: Bilet" },
+            { word: "SUNET", clue: "Acest film SF are un _______ surround incredibil. | Anlamı: Ses" }
+        ],
+        ptbr: [
+            { word: "PIPOCA", clue: "No Brasil, assistir a um longa metragem pede _______ com manteiga. | Anlamı: Patlamış Mısır" },
+            { word: "ROTEIRO", clue: "O _______ desse drama venceu o prêmio principal do festival. | Anlamı: Senaryo" },
+            { word: "CARTAZ", clue: "O _______ do filme de terror estava assustador. | Anlamı: Afiş / Poster" },
+            { word: "PREMIO", clue: "A diretora brasileira recebeu um _______ em Cannes. | Anlamı: Ödül" },
+            { word: "BILHETE", clue: "Comprei o _______ da sessão da meia-noite antecipado. | Anlamı: Bilet" },
+            { word: "DUBLAGEM", clue: "A _______ brasileira é considerada uma das melhores do mundo. | Anlamı: Seslendirme" }
         ]
     };
 
@@ -464,14 +484,38 @@
     let currentFocusCell = null;
 
     window.onload = function() {
-        initGame();
+        populateThemeSelect();
+        initGame(true);
     };
 
-    // Dinamik Tema Seçici (30 Temadan Birini Rastgele Yükler)
+    // Seçim kutusunu 30 temayla doldurur
+    function populateThemeSelect() {
+        const select = document.getElementById('themeSelect');
+        select.innerHTML = '';
+        THEMES.forEach((theme, index) => {
+            const opt = document.createElement('option');
+            opt.value = index;
+            opt.innerText = `${index + 1}. ${theme.name}`;
+            select.appendChild(opt);
+        });
+    }
+
+    // Kullanıcı listeden bir tema seçtiğinde çalışır
+    function applySelectedTheme() {
+        const index = document.getElementById('themeSelect').value;
+        const theme = THEMES[index];
+        setThemeStyles(theme, index);
+    }
+
+    // Rastgele bir tema seçip uygular (Yeni Bulmaca butonuna basıldığında)
     function applyRandomTheme() {
         const randomIndex = Math.floor(Math.random() * THEMES.length);
+        document.getElementById('themeSelect').value = randomIndex;
         const theme = THEMES[randomIndex];
-        
+        setThemeStyles(theme, randomIndex);
+    }
+
+    function setThemeStyles(theme, index) {
         const root = document.documentElement;
         root.style.setProperty('--bg-color', theme.bg);
         root.style.setProperty('--container-bg', theme.container);
@@ -480,15 +524,17 @@
         root.style.setProperty('--accent-bg', theme.accent);
         root.style.setProperty('--shadow-color', theme.border);
 
-        document.getElementById('themeNameBadge').innerText = `Baskı Tarzı: ${theme.name} (${randomIndex + 1}/30)`;
+        document.getElementById('themeNameBadge').innerText = `Baskı Tarzı: ${theme.name} (${parseInt(index) + 1}/30)`;
     }
 
-    function initGame() {
+    function initGame(shouldChangeTheme = false) {
         if (timerInterval) clearInterval(timerInterval);
         document.getElementById('success-banner').style.display = 'none';
         
-        // Temayı değiştir
-        applyRandomTheme();
+        // Eğer yeni bulmaca tetiklendiyse temayı da rastgele değiştir
+        if (shouldChangeTheme) {
+            applyRandomTheme();
+        }
 
         const selectedLang = document.getElementById('langSelect').value;
         const timerConfig = document.getElementById('timerSelect').value;
@@ -500,7 +546,7 @@
         const generationResult = generateCrosswordLayout(selectedWords);
         
         if (!generationResult || generationResult.placedCount < 3) {
-            initGame();
+            initGame(false);
             return;
         }
 
@@ -540,7 +586,10 @@
     function speakWord(word, langCode) {
         if ('speechSynthesis' in window) {
             let utterance = new SpeechSynthesisUtterance(word);
-            utterance.lang = langCode;
+            // Dil kodunu ses motoruna uydurma
+            if(langCode === 'ptbr') utterance.lang = 'pt-BR';
+            else if(langCode === 'ro') utterance.lang = 'ro-RO';
+            else utterance.lang = langCode;
             window.speechSynthesis.speak(utterance);
         }
     }
