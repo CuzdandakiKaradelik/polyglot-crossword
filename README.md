@@ -1,6 +1,6 @@
 # 🧩 Polyglot Movie Crossword (Çok Dilli Sinema Bulmacası)
 
-[Türkçe](#tr---türkçe) | [English](#en---english) | [Español](#es---español) | [Deutsch](#de---deutsch) | [Français](#fr---français) | [Italiano](#it---italiano)
+[Türkçe](#tr---türkçe) | [English](#en---english) | [Español](#es---español) | [Deutsch](#de---deutsch) | [Français](#fr---français) | [Italiano](#it---italiano) | [Português](#pt---português) | [Română](#ro---română)
 
 ---
 
@@ -10,11 +10,12 @@ Dil öğrenme ve sinema kültürünü bir araya getiren web tabanlı, etkileşim
 
 🚀 **Canlı Demo:** [Projeyi Buraya Tıklayarak Oynayabilirsiniz!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
 
-### ✨ Yeni Özellikler
-* 🌍 **6 Farklı Dil Desteği:** İngilizce, İspanyolca, Almanca, Fransızca ve İtalyanca sinema terimleri ve ipuçları.
-* 🎨 **8 Farklı Görsel Tema:** Gazete, Gece modu, Retro, Nordic, Sakura, Cyberpunk, Cozy ve Sunset temaları arasında anlık geçiş.
-* 🔒 **Akıllı Yön Kilidi:** Yatay yazarken sadece sağa, dikey yazarken sadece aşağı ilerleyen akıllı imleç sistemi.
-* 💡 **Harf Al / İpucu:** Tıkandığınız karede doğru harfi gösteren ipucu butonu.
+### ✨ Öne Çıkan Özellikler
+* 🌍 **8 Farklı Dil Desteği:** İngilizce, İspanyolca, Almanca, Fransızca, İtalyanca, Türkçe, Portekizce ve Romence sinema kelimeleri havuzu.
+* 🔀 **Dinamik Dil Adaptasyonu:** Seçilen hedef dile göre tüm butonlar, başlıklar ve tema adları anında o dile çevrilir.
+* 🎨 **23 Benzersiz Görsel Tema:** Matrix, Dracula, Synthwave, Cyberpunk, Halloween gibi oyuncuyu ekrana bağlayan temalar arası anlık geçiş.
+* 🔒 **Akıllı Yön Kilidi:** Yatay yazarken sadece sağa, dikey yazarken sadece aşağı ilerleyen akıllı imleç sistemi. Harf kaçmalarını önler.
+* 💡 **Harf Al / İpucu:** Tıkandığınız karede doğru harfi gösteren dinamik uyarı sistemi.
 * 💾 **Kaldığın Yerden Devam Et (LocalStorage):** Sayfa yenilense bile ilerlemeniz ve seçtiğiniz tema tarayıcıda saklanır.
 
 ---
@@ -26,8 +27,9 @@ An interactive, web-based crossword puzzle game that combines movie trivia with 
 🚀 **Live Demo:** [You can play the project by clicking here!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
 
 ### ✨ Key Features
-* 🌍 **Multilingual Support:** Movie terms and clues available in English, Spanish, German, French, and Italian.
-* 🎨 **8 Visual Themes:** Switch instantly between Newspaper, Dark, Retro, Nordic, Sakura, Cyberpunk, Cozy, and Sunset styles.
+* 🌍 **8 Language Support:** Movie terms and clues available in English, Spanish, German, French, Italian, Turkish, Portuguese, and Romanian.
+* 🔀 **Dynamic Interface Translation:** All buttons, headers, and theme names instantly translate into your chosen target language.
+* 🎨 **23 Immersive Themes:** Switch instantly between Newspaper, Matrix, Dracula, Synthwave, Cyberpunk, Spooky Halloween, and many more.
 * 🔒 **Smart Direction Lock:** The cursor stays in line with your writing flow (moves right for across, down for down).
 * 💡 **Get a Hint:** Stuck on a letter? Reveal the correct character instantly.
 * 💾 **Auto-Save Progress:** Your answers and chosen theme are securely saved in LocalStorage.
@@ -41,10 +43,11 @@ Un juego de crucigramas interactivo basado en la web que combina el aprendizaje 
 🚀 **Demostración en vivo:** [¡Puedes probar el proyecto haciendo clic aquí!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
 
 ### ✨ Características
-* 🌍 **Soporte Multilingüe:** Pistas y palabras sobre cine en inglés, español, alemán, francés e italiano.
-* 🎨 **8 Temas Visuales:** Cambia instantáneamente entre Periódico, Oscuro, Retro, Nórdico, Sakura, Cyberpunk, Cozy y Sunset.
+* 🌍 **Soporte de 8 Idiomas:** Pistas y palabras sobre cine en inglés, español, alemán, francés, italiano, turco, portugués y rumano.
+* 🔀 **Traducción Dinámica de la Interfaz:** Todos los botones, títulos y nombres de temas se adaptan instantáneamente al idioma seleccionado.
+* 🎨 **23 Temas Visuales:** Cambia instantáneamente entre Periódico, Código Matrix, Drácula Oscuro, Synthwave, Cyberpunk y más.
 * 🔒 **Bloqueo de Dirección Inteligente:** El cursor se mueve automáticamente hacia la derecha o hacia abajo según la palabra.
-* 💡 **Obtener Pista:** ¿Atascado? Revela la letra correcta de cualquier casilla seleccionada.
+* 💡 **Obtener Pista:** Revela la letra correcta de cualquier casilla seleccionada.
 * 💾 **Guardado Automático:** Tu progreso y tema elegido se guardan en el navegador.
 
 ---
@@ -56,8 +59,9 @@ Ein interaktives Web-Kreuzworträtsel, das das Erlernen von Sprachen mit Filmwis
 🚀 **Live-Demo:** [Hier klicken, um das Projekt auszuprobieren!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
 
 ### ✨ Funktionen
-* 🌍 **Mehrsprachige Unterstützung:** Filmbegriffe und Hinweise auf Englisch, Spanisch, Deutsch, Französisch und Italienisch.
-* 🎨 **8 Visuelle Designs:** Sofortiger Wechsel zwischen Zeitung, Dunkel, Retro, Nordic, Sakura, Cyberpunk, Cozy und Sunset.
+* 🌍 **8 Sprachen Unterstützung:** Filmbegriffe auf Englisch, Spanisch, Deutsch, Französisch, Italienisch, Türkisch, Portugiesisch und Rumänisch.
+* 🔀 **Dynamische Benutzeroberfläche:** Alle Schaltflächen, Titel und Designnamen passen sich sofort an die gewählte Zielsprache an.
+* 🎨 **23 Visuelle Designs:** Sofortiger Wechsel zwischen Zeitung, Matrix Digital, Dracula Dunkel, Synthwave, Cyberpunk, Halloween und mehr.
 * 🔒 **Intelligente Richtungssperre:** Automatische Cursor-Navigation passend zur Schreibrichtung (waagerecht oder senkrecht).
 * 💡 **Buchstaben-Hinweis:** Zeigt den richtigen Buchstaben an, wenn Sie nicht weiterwissen.
 * 💾 **Automatisches Speichern:** Ihr Fortschritt und Ihr gewähltes Design werden im LocalStorage gespeichert.
@@ -68,13 +72,14 @@ Ein interaktives Web-Kreuzworträtsel, das das Erlernen von Sprachen mit Filmwis
 
 Un jeu de mots croisés interactif sur le Web qui combine l'apprentissage des langues et la culture cinématographique.
 
-🚀 **Démo en direct :** [Vous pouvez tester le projet en cliquant ici !](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
+🚀 **Démo en direct :** [Vous pouvez tester le projet en cliquant ici !](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
 
 ### ✨ Fonctionnalités
-* 🌍 **Support Multilingue:** Indices et mots sur le cinéma en anglais, espagnol, allemand, français et italien.
-* 🎨 **8 Thèmes Visuels:** Basculez instantanément entre Journal, Sombre, Retro, Nordique, Sakura, Cyberpunk, Cozy et Sunset.
+* 🌍 **Support de 8 Langues:** Indices et mots sur le cinéma en anglais, espagnol, allemand, français, italien, turc, portugais et roumain.
+* 🔀 **Traduction Dynamique de l'Interface:** Tous les boutons, titres et thèmes se traduisent instantanément dans la langue cible choisie.
+* 🎨 **23 Thèmes Visuels:** Basculez instantanément entre Journal, Code Matrix, Dracula Sombre, Synthwave, Cyberpunk, et bien d'autres.
 * 🔒 **Verrouillage Intelligent de Direction:** Le curseur se déplace automatiquement vers la droite ou vers le bas selon le mot sélectionné.
-* 💡 **Obtenir un Indice:** Révéle instantanément la bonne lettre de la case sélectionnée.
+* 💡 **Obtenir un Indice:** Révèle instantanément la bonne lettre de la case sélectionnée.
 * 💾 **Sauvegarde Automatique:** Votre progression et le thème choisi sont conservés dans le navigateur.
 
 ---
@@ -86,14 +91,47 @@ Un gioco di parole crociate interattivo basato sul web che unisce l'apprendiment
 🚀 **Demo live:** [Puoi provare il progetto cliccando qui!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
 
 ### ✨ Caratteristiche
-* 🌍 **Supporto Multilingua:** Parole e indizi sul cinema in inglese, spagnolo, tedesco, francese e italiano.
-* 🎨 **8 Temi Visivi:** Cambia istantaneamente tra Giornale, Scuro, Retro, Nordico, Sakura, Cyberpunk, Cozy e Sunset.
+* 🌍 **Supporto di 8 Lingue:** Parole e indizi sul cinema in inglese, spagnolo, tedesco, francese, italiano, turco, portoghese e rumeno.
+* 🔀 **Traduzione Dinamica dell'Interfaccia:** Tutti i pulsanti, i titoli e i nomi dei temi cambiano istantaneamente in base alla lingua scelta.
+* 🎨 **23 Temi Visivi:** Cambia istantaneamente tra Giornale, Codice Matrix, Dracula Oscuro, Synthwave, Cyberpunk, Halloween e altri.
 * 🔒 **Blocco Direzione Intelligente:** Il cursore si sposta automaticamente a destra o in basso a seconda della direzione della parola.
-* 💡 **Suggerimento Lettera:** Mostra istantaneamente la lettera corretta nella casella selezionata.
-* 💾 **Salvataggio Automatico:** I tuoi progressi e il tema scelto vengono salvati in LocalStorage.
+* 💡 **Suggerimento Lettera:** Mostra istantaneamente la letra corretta nella casella selezionata.
+* 💾 **Salvataggio Automatico:** I tuoi progressi vengono salvati in LocalStorage.
 
 ---
 
-## 🛠️ Tech Stack / Tecnologías utilizadas / Verwendete Technologien /Technologies utilisées / Tecnologie utilizzate / Kullanılan Teknolojiler
+## PT - Português
+
+Um jogo de palavras cruzadas interativo baseado na web que combina o aprendizado de idiomas com a cultura do cinema.
+
+🚀 **Demonstração ao vivo:** [Você pode jogar o projeto clicando aqui!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
+
+### ✨ Características principais
+* 🌍 **Suporte para 8 Idiomas:** Pistas e palavras de filmes em inglês, espanhol, alemão, francês, italiano, turco, português e romeno.
+* 🔀 **Tradução Dinâmica da Interface:** Todos os botões, títulos e nomes dos temas mudam instantaneamente para o idioma selecionado.
+* 🎨 **23 Temas Envolventes:** Alterne instantaneamente entre Jornal, Código Matrix, Dracula Escuro, Synthwave, Cyberpunk, Halloween e muito mais.
+* 🔒 **Bloqueio de Direção Inteligente:** O cursor avança apenas para a direita ou para baixo, dependendo do fluxo da palavra.
+* 💡 **Obter Dica:** Revela instantaneamente a letra correta no quadrado focado.
+* 💾 **Salvamento Automático:** Suas respostas e o tema escolhido são salvos no navegador.
+
+---
+
+## RO - Română
+
+Un joc interactiv de cuvinte încrucișate pe web care îmbină învățarea limbilor străine cu trivia din cinematografie.
+
+🚀 **Demo live:** [Puteți juca proiectul făcând clic aici!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
+
+### ✨ Caracteristici cheie
+* 🌍 **Suport pentru 8 Limbi:** Cuvinte și indicii din filme în engleză, spaniolă, germană, franceză, italiană, turcă, portugheză și română.
+* 🔀 **Traducere Dinamică a Interfeței:** Toate butoanele, titlurile și numele temelor se adaptează instantaneu la limba țintă aleasă.
+* 🎨 **23 de Teme Vizuale:** Schimbă instant între Ziar, Codul Matrix, Dracula Întunecat, Synthwave, Cyberpunk, Halloween și altele.
+* 🔒 **Blocare Inteligentă a Direcției:** Cursorul rămâne aliniat cu direcția de scriere (se mișcă la dreapta sau în jos).
+* 💡 **Sugestie literă:** Dezvăluie instantaneu caracterul corect în căsuța selectată.
+* 💾 **Salvare Automată:** Progresul și tema selectată sunt păstrate în siguranță în LocalStorage.
+
+---
+
+## 🛠️ Tech Stack / Kullanılan Teknolojiler
 * **HTML5** & **CSS3** (Custom Properties / CSS Variables)
-* **Vanilla JavaScript** (ES6+ Mobile Touch & LocalStorage API)
+* **Vanilla JavaScript** (ES6+ Navigation Engine & LocalStorage API)
