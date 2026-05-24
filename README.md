@@ -94,6 +94,6 @@ Un gioco di parole crociate interattivo basato sul web che unisce l'apprendiment
 
 ---
 
-## 🛠️ Tech Stack / Kullanılan Teknolojiler
+## 🛠️ Tech Stack / Tecnologías utilizadas / Verwendete Technologien /Technologies utilisées / Tecnologie utilizzate / Kullanılan Teknolojiler
 * **HTML5** & **CSS3** (Custom Properties / CSS Variables)
 * **Vanilla JavaScript** (ES6+ Mobile Touch & LocalStorage API)
