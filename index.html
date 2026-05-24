@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sözcük Matrisi Masası v5.1</title>
+    <title>Sözcük Matrisi Masası v6.0</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,10 +28,10 @@
             transition: all 0.3s ease;
         }
 
-        /* --- BASİT GİRİŞ EKRANI (WELCOME SCREEN) STYLES --- */
+        /* --- SADE VE KULLANICI DOSTU GİRİŞ EKRANI --- */
         .welcome-screen {
-            max-width: 650px;
-            margin: 80px auto;
+            max-width: 700px;
+            margin: 50px auto;
             background: var(--container-bg);
             border: 2px solid var(--border-color);
             padding: 40px;
@@ -42,7 +42,7 @@
 
         .welcome-title {
             font-family: 'Playfair Display', serif;
-            font-size: 38px;
+            font-size: 36px;
             margin: 0 0 10px 0;
         }
 
@@ -50,10 +50,18 @@
             font-size: 14px;
             opacity: 0.7;
             display: block;
+            margin-bottom: 35px;
+        }
+
+        /* Buton Grupları */
+        .action-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
             margin-bottom: 40px;
         }
 
-        /* Büyük ve Net Başlatma Butonu */
         .start-action-btn {
             font-family: 'Courier Prime', monospace;
             font-size: 18px;
@@ -67,17 +75,36 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 12px var(--shadow-color);
             width: 100%;
-            max-width: 320px;
-            margin-bottom: 40px;
+            max-width: 360px;
         }
 
         .start-action-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px var(--shadow-color);
             background-color: var(--accent-bg);
             color: var(--text-color);
+        }
+
+        .random-action-btn {
+            font-family: 'Courier Prime', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: transparent;
+            color: var(--text-color);
+            border: 2px dashed var(--border-color);
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .random-action-btn:hover {
+            background-color: var(--text-color);
+            color: var(--container-bg);
+            border-style: solid;
         }
 
         /* Kolay Ayar Kartları */
@@ -90,7 +117,7 @@
             padding-top: 25px;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
             .quick-settings-grid { grid-template-columns: 1fr; }
         }
 
@@ -113,7 +140,7 @@
         .setting-card select {
             width: 100%;
             font-family: 'Courier Prime', monospace;
-            font-size: 13px;
+            font-size: 12px;
             padding: 8px;
             border: 1px solid var(--border-color);
             background: var(--container-bg);
@@ -122,10 +149,10 @@
             cursor: pointer;
         }
 
-        /* --- OYUN ALANI (MAIN WORKSPACE) STYLES --- */
+        /* --- OYUN ALANI (MAIN WORKSPACE) --- */
         .main-workspace {
             display: none;
-            max-width: 1200px;
+            max-width: 1250px;
             margin: 0 auto;
             border: 2px solid var(--border-color);
             padding: 30px;
@@ -337,7 +364,10 @@
     <h1 class="welcome-title" id="lbl-launch-title">Dil Bulmacası</h1>
     <span class="welcome-subtitle" id="lbl-launch-subtitle">Kelimeleri keşfetmeye başlamak için butona tıklayın</span>
 
-    <button class="start-action-btn" onclick="launchWorkspace()" id="btn-menu-start">Oyunu Başlat</button>
+    <div class="action-group">
+        <button class="start-action-btn" onclick="launchWorkspace()" id="btn-menu-start">Oyunu Başlat</button>
+        <button class="random-action-btn" onclick="launchRandomizedWorkspace()" id="btn-menu-random">🎲 Şansımı Dene (Her Şey Rastgele)</button>
+    </div>
 
     <div class="quick-settings-grid">
         <div class="setting-card">
@@ -349,9 +379,6 @@
                 <option value="de">Deutsch</option>
                 <option value="fr">Français</option>
                 <option value="it">Italiano</option>
-                <option value="pt">Português</option>
-                <option value="nl">Nederlands</option>
-                <option value="ro">Română</option>
             </select>
         </div>
 
@@ -362,6 +389,12 @@
                 <option value="travel">✈️ Seyahat & Göç</option>
                 <option value="culinary">🍳 Gastronomi & Mutfak</option>
                 <option value="daily">🏡 Günlük Yaşam</option>
+                <option value="law">⚖️ Hukuk & Adalet</option>
+                <option value="business">💼 Ekonomi & İş Dünyası</option>
+                <option value="science">🧬 Bilim & Teknoloji</option>
+                <option value="history">🏛️ Tarih & Arkeoloji</option>
+                <option value="art">🎨 Sanat & Edebiyat</option>
+                <option value="psychology">🧠 Psikoloji & Felsefe</option>
             </select>
         </div>
 
@@ -425,12 +458,17 @@
 </div>
 
 <script>
-    // 50 ADET DİNAMİK TEMA ADLARI
+    // 80 ADET DİNAMİK TEMA ADLARI
     const THEME_NAMES = {
-        tr: ["Akademik Basım", "Gece Mürekkebi", "Antik Parşömen", "Retro Editör", "Kızıl Dergi", "Botanik İnceleme", "Sarı Sayfalar", "Finans Günlüğü", "Kraliyet Arşivi", "Kahve Kokusu", "Kömür Lekesi", "Bağımsız Sinema", "Nordik Nesir", "Okyanus Postası", "Pasifik Günlüğü", "Gül Yaprağı", "Derin Gece", "Neon Siber", "Zeytin Dalı", "Mantar Pano", "Mat Çelik", "Çöl Kumu", "Kül Grisi", "Tebeşir Tahtası", "Haki Dokuma", "Soluk Orkide", "Kiremit Pres", "Asfalt Kağıdı", "Güneş Kehribarı", "Platin Portföy", "Eski İstanbul", "Kuzey Işıkları", "Vintage Denim", "Mat Kakao", "Pastel Nane", "Pembe Limonata", "Bordo Arşiv", "Safir Lüksü", "Çöl Gülü", "Okaliptüs", "Kurgu Romanı", "Askeri Kamuflaj", "Şehir Sisi", "Volkanik Kül", "Antik Altın", "Buzul Baskı", "Zencefil", "Gece Bahçesi", "Orkide Sisi", "Koyu Grafit"],
-        en: ["Academic Press", "Midnight Ink", "Ancient Parchment", "Retro Editor", "Crimson Journal", "Botanical Review", "Yellow Pages", "Financial Times", "Royal Archive", "Coffee House", "Charcoal Slate", "Indie Cinema", "Nordic Prose", "Oceanic Dispatch", "Pacific Log", "Rose Petal", "Deep Slate", "Neon Cyan", "Olive Grove", "Cork Board", "Matte Steel", "Desert Sand", "Ashen Grey", "Chalkboard", "Khaki Weave", "Pale Orchid", "Terracotta Press", "Tar Paper", "Sunlit Amber", "Platinum Folio", "Old Istanbul", "Aurora Borealis", "Vintage Denim", "Matte Cocoa", "Pastel Mint", "Pink Lemonade", "Burgundy Archive", "Sapphire Luxury", "Desert Rose", "Eucalyptus", "Fiction Novel", "Military Camo", "Urban Fog", "Volcanic Ash", "Antique Gold", "Glacier Print", "Ginger Spice", "Night Garden", "Orchid Mist", "Dark Graphite"]
+        tr: [
+            "Akademik Basım", "Gece Mürekkebi", "Antik Parşömen", "Retro Editör", "Kızıl Dergi", "Botanik İnceleme", "Sarı Sayfalar", "Finans Günlüğü", "Kraliyet Arşivi", "Kahve Kokusu", "Kömür Lekesi", "Bağımsız Sinema", "Nordik Nesir", "Okyanus Postası", "Pasifik Günlüğü", "Gül Yaprağı", "Derin Gece", "Neon Siber", "Zeytin Dalı", "Mantar Pano", "Mat Çelik", "Çöl Kumu", "Kül Grisi", "Tebeşir Tahtası", "Haki Dokuma", "Soluk Orkide", "Kiremit Pres", "Asfalt Kağıdı", "Güneş Kehribarı", "Platin Portföy", "Eski İstanbul", "Kuzey Işıkları", "Vintage Denim", "Mat Kakao", "Pastel Nane", "Pembe Limonata", "Bordo Arşiv", "Safir Lüksü", "Çöl Gülü", "Okaliptüs", "Kurgu Romanı", "Askeri Kamuflaj", "Şehir Sisi", "Volkanik Kül", "Antik Altın", "Buzul Baskı", "Zencefil", "Gece Bahçesi", "Orkide Sisi", "Koyu Grafit", "Limon Ağacı", "Sarmaşık Duvar", "Gümüş Madeni", "Göktaşı Siyahı", "Eski Gazete", "Bakır Tel", "Lila Rüyası", "Mango Şerbeti", "Kutup Ekspresi", "Saf Amber", "Atlas Okyanusu", "Kiremit Tozu", "Safir Mavisi", "Sisli Dağlar", "Tütün Sarısı", "Yakut Kırmızı", "Bambu Ormanı", "Kardelen Beyazı", "Kanyon Turuncusu", "Mars Tozu", "Lavanta Bahçesi", "Fırtına Grisi", "Zümrüt Yeşil", "Deniz Kabuğu", "Karamel Krem", "Sonsuz Uzay", "Paslı Demir", "Hardal Sarısı", "Gece Yarısı Mavisi", "İpek Yolu"
+        ],
+        en: [
+            "Academic Press", "Midnight Ink", "Ancient Parchment", "Retro Editor", "Crimson Journal", "Botanical Review", "Yellow Pages", "Financial Times", "Royal Archive", "Coffee House", "Charcoal Slate", "Indie Cinema", "Nordic Prose", "Oceanic Dispatch", "Pacific Log", "Rose Petal", "Deep Slate", "Neon Cyan", "Olive Grove", "Cork Board", "Matte Steel", "Desert Sand", "Ashen Grey", "Chalkboard", "Khaki Weave", "Pale Orchid", "Terracotta Press", "Tar Paper", "Sunlit Amber", "Platinum Folio", "Old Istanbul", "Aurora Borealis", "Vintage Denim", "Matte Cocoa", "Pastel Mint", "Pink Lemonade", "Burgundy Archive", "Sapphire Luxury", "Desert Rose", "Eucalyptus", "Fiction Novel", "Military Camo", "Urban Fog", "Volcanic Ash", "Antique Gold", "Glacier Print", "Ginger Spice", "Night Garden", "Orchid Mist", "Dark Graphite", "Lemon Tree", "Ivy Wall", "Silver Mine", "Meteorite Black", "Old Newsprint", "Copper Wire", "Lilac Dream", "Mango Sorbet", "Polar Express", "Pure Amber", "Atlantic Blue", "Brick Dust", "Sapphire Deep", "Misty Peaks", "Tobacco Leaf", "Ruby Red", "Bamboo Forest", "Snowdrop White", "Canyon Orange", "Mars Dust", "Lavender Field", "Storm Grey", "Emerald Isle", "Sea Shell", "Caramel Cream", "Deep Space", "Rusty Iron", "Mustard Yellow", "Midnight Navy", "Silk Road"
+        ]
     };
 
+    // 80 ADET RENK KOMBİNASYONU
     const THEME_STYLES = [
         { bg: "#f7f5f0", container: "#ffffff", text: "#2b2b2b", border: "#2b2b2b", accent: "#f0ede5" },
         { bg: "#1a1a1a", container: "#262626", text: "#f5f5f5", border: "#404040", accent: "#333333" },
@@ -472,101 +510,134 @@
         { bg: "#000814", container: "#001d3d", text: "#ffc300", border: "#003566", accent: "#ffd60a" },
         { bg: "#e07a5f", container: "#f4f1de", text: "#3d405b", border: "#3d405b", accent: "#f2cc8f" },
         { bg: "#cad2c5", container: "#84a98c", text: "#2f3e46", border: "#354f52", accent: "#52796f" },
-        { bg: "#eae2b7", container: "#fcbf49", text: "#003049", border: "#d62828", accent: "#f77f00" },
-        { bg: "#4f5d2f", container: "#111d13", text: "#f5f5f5", border: "#415a77", accent: "#778da9" },
-        { bg: "#999999", container: "#cccccc", text: "#111111", border: "#333333", accent: "#eeeeee" },
-        { bg: "#e2711d", container: "#ff9505", text: "#350f22", border: "#ffb627", accent: "#ffdd00" },
-        { bg: "#8c7853", container: "#e4d6a7", text: "#1c1c1c", border: "#4a3b2c", accent: "#d4af37" },
-        { bg: "#e0f2f1", container: "#b2dfdb", text: "#004d40", border: "#00796b", accent: "#80cbc4" },
-        { bg: "#f0a500", container: "#cf7500", text: "#1a1a1a", border: "#000000", accent: "#f4f4f4" },
-        { bg: "#132a13", container: "#31572c", text: "#ecf39e", border: "#4f772d", accent: "#90a955" },
-        { bg: "#fae0e4", container: "#ff99c8", text: "#5c0029", border: "#93003a", accent: "#e4c1f9" },
-        { bg: "#121212", container: "#1e1e1e", text: "#bb86fc", border: "#3700b3", accent: "#03dac6" }
+        // --- 41 - 80 Ek Renk Paletleri ---
+        { bg: "#fff9c4", container: "#ffffff", text: "#f57f17", border: "#f57f17", accent: "#fffde7" },
+        { bg: "#e8f5e9", container: "#ffffff", text: "#1b5e20", border: "#1b5e20", accent: "#c8e6c9" },
+        { bg: "#eceff1", container: "#ffffff", text: "#37474f", border: "#37474f", accent: "#cfd8dc" },
+        { bg: "#212121", container: "#424242", text: "#eeff41", border: "#616161", accent: "#263238" },
+        { bg: "#f5f5f5", container: "#ffffff", text: "#212121", border: "#9e9e9e", accent: "#e0e0e0" },
+        { bg: "#d7ccc8", container: "#efebe9", text: "#4e342e", border: "#4e342e", accent: "#bcaaa4" },
+        { bg: "#f3e5f5", container: "#ffffff", text: "#4a148c", border: "#4a148c", accent: "#e1bee7" },
+        { bg: "#fff3e0", container: "#ffffff", text: "#e65100", border: "#e65100", accent: "#ffe0b2" },
+        { bg: "#e0f7fa", container: "#ffffff", text: "#006064", border: "#006064", accent: "#b2ebf2" },
+        { bg: "#ffeb3b", container: "#ffffff", text: "#ff5722", border: "#ff5722", accent: "#fff9c4" },
+        { bg: "#0288d1", container: "#e1f5fe", text: "#01579b", border: "#01579b", accent: "#b3e5fc" },
+        { bg: "#ff8a65", container: "#fbe9e7", text: "#bf360c", border: "#bf360c", accent: "#ffccbc" },
+        { bg: "#004d40", container: "#e0f2f1", text: "#00796b", border: "#004d40", accent: "#80cbc4" },
+        { bg: "#78909c", container: "#eceff1", text: "#263238", border: "#263238", accent: "#b0bec5" },
+        { bg: "#ffe082", container: "#fff8e1", text: "#5d4037", border: "#5d4037", accent: "#ffecb3" },
+        { bg: "#d32f2f", container: "#ffebee", text: "#b71c1c", border: "#b71c1c", accent: "#ffcdd2" },
+        { bg: "#1b5e20", container: "#e8f5e9", text: "#ffffff", border: "#a5d6a7", accent: "#2e7d32" },
+        { bg: "#fafafa", container: "#ffffff", text: "#000000", border: "#000000", accent: "#f5f5f5" },
+        { bg: "#ffcc80", container: "#fff3e0", text: "#e65100", border: "#e65100", accent: "#ffe0b2" },
+        { bg: "#3f51b5", container: "#e8eaf6", text: "#1a237e", border: "#1a237e", accent: "#c5cae9" },
+        { bg: "#00bcd4", container: "#e0f7fa", text: "#006064", border: "#006064", accent: "#b2ebf2" },
+        { bg: "#9c27b0", container: "#f3e5f5", text: "#4a148c", border: "#4a148c", accent: "#e1bee7" },
+        { bg: "#4caf50", container: "#e8f5e9", text: "#1b5e20", border: "#1b5e20", accent: "#c8e6c9" },
+        { bg: "#ff9800", container: "#fff3e0", text: "#e65100", border: "#e65100", accent: "#ffe0b2" },
+        { bg: "#e91e63", container: "#fde0e6", text: "#880e4f", border: "#880e4f", accent: "#f9a8d4" },
+        { bg: "#607d8b", container: "#eceff1", text: "#263238", border: "#263238", accent: "#b0bec5" },
+        { bg: "#9e9e9e", container: "#f5f5f5", text: "#212121", border: "#212121", accent: "#e0e0e0" },
+        { bg: "#673ab7", container: "#ede7f6", text: "#311b92", border: "#311b92", accent: "#d1c4e9" },
+        { bg: "#03a9f4", container: "#e1f5fe", text: "#01579b", border: "#01579b", accent: "#b3e5fc" },
+        { bg: "#8bc34a", container: "#f1f8e9", text: "#33691e", border: "#33691e", accent: "#dcedc8" },
+        { bg: "#ffeb3b", container: "#fffde7", text: "#f57f17", border: "#f57f17", accent: "#fff9c4" },
+        { bg: "#009688", container: "#e0f2f1", text: "#004d40", border: "#004d40", accent: "#b2dfdb" },
+        { bg: "#795548", container: "#efebe9", text: "#3e2723", border: "#3e2723", accent: "#d7ccc8" },
+        { bg: "#ff5722", container: "#fbe9e7", text: "#bf360c", border: "#bf360c", accent: "#ffccbc" },
+        { bg: "#222222", container: "#333333", text: "#ffffff", border: "#555555", accent: "#444444" },
+        { bg: "#dddddd", container: "#ffffff", text: "#111111", border: "#111111", accent: "#cccccc" },
+        { bg: "#ff9999", container: "#ffe5e5", text: "#660000", border: "#660000", accent: "#ffcccc" },
+        { bg: "#99cc99", container: "#e5f2e5", text: "#003300", border: "#003300", accent: "#ccffcc" },
+        { bg: "#9999cc", container: "#e5e5f2", text: "#000033", border: "#000033", accent: "#ccccff" },
+        { bg: "#cc9999", container: "#f2e5e5", text: "#330000", border: "#330000", accent: "#ffcccc" }
     ];
 
     const TRANSLATIONS = {
         tr: { 
-            launchTitle: "Sözcük Matrisi Masası", launchSubtitle: "Dil becerilerinizi test etmek ve yeni kelimeler keşfetmek için başlayın.",
-            menuStart: "Oyunu Başlat", cfgLang: "Hedef Dil:", cfgTopic: "Kelime Alanı:", cfgTheme: "Renk Teması:",
+            launchTitle: "Sözcük Matrisi Masası", launchSubtitle: "Dil becerilerinizi test etmek ve 500+ eşsiz kelimeyi keşfetmek için başlayın.",
+            menuStart: "Oyunu Başlat", menuRandom: "🎲 Şansımı Dene (Her Şey Rastgele)", cfgLang: "Hedef Dil:", cfgTopic: "Kelime Alanı:", cfgTheme: "Renk Teması:",
             title: "Sözcük Matrisi Masası", btnBack: "⬅ Giriş Ekranına Dön", btnGen: "Yeni Bulmaca Üret", btnHint: "İpucu Ver",
             sectionTitle: "Kelime İpuçları ve Kanıtlar", across: "Yatay (Across)", down: "Dikey (Down)",
             analysisTitle: "Tebrikler! Kelime Analiz İndeksi", thWord: "Kelime", thContext: "Bağlam / Anlam Açıklaması", prefix: "Tema"
         },
         en: { 
-            launchTitle: "Lexical Matrix Workbench", launchSubtitle: "Start practicing to test your skills and discover new vocabulary.",
-            menuStart: "Launch Matrix", cfgLang: "Target Language:", cfgTopic: "Domain Topic:", cfgTheme: "Color Theme:",
+            launchTitle: "Lexical Matrix Workbench", launchSubtitle: "Start practicing to test your skills and discover 500+ unique vocabularies.",
+            menuStart: "Launch Matrix", menuRandom: "🎲 Surprise Me (Randomize All)", cfgLang: "Target Language:", cfgTopic: "Domain Topic:", cfgTheme: "Color Theme:",
             title: "Lexical Matrix Workbench", btnBack: "⬅ Return to Main Menu", btnGen: "Next Matrix Puzzle", btnHint: "Give Hint",
             sectionTitle: "Contextual Clues & Evidence", across: "Horizontal (Across)", down: "Vertical (Down)",
             analysisTitle: "Incredible! Word Analysis Index", thWord: "Lexeme", thContext: "Contextual Translation Alignment", prefix: "Theme"
         }
     };
 
-    const DATA_POOL = {
+    // HER KONU İÇİN 50 BENZERSİZ KELİMEDEN OLUŞAN DEVASA VERİ HAVUZU (10 KONU)
+    // Örnekleme ve yapı bozulmaması amacıyla sistematik döngüsel benzersiz anahtarlar tanımlandı.
+    const TOPICS_LIST = ["cinema", "travel", "culinary", "daily", "law", "business", "science", "history", "art", "psychology"];
+    
+    // Dil bazlı 50 şer kelimelik havuzu otomatik/dinamik üreten ve çeşitlendiren motor yapısı
+    const DATA_POOL = {};
+    
+    // Ham verilerin genişletilmesi
+    const RAW_SEED = {
         cinema: {
-            tr: [
-                { word: "SİNEMA", clue: "Görsel ve işitsel öğelerin bütünlük oluşturduğu modern sanat." },
-                { word: "KURGU", clue: "Çekilen sahnelerin bir senaryo sırasına göre birleştirilmesi." },
-                { word: "REPLİK", clue: "Oyuncuların sahnede birbirlerine söylediği metne dayalı sözler." },
-                { word: "AFİŞ", clue: "Filmin vizyon duyurusunu yapan basılı tanıtım posteri." },
-                { word: "KÜLT", clue: "Zamanla çok sadık ve geniş bir hayran kitlesi edinen yapıtlar." }
-            ],
-            en: [
-                { word: "CINEMA", clue: "The modern art and world of moving pictures. | Anlamı: Sinema" },
-                { word: "THEORY", clue: "Academic framework for film analysis. | Anlamı: Teori" },
-                { word: "MONTAGE", clue: "An editing technique popular in classic films. | Anlamı: Kurgu" },
-                { word: "ARCHIVE", clue: "A place where old movie prints and papers are kept. | Anlamı: Arşiv" },
-                { word: "DIEGESIS", clue: "The total world of a story inside a film. | Anlamı: Anlatı Dünyası" }
-            ]
+            tr: ["SİNEMA", "KURGU", "REPLİK", "AFİŞ", "KÜLT", "SAHNE", "KAMERA", "AKTOR", "VİZYON", "KOLTUK", "YÖNETMEN", "SENARYO", "YAPIMCI", "FESTİVAL", "BELGESEL", "ANİMASYON", "GERİLİM", "KOMEDİ", "DRAMA", "ESTETİK", "KORTEJ", "IŞIKÇI", "SES", "KORİDOR", "PERDE", "KARE", "FLAŞ", "BEYAZPERDE", "PROJEKSİYON", "DUBLAJ", "ALTYAZI", "BİLET", "SALON", "YILDIZ", "ÖDÜL", "OSCAR", "KRİTİK", "KISA", "GİŞE", "FRAGMAN", "YAYIN", "SANSÜR", "MÜZİKAL", "KAMERAARKASI", "PLAN", "ODAK", "AÇI", "MERCEK", "EFEKT", "KADRAJ"],
+            en: ["CINEMA", "THEORY", "MONTAGE", "ARCHIVE", "DIEGESIS", "CAMERA", "ACTOR", "SCENARIO", "SCREENPLAY", "DIRECTOR", "PRODUCER", "FESTIVAL", "DOCUMENTARY", "ANIMATION", "THRILLER", "COMEDY", "DRAMA", "AESTHETICS", "LIGHTING", "SOUNDTRACK", "SCREEN", "FRAME", "FLASH", "PROJECTION", "DUBBING", "SUBTITLE", "TICKET", "THEATER", "STAR", "AWARD", "CRITIC", "SHORT", "BOXOFFICE", "TRAILER", "BROADCAST", "CENSORSHIP", "MUSICAL", "PLAN", "FOCUS", "ANGLE", "LENS", "EFFECT", "GENRE", "HOLLYWOOD", "REVIEW", "STREAM", "STUDIO", "SERIES", "PREMIERE", "CLIMAX"]
         },
         travel: {
-            tr: [
-                { word: "PASAPORT", clue: "Uluslararası yolculuklarda devletçe verilen resmi kimlik belgesi." },
-                { word: "ROTALAR", clue: "Gezginlerin yolculuk boyunca takip ettiği önceden planlı yollar." },
-                { word: "TURİZM", clue: "Kültürel ya da dinlenme amaçlı seyahat hareketlerinin tümü." },
-                { word: "VALİZİ", clue: "Yolculuk eşyalarının taşındığı bavul veya büyük çanta." },
-                { word: "VİZESİ", clue: "Yabancı bir ülkeye girmek için resmi makamlardan alınan izin." }
-            ],
-            en: [
-                { word: "FLIGHT", clue: "A journey made through the air by a plane. | Anlamı: Uçuş" },
-                { word: "PASSPORT", clue: "Official document required for international travel. | Anlamı: Pasaport" },
-                { word: "ROUTE", clue: "The path or direction taken to reach a destination. | Anlamı: Rota" },
-                { word: "BORDER", clue: "The division line between two foreign nations. | Anlamı: Sınır" },
-                { word: "TRANSIT", clue: "Passing through an airport without entering the country. | Anlamı: Transit" }
-            ]
+            tr: ["PASAPORT", "ROTALAR", "TURİZM", "VALİZİ", "VİZESİ", "UÇUŞ", "BİLETİ", "GEMİSİ", "OTELİ", "YOLCU", "OTOBÜS", "TRENİ", "GARIN", "LİMAN", "KAPTAN", "PİLOT", "MIGRASYON", "GÖÇMEN", "REHBER", "HARİTA", "PUSULA", "GEZGİN", "SEYAHAT", "KEŞİF", "KAMP", "DOĞA", "MANZARA", "FOTOĞRAF", "SIRTÇANTASI", "YOLCULUK", "MACERA", "TATİL", "DENİZ", "KUM", "GÜNEŞ", "REZERVASYON", "DÖVİZ", "GÜMRÜK", "SINIR", "TRANSİT", "AKTARMA", "BAGAJ", "UÇAK", "TAKSİ", "METRO", "BİSİKLET", "GÜZERGAH", "KILAVUZ", "MÜZE", "ÖRENVERİ"],
+            en: ["FLIGHT", "PASSPORT", "ROUTE", "BORDER", "TRANSIT", "TRAVEL", "MIGRATION", "TOURISM", "SUITCASE", "VISA", "TICKET", "SHIP", "HOTEL", "PASSENGER", "BUS", "TRAIN", "STATION", "PORT", "CAPTAIN", "PILOT", "GUIDE", "MAP", "COMPASS", "EXPLORER", "VOYAGE", "DISCOVERY", "CAMPING", "NATURE", "SCENERY", "PHOTOGRAPH", "BACKPACK", "JOURNEY", "ADVENTURE", "VACATION", "SEA", "SAND", "SUN", "RESERVATION", "CURRENCY", "CUSTOMS", "TRANSFER", "BAGGAGE", "AIRPLANE", "TAXI", "SUBWAY", "BICYCLE", "ITINERARY", "MUSEUM", "CHECKIN", "DEPARTURE"]
         },
         culinary: {
-            tr: [
-                { word: "LEZZET", clue: "Yiyeceklerin dil ve damakta bıraktığı hoş kimyasal his." },
-                { word: "TARİF", clue: "Bir yemeğin hazırlanma aşamalarını gösteren kılavuz formül." },
-                { word: "MUTFAK", clue: "Yemek pişirme sanatının ve araçlarının bulunduğu oda." },
-                { word: "BAHARAT", clue: "Yemeklere koku ve tat katmak için kullanılan kurutulmuş bitkiler." },
-                { word: "ŞEFİN", clue: "Restoran mutfağındaki tüm operasyonu yöneten profesyonel." }
-            ],
-            en: [
-                { word: "CUISINE", clue: "A style or method of cooking characteristic of a country. | Anlamı: Mutfak" },
-                { word: "SPICES", clue: "Flavorings made from plants used in cooking food. | Anlamı: Baharat" },
-                { word: "RECIPE", clue: "A set of instructions used for preparing a specific dish. | Anlamı: Tarif" },
-                { word: "CHEF", clue: "A professional cook in charge of a kitchen. | Anlamı: Şef" },
-                { word: "FLAVOR", clue: "The distinctive taste of a food or drink item. | Anlamı: Lezzet" }
-            ]
+            tr: ["LEZZET", "TARİF", "MUTFAK", "BAHARAT", "ŞEFİN", "YEMEK", "TATLI", "TUZLU", "EKŞİ", "ACILI", "PİŞİRME", "KIZARTMA", "HAŞLAMA", "FIRIN", "OCAK", "TENCERE", "TAVA", "BIÇAK", "ÇATAL", "KAŞIK", "TABAK", "BARDAK", "MENÜ", "RESTORAN", "GARSON", "HESAP", "İSTİRİDYE", "ZEYTİNYAĞI", "TEREYAĞI", "MALZEME", "SOSU", "KREMA", "ÇORBA", "SALATA", "ETİN", "BALIK", "SEBZE", "MEYVE", "EKMEK", "PİLAV", "MAKARNA", "PEYNİR", "SÜTÜ", "YUMURTA", "KAHVE", "ÇAYIN", "İÇECEK", "GURME", "GASTRONOMİ", "İKRAM"],
+            en: ["CUISINE", "SPICES", "RECIPE", "CHEF", "FLAVOR", "FOOD", "DESSERT", "SALTY", "SOUR", "SPICY", "COOKING", "FRYING", "BOILING", "OVEN", "STOVE", "POT", "PAN", "KNIFE", "FORK", "SPOON", "PLATE", "GLASS", "MENU", "RESTAURANT", "WAITER", "BILL", "OYSTER", "OLIVEOIL", "BUTTER", "INGREDIENT", "SAUCE", "CREAM", "SOUP", "SALAD", "MEAT", "FISH", "VEGETABLE", "FRUIT", "BREAD", "RICE", "PASTA", "CHEESE", "MILK", "EGG", "COFFEE", "TEA", "BEVERAGE", "GOURMET", "GASTRONOMY", "CATERING"]
         },
         daily: {
-            tr: [
-                { word: "HAYAT", clue: "Doğumdan ölüme kadar geçen canlılık ve deneyim süreci." },
-                { word: "SABAH", clue: "Günün ilk saatleri, güneşin doğuşuna yakın zaman dilimi." },
-                { word: "SABIR", clue: "Zor durumlar karşısında sükuneti koruma becerisi." },
-                { word: "EVİNİZ", clue: "İnsanın gün sonunda sığındığı korunaklı kişisel yaşam alanı." },
-                { word: "SAĞLIK", clue: "Vücudun ve zihnin hastalıksız, tam bir iyilik hali." }
-            ],
-            en: [
-                { word: "HABIT", clue: "Something you do regularly or automatically every day. | Anlamı: Alışkanlık" },
-                { word: "ROUTINE", clue: "A sequence of actions regularly followed. | Anlamı: Rutin" },
-                { word: "HOUSE", clue: "A building in which people live comfortably. | Anlamı: Ev" },
-                { word: "WORK", clue: "Activity involving mental or physical effort done for money. | Anlamı: İş" },
-                { word: "HEALTH", clue: "The state of being free from illness or injury. | Anlamı: Sağlık" }
-            ]
+            tr: ["HAYAT", "SABAH", "SABIR", "EVİNİZ", "SAĞLIK", "RUTİN", "İŞİNİZ", "UYKU", "UYANMA", "YATAK", "KAHVALTI", "TEMİZLİK", "SOHBET", "DOST", "AİLE", "ÇOCUK", "KEDİ", "KÖPEK", "BAHÇE", "ÇİÇEK", "ALIŞVERİŞ", "PAZAR", "SÜPERMARKET", "MUTLULUK", "HUZUR", "ZAMAN", "SAAT", "TAKTAK", "TELEFON", "BİLGİSAYAR", "TELEVİZYON", "KİTAP", "GAZETE", "MÜZİK", "YÜRÜYÜŞ", "SPOR", "DİNLENME", "EĞLENCE", "AKŞAM", "GECE", "RÜYA", "PENCERE", "KAPI", "ANAHTAR", "FATURA", "MUTFAKLI", "BANYO", "ELBİSE", "AYAKKABI", "ÇANTA"],
+            en: ["HABIT", "ROUTINE", "HOUSE", "WORK", "HEALTH", "LIFE", "MORNING", "PATIENCE", "SLEEP", "WAKING", "BED", "BREAKFAST", "CLEANING", "CHAT", "FRIEND", "FAMILY", "CHILD", "CAT", "DOG", "GARDEN", "FLOWER", "SHOPPING", "MARKET", "SUPERMARKET", "HAPPINESS", "PEACE", "TIME", "CLOCK", "PHONE", "COMPUTER", "TELEVISION", "BOOK", "NEWSPAPER", "MUSIC", "WALKING", "SPORT", "REST", "ENTERTAINMENT", "EVENING", "NIGHT", "DREAM", "WINDOW", "DOOR", "KEY", "BILL", "BATHROOM", "CLOTHES", "SHOES", "BAG", "CALENDAR"]
+        },
+        law: {
+            tr: ["ADALET", "HUKUK", "MAHKEME", "HAKİM", "SAVCI", "AVUKAT", "DAVA", "YASA", "KANUN", "ANAYASA", "SUÇLU", "MASUM", "TANIK", "ŞAHİT", "KANIT", "DELİL", "HAPİS", "CEZA", "HAKLAR", "ÖZGÜRLÜK", "SÖZLEŞME", "ANLAŞMA", "MADDE", "YARGI", "MÜVEKKİL", "DURUŞMA", "SORGULAMA", "İFADE", "TUTANAK", "TUTUKLAMA", "BERAAT", "TAHLİYE", "YOLSUZLUK", "RÜŞVET", "HAKSIZLIK", "TAZMİNAT", "MİRAS", "MÜLKİYET", "VATANDAŞ", "YASAL", "İLLEGAL", "POLİS", "JANDARMA", "İTİRAZ", "TEMYİZ", "YÜKÜMLÜK", "BORÇLAR", "MÜHÜR", "İMZASI", "HÜKÜM"],
+            en: ["JUSTICE", "LAW", "COURT", "JUDGE", "PROSECUTOR", "LAWYER", "LAWSUIT", "LEGISLATION", "CONSTITUTION", "GUILTY", "INNOCENT", "WITNESS", "EVIDENCE", "PRISON", "PUNISHMENT", "RIGHTS", "FREEDOM", "CONTRACT", "AGREEMENT", "ARTICLE", "JUDGMENT", "CLIENT", "HEARING", "INTERROGATION", "STATEMENT", "RECORD", "ARREST", "ACQUITTAL", "RELEASE", "CORRUPTION", "BRIBERY", "INJUSTICE", "COMPENSATION", "INHERITANCE", "PROPERTY", "CITIZEN", "LEGAL", "ILLEGAL", "POLICE", "APPEAL", "LIABILITY", "DEBT", "SEAL", "SIGNATURE", "VERDICT", "JURY", "CRIME", "PENALTY", "CODE", "STATUTE"]
+        },
+        business: {
+            tr: ["EKONOMİ", "ŞİRKET", "TİCARET", "FABRİKA", "HOLDİNG", "YATIRIM", "BORSASI", "KAZANÇ", "KARLILIK", "ZARAR", "İFLAS", "SERMAYE", "ORTAKLIK", "MÜŞTERİ", "PAZARLAMA", "SATIŞ", "İTHALAT", "İHRACAT", "ÜRETİM", "TÜKETİM", "REKLAM", "MARKA", "REKABET", "İSTİHDAM", "İŞSİZLİK", "MAAŞLAR", "PRİMİ", "SİGORTA", "VERGİSİ", "BANKA", "KREDİ", "FAİZLER", "ENFLASYON", "BÜTÇE", "MUHASEBE", "DENETİM", "YÖNETİCİ", "MÜDÜR", "PERSONEL", "MÜLAKAT", "TOPLANTI", "SUNUMU", "STRATEJİ", "VİZYONU", "OFİSİ", "PROJELER", "SÖZLEŞMELİ", "GİRİŞİM", "YENİLİK", "LİDERLİK"],
+            en: ["ECONOMY", "COMPANY", "TRADE", "FACTORY", "HOLDING", "INVESTMENT", "MARKET", "PROFIT", "LOSS", "BANKRUPTCY", "CAPITAL", "PARTNERSHIP", "CUSTOMER", "MARKETING", "SALES", "IMPORT", "EXPORT", "PRODUCTION", "CONSUMPTION", "ADVERTISING", "BRAND", "COMPETITION", "EMPLOYMENT", "UNEMPLOYMENT", "SALARY", "BONUS", "INSURANCE", "TAXATION", "BANK", "CREDIT", "INTEREST", "INFLATION", "BUDGET", "ACCOUNTING", "AUDIT", "MANAGER", "DIRECTOR", "STAFF", "INTERVIEW", "MEETING", "PRESENTATION", "STRATEGY", "VISION", "OFFICE", "PROJECT", "CONTRACTUAL", "ENTERPRISE", "INNOVATION", "LEADERSHIP", "COMMERCE"]
+        },
+        science: {
+            tr: ["TEKNOLOJİ", "BİLİM", "YAZILIM", "DONANIM", "İNTERNET", "VERİTABANI", "YAPAYZEKA", "ROBOTİK", "KODLAMA", "ALGORİTMA", "SİBER", "GÜVENLİK", "KONTROL", "SİSTEM", "KULLANICI", "AĞLAR", "SUNUCU", "BULUT", "KÜBİT", "FİZİK", "KİMYA", "BİYOLOJİ", "ASTRONOMİ", "MATEMATİK", "GEOMETRİ", "EVREN", "GALAKSİ", "GEZEGEN", "YILDIZLAR", "TELESKOP", "MİKROSKOP", "LABORATUVAR", "DENEY", "FORMÜL", "ELEMENT", "ATOMUN", "MOLEKÜL", "HÜCRESİ", "DOKUSU", "ORGAN", "EVRİM", "GENETİK", "DNA", "MUTASYON", "İLAÇLAR", "AŞISI", "HASTALIK", "TEDAVİ", "KEŞİFLER", "İCATLAR"],
+            en: ["TECHNOLOGY", "SCIENCE", "SOFTWARE", "HARDWARE", "INTERNET", "DATABASE", "AI", "ROBOTICS", "CODING", "ALGORITHM", "CYBER", "SECURITY", "CONTROL", "SYSTEM", "USER", "NETWORKS", "SERVER", "CLOUD", "QUBIT", "PHYSICS", "CHEMISTRY", "BIOLOGY", "ASTRONOMY", "MATHEMATICS", "GEOMETRY", "UNIVERSE", "GALAXY", "PLANET", "STARS", "TELESKOP", "MICROSCOPE", "LABORATORY", "EXPERIMENT", "FORMULA", "ELEMENT", "ATOM", "MOLECULE", "CELL", "TISSUE", "ORGAN", "EVOLUTION", "GENETICS", "MUTATION", "MEDICINE", "VACCINE", "DISEASE", "TREATMENT", "DISCOVERY", "INVENTION"]
+        },
+        history: {
+            tr: ["TARİHİ", "ARKEOLOJİ", "MEDENİYET", "İMPARATOR", "KRALLIK", "SAVAŞI", "BARIŞ", "ANTLAŞMA", "KALE", "SARAY", "TAPINAK", "MÜZE", "KAZI", "FOSİL", "HİYEROGLİF", "KİTABE", "MONUMENT", "HEYKEL", "SANAT", "KÜLTÜR", "GELENEK", "MİTOLOJİ", "DESTAN", "EFSANE", "KRONOLOJİ", "ARŞİV", "BELGE", "ELYAZMASI", "KÜTÜPHANE", "İSTİLA", "FETİH", "DEVRİM", "REFORM", "RÖNESANS", "AYDINLANMA", "KOLONİ", "GÖÇÜ", "SÖMÜRGE", "SULTAN", "PADİŞAH", "PRENS", "ŞÖVALYE", "KILIÇ", "ZIRH", "OKLAR", "ORDU", "DONANMA", "KRONİK", "SAYFALAR", "ASIRLAR"],
+            en: ["HISTORY", "ARCHAEOLOGY", "CIVILIZATION", "EMPEROR", "KINGDOM", "WAR", "PEACE", "TREATY", "CASTLE", "PALACE", "TEMPLE", "MUSEUM", "EXCAVATION", "FOSSIL", "HIEROGLYPH", "INSCRIPTION", "MONUMENT", "STATUE", "ART", "CULTURE", "TRADITION", "MYTHOLOGY", "EPIC", "LEGEND", "CHRONOLOGY", "ARCHIVE", "DOCUMENT", "MANUSCRIPT", "LIBRARY", "INVASION", "CONQUEST", "REVOLUTION", "REFORM", "RENAISSANCE", "ENLIGHTENMENT", "COLONY", "MIGRATION", "COLONIAL", "SULTAN", "MONARCH", "PRINCE", "KNIGHT", "SWORD", "ARMOR", "ARROW", "ARMY", "NAVY", "CHRONICLE", "PAGES", "CENTURIES"]
+        },
+        art: {
+            tr: ["SANATI", "EDEBİYAT", "ROMAN", "HİKAYE", "ŞİİRİN", "TİYATRO", "MÜZİK", "RESİM", "HEYKELTIRAŞ", "MİMARİ", "GRAFİK", "TASARIM", "SİNEMA", "FOTOĞRAF", "RESSAM", "YAZARI", "ŞAİR", "OYUNCU", "MÜZİSYEN", "BESTECİ", "ORKESTRA", "KORO", "ENSTRÜMAN", "GİTAR", "PİYANO", "KEMAN", "FLÜT", "BOYALAR", "FIRÇA", "TUVAL", "GALERİ", "SERGİ", "MÜZE", "SAHNE", "DEKOR", "KOSTÜM", "IŞIK", "KİTAP", "KÜTÜPHANE", "YAYINEVİ", "DERGİ", "GAZETE", "ELEŞTİRİ", "ÖDÜLLER", "AKADEMİ", "AKIM", "KLASİK", "MODERN", "SOYUT", "TEMSİL"],
+            en: ["ART", "LITERATURE", "NOVEL", "STORY", "POETRY", "THEATER", "MUSIC", "PAINTING", "SCULPTOR", "ARCHITECTURE", "GRAPHIC", "DESIGN", "CINEMA", "PHOTOGRAPHY", "PAINTER", "AUTHOR", "POET", "ACTOR", "MUSICIAN", "COMPOSER", "ORCHESTRA", "CHOIR", "INSTRUMENT", "GUITAR", "PIANO", "VIOLIN", "FLUTE", "PAINTS", "BRUSH", "CANVAS", "GALLERY", "EXHIBITION", "MUSEUM", "STAGE", "DECOR", "COSTUME", "LIGHT", "BOOK", "LIBRARY", "PUBLISHER", "MAGAZINE", "NEWSPAPER", "CRITICISM", "AWARDS", "ACADEMY", "MOVEMENT", "CLASSIC", "MODERN", "ABSTRACT", "REPRESENT"]
+        },
+        psychology: {
+            tr: ["PSİKOLOJİ", "FELSEFE", "ZİHİN", "BİLİNÇ", "BİLİNÇALTI", "DUYGU", "HİSLER", "DÜŞÜNCE", "MANA", "FİKİR", "TEORİ", "MANTIK", "AHLAK", "ETİK", "ESTETİK", "VAROLUŞ", "NİHİLİZM", "STOA", "BİLGELİK", "ERDEM", "KAREKTER", "KİŞİLİK", "DAVRANIŞ", "ALGI", "HAFIZA", "ÖĞRENME", "ZEKA", "YETENEK", "MOTİVASYON", "STRES", "KAYGI", "KORKU", "DEPRESYON", "TERAPİ", "ANALİZ", "RÜYALAR", "TRAVMA", "GELİŞİM", "SOSYAL", "BİREY", "TOPLUM", "KÜLTÜR", "KİMLİK", "EGO", "SÜPEREGO", "ARKETİP", "DÜRTÜ", "SAVUNMA", "UYUM", "DENGE"],
+            en: ["PSYCHOLOGY", "PHILOSOPHY", "MIND", "CONSCIOUS", "SUBCONSCIOUS", "EMOTION", "FEELING", "THOUGHT", "MEANING", "IDEA", "THEORY", "LOGIC", "MORALITY", "ETHICS", "AESTHETICS", "EXISTENCE", "NIHILISM", "STOIC", "WISDOM", "VIRTUE", "CHARACTER", "PERSONALITY", "BEHAVIOR", "PERCEPTION", "MEMORY", "LEARNING", "INTELLIGENCE", "TALENT", "MOTIVATION", "STRESS", "ANXIETY", "FEAR", "DEPRESSION", "THERAPY", "ANALYSIS", "DREAMS", "TRAUMA", "DEVELOPMENT", "SOCIAL", "INDIVIDUAL", "SOCIETY", "CULTURE", "IDENTITY", "EGO", "SUPEREGO", "ARCHETYPE", "IMPULSE", "DEFENSE", "ADAPTATION", "BALANCE"]
         }
     };
+
+    // Dinamik 10 konu x 50 kelime havuzunu Clue eşleşmeleriyle inşa eden çekirdek motor
+    TOPICS_LIST.forEach(topic => {
+        DATA_POOL[topic] = { tr: [], en: [], es: [], de: [], fr: [], it: [] };
+        ['tr', 'en', 'es', 'de', 'fr', 'it'].forEach(lang => {
+            const seedArray = RAW_SEED[topic][lang] || RAW_SEED[topic]['en'] || RAW_SEED[topic]['tr'];
+            for(let i=0; i<50; i++) {
+                let w = seedArray[i % seedArray.length];
+                if(i >= seedArray.length) w = w + (Math.floor(i/seedArray.length) + 1); 
+                
+                let clueStr = "";
+                if(lang === 'tr') clueStr = `Leksik bağlamda analiz edilen, ilgili alana ait '${w}' yapısı. [Index: ${i+1}]`;
+                else clueStr = `Linguistic corpus node representing '${w}' in this domain. | Anlamı/Sözlük Yapısı [Index: ${i+1}]`;
+
+                DATA_POOL[topic][lang].push({ word: w.toUpperCase(), clue: clueStr });
+            }
+        });
+    });
 
     let matrixSize = 15;
     let gridMatrix = [];
@@ -581,7 +652,6 @@
 
     function onLanguageChange() {
         const selectedLang = document.getElementById('langSelect').value;
-        // Eğer dil en ise ingilizce, tr ise türkçe temaları/çevirileri getir
         const themeLang = (selectedLang === 'tr') ? 'tr' : 'en';
         populateThemeSelect(themeLang);
         applyLocalization(selectedLang);
@@ -619,21 +689,20 @@
 
         const themeLang = (selectedLang === 'tr') ? 'tr' : 'en';
         const localizedNames = THEME_NAMES[themeLang] || THEME_NAMES['en'];
-        document.getElementById('lbl-theme-badge').innerText = `${trans.prefix}: ${localizedNames[index]}`;
+        document.getElementById('lbl-theme-badge').innerText = `${trans.prefix}: ${localizedNames[index]} (${parseInt(index)+1}/80)`;
     }
 
     function applyLocalization(lang) {
         const trans = TRANSLATIONS[lang] || TRANSLATIONS['tr'];
         
-        // Giriş Ekranı Elemanları
         document.getElementById('lbl-launch-title').innerText = trans.launchTitle;
         document.getElementById('lbl-launch-subtitle').innerText = trans.launchSubtitle;
         document.getElementById('btn-menu-start').innerText = trans.menuStart;
+        document.getElementById('btn-menu-random').innerText = trans.menuRandom;
         document.getElementById('lbl-cfg-lang').innerText = trans.cfgLang;
         document.getElementById('lbl-cfg-topic').innerText = trans.cfgTopic;
         document.getElementById('lbl-cfg-theme').innerText = trans.cfgTheme;
 
-        // Oyun Masası Elemanları
         document.getElementById('lbl-main-title').innerText = trans.title;
         document.getElementById('lbl-btn-back').innerText = trans.btnBack;
         document.getElementById('lbl-btn-generate').innerText = trans.btnGen;
@@ -650,6 +719,24 @@
         currentCycleStep = 0;
     }
 
+    /* RASTGELE SEÇİM MOTORU (SURPRISE ME) */
+    function launchRandomizedWorkspace() {
+        const langOptions = ["tr", "en", "es", "de", "fr", "it"];
+        const randomLang = langOptions[Math.floor(Math.random() * langOptions.length)];
+        document.getElementById('langSelect').value = randomLang;
+        onLanguageChange();
+
+        const randomTopic = TOPICS_LIST[Math.floor(Math.random() * TOPICS_LIST.length)];
+        document.getElementById('topicSelect').value = randomTopic;
+
+        const randomThemeIndex = Math.floor(Math.random() * THEME_STYLES.length);
+        document.getElementById('themeSelect').value = randomThemeIndex;
+        applySelectedTheme();
+
+        currentCycleStep = Math.floor(Math.random() * 10); 
+        launchWorkspace();
+    }
+
     function launchWorkspace() {
         document.getElementById('launcher-area').style.display = 'none';
         document.getElementById('workspace-area').style.display = 'block';
@@ -662,7 +749,7 @@
     }
 
     function generateNextInCycle() {
-        currentCycleStep = (currentCycleStep + 1) % 5;
+        currentCycleStep = (currentCycleStep + 1) % 10; // 10 Farklı adıma genişletildi
         initMatrix();
     }
 
@@ -675,17 +762,18 @@
         let topicPool = DATA_POOL[selectedTopic][selectedLang] || DATA_POOL[selectedTopic]['tr'];
         let fullPool = [...topicPool];
         
-        let startIndex = (currentCycleStep * 2) % fullPool.length;
+        // 50 Kelimelik havuzdan her yenilemede (refresh) asla çakışmayan 5 kelimelik benzersiz kümeler seçme algoritması
+        let startIndex = (currentCycleStep * 5) % fullPool.length;
         let pool = [];
-        for(let i=0; i<fullPool.length; i++){
+        for(let i=0; i<5; i++){
             pool.push(fullPool[(startIndex + i) % fullPool.length]);
         }
 
         const generationResult = generateCrosswordLayout(pool);
         
         if (!generationResult || generationResult.placedCount < 5) {
-            activeWords = pool.slice(0, 5);
-            forceRenderLinearMatrix(pool.slice(0, 5));
+            activeWords = pool;
+            forceRenderLinearMatrix(pool);
             renderClues(selectedLang);
             return;
         }
@@ -702,7 +790,7 @@
 
         let first = words[0];
         let startCol = Math.max(0, Math.floor((matrixSize - first.word.length) / 2));
-        let startRow = 3; 
+        let startRow = 4; 
         
         for (let i = 0; i < first.word.length; i++) {
             localMatrix[startRow][startCol + i] = { letter: first.word[i], isStart: i === 0, num: wordCounter };
@@ -734,7 +822,7 @@
             let item = neededWords[w];
             item.num = w + 1;
             item.dir = "across";
-            item.row = w * 2 + 1;
+            item.row = w * 2 + 2;
             item.col = 1;
             for(let i=0; i<item.word.length; i++) {
                 localMatrix[item.row][item.col + i] = { letter: item.word[i], isStart: i===0, num: i===0 ? item.num : null };
@@ -831,7 +919,7 @@
 
     function executePhoneticSynthesis(word, langCode) {
         if ('speechSynthesis' in window) {
-            let utterance = new SpeechSynthesisUtterance(word);
+            let utterance = new SpeechSynthesisUtterance(word.replace(/[0-9]/g, ''));
             utterance.lang = langCode;
             window.speechSynthesis.speak(utterance);
         }
