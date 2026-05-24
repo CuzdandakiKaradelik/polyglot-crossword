@@ -9,64 +9,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --bg-color: #2b2b2b; /* Arka plan koyu gri (Ekran görüntüsündeki mobil çeper gibi) */
-            --page-bg: #ffffff;  /* Gazete sayfası beyazı */
-            --grid-bg: #bcbfc2;  /* Bulmaca matrisinin gri arka planı */
-            --text-color: #1a1a1a;
-            --border-color: #2b2b2b;
-            --accent-yellow: #fbc02d; /* Harf Al butonu rengi */
-            --btn-blue: #1f3a52; /* Yeni Bulmaca butonu rengi */
-        }
+        /* TEMA TANIMLAMALARI (10 Özgün Gazete/Baskı Teması) */
+        :root { --bg: #2b2b2b; --page: #ffffff; --grid: #bcbfc2; --text: #1a1a1a; --hint: #fbc02d; --btn: #1f3a52; --accent: #777; }
+        .theme-0 { --bg: #2b2b2b; --page: #ffffff; --grid: #bcbfc2; --text: #1a1a1a; --hint: #fbc02d; --btn: #1f3a52; --accent: #777; } /* Platin */
+        .theme-1 { --bg: #1c1c1c; --page: #f4edd2; --grid: #cfc4a2; --text: #3d2b1f; --hint: #d4af37; --btn: #5c4033; --accent: #8b7355; } /* Altın Vintaj */
+        .theme-2 { --bg: #0f172a; --page: #1e293b; --grid: #475569; --text: #f8fafc; --hint: #38bdf8; --btn: #0ea5e9; --accent: #94a3b8; } /* Gece Baskısı */
+        .theme-3 { --bg: #2d3748; --page: #edf2f7; --grid: #cbd5e0; --text: --text: #2d3748; --hint: #ed8936; --btn: #2b6cb0; --accent: #4a5568; } /* Modern Günlük */
+        .theme-4 { --bg: #741b47; --page: #fff2cc; --grid: #e6b8af; --text: #4c1130; --hint: #f1c232; --btn: #a64d79; --accent: #741b47; } /* Gotik Kültür */
+        .theme-5 { --bg: #1e3f20; --page: #f1f8f5; --grid: #c2d6cc; --text: #0f2912; --hint: #81c784; --btn: #2e7d32; --accent: #4caf50; } /* Botanik Gazete */
+        .theme-6 { --bg: #3a3a3a; --page: #e5e5e5; --grid: #b5b5b5; --text: #111111; --hint: #ff5722; --btn: #e64a19; --accent: #616161; } /* Endüstriyel */
+        .theme-7 { --bg: #4a148c; --page: #f3e5f5; --grid: #d1c4e9; --text: #311b92; --hint: #ffb74d; --btn: #6a1b9a; --accent: #7e57c2; } /* Siber Klasik */
+        .theme-8 { --bg: #004d40; --page: #e0f2f1; --grid: #b2dfdb; --text: #004d40; --hint: #ffb300; --btn: #00695c; --accent: #4db6ac; } /* Deniz Esintisi */
+        .theme-9 { --bg: #5d4037; --page: #efebe9; --grid: #d7ccc8; --text: #3e2723; --hint: #d4a373; --btn: #4e342e; --accent: #8d6e63; } /* Espresso Akademik */
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg);
+            color: var(--text);
             font-family: 'Courier Prime', monospace;
             margin: 0;
             padding: 10px;
             display: flex;
             justify-content: center;
+            transition: background 0.3s ease;
         }
 
-        /* Ana Gazete Sayfası Konteyneri */
         .paper-container {
-            background-color: var(--page-bg);
+            background-color: var(--page);
             width: 100%;
-            max-width: 800px;
-            border: 4px double var(--border-color);
+            max-width: 850px;
+            border: 4px double var(--text);
             padding: 20px;
             box-sizing: border-box;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        /* Başlık Alanı */
         header {
             text-align: center;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid var(--accent);
             padding-bottom: 10px;
             margin-bottom: 15px;
         }
 
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 26px;
+            font-size: 28px;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin: 0 0 5px 0;
         }
 
         .sub-header {
-            font-size: 9px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            opacity: 0.6;
+            opacity: 0.8;
         }
 
-        /* Kalan Süre Şeridi */
         .timer-bar {
-            background-color: #f0f0f2;
-            border: 1px solid #ccc;
+            background-color: var(--grid);
+            opacity: 0.9;
+            color: var(--text);
             text-align: center;
             padding: 6px;
             font-size: 12px;
@@ -74,14 +76,13 @@
             margin-bottom: 15px;
         }
 
-        /* Ayarlar ve Kontrol Paneli */
         .control-panel {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             font-size: 11px;
             font-weight: bold;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--text);
             padding-bottom: 15px;
             margin-bottom: 15px;
         }
@@ -92,19 +93,15 @@
             gap: 5px;
         }
 
-        .control-group label {
-            white-space: nowrap;
-        }
-
         select {
             font-family: 'Courier Prime', monospace;
             font-size: 11px;
-            padding: 3px;
-            border: 1px solid #777;
-            background: #fff;
+            padding: 4px;
+            border: 1px solid var(--accent);
+            background: var(--page);
+            color: var(--text);
         }
 
-        /* Aksiyon Butonları */
         .action-buttons {
             grid-column: span 2;
             display: flex;
@@ -117,39 +114,30 @@
             font-family: 'Courier Prime', monospace;
             font-size: 11px;
             font-weight: bold;
-            padding: 6px 12px;
-            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border: 1px solid var(--text);
             cursor: pointer;
             border-radius: 3px;
+            transition: transform 0.1s ease;
         }
 
-        .btn-new {
-            background-color: var(--btn-blue);
-            color: white;
-        }
+        .btn:active { transform: scale(0.95); }
+        .btn-new { background-color: var(--btn); color: white; }
+        .btn-hint { background-color: var(--hint); color: black; }
 
-        .btn-hint {
-            background-color: var(--accent-yellow);
-            color: black;
-        }
-
-        /* İki Bölümlü Çalışma Alanı */
         .workspace-layout {
             display: grid;
             grid-template-columns: 1.2fr 1fr;
             gap: 20px;
         }
 
-        @media (max-width: 650px) {
-            .workspace-layout {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 700px) {
+            .workspace-layout { grid-template-columns: 1fr; }
         }
 
-        /* Sol Taraf: Bulmaca Matrisi Arka Planı */
         .matrix-section {
-            background-color: var(--grid-bg);
-            border: 1px solid #999;
+            background-color: var(--grid);
+            border: 1px solid var(--accent);
             padding: 15px;
             display: flex;
             justify-content: center;
@@ -161,165 +149,96 @@
         .crossword-grid {
             display: grid;
             gap: 1px;
-            background-color: #777; /* Hücre çizgileri */
+            background-color: var(--accent);
             padding: 1px;
         }
 
-        /* Hücre Yapıları */
         .cell {
             background-color: transparent;
             position: relative;
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
         }
 
-        .cell.active {
-            background-color: #ffffff;
-        }
+        .cell.active { background-color: var(--page); }
 
         .cell input {
             width: 100%;
             height: 100%;
             border: none;
             text-align: center;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: bold;
             font-family: 'Courier Prime', monospace;
             text-transform: uppercase;
             padding: 0;
             background: transparent;
-            color: #000000;
+            color: var(--text);
         }
 
-        .cell input:focus {
-            background-color: #fffacd;
-            outline: none;
-        }
+        .cell input:focus { background-color: var(--hint); color: #000; outline: none; }
+        .cell-num { position: absolute; top: 1px; left: 2px; font-size: 8px; font-weight: bold; color: var(--text); opacity: 0.8; z-index: 2; }
 
-        .cell-num {
-            position: absolute;
-            top: 1px;
-            left: 2px;
-            font-size: 8px;
-            font-weight: bold;
-            color: #333;
-            z-index: 2;
-        }
+        .corpus-section { display: flex; flex-direction: column; gap: 15px; }
+        .corpus-section h2 { font-family: 'Playfair Display', serif; font-size: 18px; margin: 0 0 5px 0; border-bottom: 1px solid var(--text); padding-bottom: 3px; }
+        .clue-block h3 { margin: 0 0 8px 0; font-size: 10px; text-transform: uppercase; background: var(--text); color: var(--page); padding: 2px 6px; display: inline-block; }
+        .clue-item { font-size: 11px; line-height: 1.4; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px dotted var(--accent); }
 
-        /* Sağ Taraf: İpuçları */
-        .corpus-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .corpus-section h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 16px;
-            margin: 0 0 10px 0;
-            border-bottom: 1px solid var(--text-color);
-            padding-bottom: 3px;
-        }
-
-        .clue-block h3 {
-            margin: 0 0 8px 0;
-            font-size: 10px;
-            text-transform: uppercase;
-            background: #777;
-            color: #fff;
-            padding: 2px 6px;
-            display: inline-block;
-        }
-
-        .clue-item {
-            font-size: 11px;
-            line-height: 1.4;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px dotted #ccc;
-        }
-
-        .clue-text strong {
-            margin-right: 5px;
-        }
-
-        /* Çözüldü Tablosu */
-        .corpus-index-wrapper {
-            margin-top: 20px;
-            border-top: 2px dashed var(--border-color);
-            padding-top: 15px;
-            display: none;
-        }
-
-        .corpus-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11px;
-            margin-top: 10px;
-        }
-
-        .corpus-table th, .corpus-table td {
-            border: 1px solid #aaa;
-            padding: 6px;
-            text-align: left;
-        }
-
-        .corpus-table th {
-            background-color: #f0f0f2;
-            text-transform: uppercase;
-        }
+        .corpus-index-wrapper { margin-top: 20px; border-top: 2px dashed var(--text); padding-top: 15px; display: none; }
+        .corpus-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
+        .corpus-table th, .corpus-table td { border: 1px solid var(--accent); padding: 6px; text-align: left; }
+        .corpus-table th { background-color: var(--grid); }
     </style>
 </head>
-<body>
+<body class="theme-0" id="body-root">
 
 <div class="paper-container">
     <header>
-        <h1>The Polyglot Movie Crossword</h1>
-        <div class="sub-header">Baskı Tarzı: Platin Baskı (30/30)</div>
+        <h1 id="ui-title">The Polyglot Movie Crossword</h1>
+        <div class="sub-header" id="ui-edition">Baskı Serisi: Platin Özel Matbaa</div>
     </header>
 
-    <div class="timer-bar">
-        ⏱ Kalan Süre: --:--
-    </div>
+    <div class="timer-bar" id="ui-timer">⏱ Kalan Süre: --:--</div>
 
     <div class="control-panel">
         <div class="control-group">
-            <label>Hedef Dil:</label>
-            <select id="langSelect" onchange="buildCrosswordMatrix()">
-                <option value="en">İngilizce (English)</option>
-                <option value="es">İspanyolca (Español)</option>
-                <option value="de">Almanca (Deutsch)</option>
-                <option value="fr">Fransızca (Français)</option>
+            <label id="lbl-lang">Hedef Dil:</label>
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="tr">Türkçe</option>
+                <option value="en">English (İngilizce)</option>
+                <option value="es">Español (İspanyolca)</option>
+                <option value="de">Deutsch (Almanca)</option>
+                <option value="fr">Fransızca (Fransızca)</option>
             </select>
         </div>
 
         <div class="control-group">
-            <label>Gazete Baskısı (Tema):</label>
-            <select id="topicSelect" onchange="buildCrosswordMatrix()">
-                <option value="academic">🎬 Sinema & Kültür Klasikleri</option>
-                <option value="lifestyle">🌍 Günlük Yaşam & Kültür</option>
+            <label id="lbl-theme">Gazete Teması:</label>
+            <select id="themeSelect" onchange="applyTheme()">
+                <option value="0">📰 Klasik Platin Baskı</option>
+                <option value="1">📜 Altın Vintaj Parşömen</option>
+                <option value="2">🌌 Gece Yarısı Haberleri</option>
+                <option value="3">🏢 Modern Günlük Bülten</option>
+                <option value="4">🔮 Gotik Kültür Eki</option>
+                <option value="5">🌿 Botanik Gazete Dergisi</option>
+                <option value="6">🏭 Endüstriyel Matbaa</option>
+                <option value="7">⚡ Siber Klasik Baskı</option>
+                <option value="8">🌊 Deniz Esintisi Sanat</option>
+                <option value="9">☕ Espresso Akademik</option>
             </select>
         </div>
 
         <div class="control-group">
+            <label id="lbl-version">Baskı Versiyonu:</label>
             <select id="matrixVersion" onchange="generateNextMatrix()">
-                <option value="0">30. Platin Baskı</option>
-                <option value="1">31. Altın Baskı</option>
-                <option value="2">32. Gümüş Baskı</option>
-            </select>
-        </div>
-
-        <div class="control-group">
-            <label>Süre Modu:</label>
-            <select>
-                <option>Süre Kapat</option>
-                <option>Süre Aç (Zamana Karşı)</option>
+                <option value="0">Set #1 (A Sınıfı)</option>
+                <option value="1">Set #2 (B Sınıfı)</option>
             </select>
         </div>
 
         <div class="action-buttons">
-            <button class="btn btn-new" onclick="generateNextMatrix()">🔄 Yeni Bulmaca</button>
-            <button class="btn btn-hint" onclick="giveLetterHint()">💡 Harf Al</button>
+            <button class="btn btn-new" id="btn-new" onclick="generateNextMatrix()">🔄 Yeni Bulmaca</button>
+            <button class="btn btn-hint" id="btn-hint" onclick="giveLetterHint()">💡 Harf Al</button>
         </div>
     </div>
 
@@ -329,27 +248,25 @@
         </div>
 
         <div class="corpus-section">
-            <h2>Günün Sinema İpuçları</h2>
-            
+            <h2 id="ui-clues-title">Günün Kültür İpuçları</h2>
             <div class="clue-block">
-                <h3>Yatay Kelimeler (Across)</h3>
+                <h3 id="ui-across">Yatay Kelimeler (Across)</h3>
                 <div id="across-clues"></div>
             </div>
-            
             <div class="clue-block">
-                <h3>Dikey Kelimeler (Down)</h3>
+                <h3 id="ui-down">Dikey Kelimeler (Down)</h3>
                 <div id="down-clues"></div>
             </div>
         </div>
     </div>
 
     <div class="corpus-index-wrapper" id="corpus-index-area">
-        <h3 style="margin:0; color: #2e7d32;">✓ Matris Başarıyla Çözüldü!</h3>
+        <h3 style="margin:0;" id="ui-success">✓ Matris Başarıyla Çözüldü!</h3>
         <table class="corpus-table">
             <thead>
                 <tr>
-                    <th>Sözcük (Lexeme)</th>
-                    <th>Bağlamsal Eğitim Notu</th>
+                    <th id="th-word">Sözcük (Lexeme)</th>
+                    <th id="th-note">Bağlamsal Eğitim Notu</th>
                 </tr>
             </thead>
             <tbody id="corpus-table-body"></tbody>
@@ -358,68 +275,37 @@
 </div>
 
 <script>
-    // Sinema odaklı özelleştirilmiş kelime havuzu
+    // ARAYÜZ DİL PAKETLERİ (Tam Sayfa Yerelleştirme İçin)
+    const TRANSLATIONS = {
+        tr: { title: "Leksikal Matris Masası", edition: "Baskı Serisi: Özel Matbaa Sürümü", timer: "⏱ Kalan Süre: Sınırsız", lang: "Hedef Dil:", theme: "Gazete Teması:", version: "Baskı Versiyonu:", btnNew: "🔄 Yeni Bulmaca", btnHint: "💡 Harf Al", clues: "Günün Kültür İpuçları", across: "Yatay Kelimeler", down: "Dikey Kelimeler", success: "✓ Matris Başarıyla Çözüldü!", thWord: "Sözcük", thNote: "Bağlamsal Eğitim Notu" },
+        en: { title: "The Polyglot Movie Crossword", edition: "Edition: Premium Press Version", timer: "⏱ Time Remaining: Unlimited", lang: "Target Language:", theme: "Press Theme:", version: "Print Version:", btnNew: "🔄 New Puzzle", btnHint: "💡 Get Letter", clues: "Daily Culture Clues", across: "Across Words", down: "Down Words", success: "✓ Matrix Successfully Solved!", thWord: "Word", thNote: "Contextual Study Note" },
+        es: { title: "El Crucigrama Políglota", edition: "Edición: Versión de Prensa Premium", timer: "⏱ Tiempo Restante: Ilimitado", lang: "Idioma Destino:", theme: "Tema de Prensa:", version: "Versión de Impresión:", btnNew: "🔄 Nueva Matriz", btnHint: "💡 Obtener Letra", clues: "Pistas Culturales del Día", across: "Palabras Horizontales", down: "Palabras Verticales", success: "✓ ¡Matriz Resuelta Con Éxito!", thWord: "Palabra", thNote: "Nota de Estudio Contextual" },
+        de: { title: "Das Polyglotte Kreuzworträtsel", edition: "Ausgabe: Premium-Presseversion", timer: "⏱ Verbleibende Zeit: Unbegrenzt", lang: "Zielsprache:", theme: "Zeitungsthema:", version: "Druckversion:", btnNew: "🔄 Neues Rätsel", btnHint: "💡 Tipp Holen", clues: "Kulturhinweise des Tages", across: "Waagerecht", down: "Senkrecht", success: "✓ Matrix erfolgreich gelöst!", thWord: "Wort", thNote: "Kontextuelle Studiennotiz" },
+        fr: { title: "Les Mots Croisés Polyglottes", edition: "Édition: Version Presse Premium", timer: "⏱ Temps Restant: Illimité", lang: "Langue Cible:", theme: "Thème de Presse:", version: "Version d'Impression:", btnNew: "🔄 Nouveau Puzzle", btnHint: "💡 Obtenir Lettre", clues: "Indices Culturels du Jour", across: "Mots Horizontaux", down: "Mots Verticaux", success: "✓ Matrice résolue avec succès!", thWord: "Mot", thNote: "Note d'Étude Contextuelle" }
+    };
+
+    // TAMAMEN ÖZGÜN KELİME HAVUZU (5 Dil x 2 Set x 5 Kelime = 50 Birbirinden Farklı Kelime)
     const LEXICON_DATABASE = {
-        academic: {
-            en: [
-                { w: "AWARD", c: "He won an Oscar ________ last night. | Anlamı: Ödül" },
-                { w: "THIEF", c: "In Inception, Cobb is a skilled ________. | Anlamı: Hırsız" },
-                { w: "MOVIE", c: "Let's watch a classic ________. | Anlamı: Film" },
-                { w: "SPACE", c: "Interstellar is an epic film about ________. | Anlamı: Uzay" },
-                { w: "HERO", c: "Batman is the ________ Gotham needs. | Anlamı: Kahraman" }
-            ],
-            es: [
-                { w: "PREMIO", c: "Ganó un Oscar anoche. | TR: Ödül" },
-                { w: "LADRON", c: "En Inception, Cobb es un hırsız. | TR: Hırsız" },
-                { w: "CINE", c: "Película o film clásico. | TR: Sinema" },
-                { w: "ESPACIO", c: "Interstellar es sobre el uzay. | TR: Uzay" },
-                { w: "HEROE", c: "Batman es el kahraman de Gotham. | TR: Kahraman" }
-            ],
-            de: [
-                { w: "PREIS", c: "Er hat gestern einen Oscar gewonnen. | TR: Ödül" },
-                { w: "DIEB", c: "In Inception ist Cobb ein Hırsız. | TR: Hırsız" },
-                { w: "FILM", c: "Ein klassischer Movie. | TR: Film" },
-                { w: "WELTRAUM", c: "Interstellar ist über den Uzay. | TR: Uzay" },
-                { w: "HELD", c: "Batman ist der Kahraman. | TR: Kahraman" }
-            ],
-            fr: [
-                { w: "PRIX", c: "Il a gagné un Oscar. | TR: Ödül" },
-                { w: "VOLEUR", c: "Dans Inception, Cobb est un hırsız. | TR: Hırsız" },
-                { w: "FILM", c: "Regardons un film classique. | TR: Film" },
-                { w: "ESPACE", c: "Interstellar est sur l'uzay. | TR: Uzay" },
-                { w: "HEROS", c: "Batman est le kahraman. | TR: Kahraman" }
-            ]
-        },
-        lifestyle: {
-            en: [
-                { w: "ACTOR", c: "The lead ________ performed well. | TR: Oyuncu" },
-                { w: "SCENE", c: "The opening ________ was shot in Paris. | TR: Sahne" },
-                { w: "SCRIPT", c: "The writers finished the new ________. | TR: Senaryo" },
-                { w: "DRAMA", c: "This movie is a heavy emotional ________. | TR: Drama" },
-                { w: "STAGE", c: "The actors are performing on the ________. | TR: Sahne/Platform" }
-            ],
-            es: [
-                { w: "ACTOR", c: "El actor principal. | TR: Oyuncu" },
-                { w: "ESCENA", c: "La primera escena en París. | TR: Sahne" },
-                { w: "GUION", c: "El libreto de la película. | TR: Senaryo" },
-                { w: "DRAMA", c: "Una película dramática. | TR: Drama" },
-                { w: "TEATRO", c: "El escenario principal. | TR: Sahne" }
-            ],
-            de: [
-                { w: "AKTEUR", c: "Der Hauptdarsteller. | TR: Oyuncu" },
-                { w: "SZENE", c: "Die erste Szene des Films. | TR: Sahne" },
-                { w: "SKRIPT", c: "Das Drehbuch ist fertig. | TR: Senaryo" },
-                { w: "DRAMA", c: "Ein emotionaler Film. | TR: Drama" },
-                { w: "BUEHNE", c: "Auf der Bühne spielen. | TR: Sahne" }
-            ],
-            fr: [
-                { w: "ACTEUR", c: "L'acteur principal du film. | TR: Oyuncu" },
-                { w: "SCENE", c: "La scène d'ouverture. | TR: Sahne" },
-                { w: "SCRIPT", c: "Le scénario écrit. | TR: Senaryo" },
-                { w: "DRAME", c: "Un film dramatique. | TR: Drama" },
-                { w: "SCENE", c: "Sur la scène du théâtre. | TR: Sahne" }
-            ]
-        }
+        tr: [
+            [{w:"SİNEMA", c:"Yedinci sanat dalı, beyaz perde. | Not: Film izleme alanı."}, {w:"AKTOR", c:"Erkek oyuncu, sahnede rol yapan kişi."}, {w:"SAHNE", c:"Bir filmin veya tiyatronun kesiti, platform."}, {w:"KAMERA", c:"Görüntü kaydı yapan optik cihaz."}, {w:"KÜLTÜR", c:"Toplumların sanatsal ve entelektüel birikimi."}],
+            [{w:"ROMAN", c:"Uzun anlatı içeren edebi kitap türü."}, {w:"YAZAR", c:"Kitap veya metin kaleme alan fikir işçisi."}, {w:"DRAMA", c:"Ciddi ve duygusal tonlu tiyatro veya film."}, {w:"SENARYO", c:"Filmin çekim planını içeren yazılı metin."}, {w:"BELGE", c:"Gerçeği ispatlayan nitelikteki sinema türü."}]
+        ],
+        en: [
+            [{w:"AWARD", c:"An honor or prize given for film merit."}, {w:"THIEF", c:"A person who steals; central focus in Inception."}, {w:"MOVIE", c:"A motion picture; cinema presentation."}, {w:"SPACE", c:"The cosmos; main setting of Interstellar."}, {w:"HERO", c:"A person admired for courage or noble qualities."}],
+            [{w:"SCRIPT", c:"The written text of a movie or broadcast."}, {w:"SCENE", c:"A sequence of continuous action in a play or movie."}, {w:"STAGE", c:"A raised floor or platform for performers."}, {w:"SHOCK", c:"A sudden upsetting or surprising event in thriller plots."}, {w:"SOUND", c:"Auditory effect elements of a film production."}]
+        ],
+        es: [
+            [{w:"PREMIO", c:"Galardón entregado por mérito artístico."}, {w:"LADRON", c:"Persona que hurta; clave en la película Inception."}, {w:"CINE", c:"Establecimiento para la proyección de películas."}, {w:"ESPACIO", c:"El cosmos exterior; tema de Interstellar."}, {w:"HEROE", c:"Personaje con virtudes ideales o sobrenaturales."}],
+            [{w:"GUION", c:"Texto escrito preparado para la filmación."}, {w:"ESCENA", c:"Parte de una obra cinematográfica en un mismo lugar."}, {w:"TEATRO", c:"Edificio o sala destinada al espectáculo dramático."}, {w:"DRAMA", c:"Obra de carácter triste o profundamente serio."}, {w:"MUNDO", c:"El planeta tierra o conjunto de todo lo existente."}]
+        ],
+        de: [
+            [{w:"PREIS", c:"Auszeichnung für hervorragende Leistungen."}, {w:"DIEB", c:"Jemand, der stiehlt; Fokus im Film Inception."}, {w:"FILM", c:"Eine Folge von bewegten Bildern auf der Leinwand."}, {w:"WELTRAUM", c:"Das Universum außerhalb der Erdatmosphäre."}, {w:"HELD", c:"Eine Person mit besonders mutigen Taten."}],
+            [{w:"SKRIPT", c:"Das gedruckte Drehbuch für Schauspieler."}, {w:"SZENE", c:"Ein Teilabschnitt einer Filmhandlung."}, {w:"BUEHNE", c:"Der erhöhte Ort für künstlerische Auftritte."}, {w:"MUSIK", c:"Akustische Begleitung der Filmszenen."}, {w:"KUNST", c:"Schöpferisches Gestalten aus verschiedenen Materialien."}]
+        ],
+        fr: [
+            [{w:"PRIX", c:"Récompense accordée à un vainqueur."}, {w:"VOLEUR", c:"Personne qui commet un larcin; voir Inception."}, {w:"SALLE", c:"Lieu où le public se réunit pour le cinéma."}, {w:"ESPACE", c:"Lieu infini au-delà de l'atmosphère."}, {w:"HEROS", c:"Personnage principal d'une œuvre littéraire ou film."}],
+            [{w:"TEXTE", c:"Le document écrit servant de base aux acteurs."}, {w:"ECRAN", c:"Surface blanche sur laquelle est projeté le film."}, {w:"IMAGE", c:"Représentation visuelle capturée par la caméra."}, {w:"DRAME", c:"Pièce ou film dont l'action est tragique."}, {w:"PHASE", c:"Chaque étape successive d'une production."}]
+        ]
     };
 
     let matrixSize = 12;
@@ -427,74 +313,101 @@
     let inputElements = {};
     let activeWords = [];
     let currentFocusCell = null;
-    let currentCycleStep = 0;
 
-    window.onload = function() {
-        buildCrosswordMatrix();
-    };
+    // TEMA UYGULAYICI
+    function applyTheme() {
+        const themeIdx = document.getElementById('themeSelect').value;
+        const body = document.getElementById('body-root');
+        body.className = ''; 
+        body.classList.add(`theme-${themeIdx}`);
+    }
 
-    function generateNextMatrix() {
-        currentCycleStep = (currentCycleStep + 1) % 3;
-        document.getElementById('matrixVersion').value = currentCycleStep;
+    // DİL DEĞİŞTİRİCİ (Bütün Sayfayı Çevirir)
+    function changeLanguage() {
+        const lang = document.getElementById('langSelect').value;
+        const pack = TRANSLATIONS[lang];
+
+        document.getElementById('ui-title').innerText = pack.title;
+        document.getElementById('ui-edition').innerText = pack.edition;
+        document.getElementById('ui-timer').innerText = pack.timer;
+        document.getElementById('lbl-lang').innerText = pack.lang;
+        document.getElementById('lbl-theme').innerText = pack.theme;
+        document.getElementById('lbl-version').innerText = pack.version;
+        document.getElementById('btn-new').innerText = pack.btnNew;
+        document.getElementById('btn-hint').innerText = pack.btnHint;
+        document.getElementById('ui-clues-title').innerText = pack.clues;
+        document.getElementById('ui-across').innerText = pack.across;
+        document.getElementById('ui-down').innerText = pack.down;
+        document.getElementById('ui-success').innerText = pack.success;
+        document.getElementById('th-word').innerText = pack.thWord;
+        document.getElementById('th-note').innerText = pack.thNote;
+
         buildCrosswordMatrix();
     }
 
+    function generateNextMatrix() {
+        let currentVer = parseInt(document.getElementById('matrixVersion').value);
+        document.getElementById('matrixVersion').value = (currentVer === 0) ? 1 : 0;
+        buildCrosswordMatrix();
+    }
+
+    // SIKI BULMACA MATRİS MOTORU (Yerleşim Algoritması)
     function buildCrosswordMatrix() {
         document.getElementById('corpus-index-area').style.display = 'none';
         const lang = document.getElementById('langSelect').value;
-        const topic = document.getElementById('topicSelect').value;
-        const subset = LEXICON_DATABASE[topic][lang];
+        const version = parseInt(document.getElementById('matrixVersion').value);
+        const subset = LEXICON_DATABASE[lang][version];
 
         let localMatrix = Array(matrixSize).fill(null).map(() => Array(matrixSize).fill(null));
         activeWords = [];
 
-        // Kelime 1: Sabit Merkez Çapa Yatay (Ekran görüntüsündeki yerleşime yakın yapı)
-        let first = subset[0]; 
-        let fRow = 5, fCol = 3;
-        for(let i=0; i<first.w.length; i++) {
-            localMatrix[fRow][fCol + i] = { letter: first.w[i], isStart: i===0, num: 1, dir: "across" };
+        // Kelime 1: Sabit Merkez Çapa Yatay
+        let w1 = subset[0]; 
+        let r1 = 4, c1 = 3;
+        for(let i=0; i<w1.w.length; i++) {
+            localMatrix[r1][c1 + i] = { letter: w1.w[i], isStart: i===0, num: 1, dir: "across" };
         }
-        activeWords.push({ w: first.w, c: first.c, row: fRow, col: fCol, dir: "across", num: 1 });
+        activeWords.push({ w: w1.w, c: w1.c, row: r1, col: c1, dir: "across", num: 1 });
 
         // Kelime 2: Dikey Kesişen
-        let second = subset[1];
-        let sRow = 2, sCol = 5;
-        for(let i=0; i<second.w.length; i++) {
-            if(!localMatrix[sRow + i][sCol]) {
-                localMatrix[sRow + i][sCol] = { letter: second.w[i], isStart: i===0, num: 2, dir: "down" };
-            } else if(i===0) { localMatrix[sRow + i][sCol].num = 2; }
+        let w2 = subset[1];
+        let r2 = 2, c2 = 5;
+        for(let i=0; i<w2.w.length; i++) {
+            if(!localMatrix[r2 + i][c2]) {
+                localMatrix[r2 + i][c2] = { letter: w2.w[i], isStart: i===0, num: 2, dir: "down" };
+            } else if(i===0) { localMatrix[r2 + i][c2].num = 2; }
         }
-        activeWords.push({ w: second.w, c: second.c, row: sRow, col: sCol, dir: "down", num: 2 });
+        activeWords.push({ w: w2.w, c: w2.c, row: r2, col: c2, dir: "down", num: 2 });
 
-        // Kelime 3: Yatay Alt Bölge
-        let third = subset[2];
-        let tRow = 7, tCol = 2;
-        for(let i=0; i<third.w.length; i++) {
-            if(!localMatrix[tRow][tCol + i]) {
-                localMatrix[tRow][tCol + i] = { letter: third.w[i], isStart: i===0, num: 3, dir: "across" };
-            } else if(i===0) { localMatrix[tRow][tCol + i].num = 3; }
+        // Kelime 3: Yatay Alt Bölge Kesişen
+        let w3 = subset[2];
+        let r3 = 6, c3 = 2;
+        for(let i=0; i<w3.w.length; i++) {
+            if(!localMatrix[r3][c3 + i]) {
+                localMatrix[r3][c3 + i] = { letter: w3.w[i], isStart: i===0, num: 3, dir: "across" };
+            } else if(i===0) { localMatrix[r3][c3 + i].num = 3; }
         }
-        activeWords.push({ w: third.w, c: third.c, row: tRow, col: tCol, dir: "across", num: 3 });
+        activeWords.push({ w: w3.w, c: w3.c, row: r3, col: c3, dir: "across", num: 3 });
 
         // Kelime 4: Sağ Dikey Koridor
-        let fourth = subset[3];
-        let foRow = 2, foCol = 8;
-        for(let i=0; i<fourth.w.length; i++) {
-            if(!localMatrix[foRow + i][foCol]) {
-                localMatrix[foRow + i][foCol] = { letter: fourth.w[i], isStart: i===0, num: 4, dir: "down" };
-            } else if(i===0) { localMatrix[foRow + i][foCol].num = 4; }
+        let w4 = subset[3];
+        let r4 = 2, c4 = 8;
+        for(let i=0; i<w4.w.length; i++) {
+            if(!localMatrix[r4 + i][c4]) {
+                localMatrix[r4 + i][c4] = { letter: w4.w[i], isStart: i===0, num: 4, dir: "down" };
+            } else if(i===0) { localMatrix[r4 + i][c4].num = 4; }
         }
-        activeWords.push({ w: fourth.w, c: fourth.c, row: foRow, col: foCol, dir: "down", num: 4 });
+        activeWords.push({ w: w4.w, c: w4.c, row: r4, col: c4, dir: "down", num: 4 });
 
-        // Kelime 5: Küçük Ara Kesişim Yatay
-        let fifth = subset[4];
-        let fiRow = 6, fiCol = 6;
-        for(let i=0; i<fifth.w.length; i++) {
-            if(!localMatrix[fiRow][fiCol + i]) {
-                localMatrix[fiRow][fiCol + i] = { letter: fifth.w[i], isStart: i===0, num: 5, dir: "across" };
-            } else if(i===0) { localMatrix[fiRow][fiCol + i].num = 5; }
+        // Kelime 5: Küçük Ara Kesişim
+        let w5 = subset[4];
+        let r5 = 5, c5 = 7;
+        for(let i=0; i<w5.w.length; i++) {
+            if(!localMatrix[r5][c5 + i]) {
+                localMatrix[r5][c5 + i] = { letter: w5.w[i], isStart: i===0, num: 5, dir: "across" };
+            } else if(i===0) { localMatrix[r5][c5 + i].num = 5; }
         }
-        activeWords.push({ w: fifth.w, c: fifth.c, row: fiRow, col: fiCol, dir: "across", num: 5 });
+        activeWords.push({ w: w5.w, c: w5.c, row: r5, col: c5, dir: "across", num: 5 });
 
         renderVisualGrid(localMatrix);
         renderLinguisticClues();
@@ -504,7 +417,7 @@
         gridMatrix = matrixData;
         const container = document.getElementById('grid-container');
         container.innerHTML = '';
-        container.style.gridTemplateColumns = `repeat(${matrixSize}, 32px)`;
+        container.style.gridTemplateColumns = `repeat(${matrixSize}, 34px)`;
         inputElements = {};
 
         for(let r=0; r<matrixSize; r++) {
@@ -527,7 +440,10 @@
                         e.target.value = e.target.value.toUpperCase();
                         checkGridState();
                         if(e.target.value.length === 1) {
-                            focusNextInput(r, c, cell.dir);
+                            let nextR = cell.dir === "down" ? r + 1 : r;
+                            let nextC = cell.dir === "down" ? c : c + 1;
+                            let nextInp = inputElements[`${nextR}-${nextC}`];
+                            if(nextInp) nextInp.focus();
                         }
                     });
                     
@@ -542,13 +458,6 @@
         }
     }
 
-    function focusNextInput(row, col, direction) {
-        let nextR = direction === "down" ? row + 1 : row;
-        let nextC = direction === "down" ? col : col + 1;
-        let nextInp = inputElements[`${nextR}-${nextC}`];
-        if(nextInp) nextInp.focus();
-    }
-
     function renderLinguisticClues() {
         const acrossBox = document.getElementById('across-clues');
         const downBox = document.getElementById('down-clues');
@@ -558,7 +467,7 @@
         activeWords.forEach(item => {
             let div = document.createElement('div');
             div.className = 'clue-item';
-            div.innerHTML = `<div class="clue-text"><strong>${item.num}</strong> ${item.c}</div>`;
+            div.innerHTML = `<div><strong>${item.num}</strong> ${item.c}</div>`;
             if(item.dir === "across") acrossBox.appendChild(div);
             else downBox.appendChild(div);
         });
@@ -587,12 +496,15 @@
             tbody.innerHTML = '';
             activeWords.forEach(item => {
                 let row = document.createElement('tr');
-                row.innerHTML = `<td style="font-weight:bold; color:#2e7d32;">${item.w}</td><td>${item.c}</td>`;
+                row.innerHTML = `<td style="font-weight:bold;">${item.w}</td><td>${item.c}</td>`;
                 tbody.appendChild(row);
             });
             document.getElementById('corpus-index-area').style.display = 'block';
         }
     }
+
+    // İlk açılış kurulumu
+    changeLanguage();
 </script>
 </body>
 </html>
