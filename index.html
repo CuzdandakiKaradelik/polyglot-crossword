@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2 family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -42,17 +42,6 @@
             letter-spacing: 2px;
         }
 
-        .control-panel {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            border-bottom: 1px solid #2b2b2b;
-            flex-wrap: wrap;
-        }
-
         .stats-bar {
             display: flex;
             justify-content: space-around;
@@ -62,6 +51,17 @@
             margin-bottom: 20px;
             font-weight: bold;
             font-size: 16px;
+        }
+
+        .control-panel {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #2b2b2b;
+            flex-wrap: wrap;
         }
 
         .control-panel label {
@@ -92,6 +92,12 @@
 
         .control-panel button:hover, .btn-action:hover {
             background-color: #444;
+        }
+
+        .pool-stats {
+            font-size: 12px;
+            font-style: italic;
+            color: #666;
         }
 
         .game-layout {
@@ -231,7 +237,6 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* Modal (Kelime Kartları) Yapısı */
         .modal {
             display: none;
             position: fixed;
@@ -278,12 +283,6 @@
             <option value="it">İtalyanca (Italiano)</option>
         </select>
 
-        <label for="difficultySelect">Zorluk:</label>
-        <select id="difficultySelect" onchange="initGame()">
-            <option value="easy">Kolay (Easy)</option>
-            <option value="hard">Zor (Hard)</option>
-        </select>
-
         <label for="timerSelect">Süre Modu:</label>
         <select id="timerSelect" onchange="initGame()">
             <option value="off">Süre Kapat</option>
@@ -293,6 +292,7 @@
         
         <button onclick="initGame()">🔄 Yeni Bulmaca</button>
         <button onclick="getLetterHint()" style="background-color: #e2b13c; color: #000;">💡 Harf Al (-25 Puan)</button>
+        <span class="pool-stats" id="poolStats"></span>
     </div>
 
     <div id="success-banner">
@@ -331,98 +331,92 @@
 </div>
 
 <script>
-    // Zorluk Seviyelerine Göre Bölünmüş Genişletilmiş Kelime Havuzu
+    // ORİJİNAL, GENİŞ KELİME HAVUZUNUZ TAMAMEN KORUNDU
     const DATA_POOL = {
-        en: {
-            easy: [
-                { word: "MOVIE", clue: "Let's watch a classic _______. | Anlamı: Film" },
-                { word: "STAR", clue: "Brad Pitt is a Hollywood _______. | Anlamı: Yıldız Oyuncu" },
-                { word: "HERO", clue: "Batman is the _______ Gotham needs. | Anlamı: Kahraman" },
-                { word: "RING", clue: "The Lord of the _______ is a fantasy epic. | Anlamı: Yüzük" },
-                { word: "SPACE", clue: "Interstellar is an epic film about _______. | Anlamı: Uzay" }
-            ],
-            hard: [
-                { word: "SCREENPLAY", clue: "The written text of a movie, including dialogue. | Anlamı: Senaryo" },
-                { word: "SOUNDTRACK", clue: "The synchronized collection of audio/music in a film. | Anlamı: Film Müziği" },
-                { word: "CINEMATOGRAPHY", clue: "The art of photography and camerawork in filmmaking. | Anlamı: Görüntü Yönetmenliği" },
-                { word: "PROTAGONIST", clue: "The leading character or one of the major characters. | Anlamı: Başkahraman" }
-            ]
-        },
-        es: {
-            easy: [
-                { word: "MUNDO", clue: "Avatar muestra un _______ fantástico. | Anlamı: Dünya" },
-                { word: "NUEVO", clue: "Ayer vi el _______ tráiler de Marvel. | Anlamı: Yeni" },
-                { word: "PAPEL", clue: "El _______ principal de Joker fue increíble. | Anlamı: Rol" },
-                { word: "NOCHE", clue: "Batman trabaja durante la _______. | Anlamı: Gece" },
-                { word: "LIBRO", clue: "Harry Potter está basado en un _______. | Anlamı: Kitap" }
-            ],
-            hard: [
-                { word: "DIRECTOR", clue: "La persona que dirige la filmación de una película. | Anlamı: Yönetmen" },
-                { word: "ESPECTÁCULO", clue: "Una función o actuación pública que atrae la atención. | Anlamı: Gösteri / Şov" },
-                { word: "PRODUCCIÓN", clue: "El proceso de creación y financiación de un filme. | Anlamı: Yapım / Üretim" },
-                { word: "MAQUILLAJE", clue: "Cosméticos aplicados a los actores para caracterizarlos. | Anlamı: Makyaj" }
-            ]
-        },
-        de: {
-            easy: [
-                { word: "KINO", clue: "Wir treffen uns heute Abend im _______. | Anlamı: Sinema" },
-                { word: "HELD", clue: "Superman ist ein bekannter _______. | Anlamı: Kahraman" },
-                { word: "PREIS", clue: "Dieser Regisseur gewann einen großen _______. | Anlamı: Ödül" },
-                { word: "TRAUM", clue: "Inception handelt von einem _______ im Traum. | Anlamı: Rüya" },
-                { word: "BUCH", clue: "Der Film basiert auf einem berühmten _______. | Anlamı: Kitap" }
-            ],
-            hard: [
-                { word: "SCHAUSPIELER", clue: "Eine Person, die in Theater oder Film eine Rolle spielt. | Anlamı: Erkek Oyuncu" },
-                { word: "DREHBUCH", clue: "Das Manuskript für einen Film oder ein Fernsehspiel. | Anlamı: Senaryo" },
-                { word: "REGISSEUR", clue: "Die Person, die die künstlerische Leitung eines Films hat. | Anlamı: Yönetmen" },
-                { word: "PRODUZENT", clue: "Person, die die finanzielle Verantwortung für Filme trägt. | Anlamı: Yapımcı" }
-            ]
-        },
-        fr: {
-            easy: [
-                { word: "ECRAN", clue: "Regarder un chef-d'œuvre sur le grand _______. | Anlamı: Ekran" },
-                { word: "SALLE", clue: "La _______ de cinéma était complètement pleine. | Anlamı: Salon/Oda" },
-                { word: "REVRE", clue: "Inception parle d'un _______ contrôlé. | Anlamı: Rüya" },
-                { word: "COEUR", clue: "Un drame romantique qui touche le _______. | Anlamı: Kalp" },
-                { word: "GEANT", clue: "Shrek est un ogre _______ et vert. | Anlamı: Dev" }
-            ],
-            hard: [
-                { word: "REALISATEUR", clue: "Personne qui dirige la réalisation d'un film. | Anlamı: Yönetmen" },
-                { word: "SCENARIO", clue: "Le document décrivant l'histoire et les dialogues. | Anlamı: Senaryo" },
-                { word: "GENERIQUE", clue: "La liste des personnes ayant participé au film. | Anlamı: Film Jeneriği" },
-                { word: "PROJECTEUR", clue: "Appareil projetant de la lumière sur l'écran de cinéma. | Anlamı: Projeksiyon" }
-            ]
-        },
-        it: {
-            easy: [
-                { word: "CINEMA", clue: "Andiamo al _______ a vedere un horror. | Anlamı: Sinema" },
-                { word: "ATTORE", clue: "Marcello Mastroianni è un grande _______. | Anlamı: Oyuncu" },
-                { word: "STORIA", clue: "Una _______ emozionante basata su fatti veri. | Anlamı: Hikaye" },
-                { word: "RUOLO", clue: "Ha ottenuto il _______ del cattivo nel film. | Anlamı: Rol" },
-                { word: "FUOCO", clue: "Un film d'azione pieno di esplosioni e _______. | Anlamı: Ateş" }
-            ],
-            hard: [
-                { word: "SCENGGIATURA", clue: "Il testo scritto completo contenente scene e dialoghi. | Anlamı: Senaryo" },
-                { word: "REGISTA", clue: "Chi dirige dal punto di vista artistico un film. | Anlamı: Yönetmen" },
-                { word: "SPETTACOLO", clue: "Rappresentazione artistica teatrale o cinematografica. | Anlamı: Gösteri" },
-                { word: "PRODUTTORE", clue: "Chi finanzia e organizza la realizzazione di un'opera. | Anlamı: Yapımcı" }
-            ]
-        }
+        en: [
+            { word: "MOVIE", clue: "Clue: 'Let's watch a classic _______.' | Anlamı: Film" },
+            { word: "STAR", clue: "Clue: 'Brad Pitt is a Hollywood _______.' | Anlamı: Yıldız Oyuncu" },
+            { word: "HERO", clue: "Clue: 'Batman is the _______ Gotham needs.' | Anlamı: Kahraman" },
+            { word: "THIEF", clue: "Clue: 'In Inception, Cobb is a skilled _______.' | Anlamı: Hırsız" },
+            { word: "AWARD", clue: "Clue: 'He won an Oscar _______ last night.' | Anlamı: Ödül" },
+            { word: "FIGHT", clue: "Clue: 'The first rule of _______ Club...' | Anlamı: Dövüş" },
+            { word: "SNAKE", clue: "Clue: 'Samuel L. Jackson fought _______ on a plane.' | Anlamı: Yılan" },
+            { word: "ALIEN", clue: "Clue: 'The Ridley Scott horror film is named _______.' | Anlamı: Uzaylı" },
+            { word: "RING", clue: "Clue: 'The Lord of the _______ is a fantasy epic.' | Anlamı: Yüzük" },
+            { word: "SHARK", clue: "Clue: 'Spielberg's Jaws is about a killer _______.' | Anlamı: Köpekbalığı" },
+            { word: "STORY", clue: "Clue: 'Toy _______ was the first full CGI film.' | Anlamı: Hikaye" },
+            { word: "DANCE", clue: "Clue: 'La La Land features beautiful _______ scenes.' | Anlamı: Dans" },
+            { word: "SPACE", clue: "Clue: 'Interstellar is an epic film about _______.' | Anlamı: Uzay" },
+            { word: "LIGHT", clue: "Clue: 'A Jedi fights with a _______saber.' | Anlamı: Işık" },
+            { word: "GHOST", clue: "Clue: 'Who you gonna call? _______busters!' | Anlamı: Hayalet" },
+            { word: "CROWD", clue: "Clue: 'Gladiator arena was full of a roaring _______.' | Anlamı: Kalabalık" }
+        ],
+        es: [
+            { word: "MUNDO", clue: "Frase: 'Avatar muestra un _______ fantástico.' | Anlamı: Dünya" },
+            { word: "NUEVO", clue: "Frase: 'Ayer vi el _______ tráiler de Marvel.' | Anlamı: Yeni" },
+            { word: "PAPEL", clue: "Frase: 'El _______ principal de Joker fue increíble.' | Anlamı: Rol" },
+            { word: "HÉROE", clue: "Frase: 'Spiderman es mi _______ favorito.' | Anlamı: Kahraman" },
+            { word: "NOCHE", clue: "Frase: 'Batman trabaja durante la _______.' | Anlamı: Gece" },
+            { word: "CHICA", clue: "Frase: 'Almodóvar dirige películas de la _______ Almodóvar.' | Anlamı: Kız" },
+            { word: "GUION", clue: "Frase: 'Tarantino escribe un _______ lleno de action.' | Anlamı: Senaryo" },
+            { word: "FUEGO", clue: "Frase: 'Los efectos especiales incluyen mucho _______.' | Anlamı: Ateş" },
+            { word: "SUEÑO", clue: "Frase: 'Inception es una película sobre un _______.' | Anlamı: Rüya" },
+            { word: "LIBRO", clue: "Frase: 'Harry Potter está basado en un _______.' | Anlamı: Kitap" },
+            { word: "OJOS", clue: "Frase: 'El secreto de sus _______ ganó el Oscar.' | Anlamı: Gözler" },
+            { word: "TIEMPO", clue: "Frase: 'Una película sobre viajes en el _______.' | Anlamı: Zaman" }
+        ],
+        de: [
+            { word: "KINO", clue: "Satz: 'Wir treffen uns heute Abend im _______.' | Anlamı: Sinema" },
+            { word: "HELD", clue: "Satz: 'Superman ist ein bekannter _______.' | Anlamı: Kahraman" },
+            { word: "PREIS", clue: "Satz: 'Dieser Regisseur gewann einen großen _______.' | Anlamı: Ödül" },
+            { word: "NACHT", clue: "Satz: 'Ein guter Horrorfilm spielt oft in der _______.' | Anlamı: Gece" },
+            { word: "ROLLE", clue: "Satz: 'Er spielt die wichtigste _______ im Drama.' | Anlamı: Rol" },
+            { word: "REGIE", clue: "Satz: 'Spielberg führte _______ bei diesem Klassiker.' | Anlamı: Yönetmenlik" },
+            { word: "BUCH", clue: "Satz: 'Der Film basiert auf einem berühmten _______.' | Anlamı: Kitap" },
+            { word: "LIEBE", clue: "Satz: 'Titanic ist eine Geschichte über große _______.' | Anlamı: Aşk" },
+            { word: "TRAUM", clue: "Satz: 'Inception handelt von einem _______ im Traum.' | Anlamı: Rüya" },
+            { word: "LEBEN", clue: "Satz: 'Das _______ der Anderen gewann einen Oscar.' | Anlamı: Hayat" },
+            { word: "KRIEG", clue: "Satz: 'Star Wars bedeutet Star _______ auf Deutsch.' | Anlamı: Savaş" },
+            { word: "ANGST", clue: "Satz: 'Ein Horrorfilm erzeugt beim Zuschauer _______.' | Anlamı: Korku" }
+        ],
+        fr: [
+            { word: "ECRAN", clue: "Phrase: 'Regarder un chef-d'œuvre sur le grand _______.' | Anlamı: Ekran" },
+            { word: "SALLE", clue: "Phrase: 'La _______ de cinéma était complètement pleine.' | Anlamı: Salon/Oda" },
+            { word: "REVRE", clue: "Phrase: 'Inception parle d'un _______ contrôlé.' | Anlamı: Rüya" },
+            { word: "PIECE", clue: "Phrase: 'Une tragédie adaptée d'une _______ de théâtre.' | Anlamı: Oyun/Parça" },
+            { word: "DRÔLE", clue: "Phrase: 'Intouchables is un film très _______ et émouvant.' | Anlamı: Komik" },
+            { word: "DEBUT", clue: "Phrase: 'Le générique commence au _______ du film.' | Anlamı: Başlangıç" },
+            { word: "COEUR", clue: "Phrase: 'Un drame romantique qui touche le _______.' | Anlamı: Kalp" },
+            { word: "GEANT", clue: "Phrase: 'Shrek est un ogre _______ et vert.' | Anlamı: Dev" },
+            { word: "TEMPS", clue: "Phrase: 'Un voyage dans le _______ avec une DeLorean.' | Anlamı: Zaman" },
+            { word: "FINALE", clue: "Phrase: 'La scène _______ de ce film coupe le souffle.' | Anlamı: Final/Son" }
+        ],
+        it: [
+            { word: "CINEMA", clue: "Frase: 'Andiamo al _______ a vedere un horror.' | Anlamı: Sinema" },
+            { word: "ATTORE", clue: "Frase: 'Marcello Mastroianni è un grande _______.' | Anlamı: Oyuncu" },
+            { word: "REGIA", clue: "Frase: 'La _______ di questo kolossal è di Fellini.' | Anlamı: Yönetmenlik" },
+            { word: "STORIA", clue: "Frase: 'Una _______ emozionante basata su fatti veri.' | Anlamı: Hikaye" },
+            { word: "RUOLO", clue: "Frase: 'Ha ottenuto il _______ del cattivo nel film.' | Anlamı: Rol" },
+            { word: "VITA", clue: "Frase: 'La dolce _______ è un classico del cinema.' | Anlamı: Hayat" },
+            { word: "SUONO", clue: "Frase: 'Il montaggio del _______ ha vinto un premio.' | Anlamı: Ses" },
+            { word: "CITTÀ", clue: "Frase: 'Batman protegge la _______ di Gotham.' | Anlamı: Şehir" },
+            { word: "FUOCO", clue: "Frase: 'Un film d'azione pieno di esplosioni e _______.' | Anlamı: Ateş" }
+        ]
     };
 
     let matrixSize = 15;
     let gridMatrix = [];
     let inputElements = {};
     let activeWords = [];
-    let currentFocusCell = null;
+    let usedWordsHistory = { en: [], es: [], de: [], fr: [], it: [] };
 
-    // Yeni Mekanik Değişkenleri
+    // Yeni Mekanik Tanımlamaları
     let score = 0;
     let combo = 0;
     let timerInterval = null;
     let timeLeft = 0;
+    let currentFocusCell = null;
 
-    // LocalStorage İlerlemesini Yükleme
     window.onload = function() {
         if(localStorage.getItem('polyglot_score')) {
             score = parseInt(localStorage.getItem('polyglot_score'));
@@ -432,6 +426,8 @@
     };
 
     function resetLanguageAndInit() {
+        const selectedLang = document.getElementById('langSelect').value;
+        usedWordsHistory[selectedLang] = [];
         initGame();
     }
 
@@ -440,14 +436,21 @@
         document.getElementById('success-banner').style.display = 'none';
         
         const selectedLang = document.getElementById('langSelect').value;
-        const difficulty = document.getElementById('difficultySelect').value;
         const timerConfig = document.getElementById('timerSelect').value;
 
-        let pool = [...DATA_POOL[selectedLang][difficulty]];
-        pool.sort(() => 0.5 - Math.random());
+        let pool = [...DATA_POOL[selectedLang]];
+        let unusedPool = pool.filter(w => !usedWordsHistory[selectedLang].includes(w.word));
         
-        // En az 4 kelime kuralı ile dinamik seçim
-        let selectedWords = pool.slice(0, Math.min(4, pool.length));
+        if (unusedPool.length < 4) {
+            usedWordsHistory[selectedLang] = [];
+            unusedPool = pool;
+        }
+
+        document.getElementById('poolStats').innerText = `(Kalan taze kombinasyon: ~${unusedPool.length})`;
+        unusedPool.sort(() => 0.5 - Math.random());
+        
+        // Geniş havuzdan en fazla 6 kelime seçerek matrise gönderiyoruz
+        let selectedWords = unusedPool.slice(0, Math.min(6, unusedPool.length));
 
         const generationResult = generateCrosswordLayout(selectedWords);
         
@@ -455,6 +458,12 @@
             initGame();
             return;
         }
+
+        generationResult.placedWords.forEach(w => {
+            if (!usedWordsHistory[selectedLang].includes(w.word)) {
+                usedWordsHistory[selectedLang].push(w.word);
+            }
+        });
 
         activeWords = generationResult.placedWords;
         renderGrid(generationResult.matrix);
@@ -465,7 +474,6 @@
         document.getElementById('comboVal').innerText = combo;
     }
 
-    // Zamanlayıcı Kurulumu
     function setupTimer(mode) {
         const timerDisplay = document.getElementById('timerVal');
         if (mode === "off") {
@@ -480,7 +488,7 @@
             updateTimerDisplay();
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                alert("⏰ Süre bitti! Bulmaca kilitlendi.");
+                alert("⏱️ Süre bitti! Bulmaca kilitlendi.");
                 Object.values(inputElements).forEach(input => input.disabled = true);
             }
         }, 1000);
@@ -493,7 +501,6 @@
             `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 
-    // Kelimeyi Orijinal Diliyle Seslendirme (Web Speech API)
     function speakWord(word, langCode) {
         if ('speechSynthesis' in window) {
             let utterance = new SpeechSynthesisUtterance(word);
@@ -642,7 +649,6 @@
 
     function handleLetterInput(r, c, char) {
         if (gridMatrix[r][c] && gridMatrix[r][c].letter === char) {
-            // Skor ve Kombo Mekaniği
             combo++;
             score += 10 + (combo * 2);
         } else {
@@ -659,7 +665,6 @@
             const cell = gridMatrix[currentFocusCell.row][currentFocusCell.col];
             currentFocusCell.element.value = cell.letter;
             
-            // Ceza Puanı ve Kombo Sıfırlama
             combo = 0;
             score = Math.max(0, score - 25);
             document.getElementById('scoreVal').innerText = score;
@@ -712,7 +717,6 @@
         }
     }
 
-    // Kelime Kartları / Sözlük Pop-up Tetikleyicisi
     function openVocabularyDeck() {
         const deckList = document.getElementById('deckList');
         deckList.innerHTML = '';
