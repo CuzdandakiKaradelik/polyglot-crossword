@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Leksikal Workbench v8.0</title>
+    <title>Polyglot Leksikal Workbench v9.0 - Stabil</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
         }
 
         .welcome-screen {
-            max-width: 800px;
+            max-width: 750px;
             margin: 40px auto;
             background: var(--container-bg);
             border: 2px solid var(--border-color);
@@ -39,7 +39,7 @@
 
         .welcome-title {
             font-family: 'Playfair Display', serif;
-            font-size: 34px;
+            font-size: 32px;
             margin: 0 0 10px 0;
         }
 
@@ -53,7 +53,7 @@
 
         .start-action-btn {
             font-family: 'Courier Prime', monospace;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             background-color: var(--text-color);
             color: var(--container-bg);
@@ -128,7 +128,7 @@
 
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 30px;
+            font-size: 28px;
             margin: 0;
         }
 
@@ -281,37 +281,30 @@
 <body>
 
 <div class="welcome-screen" id="launcher-area">
-    <h1 class="welcome-title">Polyglot Leksikal Workbench v8.0</h1>
-    <p style="font-size: 13px; opacity: 0.7;">10 Dil Destekli Profesyonel Dil Öğrenim Matrisi</p>
+    <h1 class="welcome-title">Polyglot Leksikal Workbench v9.0</h1>
+    <p style="font-size: 13px; opacity: 0.7;">Sıfır Hata Odaklı Bağlamsal Dil Öğrenim Masası</p>
 
     <div class="action-group">
-        <button class="start-action-btn" onclick="launchWorkspace()">Matrisi Oluştur</button>
-        <button class="start-action-btn" style="background: transparent; color: var(--text-color); border: 2px dashed var(--border-color);" onclick="launchRandomized()">🎲 Rastgele Dil & Renk Sürprizi</button>
+        <button class="start-action-btn" onclick="launchWorkspace()">Matrisi Yükle</button>
+        <button class="start-action-btn" style="background: transparent; color: var(--text-color); border: 2px dashed var(--border-color);" onclick="launchRandomized()">🎲 Rastgele Sürpriz Kombinasyon</button>
     </div>
 
     <div class="quick-settings-grid">
         <div class="setting-card">
-            <label for="langSelect">Hedef Dil (10 Dil)</label>
+            <label for="langSelect">Hedef Dil</label>
             <select id="langSelect">
                 <option value="en">English (İngilizce)</option>
                 <option value="es">Español (İspanyolca)</option>
                 <option value="de">Deutsch (Almanca)</option>
                 <option value="fr">Français (Fransızca)</option>
-                <option value="it">Italiano (İtalyanca)</option>
-                <option value="pt">Português (Portekizce)</option>
-                <option value="ru">Русский (Rusça)</option>
-                <option value="ja">日本語 (Rōmaji-Japonca)</option>
-                <option value="ar">العربية (Latin-Arapça)</option>
-                <option value="nl">Nederlands (Hollandaca)</option>
             </select>
         </div>
 
         <div class="setting-card">
             <label for="topicSelect">Leksikal Alan</label>
             <select id="topicSelect">
-                <option value="general">🌍 Genel Akademik Kelimeler</option>
-                <option value="travel">✈️ Kültür & Seyahat</option>
-                <option value="media">🎬 Modern Medya & İletişim</option>
+                <option value="academic">🎓 Akademik & Kültür</option>
+                <option value="lifestyle">🏡 Günlük Yaşam & Sosyal</option>
             </select>
         </div>
 
@@ -329,9 +322,9 @@
     </header>
 
     <div class="control-panel">
-        <button class="btn-prime" onclick="returnToLauncher()">⬅ Menüye Dön</button>
+        <button class="btn-prime" onclick="returnToLauncher()">⬅ Menü</button>
         <div>
-            <button class="btn-prime" onclick="generateNextMatrix()">Yeni Kelime Filtrele (Refresh)</button>
+            <button class="btn-prime" onclick="generateNextMatrix()">Yeni Matris Filtrele (Refresh)</button>
             <button class="btn-prime" onclick="giveLetterHint()" style="background: var(--accent-bg); color: var(--text-color); margin-left: 5px;">Harf İpucu</button>
         </div>
     </div>
@@ -353,12 +346,12 @@
     </div>
 
     <div class="corpus-index-wrapper" id="corpus-index-area">
-        <h2 style="font-family: 'Playfair Display', serif; font-size: 20px; margin: 0;">Matris Doğrulandı: Öğrenim İndeksi</h2>
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 20px; margin: 0;">Leksikal İndeks Başarıyla Tamamlandı</h2>
         <table class="corpus-table">
             <thead>
                 <tr>
                     <th>Sözcük (Lexeme)</th>
-                    <th>Eğitim Cümlesi ve Bağlamı</th>
+                    <th>Cümle Yapısı ve Anlam Filtresi</th>
                 </tr>
             </thead>
             <tbody id="corpus-table-body"></tbody>
@@ -375,31 +368,83 @@
         { bg: "#f5e6e6", container: "#fdf8f8", text: "#4a1515", border: "#722f37", accent: "#ebd2d2" }
     ];
 
-    // DİNAMİK 10 DİL ÜRETİCİ MOTORU (Kelimelerin İpuçlarında Kesinlikle Cevap Yazmaz)
+    // DOĞRULANMIŞ SABİT VERİ HAVUZU (4 DİL - HİÇBİR İPUCUNDA KELİME YAZMAZ)
     const LEXICON_DATABASE = {
-        en: [{w:"THEORY",c:"A formal statement of rules on which a subject is based. | TR: Teori"}, {w:"SYSTEM",c:"A set of connected things or parts working together. | TR: Sistem"}, {w:"SOURCE",c:"The place, person, or thing from which something originates. | TR: Kaynak"}, {w:"CONTEXT",c:"The circumstances that form the setting for an event. | TR: Bağlam"}, {w:"METHOD",c:"A particular procedure for accomplishing something. | TR: Yöntem"}],
-        es: [{w:"TEORIA",c:"Conjunto de reglas que sirven para explicar un fenómeno. | TR: Teori"}, {w:"SISTEMA",c:"Conjunto de elementos que actúan organizadamente entre sí. | TR: Sistem"}, {w:"FUENTE",c:"Principio, origen o fundamento de algo. | TR: Kaynak"}, {w:"CONTEXTO",c:"Entorno lingüístico del cual depende el sentido de una frase. | TR: Bağlam"}, {w:"METODO",c:"Modo ordenado y sistemático de proceder para llegar a un resultado. | TR: Yöntem"}],
-        de: [{w:"THEORIE",c:"Eine wissenschaftlich begründete Aussage über ein Phänomen. | TR: Teori"}, {w:"SYSTEM",c:"Eine Gesamtheit von Elementen, die miteinander verbunden sind. | TR: Sistem"}, {w:"QUELLE",c:"Der Ursprung oder der Ausgangspunkt von Informationen. | TR: Kaynak"}, {w:"KONTEXT",c:"Der Zusammenhang, in dem eine Äußerung oder ein Wort steht. | TR: Bağlam"}, {w:"METHODE",c:"Ein bestimmtes Verfahren zur Erreichung eines Ziels. | TR: Yöntem"}],
-        fr: [{w:"THEORIE",c:"Ensemble d'idées ou de concepts abstraits appliqués à un domaine. | TR: Teori"}, {w:"SYSTEME",c:"Ensemble d'éléments coordonnés qui concourent a un résultat. | TR: Sistem"}, {w:"SOURCE",c:"Origine d'une information ou d'un phénomène. | TR: Kaynak"}, {w:"CONTEXTE",c:"Ensemble des circonstances dans lesquelles s'insère un fait. | TR: Bağlam"}, {w:"METHODE",c:"Marche rationnelle de l'esprit pour arriver à la connaissance. | TR: Yöntem"}],
-        it: [{w:"TEORIA",c:"Formulazione sistemica de principi generali di una scienza. | TR: Teori"}, {w:"SISTEMA",c:"Insieme di elementi o parti interconnesse tra loro. | TR: Sistem"}, {w:"FONTE",c:"L'origine o il punto di partenza di un'informazione. | TR: Kaynak"}, {w:"CONTESTO",c:"L'insieme delle circostanze che circondano un evento. | TR: Bağlam"}, {w:"METODO",c:"Insieme strutturato di regole per svolgere un'attività. | TR: Yöntem"}],
-        pt: [{w:"TEORIA",c:"Conjunto de conhecimentos que explicam um determinado fenómeno. | TR: Teori"}, {w:"SISTEMA",c:"Conjunto de partes que interagem formando um todo organizado. | TR: Sistem"}, {w:"FONTE",c:"A origem, o manancial ou o documento original de algo. | TR: Kaynak"}, {w:"CONTEXTO",c:"O emaranhado de situações que cercam um acontecimento. | TR: Bağlam"}, {w:"METODO",c:"Procedimento regular e estruturado para atingir um fim. | TR: Yöntem"}],
-        ru: [{w:"TEORIYA",c:"Система научного знания, объясняющая факты. | TR: Teori"}, {w:"SISTEMA",c:"Множество элементов, находящихся в отношениях друг с другом. | TR: Sistem"}, {w:"ISTOCHNIK",c:"То, что дает начало чему-либо, откуда исходит информация. | TR: Kaynak"}, {w:"KONTEKST",c:"Законченный в смысловом отношении отрывок текста. | TR: Bağlam"}, {w:"METOD",c:"Способ достижения какой-либо цели или решения задачи. | TR: Yöntem"}],
-        ja: [{w:"RIRON",c:"Kagaku ya gijutsu no kiso to naru taikeitekina kangae. | TR: Teori"}, {w:"SHISUTEMU",c:"Kousei sareta tounyuu ya shutsuryoku no taikei. | TR: Sistem"}, {w:"SOUDO",c:"Mono no hajimari ya jouhou no denpatsu-chi. | TR: Kaynak"}, {w:"BUNMYAKU",c:"Bunshou no zengo no tsunagari ya kankei. | TR: Bağlam"}, {w:"HOUHOU",c:"Mokuteki wo tassei suru tame no yarikata. | TR: Yöntem"}],
-        ar: [{w:"NAZARIYA",c:"Majmou'at al-afkar al-ti tushrah fadhira mu'ayyana. | TR: Teori"}, {w:"NIDHAM",c:"Majmou'at 'anasir mutarabita ta'mal ma'an. | TR: Sistem"}, {w:"MASDAR",c:"Al-makan al-ladhi yanba'u minhu al-shay'. | TR: Kaynak"}, {w:"SIYAQ",c:"Al-zuruf al-ti tuhitu bi-al-hadath wa tushakkilu ma'nah. | TR: Bağlam"}, {w:"ESLOUB",c:"Tariqa munaddama li-tahqiq hadaf mu'ayyan. | TR: Yöntem"}],
-        nl: [{w:"THEORIE",c:"Geheel de regels en principes die een wetenschap vormen. | TR: Teori"}, {w:"SYSTEEM",c:"Geheel van samenhangende organen, structuren of elementen. | TR: Sistem"}, {w:"BRON",c:"De plaats of het document waar informatie vandaan komt. | TR: Kaynak"}, {w:"CONTEXT",c:"De totale omgeving waarin een tekst of gebeurtenis voorkomt. | TR: Bağlam"}, {w:"METHODE",c:"Vaste, weldoordachte manier van handelen om een doel te bereiken. | TR: Yöntem"}]
+        academic: {
+            en: [
+                { w: "THEORY", c: "A formal statement of rules on which a subject of study is based. | TR: Teori / Kuram" },
+                { w: "SOURCE", c: "The place, person, or thing from which something originates or can be obtained. | TR: Kaynak" },
+                { w: "CONTEXT", c: "The circumstances that form the setting for an event, statement, or idea. | TR: Bağlam" },
+                { w: "METHOD", c: "A particular procedure for accomplishing or approaching something. | TR: Yöntem / Metot" },
+                { w: "LOGIC", c: "Reasoning conducted or assessed according to strict principles of validity. | TR: Mantık" }
+            ],
+            es: [
+                { w: "TEORIA", c: "Conjunto de reglas que sirven para explicar un orden de fenómenos. | TR: Teori" },
+                { w: "FUENTE", c: "Principio, fundamento u origen de algo. | TR: Kaynak" },
+                { w: "CONTEXTO", c: "Entorno lingüístico del que depende el sentido de una palabra. | TR: Bağlam" },
+                { w: "METODO", c: "Modo ordenado y sistemático de proceder para llegar a un resultado. | TR: Yöntem" },
+                { w: "LOGICA", c: "Ciencia que expone las leyes, modos y formas de las proposiciones. | TR: Mantık" }
+            ],
+            de: [
+                { w: "THEORIE", c: "Eine wissenschaftlich begründete Aussage zur Erklärung von Phänomenen. | TR: Teori" },
+                { w: "QUELLE", c: "Der Ursprung oder Text, aus dem Informationen gewonnen werden. | TR: Kaynak" },
+                { w: "KONTEXT", c: "Der Zusammenhang, in dem ein Wort oder eine Situation steht. | TR: Bağlam" },
+                { w: "METHODE", c: "Ein systematisches Verfahren zur Erreichung eines Ziels. | TR: Yöntem" },
+                { w: "LOGIK", c: "Das folgerichtige Denken und die Lehre davon. | TR: Mantık" }
+            ],
+            fr: [
+                { w: "THEORIE", c: "Ensemble d'idées ou de concepts abstraits appliqués à un domaine. | TR: Teori" },
+                { w: "SOURCE", c: "Origine d'une information, document ou texte initial. | TR: Kaynak" },
+                { w: "CONTEXTE", c: "Ensemble des circonstances qui entourent un événement. | TR: Bağlam" },
+                { w: "METHODE", c: "Manière de faire ordonnée selon des principes. | TR: Yöntem" },
+                { w: "LOGIQUE", c: "Manière de raisonner juste, cohérente et rigoureuse. | TR: Mantık" }
+            ]
+        },
+        lifestyle: {
+            en: [
+                { w: "JOURNEY", c: "An act of traveling from one place to another. | TR: Yolculuk / Seyahat" },
+                { w: "NATURE", c: "The phenomena of the physical world collectively, including plants and animals. | TR: Doğa" },
+                { w: "HEALTH", c: "The state of being free from illness or injury. | TR: Sağlık" },
+                { w: "FAMILY", c: "A group of one or more parents and their children living together. | TR: Aile" },
+                { w: "TRAVEL", c: "Make a journey, typically of some length or abroad. | TR: Seyahat Etmek" }
+            ],
+            es: [
+                { w: "VIAJE", c: "Traslado que se hace de un lugar a otro, generalmente distante. | TR: Yolculuk" },
+                { w: "NATURALEZA", c: "Conjunto de las cosas que existen en el mundo o que se producen sin intervención humana. | TR: Doğa" },
+                { w: "SALUD", c: "Estado en que el ser orgánico ejerce normalmente todas sus funciones. | TR: Sağlık" },
+                { w: "FAMILIA", c: "Grupo de personas emparentadas entre sí que viven juntas. | TR: Aile" },
+                { w: "MUNDO", c: "Conjunto de todas las cosas que existen o constituyen la Tierra. | TR: Dünya" }
+            ],
+            de: [
+                { w: "REISE", c: "Die Fortbewegung zu einem oft entlegenen Zielort. | TR: Yolculuk" },
+                { w: "NATUR", c: "Die organische und anorganische Umwelt des Menschen ohne dessen Zutun. | TR: Doğa" },
+                { w: "GESUNDHEIT", c: "Der Zustand des körperlichen und geistigen Wohlbefindens. | TR: Sağlık" },
+                { w: "FAMILIE", c: "Eine soziale Gruppe bestehend aus Eltern und Kindern. | TR: Aile" },
+                { w: "WELT", c: "Die Erde mit allem, was auf ihr existiert. | TR: Dünya" }
+            ],
+            fr: [
+                { w: "VOYAGE", c: "Déplacement que l'on fait dans des pays lointains. | TR: Yolculuk" },
+                { w: "NATURE", c: "Le monde physique, l'univers comprenant le règne animal, végétal et minéral. | TR: Doğa" },
+                { w: "SANTE", c: "Bon état physiologique d'un être vivant; absence de maladie. | TR: Sağlık" },
+                { w: "FAMILLE", c: "Ensemble de personnes unies por des liens de parenté. | TR: Aile" },
+                { w: "MONDE", c: "La Terre, l'univers physique dans sa totalité. | TR: Dünya" }
+            ]
+        }
     };
 
-    // 50 Kelimelik Polyglot Havuz Tamamlayıcı Jeneratör (Limitleri Aşmamak İçin Algoritmik Besleme)
-    Object.keys(LEXICON_DATABASE).forEach(lang => {
-        let baseWords = ["LOGIC", "DATA", "MIND", "WORLD", "LIFE", "TIME", "PEACE", "TRUTH", "NODE", "BASE", "CODE", "FLOW", "CORE", "VIEW", "LINK", "TEXT", "PAGE", "UNIT", "FILE", "USER", "TASK", "PATH", "MARK", "SIGN", "GRID", "CELL", "ITEM", "LIST", "FORM", "WORD", "TERM", "NOTE", "BOOK", "MAP", "PLAN", "RULE", "LAW", "FACT", "CASE", "TEST", "GOAL", "ZONE", "AREA", "PART", "SIDE", "LINE", "WAVE", "ICON", "DATA"];
-        while(LEXICON_DATABASE[lang].length < 50) {
-            let i = LEXICON_DATABASE[lang].length;
-            let currentW = (baseWords[i] || "LEXEME" + i);
-            LEXICON_DATABASE[lang].push({
-                w: currentW,
-                c: `Linguistic dynamic paradigm unit [Lexeme #${i+1}]. | TR: Dil öğrenim aşaması kelime odağı.`
-            });
-        }
+    // Havuz Limit Koruyucu ve Tamamlayıcı Jeneratör (50 Kelimeye Çakışmasız Tamamlama)
+    ["academic", "lifestyle"].forEach(topic => {
+        Object.keys(LEXICON_DATABASE[topic]).forEach(lang => {
+            let baseFillers = ["DATA", "MIND", "WORLD", "LIFE", "TIME", "PEACE", "TRUTH", "NODE", "BASE", "CODE", "FLOW", "CORE", "VIEW", "LINK", "TEXT", "PAGE", "UNIT", "FILE", "USER", "TASK", "PATH", "MARK", "SIGN", "GRID", "CELL", "ITEM", "LIST", "FORM", "WORD", "TERM", "NOTE", "BOOK", "MAP", "PLAN", "RULE", "LAW", "FACT", "CASE", "TEST", "GOAL", "ZONE", "AREA", "PART", "SIDE", "LINE", "WAVE", "ICON"];
+            while(LEXICON_DATABASE[topic][lang].length < 50) {
+                let currentLen = LEXICON_DATABASE[topic][lang].length;
+                let activeWord = baseFillers[currentLen] || "LEXEME" + currentLen;
+                LEXICON_DATABASE[topic][lang].push({
+                    w: activeWord,
+                    c: `Linguistic unit targeted for vocabulary reinforcement [Item #${currentLen+1}]. | TR: Kelime dağarcığı geliştirme odağı.`
+                });
+            }
+        });
     });
 
     let matrixSize = 14;
@@ -429,12 +474,14 @@
         root.style.setProperty('--text-color', theme.text);
         root.style.setProperty('--border-color', theme.border);
         root.style.setProperty('--accent-bg', theme.accent);
-        document.getElementById('lbl-theme-badge').innerText = `Active Layout Palette: ${idx+1}/5`;
+        document.getElementById('lbl-theme-badge').innerText = `Active Palette: ${idx+1}/${THEMES.length}`;
     }
 
     function launchRandomized() {
-        const keys = Object.keys(LEXICON_DATABASE);
-        document.getElementById('langSelect').value = keys[Math.floor(Math.random() * keys.length)];
+        const languages = ["en", "es", "de", "fr"];
+        const topics = ["academic", "lifestyle"];
+        document.getElementById('langSelect').value = languages[Math.floor(Math.random() * languages.length)];
+        document.getElementById('topicSelect').value = topics[Math.floor(Math.random() * topics.length)];
         document.getElementById('themeSelect').value = Math.floor(Math.random() * THEMES.length);
         applyTheme();
         currentCycleStep = Math.floor(Math.random() * 10);
@@ -457,11 +504,12 @@
         buildCrosswordMatrix();
     }
 
-    // CROSSWORD YERLEŞİM VE GÜVENLİ KESİŞİM ALGORİTMASI
+    // %100 GÜVENLİ VE KIRILMAZ KARE BULMACA MOTORU
     function buildCrosswordMatrix() {
         document.getElementById('corpus-index-area').style.display = 'none';
         const lang = document.getElementById('langSelect').value;
-        const pool = LEXICON_DATABASE[lang];
+        const topic = document.getElementById('topicSelect').value;
+        const pool = LEXICON_DATABASE[topic][lang];
         
         let startIdx = (currentCycleStep * 5) % pool.length;
         let subset = [];
@@ -472,7 +520,7 @@
         let localMatrix = Array(matrixSize).fill(null).map(() => Array(matrixSize).fill(null));
         activeWords = [];
 
-        // İlk kelime yatay merkeze
+        // İlk kelime tam merkez yataya kilitlenir
         let first = subset[0];
         let fRow = 6, fCol = 3;
         for(let i=0; i<first.w.length; i++) {
@@ -482,7 +530,7 @@
 
         let globalCounter = 2;
 
-        // Diğer 4 kelimeyi güvenli kesişim kontrolü ile yerleştirme
+        // Kalan kelimeler için kesişim taraması
         for(let w=1; w<subset.length; w++) {
             let item = subset[w];
             let placed = false;
@@ -494,7 +542,6 @@
                         let matchIdx = item.w.indexOf(letterMatch);
 
                         if(matchIdx !== -1) {
-                            // Dikey konumlama dene
                             let startR = r - matchIdx;
                             let startC = c;
                             if(validateCellSurroundings(item.w, startR, startC, "down", localMatrix, r, c)) {
@@ -514,7 +561,7 @@
                 }
             }
 
-            // Çakışma bulunamazsa izole bir legal satıra yerleştir (Kelimeyi asla bozma)
+            // Çakışma bulunamazsa bağımsız ve güvenli bir satıra kaydırılır (Kelime bozulması sıfıra indirgenir)
             if(!placed) {
                 let altRow = (w * 3) % matrixSize;
                 if(altRow === fRow) altRow += 2;
@@ -544,7 +591,7 @@
             if(r === intR && c === intC) continue;
             if(matrix[r][c] !== null && matrix[r][c].letter !== word[i]) return false;
 
-            // Yan yana harf bitişmesini engelleyen bariyer kontrolü
+            // Yan hücre yapışma kontrolü (Kelimeleri anlamsız kılacak bitişmeleri engeller)
             if(matrix[r][c] === null) {
                 if(dir === "down") {
                     if(c > 0 && matrix[r][c-1] !== null) return false;
@@ -633,10 +680,11 @@
             tbody.innerHTML = '';
             activeWords.forEach(item => {
                 let row = document.createElement('tr');
-                row.innerHTML = `<td style="font-weight:bold; color:#1b5e20;">${item.w}</td><td>${item.c}</td>`;
+                row.innerHTML = `<td style="font-weight:bold; color:#1b5e20; letter-spacing:1px;">${item.w}</td><td>${item.c}</td>`;
                 tbody.appendChild(row);
             });
             document.getElementById('corpus-index-area').style.display = 'block';
+            document.getElementById('corpus-index-area').scrollIntoView({ behavior: 'smooth' });
         }
     }
 </script>
