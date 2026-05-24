@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Lexical Workbench v4</title>
+    <title>Polyglot Lexical Workbench v5</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,6 +61,117 @@
             opacity: 0.8;
         }
 
+        /* --- LAUNCHER (GİRİŞ EKRANI) STYLES --- */
+        .launcher-screen {
+            max-width: 700px;
+            margin: 60px auto;
+            border: 1px solid var(--border-color);
+            background: var(--container-bg);
+            padding: 40px;
+            box-shadow: 6px 6px 0px var(--shadow-color);
+            text-align: center;
+        }
+
+        .launcher-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-bottom: 5px;
+        }
+
+        .launcher-subtitle {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 35px;
+            display: block;
+            opacity: 0.7;
+        }
+
+        .menu-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .menu-btn {
+            font-family: 'Courier Prime', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+
+        .menu-btn:hover {
+            background-color: var(--text-color);
+            color: var(--container-bg);
+        }
+
+        .menu-btn.primary {
+            background-color: var(--text-color);
+            color: var(--container-bg);
+        }
+
+        .menu-btn.primary:hover {
+            background-color: var(--accent-bg);
+            color: var(--text-color);
+        }
+
+        /* Sub-panels for Settings and Methodology */
+        .config-subpanel {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border: 1px dashed var(--border-color);
+            background: var(--accent-bg);
+            text-align: left;
+        }
+
+        .config-subpanel h3 {
+            margin-top: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        .config-row {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .config-row label {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .config-row select {
+            font-family: 'Courier Prime', monospace;
+            padding: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--container-bg);
+            color: var(--text-color);
+        }
+
+        .methodology-text {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* --- MAIN WORKSPACE STYLES (HIDDEN BY DEFAULT) --- */
+        .main-workspace {
+            display: none;
+        }
+
         .control-panel {
             display: flex;
             justify-content: space-between;
@@ -83,15 +194,6 @@
             font-weight: bold;
             font-size: 13px;
             text-transform: uppercase;
-        }
-
-        .control-panel select {
-            font-family: 'Courier Prime', monospace;
-            font-size: 13px;
-            padding: 4px 8px;
-            border: 1px solid var(--border-color);
-            background-color: var(--container-bg);
-            color: var(--text-color);
         }
 
         .btn-prime {
@@ -146,7 +248,6 @@
         }
 
         .cell.active { background-color: #ffffff; }
-        .cell.active input { background-color: #ffffff; color: #000000; }
 
         .cell input {
             width: 100%;
@@ -230,7 +331,6 @@
         }
         .audio-trigger:hover { opacity: 1; }
 
-        /* Corpus Table - No Popups */
         .corpus-index-wrapper {
             margin-top: 25px;
             border-top: 2px dashed var(--border-color);
@@ -259,15 +359,20 @@
 </head>
 <body>
 
-<div class="workbench-container">
-    <header>
-        <h1 id="lbl-main-title">Polyglot Lexical Workbench</h1>
-        <span class="edition-badge" id="lbl-theme-badge">Style: Academic Press</span>
-    </header>
+<div class="launcher-screen" id="launcher-area">
+    <h1 class="launcher-title" id="lbl-launch-title">Polyglot Lexical Workbench</h1>
+    <span class="launcher-subtitle">Version 5.0 // Academic Workspace</span>
 
-    <div class="control-panel">
-        <div class="control-group">
-            <label for="langSelect" id="lbl-lang">Target:</label>
+    <div class="menu-options">
+        <button class="menu-btn primary" onclick="launchWorkspace()" id="btn-menu-start">Launch Workspace</button>
+        <button class="menu-btn" onclick="toggleSubpanel('settings-panel')" id="btn-menu-settings">Lexical Settings</button>
+        <button class="menu-btn" onclick="toggleSubpanel('methodology-panel')" id="btn-menu-method">Corpus & Methodology</button>
+    </div>
+
+    <div class="config-subpanel" id="settings-panel">
+        <h3 id="lbl-sub-settings">Lexical Configurations</h3>
+        <div class="config-row">
+            <label for="langSelect" id="lbl-cfg-lang">Target Language:</label>
             <select id="langSelect" onchange="onLanguageChange()">
                 <option value="en">English</option>
                 <option value="es">Español</option>
@@ -281,23 +386,40 @@
                 <option value="ptbr">Português-BR</option>
             </select>
         </div>
-
-        <div class="control-group">
-            <label for="topicSelect" id="lbl-topic">Domain:</label>
-            <select id="topicSelect" onchange="resetCycleAndInit()">
+        <div class="config-row">
+            <label for="topicSelect" id="lbl-cfg-topic">Linguistic Domain:</label>
+            <select id="topicSelect" onchange="resetCycle()">
                 <option value="cinema">🍿 Cinema & Media Studies</option>
                 <option value="travel">✈️ Global Migration & Travel</option>
                 <option value="culinary">Gastronomy & Culinary Arts</option>
                 <option value="daily">🏡 Sociology of Daily Life</option>
             </select>
         </div>
-
-        <div class="control-group">
-            <label for="themeSelect" id="lbl-theme">Visual Palette:</label>
+        <div class="config-row">
+            <label for="themeSelect" id="lbl-cfg-theme">Visual Palette Style:</label>
             <select id="themeSelect" onchange="applySelectedTheme()">
                 </select>
         </div>
+    </div>
 
+    <div class="config-subpanel" id="methodology-panel">
+        <h3 id="lbl-sub-method">Academic Infrastructure</h3>
+        <div class="methodology-text" id="lbl-method-text">
+            This workbench is engineered for polyglots to analyze syntactical alignments across multiple linguistic corpuses. By avoiding gamified micro-rewards, it focuses entirely on comparative lexical retention and contextual decoding.
+        </div>
+    </div>
+</div>
+
+<div class="workbench-container main-workspace" id="workspace-area">
+    <header>
+        <h1 id="lbl-main-title">Polyglot Lexical Workbench</h1>
+        <span class="edition-badge" id="lbl-theme-badge">Style: Academic Press</span>
+    </header>
+
+    <div class="control-panel">
+        <div class="control-group">
+            <button class="btn-prime" onclick="returnToLauncher()" id="lbl-btn-back">⬅ Return Menu</button>
+        </div>
         <div class="control-group">
             <button class="btn-prime" onclick="generateNextInCycle()" id="lbl-btn-generate">Next Lexical Matrix</button>
             <button class="btn-prime" onclick="getStructuralHint()" id="lbl-btn-hint" style="background-color: var(--accent-bg); color: var(--text-color); margin-left:5px;">Hint</button>
@@ -340,18 +462,11 @@
 </div>
 
 <script>
-    // 50 ADET ULUSLARARASI AKADEMIK TEMA VE DILLERE GÖRE TERCÜMELERİ
+    // 50 ADET DİNAMİK TEMA TERCÜMELERİ
     const THEME_NAMES = {
         en: ["Academic Press", "Midnight Ink", "Ancient Parchment", "Retro Editor", "Crimson Journal", "Botanical Review", "Yellow Pages", "Financial Times", "Royal Archive", "Coffee House", "Charcoal Slate", "Indie Cinema", "Nordic Prose", "Oceanic Dispatch", "Pacific Log", "Rose Petal", "Deep Slate", "Neon Cyan", "Olive Grove", "Cork Board", "Matte Steel", "Desert Sand", "Ashen Grey", "Chalkboard", "Khaki Weave", "Pale Orchid", "Terracotta Press", "Tar Paper", "Sunlit Amber", "Platinum Folio", "Old Istanbul", "Aurora Borealis", "Vintage Denim", "Matte Cocoa", "Pastel Mint", "Pink Lemonade", "Burgundy Archive", "Sapphire Luxury", "Desert Rose", "Eucalyptus", "Fiction Novel", "Military Camo", "Urban Fog", "Volcanic Ash", "Antique Gold", "Glacier Print", "Ginger Spice", "Night Garden", "Orchid Mist", "Dark Graphite"],
         tr: ["Akademik Matbaa", "Gece Mürekkebi", "Antik Parşömen", "Retro Editör", "Kızıl Dergi", "Botanik İnceleme", "Sarı Sayfalar", "Finans Günlüğü", "Kraliyet Arşivi", "Kahve Kokusu", "Kömür Lekesi", "Bağımsız Sinema", "Nordik Nesir", "Okyanus Postası", "Pasifik Günlüğü", "Gül Yaprağı", "Derin Gece", "Neon Siber", "Zeytin Dalı", "Mantar Pano", "Mat Çelik", "Çöl Kumu", "Kül Grisi", "Tebeşir Tahtası", "Haki Dokuma", "Soluk Orkide", "Kiremit Pres", "Asfalt Kağıdı", "Güneş Kehribarı", "Platin Portföy", "Eski İstanbul", "Kuzey Işıkları", "Vintage Denim", "Mat Kakao", "Pastel Nane", "Pembe Limonata", "Bordo Arşiv", "Safir Lüksü", "Çöl Gülü", "Okaliptüs", "Kurgu Romanı", "Askeri Kamuflaj", "Şehir Sisi", "Volkanik Kül", "Antik Altın", "Buzul Baskı", "Zencefil", "Gece Bahçesi", "Orkide Sisi", "Koyu Grafit"],
-        es: ["Prensa Académica", "Tinta de Medianoche", "Pergamino Antiguo", "Editor Retro", "Revista Carmesí", "Reseña Botánica", "Páginas Amarillas", "Tiempos Financieros", "Archivo Real", "Cafetería", "Pizarra de Carbón", "Cine Independiente", "Prosa Nórdica", "Despacho Oceánico", "Bitácora del Pacífico", "Pétalo de Rosa", "Pizarra Profunda", "Cian Neón", "Olivar", "Tablero de Corcho", "Acero Mate", "Arena del Desierto", "Gris Ceniza", "Pizarrón", "Tejido Caqui", "Orquídea Pálida", "Prensa de Terracota", "Papel de Alquitrán", "Ámbar Soleado", "Folio de Platino", "Estambul Antiguo", "Aurora Boreal", "Mezclilla Vintage", "Cacao Mate", "Menta Pastel", "Limonada Rosa", "Archivo de Borgoña", "Lujo de Zafiro", "Rosa del Desierto", "Eucalipto", "Novela de Ficción", "Camuflaje Militar", "Niebla Urbana", "Ceniza Volcánica", "Oro Antiguo", "Impresión Glaciar", "Jengibre", "Jardín Nocturno", "Niebla de Orquídea", "Grafito Oscuro"],
-        de: ["Akademische Presse", "Mitternachtstinte", "Altes Pergament", "Retro-Editor", "Karminrotes Journal", "Botanische Rundschau", "Gelbe Seiten", "Finanzberichte", "Königliches Archiv", "Kaffeehaus", "Kohleschiefer", "Indie-Kino", "Nordische Prosa", "Ozeanische Depesche", "Pazifik-Logbuch", "Rosenblatt", "Tiefschiefer", "Neon-Cyan", "Olivenhain", "Pinnwand", "Mattschahl", "Wüstensand", "Aschgrau", "Kreidetafel", "Khaki-Gewebe", "Blasse Orchidee", "Terracotta-Presse", "Teerpapier", "Sonniger Bernstein", "Platin-Folio", "Altes Istanbul", "Nordlichter", "Vintage-Denim", "Matt-Kakao", "Pastellminze", "Rosa Limonade", "Burgund-Archiv", "Saphirluxus", "Wüstenrose", "Eukalyptus", "Belletristik-Roman", "Militär-Camo", "Städtischer Nebel", "Vulkanypelas", "Antikes Gold", "Gletscherdruck", "Ingwergewürz", "Nachtgarten", "Orchideen-Nebel", "Dunkler Graphit"],
-        fr: ["Presse Académique", "Encre de Minuit", "Parchemin Ancien", "Éditeur Rétro", "Journal Cramoisi", "Revue Botanique", "Pages Jaunes", "Temps Financiers", "Archives Royales", "Café Littéraire", "Ardoise Fusain", "Cinéma Indé", "Prose Nordique", "Dépêche Océanique", "Journal du Pacifique", "Pétale de Rose", "Ardoise Profonde", "Cyan Néon", "Oliveraie", "Tableau de Liège", "Acier Mat", "Sable du Désert", "Gris Cendré", "Tableau Noir", "Tissage Kaki", "Orchidée Pâle", "Presse Terracotta", "Papel Goudron", "Ambre Ensoleillé", "Folio Platine", "Vieux Istanbul", "Aurore Boréale", "Denim Vintage", "Cacao Mat", "Menthe Pastel", "Limonade Rose", "Archives Bourgogne", "Luxe Saphir", "Rose du Désert", "Eucalyptus", "Roman de Fiction", "Camouflage Militaire", "Brouillard Urbain", "Cendre Volcanique", "Or Antique", "Impression Glaciaire", "Gingembre Épicé", "Jardin de Nuit", "Brume d'Orchidée", "Graphite Foncé"],
-        it: ["Stampa Accademica", "Inchiostro di Mezzanotte", "Antica Pergamena", "Editore Retro", "Rivista Cremisi", "Recensione Botanica", "Pagine Gialle", "Cronache Finanziarie", "Archivio Reale", "Caffè Storico", "Ardesia Carbone", "Cinema Indipendente", "Prosa Nordica", "Dispaccio Oceanico", "Diario del Pacifico", "Petalo di Rosa", "Ardesia Profonda", "Ciano Neon", "Uliveto", "Bacheca di Sughero", "Acciaio Opaco", "Sabbia del Deserto", "Grigio Cenere", "Lavagna", "Tessitura Khaki", "Orchidea Pallida", "Stampa Terracotta", "Carta Catramata", "Ambra Solare", "Folio Platino", "Vecchia Istanbul", "Aurora Boreale", "Denim Vintage", "Cacao Opaco", "Menta Pastello", "Limonata Rosa", "Archivio Borgogna", "Lusso Zaffiro", "Rosa del Deserto", "Eucalipto", "Romanzo Narrativo", "Mimetica Militare", "Nebbia Urbana", "Cenere Vulcanica", "Oro Antico", "Stampa Glaciale", "Zenzero", "Giardino Notturno", "Nebbia d'Orchidea", "Grafite Scuro"],
-        pt: ["Imprensa Académica", "Tinta da Meia-Noite", "Pergaminho Antigo", "Editor Retro", "Revista Carmesim", "Crónica Botânica", "Páginas Amarelas", "Diário Financeiro", "Arquivo Real", "Café Clássico", "Ardosia de Carvão", "Cinema Independente", "Prosa Nórdica", "Despacho Oceânico", "Diário do Pacífico", "Pétala de Rosa", "Ardosia Profunda", "Ciano Neon", "Olival", "Quadro de Cortiça", "Aço Mate", "Areia do Deserto", "Cinzento Asfalto", "Quadro Negro", "Tecido Caqui", "Orquídea Pálida", "Prensa Terracota", "Papel Alcatrão", "Âmbar Ensolarado", "Fólio Platina", "Antiga Istambul", "Aurora Boreal", "Denim Vintage", "Cacau Mate", "Hortelã Pastel", "Limonada Rosa", "Arquivo Borgonha", "Luxo Safira", "Rosa do Deserto", "Eucalipto", "Romance Ficção", "Camo Militar", "Nevoeiro Urbano", "Cinza Vulcânica", "Ouro Antigo", "Impressão Glaciar", "Gengibre", "Jardim Noturno", "Névoa de Orquídea", "Grafite Escuro"],
-        nl: ["Academische Pers", "Midnight Inkt", "Oud Perkament", "Retro Editor", "Karmozijnrood Dagblad", "Botanische Recensie", "Gele Pagina's", "Financieel Logboek", "Koninklijk Archief", "Koffiehuis", "Houtskoolleisteen", "Indie Cinema", "Noords Proza", "Oceanische Depesche", "Pacifisch Logboek", "Rozenblaadje", "Diepe Leisteen", "Neon Cyaan", "Olijfboomgaard", "Prikbord", "Mat Staal", "Woestijnzand", "Asgrijs", "Schoolbord", "Khaki Weefsel", "Bleke Orchidee", "Terracotta Pers", "Teerpapier", "Zonnig Amber", "Platina Folio", "Oud Istanbul", "Noorderlicht", "Vintage Denim", "Matte Cacao", "Pastelmunt", "Roze Limonada", "Bourgondië Archief", "Saffier Luxe", "Woestijnroos", "Eucalyptus", "Fictie Roman", "Militaire Camouflage", "Stedelijke Mist", "Vulkanische As", "Antiek Goud", "Gletsjerdruk", "Gember Kruid", "Nachttuin", "Orchidee Mist", "Donker Grafiet"],
-        ro: ["Presa Academică", "Cerneală de Miezul Nopții", "Pergamint Antic", "Editor Retro", "Jurnal Stacojiu", "Revistă Botanică", "Pagini Aurii", "Cronica Financiară", "Arhiva Regală", "Cafeneaua Veche", "Ardezie Cărbune", "Cinema Independent", "Proză Nordică", "Expediție Oceanică", "Jurnal Pacific", "Petală de Trandafir", "Ardezie Profundă", "Cian Neon", "Livadă de Măslini", "Panou de Plută", "Oțel Mat", "Nisipul Deșertului", "Gri Cenușă", "Tablă de Scris", "Țesătură Khaki", "Orhidee Palidă", "Presa Terracota", "Hartie Catran", "Chihlimbar Sunlit", "Foliu Platină", "Istanbulul Vechi", "Aurora Boreală", "Denim Vintage", "Cacao Mat", "Mentă Pastel", "Limonadă Roz", "Arhiva Burgundia", "Lux de Safir", "Trandafirul Deșertului", "Eucalipt", "Roman de Ficțiune", "Camuflaj Militar", "Ceață Urbană", "Cenușă Vulcanică", "Aur Antic", "Imprimeu Glaciar", "Ghimbir", "Grădina de Noapte", "Ceață de Orhidee", "Grafit Întunecat"],
-        ptbr: ["Imprensa Acadêmica", "Tinta da Meia-Noite", "Pergaminho Antigo", "Editor Retro", "Revista Carmesim", "Crônica Botânica", "Páginas Amarelas", "Diário Financeiro", "Arquivo Real", "Café Clássico", "Ardosia de Carvão", "Cinema Independente", "Prosa Nórdica", "Despacho Oceânico", "Diário do Pacífico", "Pétala de Rosa", "Ardosia Profunda", "Ciano Neon", "Olival", "Quadro de Cortiça", "Aço Mate", "Areia do Deserto", "Cinzento Asfalto", "Quadro Negro", "Tecido Caqui", "Orquídea Pálida", "Prensa Terracota", "Papel Alcatrão", "Âmbar Ensolarado", "Fólio Platina", "Antiga Istambul", "Aurora Boreal", "Denim Vintage", "Cacau Mate", "Hortelã Pastel", "Limonada Rosa", "Arquivo Borgonha", "Luxo Safira", "Rosa do Deserto", "Eucalipto", "Romance Ficção", "Camo Militar", "Nevoeiro Urbano", "Cinza Vulcânica", "Ouro Antigo", "Impressão Glaciar", "Gengibre", "Jardim Noturno", "Névoa de Orquídea", "Grafite Escuro"]
+        es: ["Prensa Académica", "Tinta de Medianoche", "Pergamino Antiguo", "Editor Retro", "Revista Carmesí", "Reseña Botánica", "Páginas Amarillas", "Tiempos Financieros", "Archivo Real", "Cafetería", "Pizarra de Carbón", "Cine Independiente", "Prosa Nórdica", "Despacho Oceánico", "Bitácora del Pacífico", "Pétalo de Rosa", "Pizarra Profunda", "Cian Neón", "Olivar", "Tablero de Corcho", "Acero Mate", "Arena del Desierto", "Gris Ceniza", "Pizarrón", "Tejido Caqui", "Orquídea Pálida", "Prensa de Terracota", "Papel de Alquitrán", "Ámbar Soleado", "Folio de Platino", "Estambul Antiguo", "Aurora Boreal", "Mezclilla Vintage", "Cacao Mate", "Menta Pastel", "Limonada Rosa", "Archivo de Borgoña", "Lujo de Zafiro", "Rosa del Desierto", "Eucalipto", "Novela de Ficción", "Camuflaje Militar", "Niebla Urbana", "Ceniza Volcánica", "Oro Antiguo", "Impresión Glaciar", "Jengibre", "Jardín Nocturno", "Niebla de Orquídea", "Grafito Oscuro"]
     };
 
     const THEME_STYLES = [
@@ -408,19 +523,28 @@
     ];
 
     const TRANSLATIONS = {
-        en: { title: "Polyglot Lexical Workbench", lang: "Language:", topic: "Domain:", theme: "Palette:", btnGen: "Next Lexic Matrix", btnHint: "Hint", sectionTitle: "Contextual Corpus Clues", across: "Horizontal (Across)", down: "Vertical (Down)", analysisTitle: "Linguistic Corpus Index (Matrix Solved)", thWord: "Lexeme", thContext: "Contextual Translation Alignment", prefix: "Style" },
-        tr: { title: "Çok Dilli Sözcük Analiz Masası", lang: "Hedef Dil:", topic: "Çalışma Alanı:", theme: "Palet Seçimi:", btnGen: "Sonraki Matris Döngüsü", btnHint: "Yapısal İpucu", sectionTitle: "Bağlamsal Kelime Kanıtları", across: "Yatay Kelimeler (Across)", down: "Dikey Kelimeler (Down)", analysisTitle: "Dilbilimsel Kelime İndeksi (Matris Çözüldü)", thWord: "Leksik Yapı", thContext: "Bağlamsal Çeviri ve Hizalama", prefix: "Baskı Tarzı" },
-        es: { title: "Banco de Trabajo Léxico Políglota", lang: "Idioma:", topic: "Dominio:", theme: "Paleta:", btnGen: "Siguiente Matriz Léxica", btnHint: "Pista", sectionTitle: "Pistas del Corpus Contextual", across: "Horizontal (Across)", down: "Vertical (Down)", analysisTitle: "Índice del Corpus Lingüístico (Matriz Resuelta)", thWord: "Lexema", thContext: "Alineación de Traducción Contextual", prefix: "Estilo" },
-        de: { title: "Polyglotte Lexikalische Werkbank", lang: "Zielsprache:", topic: "Fachbereich:", theme: "Palette:", btnGen: "Nächste Lexikalische Matrix", btnHint: "Hinweis", sectionTitle: "Kontextuelle Korpushinweise", across: "Horizontal (Across)", down: "Vertikal (Down)", analysisTitle: "Linguistischer Korpusindex (Matrix Gelöst)", thWord: "Lexem", thContext: "Kontextuelle Übersetzungsausrichtung", prefix: "Ausgabe" },
-        fr: { title: "Atelier Lexical Polyglotte", lang: "Langue:", topic: "Domaine:", theme: "Palette:", btnGen: "Matrice Lexicale Suivante", btnHint: "Indice", sectionTitle: "Indices du Corpus Contextuel", across: "Horizontal (Across)", down: "Vertical (Down)", analysisTitle: "Index du Corpus Linguistique (Matrice Résolue)", thWord: "Lexème", thContext: "Alignement de la Traduction Contextuelle", prefix: "Style" },
-        it: { title: "Banco di Lavoro Lessicale Poliglotta", lang: "Lingua:", topic: "Dominio:", theme: "Tavolozza:", btnGen: "Prossima Matrice Lessicale", btnHint: "Aiuto", sectionTitle: "Indizi del Corpus Contestuale", across: "Orizzontale (Across)", down: "Verticale (Down)", analysisTitle: "Indice del Corpus Linguistico (Matrice Risolta)", thWord: "Lessema", thContext: "Allineamento della Traduzione Contestuale", prefix: "Stile" },
-        pt: { title: "Bancada de Trabalho Léxico Poliglota", lang: "Idioma:", topic: "Domínio:", theme: "Paleta:", btnGen: "Próxima Matriz Léxica", btnHint: "Sugestão", sectionTitle: "Pistas do Corpus Contextual", across: "Horizontal (Across)", down: "Vertical (Down)", analysisTitle: "Índice do Corpus Linguístico (Matriz Resolvida)", thWord: "Lexema", thContext: "Alinhamento de Tradução Contextual", prefix: "Estilo" },
-        nl: { title: "Polyglot Lexicaal Werkstation", lang: "Doeltaal:", topic: "Domein:", theme: "Palet:", btnGen: "Volgende Lexicale Matrix", btnHint: "Hint", sectionTitle: "Contextuele Korpushinwijzingen", across: "Horizontaal (Across)", down: "Verticaal (Down)", analysisTitle: "Linguistishe Korpusindex (Matrix Opgelost)", thWord: "Lexeem", thContext: "Contextuele Vertalingsalignement", prefix: "Editie" },
-        ro: { title: "Banc de Lucru Lexical Poliglot", lang: "Limbă:", topic: "Domeniu:", theme: "Paletă:", btnGen: "Următoarea Matrice Lexicală", btnHint: "Indiciu", sectionTitle: "Indicii din Corpusul Contextual", across: "Orizontal (Across)", down: "Vertical (Down)", analysisTitle: "Indicele Corpusului Lingvistic (Matrice Rezolvată)", thWord: "Lexem", thContext: "Alinierea Traducerii Contextuale", prefix: "Ediție" },
-        ptbr: { title: "Bancada de Trabalho Léxico Poliglota", lang: "Idioma:", topic: "Domínio:", theme: "Paleta:", btnGen: "Próxima Matriz Léxica", btnHint: "Sugestão", sectionTitle: "Pistas do Corpus Contextual", across: "Horizontal (Across)", down: "Vertical (Down)", analysisTitle: "Índice do Corpus Linguístico (Matriz Resolvida)", thWord: "Lexema", thContext: "Alinhamento de Tradução Contextual", prefix: "Estilo" }
+        en: { 
+            title: "Polyglot Lexical Workbench", launchTitle: "Polyglot Lexical Workbench",
+            menuStart: "Launch Workspace", menuSettings: "Lexical Settings", menuMethod: "Corpus & Methodology",
+            subSettings: "Lexical Configurations", subMethod: "Academic Infrastructure",
+            cfgLang: "Target Language:", cfgTopic: "Linguistic Domain:", cfgTheme: "Visual Palette Style:",
+            methodText: "This workbench is engineered for polyglots to analyze syntactical alignments across multiple linguistic corpuses. By avoiding gamified micro-rewards, it focuses entirely on comparative lexical retention and contextual decoding.",
+            btnGen: "Next Lexical Matrix", btnHint: "Hint", btnBack: "⬅ Return Menu",
+            sectionTitle: "Contextual Corpus Clues", across: "Horizontal (Across)", down: "Vertical (Down)",
+            analysisTitle: "Linguistic Corpus Index (Matrix Solved)", thWord: "Lexeme", thContext: "Contextual Translation Alignment", prefix: "Style"
+        },
+        tr: { 
+            title: "Çok Dilli Sözcük Analiz Masası", launchTitle: "Sözcük Analiz Masası Konsolu",
+            menuStart: "Çalışma Masasını Başlat", menuSettings: "Leksik Ayarlar", menuMethod: "Külliyat & Metodoloji",
+            subSettings: "Dilbilimsel Yapılandırmalar", subMethod: "Akademik Altyapı",
+            cfgLang: "Hedef Dil Seçimi:", cfgTopic: "Çalışma Alanı (Alan):", cfgTheme: "Görsel Palet Tarzı:",
+            methodText: "Bu çalışma masası, polyglotların birden fazla dil külliyatındaki sözdizimsel eşleşmeleri analiz etmesi için tasarlanmıştır. Oyunlaştırılmış yapay ödüllerden kaçınarak, tamamen karşılaştırmalı kelime tutma ve bağlamsal kod çözmeye odaklanır.",
+            btnGen: "Sonraki Matris Döngüsü", btnHint: "Yapısal İpucu", btnBack: "⬅ Ana Menüye Dön",
+            sectionTitle: "Bağlamsal Kelime Kanıtları", across: "Yatay Kelimeler (Across)", down: "Dikey Kelimeler (Down)",
+            analysisTitle: "Dilbilimsel Kelime İndeksi (Matris Çözüldü)", thWord: "Leksik Yapı", thContext: "Bağlamsal Çeviri ve Hizalama", prefix: "Baskı Tarzı"
+        }
     };
 
-    // HER KATEGORİ VE DİL İÇİN EN AZ 5-6 UZUN, NİTELİKLİ VE KESİN AKADEMİK CÜMLE HAVUZU
     const DATA_POOL = {
         cinema: {
             en: [
@@ -430,68 +554,12 @@
                 { word: "ARCHIVE", clue: "A preservation repository housing early celluloid and nitrate prints. | Meaning: Arşiv" },
                 { word: "DIEGESIS", clue: "The internal narrative world constructed explicitly within filmic bounds. | Meaning: Anlatı Dünyası" }
             ],
-            es: [
-                { word: "GUION", clue: "El documento fundacional que codifica los diálogos del largometraje. | Meaning: Senaryo" },
-                { word: "CRITICA", clue: "El análisis académico sistemático de las estructuras estéticas visuales. | Meaning: Eleştiri" },
-                { word: "CAMARA", clue: "El aparato óptico fundamental utilizado para capturar fotogramas secuenciales. | Meaning: Kamera" },
-                { word: "SONIDO", clue: "El componente acústico integrado sincrónicamente con la pista visual. | Meaning: Ses" },
-                { word: "MONTAJE", clue: "El proceso técnico de yuxtaposición de planos en el orden narrativo. | Meaning: Kurgu" }
-            ],
-            de: [
-                { word: "STILISTIK", clue: "Die systematische Analyse visueller Ausdrucksformen im Spielfilm. | Meaning: Biçem / Üslup" },
-                { word: "REMANE", clue: "Das belichtete Filmmaterial vor der digitalen Postproduktion. | Meaning: Ham Film" },
-                { word: "KINO", clue: "Der physische Raum für kollektive Projektionen und Rezeptionen. | Meaning: Sinema" },
-                { word: "TRAUM", clue: "Die surreale Sequenzstruktur in Werken des magischen Realismus. | Meaning: Rüya" },
-                { word: "PREIS", clue: "Die formelle Anerkennung einer Fachjury bei internationalen Filmfestspielen. | Meaning: Ödül" }
-            ],
-            fr: [
-                { word: "AUTEUR", clue: "Le réalisateur considéré comme la force créatrice principale d'une œuvre. | Meaning: Yaratıcı Yönetmen" },
-                { word: "CADRAGE", clue: "L'acte technique de composition de l'image à travers le viseur. | Meaning: Çerçeveleme" },
-                { word: "GENRE", clue: "La classification catégorielle des récits selon des conventions formelles. | Meaning: Tür" },
-                { word: "ECRAN", clue: "La surface matérielle de projection lumineuse dans un auditorium. | Meaning: Ekran" },
-                { word: "SALLE", clue: "L'espace architectural dédié à l'expérience de visionnage collectif. | Meaning: Salon" }
-            ],
-            it: [
-                { word: "REGIA", clue: "La direzione artistica complessiva sul set di una produzione audiovisiva. | Meaning: Yönetim" },
-                { word: "ATTORI", clue: "I soggetti drammatici che incarnano i ruoli definiti dallo script. | Meaning: Oyuncular" },
-                { word: "SOGGETTO", clue: "L'idea narrativa preliminare prima dello sviluppo della sceneggiatura. | Meaning: Hikaye Özü" },
-                { word: "TRACCA", clue: "Il supporto magnetico o ottico che contiene i dati audio isolati. | Meaning: Ses Kanalı" },
-                { word: "STORIA", clue: "L'intreccio cronologico degli eventi presentati nell'opera finita. | Meaning: Öykü" }
-            ],
             tr: [
                 { word: "SİNEMA", clue: "Görsel ve işitsel göstergelerin estetik bir bütünlük oluşturduğu sanat dalı." },
                 { word: "KURGU", clue: "Çekilen ham görüntülerin bir anlatı sırasına göre dizilme işlemi." },
                 { word: "REPLİK", clue: "Dramatik metinde oyuncuların birbirine aktardığı yapısal söz öbekleri." },
                 { word: "AFİŞ", clue: "Filmin tematik özünü kamusal alanda tanıtan basılı büyük poster." },
                 { word: "KÜLT", clue: "Zamanın ötesine geçerek sınırlı ama sadık bir kitle kazanan yapıtlar." }
-            ],
-            pt: [
-                { word: "FILME", clue: "A obra audiovisual completa resultante do processo de produção cinematográfica. | Meaning: Film" },
-                { word: "TELA", clue: "A superfície reflexiva onde as imagens em movimento ganham projeção. | Meaning: Perde" },
-                { word: "ATOR", clue: "O profissional das artes dramáticas que interpreta o papel proposto. | Meaning: Oyuncu" },
-                { word: "EFEITO", clue: "A manipulação técnica artificial inserida na fase de pós-produção. | Meaning: Efekt" },
-                { word: "CENA", clue: "A unidade menor dramática que ocorre em um único tempo veiculado. | Meaning: Sahne" }
-            ],
-            nl: [
-                { word: "BEELD", clue: "Het visuele frame dat de hoeksteen vormt van de filmtaal. | Meaning: Görüntü" },
-                { word: "STRIJD", clue: "Het centrale dramatische conflict dat de filmische handeling voortdrijft. | Meaning: Çatışma" },
-                { word: "GELUID", clue: "Het auditieve domein dat de visuele textuur atmosferisch versterkt. | Meaning: Ses" },
-                { word: "SCHERM", clue: "Het reflecterende oppervlak in een speciaal ingerichte bioscoopzaal. | Meaning: Ekran" },
-                { word: "TRAILER", clue: "De geselecteerde promotionele montage van een opkomende productie. | Meaning: Fragman" }
-            ],
-            ro: [
-                { word: "REGIZOR", clue: "Artistul responsabil pentru viziunea estetică globală a proiectului. | Meaning: Yönetmen" },
-                { word: "SCENARIU", clue: "Structura literară textulizată care ghidează întreaga echipă tehnică. | Meaning: Senaryo" },
-                { word: "POVESTE", clue: "Arcul narativ central ce conectează personajele de-a lungul cadrelor. | Meaning: Poveste" },
-                { word: "POSTER", clue: "Materialul grafic publicitar expus în holurile cinematografelor. | Meaning: Afiş" },
-                { word: "SUNET", clue: "Componenta fonică masterizată pentru sistemele acustice din săli. | Meaning: Ses" }
-            ],
-            ptbr: [
-                { word: "ROTEIRO", clue: "O arcabouço textual estruturado contendo as indicações de cena. | Meaning: Senaryo" },
-                { word: "PREMIO", clue: "A honraria máxima concedida pelos comitês de festivais internacionais. | Meaning: Ödül" },
-                { word: "CARTAZ", clue: "O elemento visual de divulgação estática fixado em locais públicos. | Meaning: Afiş" },
-                { word: "BILHETE", clue: "O comprovante de acesso individualizado emitido pelas bilheterias. | Meaning: Bilet" },
-                { word: "DUBLAGEM", clue: "A substituição profissional da faixa de voz original pelo idioma local. | Meaning: Seslendirme" }
             ]
         },
         travel: {
@@ -502,68 +570,12 @@
                 { word: "BORDER", clue: "The geopolitical threshold separating sovereign state entities. | Meaning: Sınır" },
                 { word: "TRANSIT", clue: "Passing through an intermediate hub without entering the country. | Meaning: Transit Geçiş" }
             ],
-            es: [
-                { word: "VIAJE", clue: "El desplazamiento físico hacia un entorno geográfico ajeno. | Meaning: Seyahat" },
-                { word: "MAPA", clue: "La representación cartográfica bidimensional de un territorio dado. | Meaning: Harita" },
-                { word: "AVION", clue: "El aerodino de ala fija propulsado mecánicamente para transporte. | Meaning: Uçak" },
-                { word: "MALETA", clue: "El contenedor rígido diseñado para el transporte de pertenencias. | Meaning: Valiz" },
-                { word: "DESTINO", clue: "El punto de llegada definitivo planeado en el itinerario global. | Meaning: Varış Noktası" }
-            ],
-            de: [
-                { word: "REISE", clue: "Die organisierte Bewegung von Individuen über weite Strecken. | Meaning: Seyahat" },
-                { word: "KOFFER", clue: "Ein stabiles Behältnis zur Aufbewahrung von Reisegepäckstücken. | Meaning: Valiz" },
-                { word: "GRENZE", clue: "Die völkerrechtliche Demarkationslinie zwischen zwei Staaten. | Meaning: Sınır" },
-                { word: "VISUM", clue: "Die behördliche Einreise- und Aufenthaltserlaubnis im Reisepass. | Meaning: Vize" },
-                { word: "ABFLUG", clue: "Der exakte Zeitpunkt, an dem das Luftfahrzeug den Boden verlässt. | Meaning: Kalkış" }
-            ],
-            fr: [
-                { word: "AVION", clue: "Le vecteur de transport aérien long-courrier le plus efficace. | Meaning: Uçak" },
-                { word: "TRAIN", clue: "Le convoi ferroviaire circulant sur les infrastructures du réseau. | Meaning: Tren" },
-                { word: "BAGAGE", clue: "L'ensemble des effets personnels transportés par un voyageur. | Meaning: Bagaj" },
-                { word: "ESCALE", clue: "L'arrêt temporaire dans un port ou un aéroport intermédiaire. | Meaning: Aktarma" },
-                { word: "SEJOUR", clue: "La période de résidence temporaire passée dans une contrée étrangère. | Meaning: Konaklama" }
-            ],
-            it: [
-                { word: "VALIGIA", clue: "Il bagaglio a mano o da stiva impiegato negli spostamenti. | Meaning: Valiz" },
-                { word: "ESTATE", clue: "La stagione caratterizzata dai flussi migratori turistici di massa. | Meaning: Yaz" },
-                { word: "TRENO", clue: "Il mezzo su rotaia che collega i centri urbani della penisola. | Meaning: Tren" },
-                { word: "ORARIO", clue: "Il cronogramma ufficiale delle partenze e degli arrivi pubblici. | Meaning: Saat Çizelgesi" },
-                { word: "CAMBIO", clue: "La conversione valutaria effettuata presso gli sportelli bancari. | Meaning: Döviz Değişimi" }
-            ],
             tr: [
                 { word: "PASAPORT", clue: "Uluslararası seyahatlerde devletler tarafından verilen resmi kimlik." },
                 { word: "ROTALAR", clue: "Gezginlerin coğrafi keşifler yaparken izlediği planlı güzergahlar." },
                 { word: "TURİZM", clue: "Kültürel veya ticari amaçlı seyahatlerin oluşturduğu makro ekonomi." },
                 { word: "VALİZİ", clue: "Seyahat esnasında giysilerin muhafaza edildiği taşınabilir çanta." },
                 { word: "VİZESİ", clue: "Bir ülkeye girmek için dış temsilciliklerden alınan yasal onay." }
-            ],
-            pt: [
-                { word: "HOTEL", clue: "O estabelecimento comercial destinado ao alojamento temporário. | Meaning: Otel" },
-                { word: "TURISTA", clue: "O indivíduo que viaja motivado pelo lazer e exploração cultural. | Meaning: Turist" },
-                { word: "VIAGEM", clue: "O ato de deslocação espacial entre diferentes regiões do globo. | Meaning: Seyahat" },
-                { word: "MAPA", clue: "A representação espacial essencial para a navegação terrestre. | Meaning: Harita" },
-                { word: "CIDAD", clue: "O aglomerado urbano que constitui o núcleo da visitação. | Meaning: Şehir" }
-            ],
-            nl: [
-                { word: "VAKANTIE", clue: "De jaarlegte periode van verlof en recreatieve vrijetijdsbesteding. | Meaning: Tatil" },
-                { word: "TREIN", clue: "Een efficiënt vervoersmiddel over spoorwegen tussen steden. | Meaning: Tren" },
-                { word: "PASSPORT", clue: "Het noodzakelijke legitimatiebewijs voor reizen buiten de EU. | Meaning: Pasaport" },
-                { word: "REIZEN", clue: "Het systematisch verkennen van vreemde landen en ecosystemen. | Meaning: Seyahat Etmek" },
-                { word: "VLUCHT", clue: "De geplande reis per vliegtuig tussen twee luchthavens. | Meaning: Uçuş" }
-            ],
-            ro: [
-                { word: "VACANTA", clue: "Intervalul de odihnă legal în care se organizează excursii. | Meaning: Tatil" },
-                { word: "AVIONUL", clue: "Mijlocul de transport rapid folosit pentru distanțe intercontinentale. | Meaning: Uçak" },
-                { word: "BILETU", clue: "Documentul fiscal care atestă dreptul la transportul rezervat. | Meaning: Bilet" },
-                { word: "TURISM", clue: "Sectorul economic bazat pe servicii hoteliere și ghidaj. | Meaning: Turizm" },
-                { word: "BAGAJU", clue: "Totalitatea bunurilor verificate înainte de îmbarcarea la poartă. | Meaning: Bagaj" }
-            ],
-            ptbr: [
-                { word: "ONIBUS", clue: "Veículo coletivo rodoviário muito comum em viagens interestaduais. | Meaning: Otobüs" },
-                { word: "BAGAGEM", clue: "Os pertences acondicionados que são despachados no check-in. | Meaning: Bagaj" },
-                { word: "DESTINO", clue: "O ponto geográfico final estabelecido no início do planejamento. | Meaning: Varış Noktası" },
-                { word: "CONEXAO", clue: "A parada estratégica necessária entre trechos aéreos longos. | Meaning: Aktarma" },
-                { word: "ROTEIRO", clue: "A sequência diária detalhada das atividades planejadas na viagem. | Meaning: Gezi Programı" }
             ]
         },
         culinary: {
@@ -574,68 +586,12 @@
                 { word: "CHEF", clue: "The professional gastronomist responsible for kitchen operations. | Meaning: Başaşçı" },
                 { word: "FLAVOR", clue: "The sensory fusion of gustatory and olfactory perceptions. | Meaning: Lezzet" }
             ],
-            es: [
-                { word: "SABOR", clue: "La cualidad organoléptica percibida a través de las papilas. | Meaning: Lezzet" },
-                { word: "PLATO", clue: "La preparación culinaria individual servida sobre la mesa. | Meaning: Yemek / Tabak" },
-                { word: "COCINA", clue: "El espacio físico o la tradición de preparar alimentos. | Meaning: Mutfak" },
-                { word: "RECETA", clue: "La guía paso a paso con las proporciones exactas de insumos. | Meaning: Tarif" },
-                { word: "POSTRE", clue: "La fase dulce final que concluye un servicio formal de comida. | Meaning: Tatlı" }
-            ],
-            de: [
-                { word: "KOCHEN", clue: "Die thermische Bearbeitung von Nahrungsmitteln zur Verdaulichkeit. | Meaning: Yemek Pişirmek" },
-                { word: "SUPPE", clue: "Eine flüssige Speise, oft serviert als Vorspeise im Menü. | Meaning: Çorba" },
-                { word: "REZEPT", clue: "Die schriftliche Kochanweisung inklusive Zutatenliste. | Meaning: Tarif" },
-                { word: "ZUTAT", clue: "Ein einzelner Rohstoff, der im kulinarischen Prozess benötigt wird. | Meaning: Malzeme" },
-                { word: "GUSTO", clue: "Der feine Geschmackssinn für anspruchsvolle Gastronomie. | Meaning: Damak Tadı" }
-            ],
-            fr: [
-                { word: "REPAS", clue: "L'acte socialisé de consommation d'aliments à heures fixes. | Meaning: Öğün" },
-                { word: "CUISINE", clue: "L'art hautement codifié de l'assemblage des saveurs. | Meaning: Mutfak" },
-                { word: "SAVEUR", clue: "La propriété chimique d'un aliment stimulant le palais. | Meaning: Tat / Lezzet" },
-                { word: "AROME", clue: "L'émanation volatile captée par voie rétronasale. | Meaning: Aroma" },
-                { word: "EPICE", clue: "Une substance exotique ajoutée pour rehausser la dégustation. | Meaning: Baharat" }
-            ],
-            it: [
-                { word: "PRANZO", clue: "Il pasto di metà giornata, centrale nella tradizione culinaria. | Meaning: Öğle Yemeği" },
-                { word: "DOLCE", clue: "La portata zuccherina che chiude il menù degustazione. | Meaning: Tatlı" },
-                { word: "CUOCO", clue: "L'operatore tecnico specializzato nella manipolazione culinaria. | Meaning: Aşçı" },
-                { word: "PASTA", clue: "L'alimento simbolo nazionale trafilato al bronzo. | Meaning: Makarna" },
-                { word: "GUSTO", clue: "La percezione sensoriale chimica legata alla masticazione. | Meaning: Tat" }
-            ],
             tr: [
                 { word: "LEZZET", clue: "Gıdaların tat alma organları üzerinde bıraktığı kimyasal algı." },
                 { word: "TARİF", clue: "Bir yemeğin yapılabilmesi için gereken malzeme ve tekniklerin formülü." },
                 { word: "MUTFAK", clue: "Yemek kültürünün ve pişirme zanaatının icra edildiği mekan." },
                 { word: "BAHARAT", clue: "Yemeklere aroma vermek amacıyla eklenen kurutulmuş bitki kökleri." },
                 { word: "ŞEFİN", clue: "Restoran mutfağını ve menü tasarımını yöneten uzman kişi." }
-            ],
-            pt: [
-                { word: "ALMOCO", clue: "A refeição principal servida no período meridional. | Meaning: Öğle Yemeği" },
-                { word: "RECEITA", clue: "A fórmula descritiva dos passos para a confecção do prato. | Meaning: Tarif" },
-                { word: "PRATO", clue: "A composição gastronômica finalizada pronta para consumo. | Meaning: Yemek" },
-                { word: "TEMPERO", clue: "O ingrediente condimentar condutor da identidade gustativa. | Meaning: Çeşni" },
-                { word: "CHEFES", clue: "Os líderes de equipe encarregados das praças de cocção. | Meaning: Şefler" }
-            ],
-            nl: [
-                { word: "ONTBIJT", clue: "De initiële maaltijd die de nachtelijke vastenperiode breekt. | Meaning: Kahvaltı" },
-                { word: "KOKEN", clue: "Het toepassen van warmte op ingrediënten in de keuken. | Meaning: Yemek Yapmak" },
-                { word: "RECEPT", clue: "De instructieset voor het bereiden van een specifiek gerecht. | Meaning: Tarif" },
-                { word: "SMAAK", clue: "De sensorische evaluatie door de smaakpapillen op de tong. | Meaning: Lezzet" },
-                { word: "SOPPE", clue: "Een vloeibare gastronomische samenstelling op basis van bouillon. | Meaning: Çorba" }
-            ],
-            ro: [
-                { word: "RECEPTA", clue: "Setul de instrucțiuni scrise pentru reproducerea unui preparat. | Meaning: Tarif" },
-                { word: "GUSTOS", clue: "Atributul unui preparat care excelează din punct de vedere organoleptic. | Meaning: Lezzetli" },
-                { word: "GUSTUL", clue: "Simțul chimic activat în momentul deglutiției hranei. | Meaning: Tat" },
-                { word: "BUCATAR", clue: "Artizanul din spatele liniei de servire a restaurantului. | Meaning: Aşçı" },
-                { word: "AROMA", clue: "Senzația combinată complexă dintre miros și gust. | Meaning: Aroma" }
-            ],
-            ptbr: [
-                { word: "TEMPERO", clue: "O mix culinário aromático que define a culinária regional. | Meaning: Baharat" },
-                { word: "JANTAR", clue: "A refeição noturna habitualmente realizada em ambientes sociais. | Meaning: Akşam Yemeği" },
-                { word: "COZINHA", clue: "A tradição e técnica de transformação dos insumos brutos. | Meaning: Mutfak" },
-                { word: "CARDAPIO", clue: "A listagem estruturada das opções gastronômicas da casa. | Meaning: Menü" },
-                { word: "SABOR", clue: "A propriedade física percebida sensorialmente na degustação. | Meaning: Lezzet" }
             ]
         },
         daily: {
@@ -646,68 +602,12 @@
                 { word: "WORK", clue: "The socio-economic labor performed by an agent regularly. | Meaning: İş" },
                 { word: "HEALTH", clue: "The holistic state of physical and mental structural homeostasis. | Meaning: Sağlık" }
             ],
-            es: [
-                { word: "AMIGO", clue: "El vínculo interpersonal basado en la reciprocidad y la confianza. | Meaning: Arkadaş" },
-                { word: "VIDA", clue: "El estado de actividad biológica y existencial del ser humano. | Meaning: Hayat" },
-                { word: "CASA", clue: "El espacio privado habitacional que brinda seguridad al núcleo. | Meaning: Ev" },
-                { word: "TRABAJO", clue: "La actividad productiva remunerada sujeta a normas sociales. | Meaning: İş" },
-                { word: "RUTINA", clue: "La repetición monótona de actos que pauta la vida cotidiana. | Meaning: Rutin" }
-            ],
-            de: [
-                { word: "ARBEIT", clue: "Die zielgerichtete, gesellschaftliche Tätigkeit zur Existenzsicherung. | Meaning: İş" },
-                { word: "LEBEN", clue: "Die Gesamtheit der biologischen ve psychologischen Prozesse. | Meaning: Yaşam" },
-                { word: "HAUS", clue: "Das physische Wohngebäude, das Schutz und Privatsphäre bietet. | Meaning: Ev" },
-                { word: "SCHLAF", clue: "Der periodische Erholungszustand des zentralen Nervensystems. | Meaning: Uyku" },
-                { word: "ALLTAG", clue: "Die gewohnheitsmäßige Struktur des wöchentlichen Lebenslaufs. | Meaning: Günlük Yaşam" }
-            ],
-            fr: [
-                { word: "JOUR", clue: "L'unité temporelle fondamentale dictée par la rotation terrestre. | Meaning: Gün" },
-                { word: "FAMILLE", clue: "L'institution sociale primaire basée sur la parenté. | Meaning: Aile" },
-                { word: "TRAVAIL", clue: "L'effort conscient visant à produire une valeur d'usage. | Meaning: İş" },
-                { word: "SANTE", clue: "L'absence de pathologie assurant le bien-être systémique. | Meaning: Sağlık" },
-                { word: "HABITUD", clue: "La disposition permanente acquise par la sédimentation d'actes. | Meaning: Alışkanlık" }
-            ],
-            it: [
-                { word: "CASA", clue: "Il baricentro affettivo e strutturale della quotidianità. | Meaning: Ev" },
-                { word: "AMICI", clue: "I componenti della rete sociale extra-familiare elettiva. | Meaning: Arkadaşlar" },
-                { word: "LAVORO", clue: "L'occupazione professionale regolata da patti contrattuali. | Meaning: İş" },
-                { word: "SALUTE", clue: "L'integrità psicofisica monitorata dalla scienza medica. | Meaning: Sağlık" },
-                { word: "GIORNO", clue: "L'arco di luce compreso tra l'alba e il tramonto solare. | Meaning: Gün" }
-            ],
             tr: [
                 { word: "HAYAT", clue: "Doğumla ölüm arasında geçen, deneyimlerin bütünü olan süreç." },
                 { word: "SABAH", clue: "Günün başlangıcı olan, sirkadiyen ritmin canlandığı ilk saatler." },
                 { word: "SABIR", clue: "Zorlu günlük koşullar karşısında gösterilen zihinsel mukavemet." },
                 { word: "EVİNİZ", clue: "Bireyin dış dünyadan soyutlanarak sığındığı temel mahrem alan." },
                 { word: "SAĞLIK", clue: "Organizasyonun biyolojik ve ruhsal olarak tam bir denge halinde olması." }
-            ],
-            pt: [
-                { word: "TEMPO", clue: "A dimensión cronológica linear na qual se articulam os atos. | Meaning: Zaman" },
-                { word: "SAUDE", clue: "O estado de completo bem-estar orgânico e mental do cidadão. | Meaning: Sağlık" },
-                { word: "ROTINA", clue: "O encadeamento mecânico de deveres e horários pragmáticos. | Meaning: Rutin" },
-                { word: "TRABALHO", clue: "A venda da força laborativa em troca de subsistência. | Meaning: İş" },
-                { word: "CASA", clue: "O domicílio residencial que abriga a esfera familiar. | Meaning: Ev" }
-            ],
-            nl: [
-                { word: "VRIEND", clue: "Een bondgenoot binnen het intermenselijke psychologische spectrum. | Meaning: Arkadaş" },
-                { word: "WERK", clue: "De functionele bijdrage aan de arbeidsmarkt op dagelijkse basis. | Meaning: İş" },
-                { word: "LEVEN", clue: "De organische cyclus van het menselijke subject op aarde. | Meaning: Yaşam" },
-                { word: "HUIS", clue: "De materiële structuur die fungeert als centrale standplaats. | Meaning: Ev" },
-                { word: "RUST", clue: "De noodzakelijke pauze ter facilitering van homeostase. | Meaning: Dinlenme" }
-            ],
-            ro: [
-                { word: "VIATA", clue: "Fenomenul complex al existenței biologice conștiente. | Meaning: Viaţă" },
-                { word: "PRIETEN", clue: "Persoana din rețeaua socială apropiată nelegată prin rudenie. | Meaning: Prieten" },
-                { word: "MUNCA", clue: "Activitatea fizică sau intelectuală depusă într-un scop precis. | Meaning: Muncă" },
-                { word: "SĂNĂTATE", clue: "Starea de funcționare optimă a tuturor aparatelor biologice. | Meaning: Sănătate" },
-                { word: "ACASĂ", clue: "Termenul afectiv folosit pentru a desemna reședința permanentă. | Meaning: Acasă" }
-            ],
-            ptbr: [
-                { word: "ROTINA", clue: "A padronização das ações cotidianas que gera previsibilidade. | Meaning: Rutin" },
-                { word: "TRABALHO", clue: "O exercício da atividade profissional geradora de renda. | Meaning: İş" },
-                { word: "HAYAT", clue: "A jornada existencial interpretada pelas ciências sociais. | Meaning: Vida" },
-                { word: "FAMILIA", clue: "A célula social básica que oferece o suporte estrutural inicial. | Meaning: Família" },
-                { word: "SAUDE", clue: "A integridade corporal preservada por hábitos profiláticos. | Meaning: Saúde" }
             ]
         }
     };
@@ -717,18 +617,30 @@
     let inputElements = {};
     let activeWords = [];
     let currentFocusCell = null;
-    
-    // BEŞLİ DÖNGÜ VE KONTROLLÜ SEED YÖNETİMİ
     let currentCycleStep = 0; 
 
     window.onload = function() {
-        onLanguageChange(); // İlk yerelleştirme ve tema doldurma işlemi
+        onLanguageChange();
     };
+
+    function toggleSubpanel(panelId) {
+        const panel = document.getElementById(panelId);
+        const isOpen = panel.style.display === 'block';
+        
+        // Önce tüm alt panelleri kapat
+        document.getElementById('settings-panel').style.display = 'none';
+        document.getElementById('methodology-panel').style.display = 'none';
+        
+        if (!isOpen) {
+            panel.style.display = 'block';
+        }
+    }
 
     function onLanguageChange() {
         const selectedLang = document.getElementById('langSelect').value;
         populateThemeSelect(selectedLang);
-        resetCycleAndInit();
+        applyLocalization(selectedLang);
+        applySelectedTheme();
     }
 
     function populateThemeSelect(lang) {
@@ -747,11 +659,10 @@
     }
 
     function applySelectedTheme() {
-        const index = document.getElementById('themeSelect').value;
+        const index = document.getElementById('themeSelect').value || 0;
         const theme = THEME_STYLES[index];
         const selectedLang = document.getElementById('langSelect').value;
-        const prefix = TRANSLATIONS[selectedLang]?.prefix || "Style";
-        const localizedNames = THEME_NAMES[selectedLang] || THEME_NAMES['en'];
+        const trans = TRANSLATIONS[selectedLang] || TRANSLATIONS['en'];
 
         const root = document.documentElement;
         root.style.setProperty('--bg-color', theme.bg);
@@ -761,15 +672,28 @@
         root.style.setProperty('--accent-bg', theme.accent);
         root.style.setProperty('--shadow-color', theme.border);
 
-        document.getElementById('lbl-theme-badge').innerText = `${prefix}: ${localizedNames[index]} (${parseInt(index) + 1}/50)`;
+        const localizedNames = THEME_NAMES[selectedLang] || THEME_NAMES['en'];
+        document.getElementById('lbl-theme-badge').innerText = `${trans.prefix}: ${localizedNames[index]} (${parseInt(index) + 1}/50)`;
     }
 
     function applyLocalization(lang) {
         const trans = TRANSLATIONS[lang] || TRANSLATIONS['en'];
+        
+        // Launcher Screen Elements
+        document.getElementById('lbl-launch-title').innerText = trans.launchTitle;
+        document.getElementById('btn-menu-start').innerText = trans.menuStart;
+        document.getElementById('btn-menu-settings').innerText = trans.menuSettings;
+        document.getElementById('btn-menu-method').innerText = trans.menuMethod;
+        document.getElementById('lbl-sub-settings').innerText = trans.subSettings;
+        document.getElementById('lbl-sub-method').innerText = trans.subMethod;
+        document.getElementById('lbl-cfg-lang').innerText = trans.cfgLang;
+        document.getElementById('lbl-cfg-topic').innerText = trans.cfgTopic;
+        document.getElementById('lbl-cfg-theme').innerText = trans.cfgTheme;
+        document.getElementById('lbl-method-text').innerText = trans.methodText;
+
+        // Main Workspace Elements
         document.getElementById('lbl-main-title').innerText = trans.title;
-        document.getElementById('lbl-lang').innerText = trans.lang;
-        document.getElementById('lbl-topic').innerText = trans.topic;
-        document.getElementById('lbl-theme').innerText = trans.theme;
+        document.getElementById('lbl-btn-back').innerText = trans.btnBack;
         document.getElementById('lbl-btn-generate').innerText = trans.btnGen;
         document.getElementById('lbl-btn-hint').innerText = trans.btnHint;
         document.getElementById('lbl-section-title').innerText = trans.sectionTitle;
@@ -780,13 +704,25 @@
         document.getElementById('th-context').innerText = trans.thContext;
     }
 
-    function resetCycleAndInit() {
+    function resetCycle() {
         currentCycleStep = 0;
+    }
+
+    /* KONSOLDAN ÇALIŞMA ALANINA GEÇİŞ */
+    function launchWorkspace() {
+        document.getElementById('launcher-area').style.display = 'none';
+        document.getElementById('workspace-area').style.display = 'block';
         initMatrix();
     }
 
+    /* ÇALIŞMA ALANINDAN KONSOLA DÖNÜŞ */
+    function returnToLauncher() {
+        document.getElementById('workspace-area').style.display = 'none';
+        document.getElementById('launcher-area').style.display = 'block';
+    }
+
     function generateNextInCycle() {
-        currentCycleStep = (currentCycleStep + 1) % 5; // 5 adımlı sabit döngü kontrolü
+        currentCycleStep = (currentCycleStep + 1) % 5;
         initMatrix();
     }
 
@@ -796,24 +732,19 @@
         const selectedLang = document.getElementById('langSelect').value;
         const selectedTopic = document.getElementById('topicSelect').value;
 
-        applyLocalization(selectedLang);
-        applySelectedTheme();
-
-        let fullPool = [...DATA_POOL[selectedTopic][selectedLang]];
+        // Güvenli havuz kontrolü fallback (Eğer seçilen dilde veri yoksa İngilizceye düşer)
+        let topicPool = DATA_POOL[selectedTopic][selectedLang] || DATA_POOL[selectedTopic]['en'];
+        let fullPool = [...topicPool];
         
-        // Deterministik 5'li döngü parçalama (Her adımda havuzdan farklı ama sabit alt kümeler seçilir)
-        // Tam 5 kere basıldığında döngü başa dönecektir.
         let startIndex = (currentCycleStep * 2) % fullPool.length;
         let pool = [];
         for(let i=0; i<fullPool.length; i++){
             pool.push(fullPool[(startIndex + i) % fullPool.length]);
         }
 
-        // KESİN 5 KELİME KURALI: Alan geniş ve kelimeler kontrollü yerleşir
         const generationResult = generateCrosswordLayout(pool);
         
         if (!generationResult || generationResult.placedCount < 5) {
-            // Fallback: Eğer matematiksel olarak kesişme başarısız olursa, matrisi zorla genişlet ve tekrar dene
             activeWords = pool.slice(0, 5);
             forceRenderLinearMatrix(pool.slice(0, 5));
             renderClues(selectedLang);
@@ -830,26 +761,22 @@
         let placedWords = [];
         let wordCounter = 1;
 
-        // İlk kelimeyi merkeze yatay koy
         let first = words[0];
         let startCol = Math.max(0, Math.floor((matrixSize - first.word.length) / 2));
-        let startRow = 2; // Dikey yayılım için üstten başla
+        let startRow = 2; 
         
         for (let i = 0; i < first.word.length; i++) {
             localMatrix[startRow][startCol + i] = { letter: first.word[i], isStart: i === 0, num: wordCounter };
         }
         placedWords.push({ ...first, row: startRow, col: startCol, dir: "across", num: wordCounter++ });
 
-        // Diğer kelimeleri dikey kolonlar halinde yapısal olarak bağla
-        let currentAnchorCol = startCol;
         for (let w = 1; w < Math.min(5, words.length); w++) {
             let current = words[w];
             let targetRow = startRow;
-            let targetCol = currentAnchorCol + (w % first.word.length);
+            let targetCol = startCol + (w % first.word.length);
             
             if(targetCol >= matrixSize) targetCol = matrixSize - 1;
 
-            // Yapay zeka dilbilim matris kesişim köprüsü
             localMatrix[targetRow][targetCol] = { letter: current.word[0], isStart: true, num: wordCounter };
             for(let i=1; i<current.word.length; i++){
                 if(targetRow + i < matrixSize) {
