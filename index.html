@@ -10,26 +10,59 @@
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
     <style>
+        /* --- TEMA RENK DEĞİŞKENLERİ (Orijinal Tasarıma Sadık Kalındı) --- */
+        :root {
+            --bg-body: #f4ebd9;
+            --bg-container: #fbf5eb;
+            --text-main: #2b2b2b;
+            --border-color: #2b2b2b;
+            --cell-active-bg: #ffffff;
+            --cell-focus-bg: #fffacd;
+            --clue-num-bg: #eae0cc;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #121214;
+            --bg-container: #1e1e22;
+            --text-main: #e2e2e6;
+            --border-color: #e2e2e6;
+            --cell-active-bg: #2d2d34;
+            --cell-focus-bg: #4c4a37;
+            --clue-num-bg: #44403c;
+        }
+
+        [data-theme="retro"] {
+            --bg-body: #0a0a0a;
+            --bg-container: #111111;
+            --text-main: #00ff00;
+            --border-color: #00ff00;
+            --cell-active-bg: #000000;
+            --cell-focus-bg: #004400;
+            --clue-num-bg: #002200;
+        }
+
         body {
-            background-color: #f4ebd9;
-            color: #2b2b2b;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             font-family: 'Courier Prime', monospace;
             margin: 0;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .newspaper-container {
             max-width: 1150px;
             margin: 0 auto;
-            border: 2px solid #2b2b2b;
+            border: 2px solid var(--border-color);
             padding: 20px;
-            box-shadow: 5px 5px 0px #2b2b2b;
-            background-color: #fbf5eb;
+            box-shadow: 5px 5px 0px var(--border-color);
+            background-color: var(--bg-container);
+            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
         }
 
         header {
             text-align: center;
-            border-bottom: 4px double #2b2b2b;
+            border-bottom: 4px double var(--border-color);
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
@@ -49,7 +82,7 @@
             align-items: center;
             margin-bottom: 20px;
             padding: 10px;
-            border-bottom: 1px solid #2b2b2b;
+            border-bottom: 1px solid var(--border-color);
             flex-wrap: wrap;
         }
 
@@ -62,8 +95,9 @@
             font-family: 'Courier Prime', monospace;
             font-size: 16px;
             padding: 5px 10px;
-            border: 2px solid #2b2b2b;
-            background-color: #fbf5eb;
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-container);
+            color: var(--text-main);
             cursor: pointer;
         }
 
@@ -72,15 +106,15 @@
             font-size: 16px;
             font-weight: bold;
             padding: 6px 15px;
-            border: 2px solid #2b2b2b;
-            background-color: #2b2b2b;
-            color: #fbf5eb;
+            border: 2px solid var(--border-color);
+            background-color: var(--border-color);
+            color: var(--bg-container);
             cursor: pointer;
             box-shadow: 2px 2px 0px #888;
         }
 
         .control-panel button:hover {
-            background-color: #444;
+            opacity: 0.8;
         }
 
         .pool-stats {
@@ -108,8 +142,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #2b2b2b; 
-            border: 1px solid #2b2b2b;
+            background: var(--border-color); 
+            border: 1px solid var(--border-color);
             padding: 20px;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
             min-height: 500px;
@@ -118,19 +152,19 @@
         .crossword-grid {
             display: grid;
             gap: 1px;
-            background-color: #2b2b2b;
-            border: 2px solid #2b2b2b;
+            background-color: var(--border-color);
+            border: 2px solid var(--border-color);
         }
 
         .cell {
-            background-color: #2b2b2b;
+            background-color: var(--border-color);
             position: relative;
             width: 35px;
             height: 35px;
         }
 
         .cell.active {
-            background-color: #ffffff;
+            background-color: var(--cell-active-bg);
         }
 
         .cell input {
@@ -143,13 +177,13 @@
             font-family: 'Courier Prime', monospace;
             text-transform: uppercase;
             background: transparent;
-            color: #2b2b2b;
+            color: var(--text-main);
             padding: 0;
             box-sizing: border-box;
         }
 
         .cell input:focus {
-            background-color: #fffacd;
+            background-color: var(--cell-focus-bg);
             outline: none;
         }
 
@@ -159,14 +193,14 @@
             left: 2px;
             font-size: 9px;
             font-weight: bold;
-            color: #2b2b2b;
+            color: var(--text-main);
             z-index: 10;
             line-height: 1;
         }
 
         .clues-section {
             flex: 1;
-            border-left: 1px dashed #2b2b2b;
+            border-left: 1px dashed var(--border-color);
             padding-left: 20px;
             max-height: 580px;
             overflow-y: auto;
@@ -175,7 +209,7 @@
         .clues-section h2 {
             font-family: 'Playfair Display', serif;
             margin-top: 0;
-            border-bottom: 2px solid #2b2b2b;
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 5px;
         }
 
@@ -187,8 +221,8 @@
             font-size: 14px;
             text-transform: uppercase;
             margin-bottom: 12px;
-            background-color: #2b2b2b;
-            color: #fbf5eb;
+            background-color: var(--border-color);
+            color: var(--bg-container);
             padding: 4px 8px;
             display: inline-block;
         }
@@ -203,7 +237,7 @@
 
         .clue-item strong {
             font-size: 14px;
-            background-color: #eae0cc;
+            background-color: var(--clue-num-bg);
             padding: 0 4px;
             margin-right: 5px;
         }
@@ -217,8 +251,8 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 20px;
-            border: 2px solid #2b2b2b;
-            box-shadow: 3px 3px 0px #2b2b2b;
+            border: 2px solid var(--border-color);
+            box-shadow: 3px 3px 0px var(--border-color);
             font-family: 'Playfair Display', serif;
         }
     </style>
@@ -239,7 +273,16 @@
             <option value="fr">Fransızca (Français)</option>
             <option value="it">İtalyanca (Italiano)</option>
         </select>
-        <button onclick="initGame()">🔄 Yeni Bulmaca Üret</button>
+        
+        <label for="themeSelect">Tema:</label>
+        <select id="themeSelect" onchange="changeTheme(this.value)">
+            <option value="light">Gazete (Açık) ☀️</option>
+            <option value="dark">Gece (Karanlık) 🌙</option>
+            <option value="retro">Retro (Ateri) 🕹️</option>
+        </select>
+
+        <button onclick="initGame()">🔄 Yeni Bulmaca</button>
+        <button onclick="getLetterHint()" style="background-color: #e2b13c; color: #000;">💡 Harf Al</button>
         <span class="pool-stats" id="poolStats"></span>
     </div>
 
@@ -269,7 +312,6 @@
 </div>
 
 <script>
-    // DİLLER ARASI ORTAK KELİMELER TAMAMEN TEMİZLENDİ VE ÖZGÜN KELİMELER EKLENDİ
     const DATA_POOL = {
         en: [
             { word: "MOVIE", clue: "Clue: 'Let's watch a classic _______.' | Anlamı: Film" },
@@ -296,7 +338,7 @@
             { word: "HÉROE", clue: "Frase: 'Spiderman es mi _______ favorito.' | Anlamı: Kahraman" },
             { word: "NOCHE", clue: "Frase: 'Batman trabaja durante la _______.' | Anlamı: Gece" },
             { word: "CHICA", clue: "Frase: 'Almodóvar dirige películas de la _______ Almodóvar.' | Anlamı: Kız" },
-            { word: "GUION", clue: "Frase: 'Tarantino escribe un _______ lleno de acción.' | Anlamı: Senaryo" },
+            { word: "GUION", clue: "Frase: 'Tarantino escribe un _______ lleno de action.' | Anlamı: Senaryo" },
             { word: "FUEGO", clue: "Frase: 'Los efectos especiales incluyen mucho _______.' | Anlamı: Ateş" },
             { word: "SUEÑO", clue: "Frase: 'Inception es una película sobre un _______.' | Anlamı: Rüya" },
             { word: "LIBRO", clue: "Frase: 'Harry Potter está basado en un _______.' | Anlamı: Kitap" },
@@ -322,7 +364,7 @@
             { word: "SALLE", clue: "Phrase: 'La _______ de cinéma était complètement pleine.' | Anlamı: Salon/Oda" },
             { word: "REVRE", clue: "Phrase: 'Inception parle d'un _______ contrôlé.' | Anlamı: Rüya" },
             { word: "PIECE", clue: "Phrase: 'Une tragédie adaptée d'une _______ de théâtre.' | Anlamı: Oyun/Parça" },
-            { word: "DRÔLE", clue: "Phrase: 'Intouchables est un film très _______ et émouvant.' | Anlamı: Komik" },
+            { word: "DRÔLE", clue: "Phrase: 'Intouchables is un film très _______ et émouvant.' | Anlamı: Komik" },
             { word: "DEBUT", clue: "Phrase: 'Le générique commence au _______ du film.' | Anlamı: Başlangıç" },
             { word: "COEUR", clue: "Phrase: 'Un drame romantique qui touche le _______.' | Anlamı: Kalp" },
             { word: "GEANT", clue: "Phrase: 'Shrek est un ogre _______ et vert.' | Anlamı: Dev" },
@@ -347,10 +389,19 @@
     let inputElements = {};
     let activeWords = [];
     let usedWordsHistory = { en: [], es: [], de: [], fr: [], it: [] };
+    let currentFocusCell = null; // Aktif seçili hücreyi takip etmek için
+
+    // YENİ: Tema değiştirme fonksiyonu
+    function changeTheme(themeName) {
+        document.documentElement.setAttribute('data-theme', themeName);
+        localStorage.setItem('polyglot-theme', themeName);
+    }
 
     function resetLanguageAndInit() {
         const selectedLang = document.getElementById('langSelect').value;
         usedWordsHistory[selectedLang] = [];
+        // Dil değiştiğinde eski kayıtları temizle
+        localStorage.removeItem('saved-grid-answers');
         initGame();
     }
 
@@ -385,6 +436,9 @@
         activeWords = generationResult.placedWords;
         renderGrid(generationResult.matrix);
         renderClues();
+
+        // YENİ: Kayıtlı ilerleme varsa geri yükle
+        loadProgress();
     }
 
     function generateCrosswordLayout(words) {
@@ -494,10 +548,21 @@
                     input.type = 'text';
                     input.maxLength = 1;
                     
-                    // Input verisi girildiğinde kontrol et
+                    // YENİ: Mobil Klavye Desteği ve Otomatik İleri Zıplama
                     input.addEventListener('input', (e) => {
                         input.value = e.target.value.toUpperCase();
+                        saveProgress(); // Değişikliği anlık kaydet
                         checkWinCondition();
+
+                        // Eğer bir harf yazıldıysa, otomatik sonraki aktif kutuya geç (UX iyileştirmesi)
+                        if (input.value.length === 1) {
+                            moveToNextCell(r, c);
+                        }
+                    });
+
+                    // Hücre seçildiğinde ipucu için takibe al
+                    input.addEventListener('focus', () => {
+                        currentFocusCell = { row: r, col: c, element: input };
                     });
 
                     // KLAVYE YÖN TUŞLARI NAVİGASYON MOTORU
@@ -506,25 +571,23 @@
                         let targetCol = c;
 
                         switch (e.key) {
-                            case "ArrowUp":
-                                targetRow--;
-                                break;
-                            case "ArrowDown":
-                                targetRow++;
-                                break;
-                            case "ArrowLeft":
-                                targetCol--;
-                                break;
-                            case "ArrowRight":
-                                targetCol++;
-                                break;
-                            default:
-                                return; // Başka tuşa basıldıysa işleme alma
+                            case "ArrowUp": targetRow--; break;
+                            case "ArrowDown": targetRow++; break;
+                            case "ArrowLeft": targetCol--; break;
+                            case "ArrowRight": targetCol++; break;
+                            case "Backspace":
+                                if (input.value === "") {
+                                    moveToPreviousCell(r, c);
+                                } else {
+                                    input.value = "";
+                                    saveProgress();
+                                }
+                                return;
+                            default: return;
                         }
 
-                        // Eğer hedef koordinatta aktif bir kutu varsa oraya odaklan
                         if (inputElements[`${targetRow}-${targetCol}`]) {
-                            e.preventDefault(); // Varsayılan tarayıcı kaydırmasını engelle
+                            e.preventDefault();
                             inputElements[`${targetRow}-${targetCol}`].focus();
                         }
                     });
@@ -536,6 +599,61 @@
                 }
                 container.appendChild(cellDiv);
             }
+        }
+    }
+
+    // YENİ: Mobilde yazmayı kolaylaştıran yön zıplama motorları
+    function moveToNextCell(r, c) {
+        if (inputElements[`${r}-${c+1}`]) {
+            inputElements[`${r}-${c+1}`].focus();
+        } else if (inputElements[`${r+1}-${c}`]) {
+            inputElements[`${r+1}-${c}`].focus();
+        }
+    }
+
+    function moveToPreviousCell(r, c) {
+        if (inputElements[`${r}-${c-1}`]) {
+            inputElements[`${r}-${c-1}`].focus();
+        } else if (inputElements[`${r-1}-${c}`]) {
+            inputElements[`${r-1}-${c}`].focus();
+        }
+    }
+
+    // YENİ: Harf İpucu / Harf Al Mekanizması
+    function getLetterHint() {
+        if (currentFocusCell && gridMatrix[currentFocusCell.row][currentFocusCell.col]) {
+            const correctLetter = gridMatrix[currentFocusCell.row][currentFocusCell.col].letter;
+            currentFocusCell.element.value = correctLetter;
+            currentFocusCell.element.style.color = "#a61c1c"; // İpucu olduğu belli olsun diye kırmızı/farklı renk yapalım
+            saveProgress();
+            checkWinCondition();
+        } else {
+            alert("Lütfen önce harf almak istediğiniz boş bir kutucuğa tıklayın!");
+        }
+    }
+
+    // YENİ: İlerlemeyi LocalStorage'a kaydetme fonksiyonu
+    function saveProgress() {
+        let savedAnswers = {};
+        for (let key in inputElements) {
+            if (inputElements[key].value) {
+                savedAnswers[key] = inputElements[key].value;
+            }
+        }
+        localStorage.setItem('saved-grid-answers', JSON.stringify(savedAnswers));
+    }
+
+    // YENİ: İlerlemeyi LocalStorage'dan geri yükleme fonksiyonu
+    function loadProgress() {
+        let savedAnswers = localStorage.getItem('saved-grid-answers');
+        if (savedAnswers) {
+            savedAnswers = JSON.parse(savedAnswers);
+            for (let key in savedAnswers) {
+                if (inputElements[key]) {
+                    inputElements[key].value = savedAnswers[key];
+                }
+            }
+            checkWinCondition();
         }
     }
 
@@ -574,10 +692,18 @@
         if (allCorrect) {
             document.getElementById('success-banner').style.display = 'block';
             Object.values(inputElements).forEach(input => input.disabled = true);
+            localStorage.removeItem('saved-grid-answers'); // Kazanınca eski kaydı silelim
         }
     }
 
-    window.onload = initGame;
+    window.onload = function() {
+        // Kayıtlı tema varsa yükle
+        const savedTheme = localStorage.getItem('polyglot-theme') || 'light';
+        document.getElementById('themeSelect').value = savedTheme;
+        changeTheme(savedTheme);
+
+        initGame();
+    };
 </script>
 
 </body>
