@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Lab - Kolektif Harita</title>
+    <title>Polyglot Lab | Kolektif Harita</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; text-align: center; background-color: #f9f9f9; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; }
-        /* İframe'i tam ekran ve şık göstermek için */
-        .sheet-container { width: 100%; height: 600px; overflow: hidden; border: none; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: auto; padding: 20px; background-color: #f4f4f9; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .manifesto { background: #fff; padding: 20px; border-left: 5px solid #333; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .cta-btn { display: block; background: #333; color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-bottom: 30px; }
+        .cta-btn:hover { background: #555; }
+        .sheet-container { width: 100%; height: 500px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden; background: white; }
         iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="header">
     <h1>The Polyglot Lab</h1>
     <p>Learn Different. Build the Map Together.</p>
-    
-    <div class="sheet-container">
-        <!-- Google'dan aldığın iframe kodunu buraya yapıştır -->
-        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRH94hlVrIv0X8VSeaelJD1gNvpgEmjJxxV0Q_q2P70ub5wrtez8ht0jqKdNlZGDcnejFcA5szU9IWR/pubhtml"></iframe>
-    </div>
+</div>
+
+<div class="manifesto">
+    <strong>Kolektif Hafıza:</strong> Kitabi yöntemlerin dışına çıkan, kendi 'dil hack'ini icat etmiş, öğrenme sürecini hacklemiş olanların haritasındasın. Senin çözümün, başkasının yolu olabilir.
+</div>
+
+<a href="BURAYA_GOOGLE_FORM_LINKINI_YAPISTIR" class="cta-btn">🚀 Kendi Dil Yöntemini Paylaş ve Haritaya Ekle</a>
+
+<div class="sheet-container">
+    <!-- Buraya Google Sheets'ten aldığın iframe linkini yapıştır -->
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRH94hlVrIv0X8VSeaelJD1gNvpgEmjJxxV0Q_q2P70ub5wrtez8ht0jqKdNlZGDcnejFcA5szU9IWR/pubhtml"></iframe>
 </div>
 
 </body>
