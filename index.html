@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Polyglot Comparative Matrix v15.0</title>
+    <title>Polyglot Comparative Matrix Engine v16.0</title>
     <style>
         :root {
             --bg-main: #f8f9fa;
@@ -36,11 +36,12 @@
         .concept-badge {
             display: inline-block;
             background: #e2e3e5;
-            padding: 4px 10px;
-            font-size: 12px;
+            padding: 5px 12px;
+            font-size: 13px;
             font-weight: bold;
-            margin-top: 5px;
+            margin-top: 8px;
             text-transform: uppercase;
+            border-left: 4px solid var(--accent-blue);
         }
 
         /* Kontrol Paneli */
@@ -83,8 +84,8 @@
 
         /* Mobil Optimizasyon */
         @media (max-width: 500px) {
-            :root { --cell-size: 7.8vw; }
-            .cell input { font-size: 14px; }
+            :root { --cell-size: 8.2vw; }
+            .cell input { font-size: 13px; }
         }
 
         /* İpuçları Paneli */
@@ -106,22 +107,22 @@
 
 <div class="container">
     <header>
-        <h1>POLYGLOT COMPARATIVE MATRIX</h1>
-        <div class="concept-badge" id="activeConceptDisplay">KAVRAM KÖPRÜSÜ: YÜKLENİYOR...</div>
+        <h1>POLYGLOT COMPARATIVE MATRIX ENGINE</h1>
+        <div class="concept-badge" id="activeConceptDisplay">KAVRAM KÖPRÜSÜ: YÜKLENMEYE HAZIR</div>
     </header>
 
     <div class="control-panel">
         <div>
             <label>Acquisition Level / Seviye Grubu</label>
             <select id="levelSelect">
-                <option value="beginner">A1-A2: Core Concepts (Temel Kavramlar)</option>
-                <option value="intermediate">B1-B2: Structural & Abstract (Soyut ve Fonksiyonel)</option>
-                <option value="advanced">C1-C2: Intellectual Discourse (Entelektüel Düşünce)</option>
+                <option value="beginner">A1-A2: Core Concepts (Temel Hayati Kavramlar)</option>
+                <option value="intermediate">B1-B2: Structural & Abstract (Soyut ve Fonksiyonel Yapılar)</option>
+                <option value="advanced">C1-C2: Intellectual Discourse (Yüksek Akademik Fikirler)</option>
             </select>
         </div>
         <div>
             <label>Sistem Operasyonu</label>
-            <button class="btn-primary" onclick="initPolyglotEngine()">Yeni Matris Oluştur</button>
+            <button class="btn-primary" onclick="initPolyglotEngine()">Yeni Matris Oluştur (5x Döngü)</button>
         </div>
     </div>
 
@@ -158,14 +159,13 @@
 </div>
 
 <script>
-    // KAVRAMSAL KÖPRÜLEME VERİTABANI
-    // Her set, tek bir evrensel konunun 4 dildeki birebir karşılığıdır.
+    // DEVASA KAVRAMSAL KÖPRÜLEME VERİTABANI (24 BÜYÜK SET - 96 BENZERSİZ DİL VERİSİ)
     const POLYGLOT_SETS = {
         beginner: [
             {
                 concept: "ZAMAN / TIME",
                 words: [
-                    { w: "ALWAYS", lang: "EN (İngilizce)", c: "Daimi süreklilik bildiren temel zarf. | Örnek: 'She always reads before sleeping.'" },
+                    { w: "ALWAYS", lang: "EN (İngilizce)", c: "Daimi süreklilik bildiren zarf. | Örnek: 'She always reads before sleeping.'" },
                     { w: "SIEMPRE", lang: "ES (İspanyolca)", c: "Latin kökenli süreklilik zarfı. | Örnek: 'Siempre te recordaré de buena manera.'" },
                     { w: "IMMER", lang: "DE (Almanca)", c: "Cermen kökenli zaman süreklilik kelimesi. | Örnek: 'Es ist immer kalt in diesem Zimmer.'" },
                     { w: "TOUJOURS", lang: "FR (Fransızca)", c: "Fransızca 'her zaman' anlamına gelen yapı. | Örnek: 'Il est toujours en retard.'" }
@@ -178,6 +178,60 @@
                     { w: "AMIGO", lang: "ES (İspanyolca)", c: "Roman dillerindeki en popüler dost kelimesi. | Örnek: 'Un amigo es un hermano elegído.'" },
                     { w: "FREUND", lang: "DE (Almanca)", c: "Cermen yapılı arkadaş/erkek arkadaş kelimesi. | Örnek: 'Mein Freund hilft mir beim Umzug.'" },
                     { w: "AMI", lang: "FR (Fransızca)", c: "Fransızca dost, yoldaş. | Örnek: 'C'est mon meilleur ami depuis l'enfance.'" }
+                ]
+            },
+            {
+                concept: "YARIN / TOMORROW",
+                words: [
+                    { w: "TOMORROW", lang: "EN (İngilizce)", c: "Gelecek günü ifade eden zarf. | Örnek: 'We will meet tomorrow morning.'" },
+                    { w: "MANANA", lang: "ES (İspanyolca)", c: "İspanyolca hem yarın hem sabah demektir. | Örnek: 'Tengo un examen importante manana.'" },
+                    { w: "MORGEN", lang: "DE (Almanca)", c: "Almanca yarın anlamına gelen zaman zarfı. | Örnek: 'Morgen fliegen wir nach Berlin.'" },
+                    { w: "DEMAIN", lang: "FR (Fransızca)", c: "Fransızca gelecek günü işaret eden kelime. | Örnek: 'Demain, tout ira beaucoup mieux.'" }
+                ]
+            },
+            {
+                concept: "HAYAT / LIFE",
+                words: [
+                    { w: "LIFE", lang: "EN (İngilizce)", c: "Yaşamın kendisi, can, hayat. | Örnek: 'Art imitation reflects real life.'" },
+                    { w: "VIDA", lang: "ES (İspanyolca)", c: "Latin dillerindeki hayat kökü. | Örnek: 'La vida es hermosa si sabes vivirla.'" },
+                    { w: "LEBEN", lang: "DE (Almanca)", c: "Almanca hem yaşamak fiili hem hayat ismi. | Örnek: 'Das Leben in Großstädten ist teuer.'" },
+                    { w: "VIE", lang: "FR (Fransızca)", c: "Fransızca dişil hayat kelimesi. | Örnek: 'C'est la vie, active et pleine de surprises.'" }
+                ]
+            },
+            {
+                concept: "KİTAP / BOOK",
+                words: [
+                    { w: "BOOK", lang: "EN (İngilizce)", c: "Yazılı veya basılı sayfalardan oluşan yapıt. | Örnek: 'Open your book to page forty.'" },
+                    { w: "LIBRO", lang: "ES (İspanyolca)", c: "İspanyolca kitap kelimesi. | Örnek: 'Este libro cambió mi perspectiva.'" },
+                    { w: "BUCH", lang: "DE (Almanca)", c: "Almanca kitap anlamına gelen nötr isim. | Örnek: 'Ich lese ein spannendes Buch.'" },
+                    { w: "LIVRE", lang: "FR (Fransızca)", c: "Fransızca kitap nesnesi. | Örnek: 'Ce livre appartient à mon professeur.'" }
+                ]
+            },
+            {
+                concept: "SU / WATER",
+                words: [
+                    { w: "WATER", lang: "EN (İngilizce)", c: "Yaşam sıvısı, temel element. | Örnek: 'Drink water to stay hydrated.'" },
+                    { w: "AGUA", lang: "ES (İspanyolca)", c: "İspanyolca dişil ancak maskülen artikelle kullanılan su. | Örnek: 'El agua está muy fría.'" },
+                    { w: "WASSER", lang: "DE (Almanca)", c: "Almanca su kelimesi. | Örnek: 'Ein Glas Wasser bitte.'" },
+                    { w: "EAU", lang: "FR (Fransızca)", c: "Fransızca en kısa yazılan su kelimesi. | Örnek: 'L'eau pure d'une source de montagne.'" }
+                ]
+            },
+            {
+                concept: "İŞ / WORK",
+                words: [
+                    { w: "WORK", lang: "EN (İngilizce)", c: "Çalışmak veya yapılan iş/meslek. | Örnek: 'I have a lot of work today.'" },
+                    { w: "TRABAJO", lang: "ES (İspanyolca)", c: "İspanyolca iş, çalışma alanı. | Örnek: 'Busco un trabajo a tiempo parcial.'" },
+                    { w: "ARBEIT", lang: "DE (Almanca)", c: "Almanca mesleki iş, emek. | Örnek: 'Die Arbeit macht mir wirklich Spaß.'" },
+                    { w: "TRAVAIL", lang: "FR (Fransızca)", c: "Fransızca iş yükü veya meslek. | Örnek: 'Le travail acharné mène au succès.'" }
+                ]
+            },
+            {
+                concept: "YOLCULUK / TRAVEL",
+                words: [
+                    { w: "TRAVEL", lang: "EN (İngilizce)", c: "Seyahat etmek, geziye çıkmak. | Örnek: 'I love to travel around Asia.'" },
+                    { w: "VIAJAR", lang: "ES (İspanyolca)", c: "İspanyolca seyahat fiil kökeni. | Örnek: 'Viajar abre la mente a nuevas culturas.'" },
+                    { w: "REISEN", lang: "DE (Almanca)", c: "Almanca seyahat etmek eylemi. | Örnek: 'Wir reisen im Sommer nach Italien.'" },
+                    { w: "VOYAGE", lang: "FR (Fransızca)", c: "Fransızca seyahat, gezi kavramı. | Örnek: 'Bon voyage à tous mes amis!'" }
                 ]
             }
         ],
@@ -199,6 +253,60 @@
                     { w: "FORTSCHRITT", lang: "DE (Almanca)", c: "Almanca ileri adım, teknolojik/bireysel gelişim. | Örnek: 'Wir müssen den Fortschritt akzeptieren.'" },
                     { w: "PROGRES", lang: "FR (Fransızca)", c: "Fransızca gelişim ve medeniyet adımları. | Örnek: 'La science fait des progrès constants.'" }
                 ]
+            },
+            {
+                concept: "ÖZGÜRLÜK / FREEDOM",
+                words: [
+                    { w: "FREEDOM", lang: "EN (İngilizce)", c: "Bireysel veya toplumsal hürriyet. | Örnek: 'Freedom of speech is a fundamental human right.'" },
+                    { w: "LIBERTAD", lang: "ES (İspanyolca)", c: "Latin dillerindeki özgürlük/hürriyet kökü. | Örnek: 'La libertad es el bien más preciado.'" },
+                    { w: "FREIHEIT", lang: "DE (Almanca)", c: "Almanca hürriyet, kısıtlanmama durumu. | Örnek: 'Künstlerische Freiheit ist gesetzlich geschützt.'" },
+                    { w: "LIBERTE", lang: "FR (Fransızca)", c: "Fransızca cumhuriyet ve insan hakları simgesi özgürlük. | Örnek: 'Liberté, égalité, fraternité.'" }
+                ]
+            },
+            {
+                concept: "SORUMLULUK / RESPONSIBILITY",
+                words: [
+                    { w: "LIABILITY", lang: "EN (İngilizce)", c: "Hukuki veya finansal sorumluluk yükümlülüğü. | Örnek: 'The company has no liability for losses.'" },
+                    { w: "DEBER", lang: "ES (İspanyolca)", c: "İspanyolca yapılması zorunlu görev veya borç. | Örnek: 'Es nuestro deber proteger la naturaleza.'" },
+                    { w: "PFLICHT", lang: "DE (Almanca)", c: "Almanca ahlaki veya yasal zorunluluk, görev. | Örnek: 'Er hat seine Pflicht als Bürger erfüllt.'" },
+                    { w: "DEVOIR", lang: "FR (Fransızca)", c: "Fransızca ödev, insani veya toplumsal görev. | Örnek: 'Faire son devoir envers la patrie.'" }
+                ]
+            },
+            {
+                concept: "DÜŞÜNCE / THOUGHT",
+                words: [
+                    { w: "OPINION", lang: "EN (İngilizce)", c: "Bir konudaki kişisel görüş veya fikir. | Örnek: 'In my opinion, this analysis is accurate.'" },
+                    { w: "OPINION", lang: "ES (İspanyolca)", c: "İspanyolca kişisel yargı, fikir beyanı. | Örnek: 'Respeta la opinion de los demás.'" },
+                    { w: "MEINUNG", lang: "DE (Almanca)", c: "Almanca bireysel düşünce, bakış açısı. | Örnek: 'Jeder hat das Recht auf seine eigene Meinung.'" },
+                    { w: "AVIS", lang: "FR (Fransızca)", c: "Fransızca görüş, fikir belirtme terimi. | Örnek: 'Donnez-moi votre avis sur ce projet.'" }
+                ]
+            },
+            {
+                concept: "TEHLİKE / DANGER",
+                words: [
+                    { w: "DANGER", lang: "EN (İngilizce)", c: "Zarara uğrama ihtimali, emniyetsizlik. | Örnek: 'The sign warns drivers of high danger.'" },
+                    { w: "PELIGRO", lang: "ES (İspanyolca)", c: "İspanyolca risk ve tehlike arz eden durum. | Örnek: 'Fumar en gasolineras es un gran peligro.'" },
+                    { w: "GEFAHR", lang: "DE (Almanca)", c: "Almanca tehlike, tehdit unsuru. | Örnek: 'Es besteht keine Gefahr für die Bevölkerung.'" },
+                    { w: "DANGER", lang: "FR (Fransızca)", c: "Fransızca tehlike kelimesi (İngilizce ile yazılışı aynıdır). | Örnek: 'Attention, zone de danger immédiat.'" }
+                ]
+            },
+            {
+                concept: "ADALET / JUSTICE",
+                words: [
+                    { w: "JUSTICE", lang: "EN (İngilizce)", c: "Hak ve hukuka uygunluk, adillik. | Örnek: 'The supreme court administers justice.'" },
+                    { w: "JUSTICIA", lang: "ES (İspanyolca)", c: "İspanyolca adalet mekanizması veya erdemi. | Örnek: 'Pedimos justicia para todas las víctimas.'" },
+                    { w: "GERECHTIGKEIT", lang: "DE (Almanca)", c: "Almanca hakkaniyet, toplumsal adalet. | Örnek: 'Gerechtigkeit ist das Fundament des Staates.'" },
+                    { w: "JUSTICE", lang: "FR (Fransızca)", c: "Fransızca adalet kavramı. | Örnek: 'La justice doit être aveugle et impartiale.'" }
+                ]
+            },
+            {
+                concept: "ÇEVRE / ENVIRONMENT",
+                words: [
+                    { w: "ECOLOGY", lang: "EN (İngilizce)", c: "Çevre bilimi, canlıların doğayla ilişkisi. | Örnek: 'Industrial development impacts global ecology.'" },
+                    { w: "ENTORNO", lang: "ES (İspanyolca)", c: "Kişiyi veya toplumu saran çevre/ambiyans. | Örnek: 'Un entorno saludable mejora el aprendizaje.'" },
+                    { w: "UMWELT", lang: "DE (Almanca)", c: "Almanca doğa, ekoloji, dış dünya. | Örnek: 'Wir müssen unsere Umwelt vor Plastik schützen.'" },
+                    { w: "MILIEU", lang: "FR (Fransızca)", c: "Fransızca sosyal veya doğal çevre katmanı. | Örnek: 'Il est important de protéger le milieu naturel.'" }
+                ]
             }
         ],
         advanced: [
@@ -209,6 +317,69 @@
                     { w: "INHERENT", lang: "EN (İngilizce)", c: "Bir nesnenin yapısında kaçınılmaz olarak var olan öz. | Örnek: 'Risks are inherent in every investment.'" },
                     { w: "POR DOQUIER", lang: "ES (İspanyolca)", c: "Her tarafta, her köşede var olma durumu. | Örnek: 'Había arte y poesía por doquier.'" },
                     { w: "PARTOUT", lang: "FR (Fransızca)", c: "Fransızca her yerde, her alanda bulunma durumu. | Örnek: 'Cette tendance se retrouve partout en Europe.'" }
+                ]
+            },
+            {
+                concept: "BİLGİ FELSEFESİ / EPISTEMOLOGY",
+                words: [
+                    { w: "COGNITION", lang: "EN (İngilizce)", c: "Biliş, zihinsel kavrama gücü süreci. | Örnek: 'Linguistics shares deep roots with human cognition.'" },
+                    { w: "COGNICION", lang: "ES (İspanyolca)", c: "İspanyolca bilişsel süreç, algı dünyası. | Örnek: 'La cognicion humana es un misterio biológico.'" },
+                    { w: "ERKENNTNIS", lang: "DE (Almanca)", c: "Almanca felsefi kavrayış, farkındalık, nihai bilgi. | Örnek: 'Diese wissenschaftliche Erkenntnis änderte alles.'" },
+                    { w: "CONNAISSANCE", lang: "FR (Fransızca)", c: "Fransızca derin felsefi veya genel bilgi birikimi. | Örnek: 'La recherche de la connaissance universelle.'" }
+                ]
+            },
+            {
+                concept: "MÜKEMMELLİK / EXCELLENCE",
+                words: [
+                    { w: "EFFICIENCY", lang: "EN (İngilizce)", c: "Minimum kaynakla maksimum performans alma verimliliği. | Örnek: 'The new engine increased systemic efficiency.'" },
+                    { w: "EFICACIA", lang: "ES (İspanyolca)", c: "İspanyolca bir hedefe ulaşmadaki etkinlik gücü. | Örnek: 'Medimos la eficacia del nuevo tratamiento.'" },
+                    { w: "EFFIZIENZ", lang: "DE (Almanca)", c: "Almanca rasyonel verimlilik, çalışma disiplini. | Örnek: 'Deutsche Industrie legt großen Wert auf Effizienz.'" },
+                    { w: "EFFICACITE", lang: "FR (Fransızca)", c: "Fransızca iş bitiricilik, yüksek verimlilik. | Örnek: 'L'efficacité de cette méthode est prouvée.'" }
+                ]
+            },
+            {
+                concept: "KAÇINILMAZ / INEVITABLE",
+                words: [
+                    { w: "INEVITABLE", lang: "EN (İngilizce)", c: "Önlenmesi mümkün olmayan kader veya sonuç. | Örnek: 'Economic recession seemed inevitable at that point.'" },
+                    { w: "INEVITABLE", lang: "ES (İspanyolca)", c: "İspanyolca engellenemez son/gelişme. | Örnek: 'El cambio climático traerá consecuencias inevitables.'" },
+                    { w: "UNVERMEIDBAR", lang: "DE (Almanca)", c: "Almanca kaçınılması imkansız mutlak durum. | Örnek: 'Einige Fehler sind am Anfang unvermeidbar.'" },
+                    { w: "INEVITABLE", lang: "FR (Fransızca)", c: "Fransızca kesinlikle gerçekleşecek olan durum. | Örnek: 'La confrontation est malheureusement inévitable.'" }
+                ]
+            },
+            {
+                concept: "ÇELİŞKİ / PARADOX",
+                words: [
+                    { w: "CONTRADICTION", lang: "EN (İngilizce)", c: "İfadelerin veya mantığın birbiriyle çatışması. | Örnek: 'His actions are a direct contradiction to his words.'" },
+                    { w: "CONTRADICCION", lang: "ES (İspanyolca)", c: "İspanyolca tutarsızlık, çelişki odağı. | Örnek: 'Hay una clara contradiccion en tu argumento.'" },
+                    { w: "WIDERSPRUCH", lang: "DE (Almanca)", c: "Almanca karşı söylem, çelişme durumu. | Örnek: 'Das steht im Widerspruch zu unseren Prinzipien.'" },
+                    { w: "CONTRADICTION", lang: "FR (Fransızca)", c: "Fransızca mantıksal tezat, tutarsızlık. | Örnek: 'Résoudre cette contradiction apparente.'" }
+                ]
+            },
+            {
+                concept: "ÇEŞİTLİLİK / DIVERSITY",
+                words: [
+                    { w: "DIVERSITY", lang: "EN (İngilizce)", c: "Kültürel veya biyolojik çok seslilik/çeşitlilik. | Örnek: 'Linguistic diversity enriches human heritage.'" },
+                    { w: "VARIEDAD", lang: "ES (İspanyolca)", c: "İspanyolca çeşitlilik, çok renklilik. | Örnek: 'La Amazonía tiene una gran variedad de especies.'" },
+                    { w: "VIELFALT", lang: "DE (Almanca)", c: "Almanca çokluk, rengarenklik, geniş yelpaze. | Örnek: 'Die kulturelle Vielfalt einer modernen Gesellschaft.'" },
+                    { w: "DIVERSITE", lang: "FR (Fransızca)", c: "Fransızca sosyolojik veya doğal çeşitlilik faktörü. | Örnek: 'Protéger la diversité des écosystèmes.'" }
+                ]
+            },
+            {
+                concept: "GEÇİCİLİK / TRANSIENCE",
+                words: [
+                    { w: "EPHEMERAL", lang: "EN (İngilizce)", c: "Kısa ömürlü, anlık, geçici estetik. | Örnek: 'Fame is often ephemeral and unstable.'" },
+                    { w: "EFIMERO", lang: "ES (İspanyolca)", c: "İspanyolca saman alevi gibi geçici olan durum. | Örnek: 'El éxito material es efimero e ilusorio.'" },
+                    { w: "VERGÄNGLICH", lang: "DE (Almanca)", c: "Almanca ölümlü, zamanla yok olan dünya varlığı. | Örnek: 'Schönheit ist vergänglich, aber Charakter bleibt.'" },
+                    { w: "EPHEMERE", lang: "FR (Fransızca)", c: "Fransızca kalıcı olmayan, anlık parlayıp sönen. | Örnek: 'Une joie éphémère gâchée par la réalité.'" }
+                ]
+            },
+            {
+                concept: "EGEMENLİK / SOVEREIGNTY",
+                words: [
+                    { w: "AUTONOMY", lang: "EN (İngilizce)", c: "Özgür iradeyle kendi kendini yönetme özerkliği. | Örnek: 'Universities need intellectual autonomy.'" },
+                    { w: "AUTONOMIA", lang: "ES (İspanyolca)", c: "İspanyolca bağımsız karar mekanizması, özerklik. | Örnek: 'El banco merkezi requiere autonomia total.'" },
+                    { w: "SOUVERÄNITÄT", lang: "DE (Almanca)", c: "Almanca devlet veya birey düzeyindeki üstün egemenlik. | Örnek: 'Die Souveränität des Staates darf nicht verletzt werden.'" },
+                    { w: "SOUVERAINETE", lang: "FR (Fransızca)", c: "Fransızca bağımsız egemenlik gücü hakareti. | Örnek: 'Défendre la souveraineté nationale avec rigueur.'" }
                 ]
             }
         ]
@@ -226,14 +397,16 @@
         const lvl = document.getElementById('levelSelect').value;
         const setsPool = POLYGLOT_SETS[lvl];
 
-        // 1. ADIM: İlgili seviyeden rastgele BİR KAVRAM SETİ seç
-        let randomSet = setsPool[Math.floor(Math.random() * setsPool.length)];
+        // TALEP EDİLEN ALGORİTMA: Tam 5 kez üst üste karıştırma döngüsü (5x Shuffling)
+        let selectedSet;
+        for (let loop = 0; loop < 5; loop++) {
+            setsPool.sort(() => 0.5 - Math.random());
+            selectedSet = setsPool[Math.floor(Math.random() * setsPool.length)];
+        }
         
-        // Üst başlıktaki kavram adını güncelle
-        document.getElementById('activeConceptDisplay').innerText = `KAVRAM KÖPRÜSÜ: ${randomSet.concept}`;
+        document.getElementById('activeConceptDisplay').innerText = `KAVRAM KÖPRÜSÜ: ${selectedSet.concept}`;
         
-        // Bu konsepte ait 4 dili matris için kopyala
-        activeDataset = JSON.parse(JSON.stringify(randomSet.words));
+        activeDataset = JSON.parse(JSON.stringify(selectedSet.words));
 
         // Sabit akıllı geometrik yönlendirme (2 Yatay, 2 Dikey kesişim ağı)
         activeDataset[0].dir = "across";
@@ -244,8 +417,7 @@
         gridData = Array(gSize).fill(null).map(() => Array(gSize).fill(null));
         inputsRef = {};
 
-        // 2. ADIM: Kelimeleri Matrise Geometrik Olarak Örüp Kilitleme
-        // Kelime 1 (Yatay Ana Aks)
+        // Geometrik Kilitlenme Noktaları
         let w1 = activeDataset[0];
         let r1 = 5, c1 = 2;
         for(let i=0; i<w1.w.length; i++) {
@@ -253,7 +425,6 @@
         }
         w1.num = 1;
 
-        // Kelime 2 (Dikey Ana Aks - İlkiyle Kesişir)
         let w2 = activeDataset[1];
         let r2 = 2, c2 = Math.min(gSize - 1, c1 + 3);
         for(let i=0; i<w2.w.length; i++) {
@@ -264,7 +435,6 @@
         }
         w2.num = 2;
 
-        // Kelime 3 (Alt Yatay Aks - İkinciyle Kesişir)
         let w3 = activeDataset[2];
         let r3 = Math.min(gSize - 1, r2 + 4), c3 = Math.max(0, c2 - 2);
         for(let i=0; i<w3.w.length; i++) {
@@ -275,7 +445,6 @@
         }
         w3.num = 3;
 
-        // Kelime 4 (Son Dikey Aks - Kilitleyici)
         let w4 = activeDataset[3];
         let r4 = Math.max(0, r3 - 2), c4 = Math.min(gSize - 1, c3 + 4);
         for(let i=0; i<w4.w.length; i++) {
@@ -369,11 +538,11 @@
 
         activeDataset.forEach(item => {
             const tr = document.createElement('tr');
-            const exampleSentence = item.c.split('|')[1] || "Örnek yüklenemedi.";
+            const exampleSentence = item.c.split('|')[1] || "Veri yüklenemedi.";
 
             tr.innerHTML = `
                 <td style="font-weight:bold; color:var(--accent-blue);">${item.lang}</td>
-                <td style="font-weight:bold; text-transform:uppercase;">${item.w}</td>
+                <td style="font-weight:bold; text-transform:uppercase; letter-spacing:1px;">${item.w}</td>
                 <td>${exampleSentence}</td>
             `;
             rowsEl.appendChild(tr);
