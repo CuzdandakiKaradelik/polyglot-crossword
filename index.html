@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polyglot Lab | Kolektif Harita</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: auto; padding: 20px; background-color: #f4f4f9; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .manifesto { background: #fff; padding: 20px; border-left: 5px solid #333; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .cta-btn { display: block; background: #333; color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-bottom: 30px; }
-        .cta-btn:hover { background: #555; }
-        .sheet-container { width: 100%; height: 500px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden; background: white; }
-        iframe { width: 100%; height: 100%; border: none; }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.8; color: #333; max-width: 1000px; margin: auto; padding: 40px; background-color: #f9f9f9; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .manifesto { background: #fff; padding: 25px; border-left: 8px solid #333; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .cta-btn { display: block; background: #000; color: #fff; text-align: center; padding: 20px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.2rem; }
+        
+        /* Tabloyu okunabilir yapmak için özel tasarım */
+        .sheet-container { width: 100%; border: none; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        iframe { width: 100%; height: 800px; border: none; padding: 20px; box-sizing: border-box; }
+        
+        /* Mobil uyum için küçük bir dokunuş */
+        @media (max-width: 600px) { body { padding: 10px; } }
     </style>
 </head>
 <body>
@@ -25,10 +29,9 @@
     <strong>Kolektif Hafıza:</strong> Kitabi yöntemlerin dışına çıkan, kendi 'dil hack'ini icat etmiş, öğrenme sürecini hacklemiş olanların haritasındasın. Senin çözümün, başkasının yolu olabilir.
 </div>
 
-<a href="https://docs.google.com/forms/d/e/1FAIpQLScLib7vjXW4d72n22mFnmFoHEPoC8yoYinZFur_BMzt_UXsKA/viewform?usp=dialog" class="cta-btn">🚀 Kendi Dil Yöntemini Paylaş ve Haritaya Ekle</a>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLScLib7vjXW4d72n22mFnmFoHEPoC8yoYinZFur_BMzt_UXsKA/viewform?usp=dialog" class="cta-btn">🚀 Kendi Dil Yöntemini Paylaş</a>
 
 <div class="sheet-container">
-    <!-- Buraya Google Sheets'ten aldığın iframe linkini yapıştır -->
     <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRH94hlVrIv0X8VSeaelJD1gNvpgEmjJxxV0Q_q2P70ub5wrtez8ht0jqKdNlZGDcnejFcA5szU9IWR/pubhtml"></iframe>
 </div>
 
