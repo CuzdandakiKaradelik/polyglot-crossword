@@ -2,15 +2,20 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Lexical Systems v12.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Polyglot Lexical Systems v13.0</title>
     <style>
         :root {
             --bg-main: #f8f9fa;
             --text-main: #212529;
             --border-color: #ced4da;
             --accent-blue: #004085;
-            --cell-size: 40px;
+            --cell-size: 42px;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -18,7 +23,7 @@
             background-color: var(--bg-main);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
         }
 
         .container {
@@ -34,7 +39,7 @@
 
         header h1 {
             margin: 0;
-            font-size: 28px;
+            font-size: 26px;
             letter-spacing: -0.5px;
         }
 
@@ -59,10 +64,11 @@
 
         select, button {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             font-size: 14px;
             border: 1px solid var(--border-color);
             background: #fff;
+            outline: none;
         }
 
         button.btn-primary {
@@ -70,20 +76,22 @@
             color: #fff;
             cursor: pointer;
             font-weight: bold;
+            text-transform: uppercase;
         }
 
         button.btn-primary:hover {
             background: #343a40;
         }
 
-        /* Çalışma Alanı */
+        /* MOBİL UYUMLU ÇALIŞMA ALANI */
         .workspace {
             display: none;
             grid-template-columns: 1.2fr 1fr;
             gap: 20px;
         }
 
-        @media (max-width: 800px) {
+        /* Ekran küçüldüğünde bulmaca ve ipuçlarını alt alta getirir */
+        @media (max-width: 850px) {
             .workspace {
                 grid-template-columns: 1fr;
             }
@@ -92,16 +100,18 @@
         .matrix-holder {
             background: #fff;
             border: 1px solid var(--border-color);
-            padding: 20px;
-            overflow-x: auto;
+            padding: 15px;
+            overflow-x: auto; /* Mobilde taşmayı önler, kaydırılabilir yapar */
             display: flex;
             justify-content: center;
+            align-items: center;
         }
 
         .grid {
             display: grid;
             gap: 1px;
             background: var(--border-color);
+            padding: 1px;
         }
 
         .cell {
@@ -124,6 +134,8 @@
             font-weight: bold;
             text-transform: uppercase;
             outline: none;
+            padding: 0;
+            background: transparent;
         }
 
         .cell input:focus {
@@ -132,11 +144,22 @@
 
         .cell-num {
             position: absolute;
-            top: 1px;
-            left: 2px;
+            top: 2px;
+            left: 3px;
             font-size: 9px;
             color: #6c757d;
             font-weight: bold;
+            z-index: 2;
+        }
+
+        /* MOBİL EKRANLAR İÇİN DİNAMİK BOYUTLANDIRMA */
+        @media (max-width: 500px) {
+            :root {
+                --cell-size: 7.5vw; /* Kareler telefon ekranına göre otomatik küçülür */
+            }
+            .cell input {
+                font-size: 14px;
+            }
         }
 
         /* İpuçları Paneli */
@@ -160,9 +183,11 @@
         }
 
         .clue-item {
-            font-size: 14px;
-            margin-bottom: 10px;
+            font-size: 13px;
+            margin-bottom: 12px;
             line-height: 1.4;
+            padding-bottom: 6px;
+            border-bottom: 1px dotted var(--border-color);
         }
 
         .clue-item strong {
@@ -172,7 +197,7 @@
             border-radius: 3px;
         }
 
-        /* Polyglot Bilgi Kartı (Sözlük) */
+        /* İndeks Paneli */
         .polyglot-index {
             margin-top: 20px;
             background: #fff;
@@ -212,10 +237,9 @@
         <h1>POLYGLOT LEXICAL MATRIX</h1>
     </header>
 
-    <!-- Kontrol Ünitesi -->
     <div class="control-panel">
         <div>
-            <label>Seviye / Acquisition Level</label>
+            <label>Acquisition Level / Seviye</label>
             <select id="levelSelect">
                 <option value="intermediate">B1-B2: Functional & Fluency</option>
                 <option value="advanced">C1-C2: Advanced Discourse & Idioms</option>
@@ -223,11 +247,10 @@
         </div>
         <div>
             <label>Sistem Operasyonu</label>
-            <button class="btn-primary" onclick="initPolyglotEngine()">Matrisi İnşa Et</button>
+            <button class="btn-primary" onclick="initPolyglotEngine()">Yeni Matris Oluştur</button>
         </div>
     </div>
 
-    <!-- Çalışma Alanı -->
     <div class="workspace" id="mainWorkspace">
         <div class="matrix-holder">
             <div class="grid" id="lexicalGrid"></div>
@@ -245,7 +268,6 @@
         </div>
     </div>
 
-    <!-- Gelişmiş Dil Analiz Paneli (Çözüldüğünde Açılır) -->
     <div class="polyglot-index" id="analysisPanel">
         <h2>✓ Yapısal Matris Çözüldü: Dil Bilgisi İndeksi</h2>
         <table class="analysis-table">
@@ -262,19 +284,25 @@
 </div>
 
 <script>
-    // Bir Dilcinin İhtiyaç Duyacağı Gerçek Fonksiyonel Kalıplar ve Cümle Yapıları
+    // Genişletilmiş ve Sürekli Rastgele Seçilebilecek Polyglot Havuzu
     const INTEL_DATABASE = {
         intermediate: [
-            { w: "HOWEVER", lang: "EN (İngilizce)", c: "Zıtlık bağlacı. İki bağımsız cümleyi bağlar. | Örnek: 'The system is old; however, it works perfectly.'", dir:"across" },
-            { w: "PROBABLE", lang: "EN (İngilizce)", c: "Yüksek ihtimal belirten sıfat. | Örnek: 'It is highly probable that the strategy will succeed.'", dir:"down" },
-            { w: "SIN EMBARGO", lang: "ES (İspanyolca)", c: "İspanyolca zıtlık kalıbı (However). | Örnek: 'Estudió mucho; sin embargo, no aprobó el examen.'", dir:"across" },
-            { w: "OBWOHL", lang: "DE (Almanca)", c: "Almanca '-e rağmen' yan cümle bağlacı. | Örnek: 'Obwohl es regnet, gehen wir im Park spazieren.'", dir:"down" }
+            { w: "HOWEVER", lang: "EN", c: "Zıtlık bağlacı. İki bağımsız cümleyi bağlar. | Örnek: 'The system is old; however, it works perfectly.'" },
+            { w: "PROBABLE", lang: "EN", c: "Yüksek ihtimal belirten sıfat. | Örnek: 'It is highly probable that the strategy will succeed.'" },
+            { w: "SIN EMBARGO", lang: "ES", c: "İspanyolca zıtlık kalıbı (However). | Örnek: 'Estudió mucho; sin embargo, no aprobó el examen.'" },
+            { w: "OBWOHL", lang: "DE", c: "Almanca '-e rağmen' yan cümle bağlacı. | Örnek: 'Obwohl es regnet, gehen wir im Park spazieren.'" },
+            { w: "BECAUSE", lang: "EN", c: "Sebep bildiren temel bağlaç. | Örnek: 'We stayed at home because it was freezing outside.'" },
+            { w: "SUDDENLY", lang: "EN", c: "Aniden, ansızın gelişen durumlar için. | Örnek: 'Suddenly, the lights went out in the lab.'" },
+            { w: "PORTANTO", lang: "ES", c: "İspanyolca 'bu yüzden/dolayısıyla' kalıbı. | Örnek: 'No hay fondos, portanto debemos cancelar.'" }
         ],
         advanced: [
-            { w: "COMPREHENSIVE", lang: "EN (İngilizce)", c: "Kapsamlı, detaylı. | Örnek: 'The researcher provided a comprehensive analysis of the linguistic shifts.'", dir:"across" },
-            { w: "INHERENT", lang: "EN (İngilizce)", c: "Doğasında olan, içsel özellik. | Örnek: 'Language learning has an inherent complexity that requires patience.'", dir:"down" },
-            { w: "POR DOQUIER", lang: "ES (İspanyolca)", c: "Her yerde, dört bir yanda (Deyimsel). | Örnek: 'Encontraron rastros de influence romana por doquier.'", dir:"across" },
-            { w: "ZEITGEIST", lang: "DE (Almanca)", c: "Zamanın ruhu (Dünya dillerine de geçmiştir). | Örnek: 'Der Roman fängt den Zeitgeist der Jahrtausendwende perfekt ein.'", dir:"down" }
+            { w: "COMPREHENSIVE", lang: "EN", c: "Kapsamlı, detaylı. | Örnek: 'The researcher provided a comprehensive analysis of the linguistic shifts.'" },
+            { w: "INHERENT", lang: "EN", c: "Doğasında olan, içsel özellik. | Örnek: 'Language learning has an inherent complexity that requires patience.'" },
+            { w: "POR DOQUIER", lang: "ES", c: "Her yerde, dört bir yanda (Deyimsel). | Örnek: 'Encontraron rastros de influencia romana por doquier.'" },
+            { w: "ZEITGEIST", lang: "DE", c: "Zamanın ruhu (Kültürel kavram). | Örnek: 'Der Roman fängt den Zeitgeist der Jahrtausendwende perfekt ein.'" },
+            { w: "CONSEQUENTLY", lang: "EN", c: "Sonuç olarak, bu nedenle. | Örnek: 'The data was flawed; consequently, the thesis was rejected.'" },
+            { w: "NEVERTHELESS", lang: "EN", c: "Yine de, buna karşın. | Örnek: 'The journey was dangerous; nevertheless, they continued.'" },
+            { w: "MALGRÉ TOUT", lang: "FR", c: "Fransızca 'her şeye rağmen' deyimi. | Örnek: 'Malgré tout, elle a gardé le sourire.'" }
         ]
     };
 
@@ -288,59 +316,68 @@
         document.getElementById('mainWorkspace').style.display = 'grid';
         
         const lvl = document.getElementById('levelSelect').value;
-        activeDataset = INTEL_DATABASE[lvl];
+        const pool = INTEL_DATABASE[lvl];
 
-        // Boş Matris Oluştur
+        // 1. ADIM: Havuzdan her seferinde rastgele 4 farklı kelime seç (Dinamik Algoritma)
+        let shuffled = [...pool].sort(() => 0.5 - Math.random());
+        activeDataset = shuffled.slice(0, 4);
+
+        // Yönleri dinamik dağıt (İkisi yatay, ikisi dikey)
+        activeDataset[0].dir = "across";
+        activeDataset[1].dir = "down";
+        activeDataset[2].dir = "across";
+        activeDataset[3].dir = "down";
+
         gridData = Array(gSize).fill(null).map(() => Array(gSize).fill(null));
         inputsRef = {};
 
-        // Manuel Akıllı Kesişim Algoritması (Verileri Tam Kesişecek Noktalara Yerleştiriyoruz)
-        // 1. Kelime (Yatay)
+        // 2. ADIM: Kelimeleri Boşluklardan Arındırarak Matrise Güvenli ve Kesişimli Yerleştirme
+        // Kelime 1
         let w1 = activeDataset[0];
-        let r1 = 4, c1 = 2;
-        for(let i=0; i<w1.w.length; i++) {
-            gridData[r1][c1+i] = { letter: w1.w[i], num: i===0 ? 1 : null, item: w1 };
+        let cleanW1 = w1.w.replace(/\s/g, "");
+        w1.proc = cleanW1;
+        let r1 = 5, c1 = 2;
+        for(let i=0; i<cleanW1.length; i++) {
+            gridData[r1][c1+i] = { letter: cleanW1[i], num: i===0 ? 1 : null };
         }
-        w1.realRow = r1; w1.realCol = c1; w1.num = 1;
+        w1.num = 1;
 
-        // 2. Kelime (Dikey - 1. kelimenin 5. harfinden kesişsin)
+        // Kelime 2 (Kesişim Noktalı)
         let w2 = activeDataset[1];
-        let r2 = 2, c2 = c1 + 4; // Kesişim noktası
-        for(let i=0; i<w2.w.length; i++) {
-            if(!gridData[r2+i][c2]) {
-                gridData[r2+i][c2] = { letter: w2.w[i], num: i===0 ? 2 : null, item: w2 };
-            } else if (i===0) {
-                gridData[r2+i][c2].num = 2;
-            }
+        let cleanW2 = w2.w.replace(/\s/g, "");
+        w2.proc = cleanW2;
+        let r2 = 2, c2 = c1 + 4;
+        for(let i=0; i<cleanW2.length; i++) {
+            if(!gridData[r2+i][c2]) gridData[r2+i][c2] = { letter: cleanW2[i], num: i===0 ? 2 : null };
+            else if(i===0) gridData[r2+i][c2].num = 2;
         }
-        w2.realRow = r2; w2.realCol = c2; w2.num = 2;
+        w2.num = 2;
 
-        // 3. Kelime (Yatay - 2. kelimenin alt kısımlarından türesin)
+        // Kelime 3 (Alt Kesişim)
         let w3 = activeDataset[2];
-        let r3 = r2 + 4, c3 = c2 - 2;
-        // İçinde boşluk varsa (Sin Embargo gibi) matriste boşluksuz birleştiriyoruz
         let cleanW3 = w3.w.replace(/\s/g, "");
-        w3.processedWord = cleanW3;
+        w3.proc = cleanW3;
+        let r3 = r2 + 4, c3 = Math.max(0, c2 - 2);
         for(let i=0; i<cleanW3.length; i++) {
-            if(!gridData[r3][c3+i]) {
-                gridData[r3][c3+i] = { letter: cleanW3[i], num: i===0 ? 3 : null, item: w3 };
-            } else if(i===0) {
-                gridData[r3][c3+i].num = 3;
+            if(c3+i < gSize) {
+                if(!gridData[r3][c3+i]) gridData[r3][c3+i] = { letter: cleanW3[i], num: i===0 ? 3 : null };
+                else if(i===0) gridData[r3][c3+i].num = 3;
             }
         }
-        w3.realRow = r3; w3.realCol = c3; w3.num = 3;
+        w3.num = 3;
 
-        // 4. Kelime (Dikey - Diğer bir kanattan kesişim)
+        // Kelime 4
         let w4 = activeDataset[3];
-        let r4 = r3 - 3, c4 = c3 + 1;
-        for(let i=0; i<w4.w.length; i++) {
-            if(!gridData[r4+i][c4]) {
-                gridData[r4+i][c4] = { letter: w4.w[i], num: i===0 ? 4 : null, item: w4 };
-            } else if(i===0) {
-                gridData[r4+i][c4].num = 4;
+        let cleanW4 = w4.w.replace(/\s/g, "");
+        w4.proc = cleanW4;
+        let r4 = Math.max(0, r3 - 2), c4 = Math.min(gSize - 1, c3 + 3);
+        for(let i=0; i<cleanW4.length; i++) {
+            if(r4+i < gSize) {
+                if(!gridData[r4+i][c4]) gridData[r4+i][c4] = { letter: cleanW4[i], num: i===0 ? 4 : null };
+                else if(i===0) gridData[r4+i][c4].num = 4;
             }
         }
-        w4.realRow = r4; w4.realCol = c4; w4.num = 4;
+        w4.num = 4;
 
         renderGrid();
         renderClues();
@@ -367,6 +404,7 @@
                     const input = document.createElement('input');
                     input.type = 'text';
                     input.maxLength = 1;
+                    input.setAttribute('autocomplete', 'off');
                     input.addEventListener('input', (e) => {
                         e.target.value = e.target.value.toUpperCase();
                         checkMatrixStatus();
@@ -424,11 +462,10 @@
 
         activeDataset.forEach(item => {
             const tr = document.createElement('tr');
-            const targetWord = item.processedWord ? item.w : item.w;
             const exampleSentence = item.c.split('|')[1] || "Örnek cümle yüklenemedi.";
 
             tr.innerHTML = `
-                <td style="font-weight:bold; color:var(--accent-blue);">${targetWord}</td>
+                <td style="font-weight:bold; color:var(--accent-blue);">${item.w}</td>
                 <td>${item.lang}</td>
                 <td>${exampleSentence}</td>
             `;
