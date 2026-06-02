@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Suite Ultra</title>
-    <!-- Tailwind CSS -->
+    <title>Polyglot Suite - Dynamic Mimic</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         .apple-ease { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .bg-gradient-radial {
-            background-image: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #000000 75%);
+            background-image: radial-gradient(circle at 50% -20%, #0d1e2d 0%, #000000 75%);
         }
         [x-cloak] { display: none !important; }
     </style>
@@ -20,43 +18,22 @@
       x-data="{
         activeTab: 'mimic',
         
-        // 1. Modül: Mimic Gelişmiş Data
+        // Dinamik Mimic Verileri
         selectedLang: 'en-US',
-        selectedLevel: 'easy',
-        nativePhrase: 'The quick brown fox jumps over the lazy dog.',
+        customText: 'Type any phrase here to practice your accent...', // Kullanıcının özgürce yazacağı metin
         
-        // Hazır Cümle Havuzu (Eksik 2 Çözümü)
-        phrases: {
-            'en-US': { easy: 'An apple a day keeps the doctor away.', hard: 'To be or not to be, that is the question.' },
-            'de-DE': { easy: 'Guten Tag, wie geht es dir heute?', hard: 'Übung macht den Meister, aber Geduld ist wichtig.' },
-            'es-ES': { easy: 'Hola, ¿cómo estás mi querido amigo?', hard: 'La vida es corta, pero una sonrisa cuesta poco.' }
-        },
-
         mediaRecorder: null,
         audioChunks: [],
         audioUrl: null,
         isRecording: false,
-        userWaveforms: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20], // Gerçek analiz barları
+        userWaveforms: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
         audioContext: null,
         analyser: null,
-        javascriptNode: null,
 
-        // 2. Modül: Anki Gelişmiş Data
+        // Anki Verileri
         rawWords: 'run, walk, speak',
         ankiRows: '',
 
-        init() {
-            this.$watch('selectedLang', () => this.updatePhrase());
-            this.$watch('selectedLevel', () => this.updatePhrase());
-        },
-
-        updatePhrase() {
-            this.nativePhrase = this.phrases[this.selectedLang][this.selectedLevel];
-            this.audioUrl = null;
-            this.userWaveforms = [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20];
-        },
-
-        // Gelişmiş Gerçek Ses Analizi (Eksik 1 Çözümü)
         async startRecording() {
             this.audioChunks = [];
             this.userWaveforms = [];
@@ -64,7 +41,6 @@
             let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             this.mediaRecorder = new MediaRecorder(stream);
             
-            // Gerçek Zamanlı Ses Frekansı Yakalama
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
             this.analyser = this.audioContext.createAnalyser();
             let source = this.audioContext.createMediaStreamSource(stream);
@@ -79,11 +55,10 @@
                 requestAnimationFrame(draw);
                 this.analyser.getByteFrequencyData(dataArray);
                 
-                // Frekans verisini bar yüksekliğine dönüştür (0-100 arası scale et)
                 let avg = dataArray.reduce((a,b) => a+b, 0) / bufferLength;
                 let barHeight = Math.max(15, Math.min(95, (avg / 128) * 100));
                 
-                if(this.userWaveforms.length > 16) this.userWaveforms.shift();
+                if(this.userWaveforms.length > 20) this.userWaveforms.shift();
                 this.userWaveforms.push(barHeight);
             };
             
@@ -108,145 +83,90 @@
 
         playNative() {
             window.speechSynthesis.cancel();
-            let u = new SpeechSynthesisUtterance(this.nativePhrase);
+            let u = new SpeechSynthesisUtterance(this.customText);
             u.lang = this.selectedLang;
             window.speechSynthesis.speak(u);
         },
 
         playUser() {
             if(this.audioUrl) new Audio(this.audioUrl).play();
-        },
-
-        generateAnkiPrompt() {
-            let words = this.rawWords.split(',').map(w => w.trim()).filter(w => w.length > 0);
-            let promptText = `Aşağıdaki kelimelerin karşılıklarını tam olarak şu CSV formatında ver (Asla açıklama satırı, giriş veya tebrik yazısı ekleme. Doğrudan veriyi teslim et, aralarda boru | karakteri kullan):\\n` +
-                             `Kelime | Türkçe Anlamı | Örnek Cümle | Cümlenin Türkçesi\\n\\n` +
-                             `Kelimeler: ${words.join(', ')}`;
-            navigator.clipboard.writeText(promptText);
-            alert('Yapay zeka akıllı format komutu kopyalandı!');
-        },
-
-        // Akıllı Filtreli CSV Temizleyici ve İndirici (Eksik 3 Çözümü)
-        downloadCleanCSV() {
-            let csvContent = 'data:text/csv;charset=utf-8,Front|Back\\n';
-            let lines = this.ankiRows.split('\\n');
-            
-            lines.forEach(line => {
-                // Sadece geçerli biçimdeki veri satırlarını yakala (Gereksiz AI yazılarını eler)
-                if(line.includes('|') && !line.toLowerCase().includes('türkçe anlamı')) {
-                    let parts = line.split('|');
-                    if(parts.length >= 2) {
-                        let front = parts[0].trim();
-                        let back = `${parts[1].trim()}<br><br><b>Ex:</b> ${parts[2]?.trim() || ''} (${parts[3]?.trim() || ''})`;
-                        csvContent += `\x22${front}\x22|\x22${back}\x22\\n`;
-                    }
-                }
-            });
-            
-            let encodedUri = encodeURI(csvContent);
-            let link = document.createElement('a');
-            link.setAttribute('href', encodedUri);
-            link.setAttribute('download', 'anki_deck_ultra.csv');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
         }
       }">
 
-    <!-- Üst Menü -->
     <nav class="sticky top-0 z-40 w-full border-b border-white/5 bg-[#000000]/70 backdrop-blur-md">
         <div class="max-w-4xl mx-auto h-14 flex items-center justify-between px-6">
-            <span class="text-sm font-bold tracking-wider text-zinc-200">POLYGLOT.SUITE <span class="text-indigo-400 text-[10px] ml-1 px-1.5 py-0.5 bg-indigo-500/10 rounded-full border border-indigo-500/20">ULTRA</span></span>
+            <span class="text-sm font-bold tracking-wider text-zinc-200">POLYGLOT.SUITE</span>
             <div class="bg-zinc-900 p-0.5 rounded-xl flex gap-1 border border-white/5">
-                <button @click="activeTab = 'mimic'" :class="activeTab === 'mimic' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400'" class="px-4 py-1.5 text-xs font-semibold rounded-lg apple-ease cursor-pointer">1. Accent Mimic</button>
+                <button @click="activeTab = 'mimic'" :class="activeTab === 'mimic' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400'" class="px-4 py-1.5 text-xs font-semibold rounded-lg apple-ease cursor-pointer">1. Dynamic Mimic</button>
                 <button @click="activeTab = 'anki'" :class="activeTab === 'anki' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400'" class="px-4 py-1.5 text-xs font-semibold rounded-lg apple-ease cursor-pointer">2. Deck Architect</button>
             </div>
         </div>
     </nav>
 
-    <!-- Ana Panel -->
     <main class="max-w-3xl mx-auto pt-12 px-6 pb-32">
 
-        <!-- 1. MODÜL: ACCENT MIMIC -->
         <div x-show="activeTab === 'mimic'" x-transition:enter="apple-ease" class="space-y-8">
             <div class="text-center space-y-2">
-                <h1 class="text-3xl font-bold text-white tracking-tight">Accent Mimic Pro</h1>
-                <p class="text-xs text-zinc-400 max-w-sm mx-auto">Gerçek frekans analizörü ile sesinizi test edin.</p>
-            </div>
-
-            <!-- Dil ve Seviye Seçimi (Eksik 2 Çözümü) -->
-            <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
-                <select x-model="selectedLang" class="bg-[#1d1d1f] border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
-                    <option value="en-US">English</option>
-                    <option value="de-DE">Deutsch</option>
-                    <option value="es-ES">Español</option>
-                </select>
-                <select x-model="selectedLevel" class="bg-[#1d1d1f] border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
-                    <option value="easy">Kolay Cümle</option>
-                    <option value="hard">İleri Seviye</option>
-                </select>
+                <h1 class="text-3xl font-bold text-white tracking-tight">Kendi Metnini Mimikle</h1>
+                <p class="text-xs text-zinc-400 max-w-sm mx-auto">Çalışmak istediğiniz herhangi bir cümleyi yazın, yapay zeka sesiyle dinleyin ve kendi aksanınızla kıyaslayın.</p>
             </div>
 
             <div class="p-6 bg-[#1d1d1f]/50 border border-white/5 rounded-2xl space-y-6">
-                <div class="space-y-1 text-center py-4">
-                    <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider block">Hedef Metin</span>
-                    <p class="text-xl text-white font-medium select-text" x-text="nativePhrase"></p>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Hedef Dil Seçimi</label>
+                        <select x-model="selectedLang" class="bg-black/40 border border-white/5 rounded-lg px-2 py-1 text-xs text-zinc-300 focus:outline-none">
+                            <option value="en-US">İngilizce (en-US)</option>
+                            <option value="de-DE">Almanca (de-DE)</option>
+                            <option value="fr-FR">Fransızca (fr-FR)</option>
+                            <option value="es-ES">İspanyolca (es-ES)</option>
+                        </select>
+                    </div>
+                    
+                    <textarea x-model="customText" rows="3" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/10 apple-ease resize-none" placeholder="Buraya pratik yapmak istediğiniz herhangi bir cümle yazın..."></textarea>
                 </div>
 
-                <!-- Orijinal Ses -->
+                <hr class="border-white/5">
+
                 <div class="flex items-center justify-between bg-black/40 p-4 rounded-xl border border-white/5">
-                    <button @click="playNative()" class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center font-bold text-sm hover:scale-105 apple-ease cursor-pointer">▶</button>
-                    <div class="flex items-center gap-0.5 h-8">
-                        <div class="w-1 h-4 bg-indigo-500/40 rounded-full"></div>
-                        <div class="w-1 h-7 bg-indigo-500/40 rounded-full"></div>
-                        <div class="w-1 h-5 bg-indigo-500/40 rounded-full"></div>
-                        <div class="w-1 h-8 bg-indigo-500/40 rounded-full"></div>
+                    <div class="flex items-center gap-3">
+                        <button @click="playNative()" class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center font-bold text-sm hover:scale-105 apple-ease cursor-pointer">▶</button>
+                        <div>
+                            <span class="text-xs font-semibold text-zinc-300 block">1. Doğru Telaffuzu Dinle</span>
+                            <span class="text-[11px] text-zinc-500">Kelimelerin vurgularına dikkat edin.</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Gerçek Zamanlı Kullanıcı Sesi (Eksik 1 Çözümü) -->
                 <div class="flex items-center justify-between bg-zinc-900/40 p-4 rounded-xl border border-dashed border-white/10">
-                    <button @click="isRecording ? stopRecording() : startRecording()" 
-                            :class="isRecording ? 'bg-red-500 animate-pulse text-white' : 'bg-zinc-800 text-white'"
-                            class="w-10 h-10 rounded-full flex items-center justify-center text-sm apple-ease cursor-pointer">
-                        <span x-text="isRecording ? '■' : '🎤'"></span>
-                    </button>
+                    <div class="flex items-center gap-3">
+                        <button @click="isRecording ? stopRecording() : startRecording()" 
+                                :class="isRecording ? 'bg-red-500 animate-pulse text-white' : 'bg-zinc-800 text-white'"
+                                class="w-10 h-10 rounded-full flex items-center justify-center text-sm apple-ease cursor-pointer">
+                            <span x-text="isRecording ? '■' : '🎤'"></span>
+                        </button>
+                        <div>
+                            <span class="text-xs font-semibold text-zinc-300 block" x-text="isRecording ? 'Sesiniz Analiz Ediliyor...' : '2. Kendi Sesini Kaydet'"></span>
+                            <span class="text-[11px] text-zinc-500" x-text="isRecording ? 'Konuşmaya devam edin' : 'Cümleyi seslendirmek için mikrofona basın'"></span>
+                        </div>
+                    </div>
                     
-                    <!-- CANLI FREKANS BARLARI -->
-                    <div class="flex items-center gap-0.5 h-10 w-48 justify-end overflow-hidden">
+                    <div class="flex items-center gap-0.5 h-10 w-32 justify-end overflow-hidden">
                         <template x-for="h in userWaveforms">
-                            <div class="w-1.5 bg-emerald-400 rounded-full apple-ease" :style="'height: ' + h + '%'"></div>
+                            <div class="w-1 bg-emerald-400 rounded-full apple-ease" :style="'height: ' + h + '%'"></div>
                         </template>
                     </div>
                 </div>
 
                 <button x-show="audioUrl" @click="playUser()" x-cloak x-transition
                         class="w-full py-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-semibold rounded-xl text-xs apple-ease hover:bg-emerald-500/20 cursor-pointer">
-                    🎤 Kendi Sesini Dinle & Aksanını Kıyasla
+                    ▶ 3. Kendi Sesini Dinle & Farkları Keşfet
                 </button>
             </div>
         </div>
 
-        <!-- 2. MODÜL: DECK ARCHITECT -->
         <div x-show="activeTab === 'anki'" x-transition:enter="apple-ease" class="space-y-8" x-cloak>
-            <div class="text-center space-y-2">
-                <h1 class="text-3xl font-bold text-white tracking-tight">Anki Deck Architect</h1>
-                <p class="text-xs text-zinc-400 max-w-sm mx-auto">Kelimelerinizi akıllı filtreleme ile korumalı CSV'ye dönüştürün.</p>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
-                    <textarea x-model="rawWords" rows="4" class="w-full bg-[#1d1d1f]/40 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none"></textarea>
-                    <button @click="generateAnkiPrompt()" class="w-full py-3 bg-white text-black font-semibold rounded-full text-xs apple-ease cursor-pointer">1. Yapay Zeka Komutunu Al</button>
-                </div>
-
-                <!-- Akıllı Temizleyici Alanı (Eksik 3 Çözümü) -->
-                <div class="space-y-4">
-                    <textarea x-model="ankiRows" rows="4" placeholder="ChatGPT çıktısını buraya doğrudan (dağınık olsa bile) yapıştırın..." class="w-full bg-[#1d1d1f]/40 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none placeholder-zinc-700"></textarea>
-                    <button @click="downloadCleanCSV()" :disabled="!ankiRows" :class="ankiRows ? 'bg-indigo-600 text-white' : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'" class="w-full py-3 font-semibold rounded-full text-xs apple-ease cursor-pointer">3. Filtrelenmiş Anki Dosyasını İndir</button>
-                </div>
-            </div>
-        </div>
 
     </main>
 </body>
