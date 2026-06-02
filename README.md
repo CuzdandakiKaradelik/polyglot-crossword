@@ -1,105 +1,61 @@
-# 🧩 Polyglot Movie Crossword (Çok Dilli Sinema Bulmacası)
+# 🧪 The Input Lab Pro
 
-[Türkçe](#tr---türkçe) | [English](#en---english) | [Español](#es---español) | [Deutsch](#de---deutsch) | [Français](#fr---français) | [Italiano](#it---italiano) 
-
----
-
-## TR - Türkçe
-
-Dil öğrenme ve sinema kültürünü bir araya getiren web tabanlı, etkileşimli bir kare bulmaca oyunudur.
-
-🚀 **Canlı Demo:** [Projeyi Buraya Tıklayarak Oynayabilirsiniz!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
-
-### ✨ Öne Çıkan Özellikler
-* 🌍 **8 Farklı Dil Desteği:** İngilizce, İspanyolca, Almanca, Fransızca, İtalyanca, Türkçe, Portekizce ve Romence sinema kelimeleri havuzu.
-* 🔀 **Dinamik Dil Adaptasyonu:** Seçilen hedef dile göre tüm butonlar, başlıklar ve tema adları anında o dile çevrilir.
-* 🎨 **23 Benzersiz Görsel Tema:** Matrix, Dracula, Synthwave, Cyberpunk, Halloween gibi oyuncuyu ekrana bağlayan temalar arası anlık geçiş.
-* 🔒 **Akıllı Yön Kilidi:** Yatay yazarken sadece sağa, dikey yazarken sadece aşağı ilerleyen akıllı imleç sistemi. Harf kaçmalarını önler.
-* 💡 **Harf Al / İpucu:** Tıkandığınız karede doğru harfi gösteren dinamik uyarı sistemi.
-* 💾 **Kaldığın Yerden Devam Et (LocalStorage):** Sayfa yenilense bile ilerlemeniz ve seçtiğiniz tema tarayıcıda saklanır.
+> **Comprehensible Input Engine for Polyglots** > İnternetteki ağır ve karmaşık yabancı metinleri, dil seviyenize uygun çocuk kitabı sadeliğine dönüştürün ve yerleşik yapay zeka sesiyle çalışın. **%100 Ücretsiz, Sıfır Veritabanı, Sıfır Sunucu Maliyeti.**
 
 ---
 
-## EN - English
+## 🍏 Nedir bu "Input Lab"?
 
-An interactive, web-based crossword puzzle game that combines movie trivia with language learning.
+Dil öğreniminde akıcılığın en büyük sırrı, dil bilimci Stephen Krashen tarafından ortaya atılan **"Anlaşılır Girdi" (Comprehensible Input)** metodudur. Bir dili öğrenirken kendi seviyenizin sadece bir tık üzerindeki metinleri okumanız gerekir. Ancak internetteki gerçek haberler (BBC, Le Monde vb.) ağır kelimelerle doludur ve yeni başlayanları korkutur.
 
-🚀 **Live Demo:** [You can play the project by clicking here!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
-
-### ✨ Key Features
-* 🌍 **8 Language Support:** Movie terms and clues available in English, Spanish, German, French, Italian, Turkish, Portuguese, and Romanian.
-* 🔀 **Dynamic Interface Translation:** All buttons, headers, and theme names instantly translate into your chosen target language.
-* 🎨 **23 Immersive Themes:** Switch instantly between Newspaper, Matrix, Dracula, Synthwave, Cyberpunk, Spooky Halloween, and many more.
-* 🔒 **Smart Direction Lock:** The cursor stays in line with your writing flow (moves right for across, down for down).
-* 💡 **Get a Hint:** Stuck on a letter? Reveal the correct character instantly.
-* 💾 **Auto-Save Progress:** Your answers and chosen theme are securely saved in LocalStorage.
+**Input Lab Pro**, bu korku duvarını yıkan minimalist bir çalışma stüdyosudur. Tarayıcınızın gücünü ve yapay zekayı birleştirerek zor metinleri saniyeler içinde **A2/B1** seviyesine indirger ve eş zamanlı ses desteği sunar.
 
 ---
 
-## ES - Español
+## ✨ Öne Çıkan Özellikler
 
-Un juego de crucigramas interactivo basado en la web que combina el aprendizaje de idiomas con el cine.
-
-🚀 **Demostración en vivo:** [¡Puedes probar el proyecto haciendo clic aquí!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
-
-### ✨ Características
-* 🌍 **Soporte de 8 Idiomas:** Pistas y palabras sobre cine en inglés, español, alemán, francés, italiano, turco, portugués y rumano.
-* 🔀 **Traducción Dinámica de la Interfaz:** Todos los botones, títulos y nombres de temas se adaptan instantáneamente al idioma seleccionado.
-* 🎨 **23 Temas Visuales:** Cambia instantáneamente entre Periódico, Código Matrix, Drácula Oscuro, Synthwave, Cyberpunk y más.
-* 🔒 **Bloqueo de Dirección Inteligente:** El cursor se mueve automáticamente hacia la derecha o hacia abajo según la palabra.
-* 💡 **Obtener Pista:** Revela la letra correcta de cualquier casilla seleccionada.
-* 💾 **Guardado Automático:** Tu progreso y tema elegido se guardan en el navegador.
+* **Sıfır Sunucu / Sıfır Maliyet:** Herhangi bir API anahtarı veya ücretli veritabanı gerektirmez. Gücünü tamamen kullanıcının tarayıcısından ve kendi ücretsiz yapay zeka hesaplarından alır.
+* **Apple Estetiği:** Tamamen Apple tasarım kılavuzuna (Human Interface Guidelines) uygun, akıcı animasyonlar barındıran derin karanlık mod arayüzü.
+* **Split-Screen (Yan Yana) Çalışma Modu:** Orijinal zor metin ile yapay zekadan gelen basitleştirilmiş metni aynı anda kıyaslayarak okuma imkanı.
+* **Yerleşik Yapay Zeka Seslendirici (TTS):** Metni sadece okumakla kalmayın; tarayıcının yerleşik ses motoruyla ana dili gibi konuşan bir aksanla dinleyin.
+* **Ayarlanabilir Konuşma Hızı:** Gölgeleme (*Shadowing*) pratiği için ses hızını `0.5x` ile `1.5x` arasında canlı olarak yavaşlatıp hızlandırın.
 
 ---
 
-## DE - Deutsch
+## 🛠️ Nasıl Çalışır?
 
-Ein interaktives Web-Kreuzworträtsel, das das Erlernen von Sprachen mit Filmwissen verbindet.
-
-🚀 **Live-Demo:** [Hier klicken, um das Projekt auszuprobieren!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
-
-### ✨ Funktionen
-* 🌍 **8 Sprachen Unterstützung:** Filmbegriffe auf Englisch, Spanisch, Deutsch, Französisch, Italienisch, Türkisch, Portugiesisch und Rumänisch.
-* 🔀 **Dynamische Benutzeroberfläche:** Alle Schaltflächen, Titel und Designnamen passen sich sofort an die gewählte Zielsprache an.
-* 🎨 **23 Visuelle Designs:** Sofortiger Wechsel zwischen Zeitung, Matrix Digital, Dracula Dunkel, Synthwave, Cyberpunk, Halloween und mehr.
-* 🔒 **Intelligente Richtungssperre:** Automatische Cursor-Navigation passend zur Schreibrichtung (waagerecht oder senkrecht).
-* 💡 **Buchstaben-Hinweis:** Zeigt den richtigen Buchstaben an, wenn Sie nicht weiterwissen.
-* 💾 **Automatisches Speichern:** Ihr Fortschritt und Ihr gewähltes Design werden im LocalStorage gespeichert.
+1.  **Metni Yapıştırın:** İnternette okumak istediğiniz ama zor gelen yabancı metni kutuya ekleyin, dilinizi ve hedef seviyenizi seçin.
+2.  **Sihirli Prompt'u Alın:** Sistem size o metne özel hazırlanmış, dil uzmanları tarafından kalibre edilmiş akıllı bir yapay zeka komutu (prompt) üretir. Tek tıkla kopyalayın.
+3.  **Yapay Zekaya Sorun:** Komutu ücretsiz ChatGPT veya Claude hesabınıza yapıştırın. Yapay zeka size metnin anlamını bozmadan, tamamen seçtiğiniz seviyedeki kelimelerle yazılmış halini verecektir.
+4.  **Stüdyoda Çalışın:** Gelen sonucu Input Lab'e geri yapıştırarak yerleşik ses motoruyla dinleyin, hızını ayarlayın ve telaffuz çalışın.
 
 ---
 
-## FR - Français
+## 🚀 Teknolojik Altyapı
 
-Un jeu de mots croisés interactif sur le Web qui combine l'apprentissage des langues et la culture cinématographique.
+Bu proje, modern web teknolojilerinin en saf ve hafif haliyle, harici hiçbir kütüphaneye bağımlı olmadan tek bir `index.html` dosyası içinde inşa edilmiştir:
 
-🚀 **Démo en direct :** [Vous pouvez tester le projet en cliquant ici !](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
-
-### ✨ Fonctionnalités
-* 🌍 **Support de 8 Langues:** Indices et mots sur le cinéma en anglais, espagnol, allemand, français, italien, turc, portugais et roumain.
-* 🔀 **Traduction Dynamique de l'Interface:** Tous les boutons, titres et thèmes se traduisent instantanément dans la langue cible choisie.
-* 🎨 **23 Thèmes Visuels:** Basculez instantanément entre Journal, Code Matrix, Dracula Sombre, Synthwave, Cyberpunk, et bien d'autres.
-* 🔒 **Verrouillage Intelligent de Direction:** Le curseur se déplace automatiquement vers la droite ou vers le bas selon le mot sélectionné.
-* 💡 **Obtenir un Indice:** Révèle instantanément la bonne lettre de la case sélectionnée.
-* 💾 **Sauvegarde Automatique:** Votre progression et le thème choisi sont conservés dans le navigateur.
+* **HTML5 & JavaScript (ES6+)**
+* **Tailwind CSS:** Ultra hafif ve modern arayüz tasarımı için.
+* **Alpine.js:** Akıcı durum yönetimleri ve Apple tarzı micro-animation geçişleri için.
+* **Web Speech API:** Tarayıcının kendi içinde barındırdığı sıfır maliyetli yerel ses sentezleyici motoru.
 
 ---
 
-## IT - Italiano
+## 📦 Kurulum ve Canlıya Alma
 
-Un gioco di parole crociate interattivo basato sul web che unisce l'apprendimento delle lingue alla cultura cinematografica.
+Proje **serverless** (sunucusuz) mimaride olduğu için kurulumu sadece 5 saniye sürer:
 
-🚀 **Demo live:** [Puoi provare il progetto cliccando qui!](https://cuzdandakikaradelik.github.io/polyglot-crossword/)
-
-### ✨ Caratteristiche
-* 🌍 **Supporto di 8 Lingue:** Parole e indizi sul cinema in inglese, spagnolo, tedesco, francese, italiano, turco, portoghese e rumeno.
-* 🔀 **Traduzione Dinamica dell'Interfaccia:** Tutti i pulsanti, i titoli e i nomi dei temi cambiano istantaneamente in base alla lingua scelta.
-* 🎨 **23 Temi Visivi:** Cambia istantaneamente tra Giornale, Codice Matrix, Dracula Oscuro, Synthwave, Cyberpunk, Halloween e altri.
-* 🔒 **Blocco Direzione Intelligente:** Il cursore si sposta automaticamente a destra o in basso a seconda della direzione della parola.
-* 💡 **Suggerimento Lettera:** Mostra istantaneamente la letra corretta nella casella selezionata.
-* 💾 **Salvataggio Automatico:** I tuoi progressi vengono salvati in LocalStorage.
+1.  Bu depoyu (repository) klonlayın veya `index.html` dosyasını bilgisayarınıza indirin.
+2.  Dosyayı herhangi bir tarayıcıda çift tıklayarak anında lokalde çalıştırabilirsiniz.
+3.  **GitHub Pages** üzerinde tamamen ücretsiz olarak küresel çapta yayına alabilirsiniz (Settings > Pages > Branch: Main > Save).
 
 ---
 
-## 🛠️ Tech Stack / Kullanılan Teknolojiler
-* **HTML5** & **CSS3** (Custom Properties / CSS Variables)
-* **Vanilla JavaScript** (ES6+ Navigation Engine & LocalStorage API)
+## 📄 Lisans
+
+Bu proje **MIT Lisansı** ile korunmaktadır. Tamamen açık kaynaklıdır; kopyalayabilir, değiştirebilir ve kendi topluluğunuz için ücretsizce yayına alabilirsiniz.
+
+---
+
+*Katkıda bulunmak veya fikirlerinizi paylaşmak için bir Issue açmaktan çekinmeyin! Geliştirmeye devam ediyoruz. 🧪*
