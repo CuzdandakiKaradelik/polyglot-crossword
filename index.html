@@ -21,11 +21,9 @@
         shadowMode: false,
         liveEcho: false,
 
-        // Sistem Uyumluluk State'leri
         isSupported: true,
         errorMessage: '',
 
-        // Analiz Verileri
         recognition: null,
         spokenText: '',
         evaluatedWords: [],
@@ -43,7 +41,6 @@
         audioContext: null,
         feedbackNode: null,
 
-        // KALİTE ADIMI 1: TARAYICIYI VE SESLERİ ÖNCEDEN ISITMA
         init() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
@@ -73,13 +70,13 @@
             window.speechSynthesis.getVoices();
         },
 
-        // KALİTE ADIMI 2: GELİŞMİŞ ARKA PLAN METİN TEMİZLEME VE EŞLEŞTİRME
         calculateMetrics() {
             if(!this.spokenText) return;
 
+            // HATALI SATIR TEMİZLENDİ: Tüm özel karakter ve tırnak temizleme yapısı düzeltildi
             const cleanText = (str) => {
                 return str.toLowerCase()
-                          .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?’“壊”""—]/g, '')
+                          .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?'""’“”—]/g, '')
                           .replace(/\s+/g, ' ')
                           .trim();
             };
@@ -94,7 +91,6 @@
                 return { text: word, correct: spokenWords.includes(word) };
             });
 
-            // WPM Hız Hesaplaması
             if (this.startTime) {
                 let durationInMinutes = ((Date.now() - this.startTime) / 1000) / 60;
                 this.wpmScore = Math.round(spokenWords.length / Math.max(0.01, durationInMinutes));
@@ -130,7 +126,6 @@
             window.speechSynthesis.speak(utterance);
         },
 
-        // KALİTE ADIMI 3: AUTOPLAY SECURITY RESUME ENTEGRELİ OTURUM BAŞLATMA
         async startSession() {
             this.audioChunks = [];
             this.audioUrl = null;
@@ -147,14 +142,13 @@
                         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     }
                     
-                    // KİLİT KIRICI SATIR: Tarayıcı askıya aldıysa zorla uyandırır
                     if (this.audioContext.state === 'suspended') {
                         await this.audioContext.resume();
                     }
 
                     let source = this.audioContext.createMediaStreamSource(this.localStream);
                     this.feedbackNode = this.audioContext.createGain();
-                    this.feedbackNode.gain.value = 0.7; // Güvenli ses seviyesi
+                    this.feedbackNode.gain.value = 0.7; 
                     source.connect(this.feedbackNode);
                     this.feedbackNode.connect(this.audioContext.destination);
                 }
