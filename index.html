@@ -3,32 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Suite - Karaoke Mimic</title>
-    <!-- Tailwind CSS -->
+    <title>Polyglot Studio - Akıllı Telaffuz</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .apple-ease { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .bg-gradient-radial {
-            background-image: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #000000 75%);
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
         }
+        .smooth-transition { transition: all 0.3s ease; }
         [x-cloak] { display: none !important; }
-        /* Parlayan aktif kelime stili */
-        .active-word {
-            color: #6366f1 !important;
-            text-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
-            transform: scale(1.08);
-            display: inline-block;
-        }
     </style>
 </head>
-<body class="min-h-screen bg-[#000000] text-[#f5f5f7] antialiased tracking-tight bg-gradient-radial"
+<body class="min-h-screen text-slate-200 antialiased tracking-tight"
       x-data="{
-        activeTab: 'mimic',
-        customText: 'The quick brown fox jumps over the lazy dog and creates a beautiful masterpiece.', 
-        speechRate: 1.0, // Hız Ayarı
-        currentWordIndex: -1, // O an okunan kelimenin sırası (Karaoke)
+        selectedLang: 'en-US',
+        customText: 'The future belongs to those who believe in the beauty of their dreams.', 
+        speechRate: 1.0,
         
         mediaRecorder: null,
         audioChunks: [],
@@ -38,48 +30,36 @@
         audioContext: null,
         analyser: null,
 
-        // Metni kelimelere bölen akıllı fonksiyon
-        get words() {
-            return this.customText.split(' ').filter(w => w.length > 0);
-        },
-
-        // PREMIUM DOĞAL SES İLE SESLENDİRME VE KARAOKE (İstediğin Özellikler)
+        // PREMIUM VE DOĞAL SES MOTORU (Robotik Sesleri Engeller)
         playNative() {
             window.speechSynthesis.cancel();
-            this.currentWordIndex = -1;
-
             let utterance = new SpeechSynthesisUtterance(this.customText);
             
-            // Tarayıcıdaki en kaliteli, robotik olmayan premium İngilizce sesi seçelim
+            // Sistemde yüklü olan en kaliteli bulut/doğal sesleri tarar
             let voices = window.speechSynthesis.getVoices();
-            let premiumVoice = voices.find(v => v.lang === 'en-US' && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Zira') || v.name.includes('David')));
+            let premiumVoice = voices.find(v => v.lang === this.selectedLang && 
+                (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft') || v.name.includes('Zira')));
+            
             if (premiumVoice) {
                 utterance.voice = premiumVoice;
             } else {
-                utterance.lang = 'en-US'; // Fallback
+                utterance.lang = this.selectedLang;
             }
 
-            // Kullanıcının ayarladığı hız (Speed Slider)
             utterance.rate = this.speechRate;
-
-            // Kelime geçişlerini anlık yakalama (KARAOKE EFEKTİ)
-            utterance.onboundary = (event) => {
-                if (event.name === 'word') {
-                    // Karakter indeksinden hangi kelimede olduğumuzu buluyoruz
-                    let textUpToBoundary = this.customText.substring(0, event.charIndex);
-                    let wordCount = textUpToBoundary.split(' ').filter(w => w.length > 0).length;
-                    this.currentWordIndex = wordCount;
-                }
-            };
-
-            utterance.onend = () => {
-                this.currentWordIndex = -1; // Okuma bitince vurguyu kaldır
-            };
-
             window.speechSynthesis.speak(utterance);
         },
 
-        // GERÇEK ZAMANLI SES ANALİZİ VE MİKROFON KAYDI
+        // GOOGLE ÇEVİRİ ENTEGRASYONU (Sıfır Maliyet)
+        translateText() {
+            if (!this.customText.trim()) return;
+            // Kaynak dili otomatik algılaması veya seçilen dile göre ayarlaması için url oluşturuyoruz
+            let sourceLangCode = this.selectedLang.split('-')[0]; // örn: 'en', 'de', 'fr'
+            let googleTranslateUrl = `https://translate.google.com/?sl=${sourceLangCode}&tl=tr&text=${encodeURIComponent(this.customText)}&op=translate`;
+            window.open(googleTranslateUrl, '_blank'); // Yeni sekmede çeviriyi açar
+        },
+
+        // GERÇEK MİKROFON ANALİZİ VE KAYIT
         async startRecording() {
             this.audioChunks = [];
             this.userWaveforms = [];
@@ -104,7 +84,7 @@
                 let avg = dataArray.reduce((a,b) => a+b, 0) / bufferLength;
                 let barHeight = Math.max(15, Math.min(95, (avg / 128) * 100));
                 
-                if(this.userWaveforms.length > 22) this.userWaveforms.shift();
+                if(this.userWaveforms.length > 18) this.userWaveforms.shift();
                 this.userWaveforms.push(barHeight);
             };
             
@@ -131,89 +111,96 @@
             if(this.audioUrl) new Audio(this.audioUrl).play();
         }
       }"
-      x-init="setTimeout(() => window.speechSynthesis.getVoices(), 500)"> <!-- Seslerin yüklenmesi için ufak bir tetikleyici -->
+      x-init="setTimeout(() => window.speechSynthesis.getVoices(), 500)">
 
-    <!-- Üst Menü -->
-    <nav class="sticky top-0 z-40 w-full border-b border-white/5 bg-[#000000]/70 backdrop-blur-md">
-        <div class="max-w-4xl mx-auto h-14 flex items-center justify-between px-6">
-            <span class="text-sm font-bold tracking-wider text-zinc-200">POLYGLOT.SUITE <span class="text-indigo-400 text-[10px] ml-1">KARAOKE PRO</span></span>
+    <header class="w-full border-b border-indigo-500/10 bg-slate-900/60 backdrop-blur-lg sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto h-16 flex items-center justify-between px-6">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-violet-500 shadow-[0_0_10px_#8b5cf6]"></div>
+                <span class="text-base font-bold tracking-wide bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">Polyglot Studio</span>
+            </div>
+            <span class="text-xs font-semibold bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full text-indigo-300">Doğal Ses Desteği Active</span>
         </div>
-    </nav>
+    </header>
 
-    <!-- Ana Panel -->
-    <main class="max-w-2xl mx-auto pt-12 px-6 pb-32">
-
+    <main class="max-w-2xl mx-auto pt-12 px-4 pb-32">
         <div class="space-y-8">
+            
             <div class="text-center space-y-2">
-                <h1 class="text-3xl font-bold text-white tracking-tight">Akıllı Dikte & Telaffuz</h1>
-                <p class="text-xs text-zinc-400 max-w-sm mx-auto">Kelime takibi ve hız kontrolü sunan gelişmiş İngilizce aksan stüdyosu.</p>
+                <h1 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-sm">Aksan ve Konuşma Laboratuvarı</h1>
+                <p class="text-sm text-slate-400">İstediğiniz dilde metin yazın, kusursuz sesle dinleyin ve telaffuzunuzu geliştirin.</p>
             </div>
 
-            <div class="p-6 bg-[#1d1d1f]/50 border border-white/5 rounded-2xl space-y-6">
-                <!-- Metin Giriş Kutusu -->
-                <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block">Çalışmak İstediğiniz İngilizce Metin</label>
-                    <textarea x-model="customText" rows="3" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/10 apple-ease resize-none"></textarea>
-                </div>
-
-                <!-- AKILLI HIZ AYARI (SPEED SLIDER) -->
-                <div class="space-y-2 bg-black/20 p-4 rounded-xl border border-white/5">
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="text-zinc-400 font-medium">Seslendirme Hızı</span>
-                        <span class="text-indigo-400 font-bold" x-text="speechRate + 'x'"></span>
+            <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-6">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Hedef Dil</label>
+                        <select x-model="selectedLang" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-violet-500 smooth-transition">
+                            <option value="en-US">İngilizce (US)</option>
+                            <option value="de-DE">Almanca (Deutsch)</option>
+                            <option value="fr-FR">Fransızca (Français)</option>
+                            <option value="es-ES">İspanyolca (Español)</option>
+                        </select>
                     </div>
-                    <input type="range" min="0.5" max="1.75" step="0.25" x-model="speechRate" 
-                           class="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
-                </div>
 
-                <!-- CANLI KARAOKE METİN ALANI (Sırayla Geçiş Özelliği) -->
-                <div class="p-5 bg-black/50 border border-white/5 rounded-xl min-h-24 flex flex-wrap gap-x-2 gap-y-1.5 items-center justify-center text-lg font-medium text-zinc-400 select-none">
-                    <template x-for="(word, index) in words">
-                        <span x-text="word" :class="index === currentWordIndex ? 'active-word font-bold' : ''" class="apple-ease"></span>
-                    </template>
-                </div>
-
-                <!-- Orijinal Premium Sesi Dinleme Butonu -->
-                <div class="flex items-center justify-between bg-black/40 p-4 rounded-xl border border-white/5">
-                    <div class="flex items-center gap-3">
-                        <button @click="playNative()" class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center font-bold text-sm hover:scale-105 apple-ease cursor-pointer">▶</button>
-                        <div>
-                            <span class="text-xs font-semibold text-zinc-300 block">1. Doğal Sesle Dinle</span>
-                            <span class="text-[11px] text-zinc-500">Mavi renk vurgusunu gözünle takip et.</span>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-bold text-slate-400 uppercase tracking-wider">
+                            <span>Konuşma Hızı</span>
+                            <span class="text-violet-400" x-text="speechRate + 'x'"></span>
+                        </div>
+                        <div class="pt-2">
+                            <input type="range" min="0.5" max="1.5" step="0.25" x-model="speechRate" 
+                                   class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-violet-500">
                         </div>
                     </div>
                 </div>
 
-                <!-- Kullanıcı Kayıt İstasyonu -->
-                <div class="flex items-center justify-between bg-zinc-900/40 p-4 rounded-xl border border-dashed border-white/10">
-                    <div class="flex items-center gap-3">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Pratik Yapılacak Metin</label>
+                    <textarea x-model="customText" rows="4" class="w-full bg-slate-800/50 border border-slate-700 rounded-2xl px-4 py-3 text-base text-white focus:outline-none focus:border-violet-500 smooth-transition resize-none" placeholder="Buraya dilediğiniz bir cümleyi veya paragrafı ekleyin..."></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button @click="playNative()" class="w-full py-3.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold rounded-xl text-sm shadow-lg shadow-indigo-600/20 smooth-transition cursor-pointer flex items-center justify-center gap-2">
+                        <span>▶</span> Doğal Sesle Dinle
+                    </button>
+
+                    <button @click="translateText()" class="w-full py-3.5 bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl text-sm smooth-transition cursor-pointer flex items-center justify-center gap-2">
+                        <span>🌐</span> Google Çeviri ile Bak
+                    </button>
+                </div>
+
+                <div class="border-t border-slate-800/60 my-2"></div>
+
+                <div class="bg-slate-950/40 border border-slate-800 rounded-2xl p-4 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
                         <button @click="isRecording ? stopRecording() : startRecording()" 
-                                :class="isRecording ? 'bg-red-500 animate-pulse text-white' : 'bg-zinc-800 text-white'"
-                                class="w-10 h-10 rounded-full flex items-center justify-center text-sm apple-ease cursor-pointer">
+                                :class="isRecording ? 'bg-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.4)] text-white' : 'bg-slate-800 hover:bg-slate-700 text-slate-300'"
+                                class="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold smooth-transition cursor-pointer shrink-0">
                             <span x-text="isRecording ? '■' : '🎤'"></span>
                         </button>
                         <div>
-                            <span class="text-xs font-semibold text-zinc-300 block" x-text="isRecording ? 'Sizin Sesiniz Çiziliyor...' : '2. Şimdi Sıra Sizde'"></span>
-                            <span class="text-[11px] text-zinc-500" x-text="isRecording ? 'Konuşun...' : 'Aynı hızda seslendirmek için mikrofona basın'"></span>
+                            <span class="text-sm font-bold text-slate-200 block" x-text="isRecording ? 'Sesiniz Kaydediliyor ve Analiz Ediliyor...' : 'Şimdi Kendiniz Telaffuz Edin'"></span>
+                            <span class="text-xs text-slate-500" x-text="isRecording ? 'Kayıt bitince durdur butonuna basın.' : 'Mikrofona basıp cümleyi kendi aksanınızla okuyun.'"></span>
                         </div>
                     </div>
                     
-                    <!-- Canlı Ses Dalgaları -->
-                    <div class="flex items-center gap-0.5 h-10 w-28 justify-end overflow-hidden">
+                    <div class="flex items-center gap-0.5 h-10 w-24 justify-end overflow-hidden shrink-0">
                         <template x-for="h in userWaveforms">
-                            <div class="w-1 bg-emerald-400 rounded-full apple-ease" :style="'height: ' + h + '%'"></div>
+                            <div class="w-1 bg-gradient-to-t from-violet-500 to-fuchsia-400 rounded-full smooth-transition" :style="'height: ' + h + '%'"></div>
                         </template>
                     </div>
                 </div>
 
-                <!-- Sonuç Kıyaslama -->
                 <button x-show="audioUrl" @click="playUser()" x-cloak x-transition
-                        class="w-full py-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-semibold rounded-xl text-xs apple-ease hover:bg-emerald-500/20 cursor-pointer">
-                    🔊 Kendi Kaydını Dinle & Yapay Zeka Sesiyle Kıyasla
+                        class="w-full py-3 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 text-emerald-400 font-bold rounded-xl text-xs smooth-transition cursor-pointer">
+                    🔊 Kendi Ses Kaydınızı Dinleyin & Kusursuz Sesle Kıyaslayın
                 </button>
-            </div>
-        </div>
 
+            </div>
+
+        </div>
     </main>
 </body>
 </html>
