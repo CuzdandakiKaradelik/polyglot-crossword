@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Studio - Production Ready</title>
+    <title>Polyglot Studio - Production Ready Ultimate</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@
         audioContext: null,
         feedbackNode: null,
 
-        // 1. KALİTE ADIMI: TARAYICIYI VE SESLERİ ÖNCEDEN ISITMA (Zorunlu Başlangıç)
+        // KALİTE ADIMI 1: TARAYICIYI VE SESLERİ ÖNCEDEN ISITMA
         init() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
@@ -52,7 +52,6 @@
                 return;
             }
 
-            // Ses tanıma motorunu kararlı şekilde ayağa kaldırıyoruz
             this.recognition = new SpeechRecognition();
             this.recognition.continuous = true;
             this.recognition.interimResults = false;
@@ -68,21 +67,19 @@
 
             this.recognition.onend = () => { this.isListening = false; };
 
-            // Mobil ve masaüstü tarayıcılarda ses listesini önceden hafızaya alıyoruz
             if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
                 speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
             }
             window.speechSynthesis.getVoices();
         },
 
-        // 2. KALİTE ADIMI: GELİŞMİŞ ARKA PLAN METİN TEMİZLEME ALGORİTMASI
+        // KALİTE ADIMI 2: GELİŞMİŞ ARKA PLAN METİN TEMİZLEME VE EŞLEŞTİRME
         calculateMetrics() {
             if(!this.spokenText) return;
 
-            // Metni tüm pisliklerden (akıllı tırnaklar, çizgiler, noktalardan) arındıran regex dizisi
             const cleanText = (str) => {
                 return str.toLowerCase()
-                          .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?’“”""—]/g, '')
+                          .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?’“壊”""—]/g, '')
                           .replace(/\s+/g, ' ')
                           .trim();
             };
@@ -93,7 +90,6 @@
             let originalWords = originalCleaned.split(' ').filter(w => w.length > 0);
             let spokenWords = spokenCleaned.split(' ').filter(w => w.length > 0);
             
-            // Kullanıcının telaffuzunu kusursuz eşleştirme
             this.evaluatedWords = originalWords.map(word => {
                 return { text: word, correct: spokenWords.includes(word) };
             });
@@ -120,7 +116,6 @@
             let utterance = new SpeechSynthesisUtterance(this.customText);
             let voices = window.speechSynthesis.getVoices();
             
-            // En kararlı, robotik olmayan sesi bulma filtresi
             let premiumVoice = voices.find(v => v.lang === this.selectedLang && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
             
             if (premiumVoice) utterance.voice = premiumVoice;
@@ -135,7 +130,7 @@
             window.speechSynthesis.speak(utterance);
         },
 
-        // 3. KALİTE ADIMI: GÜVENLİ MİKROFON VE OTURUM BAŞLATMA (Hata Yakalamalı)
+        // KALİTE ADIMI 3: AUTOPLAY SECURITY RESUME ENTEGRELİ OTURUM BAŞLATMA
         async startSession() {
             this.audioChunks = [];
             this.audioUrl = null;
@@ -148,10 +143,18 @@
                 this.localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 
                 if (this.liveEcho) {
-                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    if (!this.audioContext) {
+                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+                    
+                    // KİLİT KIRICI SATIR: Tarayıcı askıya aldıysa zorla uyandırır
+                    if (this.audioContext.state === 'suspended') {
+                        await this.audioContext.resume();
+                    }
+
                     let source = this.audioContext.createMediaStreamSource(this.localStream);
                     this.feedbackNode = this.audioContext.createGain();
-                    this.feedbackNode.gain.value = 0.7; // Kulaklıkta patlama yapmaması için güvenli sınır
+                    this.feedbackNode.gain.value = 0.7; // Güvenli ses seviyesi
                     source.connect(this.feedbackNode);
                     this.feedbackNode.connect(this.audioContext.destination);
                 }
@@ -231,7 +234,7 @@
 
                 <button @click="liveEcho = !liveEcho" :class="liveEcho ? 'bg-teal-600/20 text-teal-400 border-teal-500/40' : 'bg-slate-950/40 text-slate-500 border-slate-800'" class="border p-3 rounded-xl flex flex-col justify-center items-start smooth text-left cursor-pointer">
                     <span class="text-xs font-bold">Ghost Echo (Canlı Ses)</span>
-                    <span class="text-[9px] text-slate-400 mt-0.5" x-text="liveEcho ? 'Aktif: Kendi sesinizi duyun' : 'Kapalı'"></span>
+                    <span class="text-[9px] text-slate-400 mt-0.5" x-text="liveEcho ? 'Aktif: Kendi sesinizi duyun' : 'Kapalı (Kulaklık önerilir)'"></span>
                 </button>
             </div>
 
@@ -276,7 +279,7 @@
                 </button>
             </div>
 
-            <button x-show="audioUrl" @click="new Audio(audioUrl).play()" x-cloak x-transition
+            <button @click="new Audio(audioUrl).play()" x-show="audioUrl" x-cloak x-transition
                     class="w-full py-3.5 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold rounded-xl text-xs smooth cursor-pointer">
                 🔊 Kendi Ses Kaydınızı Dinleyin
             </button>
