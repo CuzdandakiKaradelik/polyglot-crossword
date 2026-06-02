@@ -3,37 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Lab | Kolektif Harita</title>
+    <title>The Polyglot Lab</title>
+    <!-- Tailwind CSS (Modern Tasarım İçin) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Alpine.js (Apple Tarzı Animasyonlar ve Form Kontrolü İçin) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Lucide İkonları İçin -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.8; color: #333; max-width: 1000px; margin: auto; padding: 40px; background-color: #f9f9f9; }
-        .header { text-align: center; margin-bottom: 40px; }
-        .manifesto { background: #fff; padding: 25px; border-left: 8px solid #333; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .cta-btn { display: block; background: #000; color: #fff; text-align: center; padding: 20px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.2rem; }
-        
-        /* Tabloyu okunabilir yapmak için özel tasarım */
-        .sheet-container { width: 100%; border: none; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        iframe { width: 100%; height: 800px; border: none; padding: 20px; box-sizing: border-box; }
-        
-        /* Mobil uyum için küçük bir dokunuş */
-        @media (max-width: 600px) { body { padding: 10px; } }
+        /* Apple tarzı yumuşak geçişler için özel CSS */
+        .apple-transition {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        [x-cloak] { display: none !important; }
     </style>
 </head>
-<body>
+<body class="min-h-screen bg-[#050505] text-white antialiased font-sans selection:bg-purple-500 selection:text-white" 
+      x-data="{ 
+        isModalOpen: false, 
+        activeTab: 'all',
+        posts: [
+            { id: 1, type: 'hack', title: '15 Dk Shadowing ile Kulak Alışkanlığı', category: '🎧 Kulak Alışkanlığı', author: 'Kerem', content: 'Dizi izlerken altyazıyı kapatıp, karakterin hemen arkasından aynı tonlamayla cümleyi tekrar ediyorum. Ağız kaslarımı alıştırmak için harika bir hack.', lang: 'İngilizce', level: 'İleri Seviye', votes: 42, hasVoted: false },
+            { id: 2, type: 'progress', title: 'Sıfırdan B2 Almanca: 6 Aylık Yolculuğum', category: '📈 İlerleme Günlüğü', author: 'Dilara', content: 'Her gün sadece Anki desteleri ve her hafta 2 saat iTalki konuşmasıyla B2 sertifikasını aldım. Sürecimin haftalık kelime grafiklerini paylaşıyorum.', lang: 'Almanca', level: 'B2', votes: 128, hasVoted: false }
+        ],
+        handleVote(id) {
+            this.posts = this.posts.map(post => {
+                if (post.id === id) {
+                    post.votes = post.hasVoted ? post.votes - 1 : post.votes + 1;
+                    post.hasVoted = !post.hasVoted;
+                }
+                return post;
+            });
+        }
+      }">
 
-<div class="header">
-    <h1>The Polyglot Lab</h1>
-    <p>Learn Different. Build the Map Together.</p>
-</div>
+    <!-- Üst Menü / Hero Alanı -->
+    <header class="max-w-4xl mx-auto pt-20 px-4 text-center">
+        <h1 class="text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-400 to-zinc-600 animate-fade-in">
+            The Polyglot Lab
+        </h1>
+        <p class="mt-3 text-sm tracking-widest text-zinc-400 uppercase opacity-70">
+            Learn Different. Build the Map Together.
+        </p>
+    </header>
 
-<div class="manifesto">
-    <strong>Kolektif Hafıza:</strong> Kitabi yöntemlerin dışına çıkan, kendi 'dil hack'ini icat etmiş, öğrenme sürecini hacklemiş olanların haritasındasın. Senin çözümün, başkasının yolu olabilir.
-</div>
+    <!-- Kolektif Hafıza Mottosu (Görselinizdeki Metin) -->
+    <main class="max-w-3xl mx-auto mt-12 px-4">
+        <div class="border-l-2 border-white bg-zinc-950/40 backdrop-blur-md p-6 rounded-r-xl border border-zinc-900 apple-transition hover:border-zinc-800">
+            <p class="text-sm leading-relaxed text-zinc-300">
+                <strong class="text-white">Kolektif Hafıza:</strong> Kitabi yöntemlerin dışına çıkan, kendi 'dil hack'ini icat etmiş, öğrenme sürecini hacklemiş olanların haritasındasın. Senin çözümün, başkasının yolu olabilir.
+            </p>
+        </div>
 
-<a href="https://docs.google.com/forms/d/e/1FAIpQLScLib7vjXW4d72n22mFnmFoHEPoC8yoYinZFur_BMzt_UXsKA/viewform?usp=dialog" class="cta-btn">🚀 Kendi Dil Yöntemini Paylaş</a>
+        <!-- Ana Aksiyon Butonu - Apple Tarzı Hover Efektli -->
+        <button @click="isModalOpen = true"
+                class="w-full mt-6 py-4 bg-zinc-900 border border-zinc-800 text-white font-medium rounded-xl apple-transition hover:bg-white hover:text-black hover:scale-[1.01] active:scale-[0.99] shadow-xl flex items-center justify-center gap-2 text-base tracking-wide cursor-pointer">
+            🚀 Kendi Dil Yöntemini Paylaş
+        </button>
 
-<div class="sheet-container">
-    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRH94hlVrIv0X8VSeaelJD1gNvpgEmjJxxV0Q_q2P70ub5wrtez8ht0jqKdNlZGDcnejFcA5szU9IWR/pubhtml"></iframe>
-</div>
+        <!-- Filtreleme Sekmeleri -->
+        <div class="flex gap-2 mt-12 border-b border-zinc-900 pb-3">
+            <button @click="activeTab = 'all'" :class="activeTab === 'all' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'" class="px-4 py-1.5 text-xs font-medium rounded-full capitalize apple-transition cursor-pointer">Tümü</button>
+            <button @click="activeTab = 'hack'" :class="activeTab === 'hack' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'" class="px-4 py-1.5 text-xs font-medium rounded-full capitalize apple-transition cursor-pointer">🧬 Dil Hackleri</button>
+            <button @click="activeTab = 'progress'" :class="activeTab === 'progress' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'" class="px-4 py-1.5 text-xs font-medium rounded-full capitalize apple-transition cursor-pointer">📈 İlerleme Günlükleri</button>
+        </div>
 
+        <!-- Akış (Feed) / Kartlar -->
+        <div class="mt-6 space-y-4 pb-24">
+            <template x-for="post in posts" :key="post.id">
+                <div x-show="activeTab === 'all' || post.type === activeTab"
+                     x-transition:enter="apple-transition"
+                     x-transition:enter-start="opacity-0 transform translate-y-4"
+                     x-transition:enter-end="opacity-100 transform translate-y-0"
+                     class="p-6 bg-zinc-950/30 border border-zinc-900 rounded-xl hover:border-zinc-800 apple-transition backdrop-blur-sm flex justify-between items-start gap-4">
+                    
+                    <div class="space-y-3 flex-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-semibold px-2.5 py-0.5 bg-zinc-900 text-purple-400 border border-purple-950 rounded-full" x-text="post.category"></span>
+                            <span class="text-xs text-zinc-500"><span x-text="post.lang"></span> • <span x-text="post.level"></span></span>
+                        </div>
+                        <h3 class="text-lg font-bold text-zinc-100" x-text="post.title"></h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed" x-text="post.content"></p>
+                        <div class="text-xs text-zinc-600 font-medium">Katkıda Bulunan: @<span x-text="post.author"></span></div>
+                    </div>
+
+                    <!-- "Bende İşe Yaradı" (Upvote) Butonu -->
+                    <button @click="handleVote(post.id)"
+                            :class="post.hasVoted ? 'bg-purple-950/40 border-purple-500 text-purple-400 shadow-lg shadow-purple-950/20' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:border-zinc-700'"
+                            class="flex flex-col items-center justify-center p-3 rounded-xl border apple-transition w-16 active:scale-90 cursor-pointer">
+                        <span class="text-lg" x-text="post.hasVoted ? '🔥' : '▲'"></span>
+                        <span class="text-xs font-bold mt-1" x-text="post.votes"></span>
+                    </button>
+                </div>
+            </template>
+        </div>
+    </main>
+
+    <!-- POP-UP FORM (MODAL) -->
+    <div x-show="isModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <!-- Arka Plan Bulanıklaştırma -->
+        <div x-show="isModalOpen" 
+             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+             @click="isModalOpen = false" 
+             class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        
+        <!-- Form Penceresi -->
+        <div x-show="isModalOpen" 
+             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-95 translate-y-4" x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-95 translate-y-4"
+             class="relative w-full max-w-xl bg-zinc-950 border border-zinc-800 p-8 rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh] z-10">
+            
+            <h2 class="text-2xl font-bold tracking-tight">Kolektife Bir Parça Ekle</h2>
+            <p class="text-xs text-zinc-500 mt-1">Geliştirdiğin yöntemi veya katettiğin aşamayı laboratuvara kaydet.</p>
+            
+            <form class="mt-6 space-y-5" @submit.preventDefault="isModalOpen = false">
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Ne Paylaşıyorsun?</label>
+                    <div class="grid grid-cols-2 gap-3" x-data="{ selectedType: 'hack' }">
+                        <div @click="selectedType = 'hack'" :class="selectedType === 'hack' ? 'border-purple-500 bg-zinc-900' : 'border-zinc-800 opacity-60'" class="p-4 bg-zinc-900/50 border rounded-xl cursor-pointer text-center apple-transition">
+                            <span class="text-xl block mb-1">🧬</span>
+                            <span class="text-sm font-medium">Dil Hack'i</span>
+                        </div>
+                        <div @click="selectedType = 'progress'" :class="selectedType === 'progress' ? 'border-purple-500 bg-zinc-900' : 'border-zinc-800 opacity-60'" class="p-4 bg-zinc-900/50 border rounded-xl cursor-pointer text-center apple-transition">
+                            <span class="text-xl block mb-1">📈</span>
+                            <span class="text-sm font-medium">İlerleme Günlüğü</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Başlık</label>
+                    <input type="text" placeholder="Örn: Post-it Duvarı ile Hafıza Sarayı" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 apple-transition" />
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Yöntem / Hikaye Detayı</label>
+                    <textarea rows="4" placeholder="Adım adım nasıl uyguladığını veya sürecini anlat..." class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 apple-transition resize-none"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Hangi Dil?</label>
+                        <input type="text" placeholder="Örn: Almanca" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 apple-transition" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Hedef Seviye</label>
+                        <input type="text" placeholder="Örn: B2" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 apple-transition" />
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-3">
+                    <button type="button" @click="isModalOpen = false" class="flex-1 py-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-medium rounded-xl apple-transition text-sm cursor-pointer">İptal</button>
+                    <button type="submit" class="flex-1 py-3 bg-white text-black font-semibold rounded-xl hover:bg-zinc-200 apple-transition text-sm cursor-pointer">Laboratuvara Gönder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Lucide ikonlarını başlatmak için
+        lucide.createIcons();
+    </script>
 </body>
 </html>
