@@ -50,12 +50,3 @@ Proje **serverless** (sunucusuz) mimaride olduğu için kurulumu sadece 5 saniye
 2.  Dosyayı herhangi bir tarayıcıda çift tıklayarak anında lokalde çalıştırabilirsiniz.
 3.  **GitHub Pages** üzerinde tamamen ücretsiz olarak küresel çapta yayına alabilirsiniz (Settings > Pages > Branch: Main > Save).
 
----
-
-## 📄 Lisans
-
-Bu proje **MIT Lisansı** ile korunmaktadır. Tamamen açık kaynaklıdır; kopyalayabilir, değiştirebilir ve kendi topluluğunuz için ücretsizce yayına alabilirsiniz.
-
----
-
-*Katkıda bulunmak veya fikirlerinizi paylaşmak için bir Issue açmaktan çekinmeyin! Geliştirmeye devam ediyoruz. 🧪*
