@@ -3,285 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Studio - Production Ready Ultimate</title>
+    <title>LoreWeaver - World Anvil & Character Studio</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #060913; }
-        .smooth { transition: all 0.3s ease; }
+        .font-fantasy { font-family: 'Cinzel', serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #05050a; }
+        .smooth { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="min-h-screen text-slate-100 antialiased tracking-tight">
+<body class="min-h-screen text-slate-200 antialiased tracking-tight">
 
-    <header class="w-full border-b border-slate-800 bg-slate-900/40 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto h-16 flex items-center justify-between px-6">
-            <span class="text-xs font-black tracking-widest bg-gradient-to-r from-teal-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">POLYGLOT ENGINE // RESOLUTE</span>
-            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">Secure & Stable</span>
+    <header class="border-b border-purple-950/40 bg-slate-950/60 backdrop-blur-md sticky top-0 z-50 px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <span class="font-fantasy text-xl font-black tracking-widest bg-gradient-to-r from-amber-400 via-fuchsia-500 to-indigo-500 bg-clip-text text-transparent">LOREWEAVER</span>
+            <span class="text-[10px] font-mono border border-purple-500/30 text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">v1.0 Engine</span>
+        </div>
+        <div class="flex items-center gap-2" x-data="fileManager()">
+            <button @click="exportUniverse()" class="px-3 py-1.5 bg-slate-900 border border-slate-800 text-xs font-semibold rounded-lg hover:bg-slate-800 smooth cursor-pointer">
+                📦 Evreni İndir (.json)
+            </button>
         </div>
     </header>
 
-    <main class="max-w-3xl mx-auto pt-10 px-4 pb-32 space-y-6" x-data="polyglotApp()">
+    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6" x-data="loreEngine()">
         
-        <div x-show="!isSupported" x-cloak class="bg-rose-500/10 border border-rose-500/30 p-4 rounded-xl text-xs text-rose-400 leading-relaxed">
-            ⚠️ <strong>Sistem Uyarısı:</strong> <span x-text="errorMessage"></span>
+        <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 h-fit space-y-5">
+            <h2 class="font-fantasy text-sm font-bold text-amber-400 tracking-wider uppercase">✨ Yeni Unsur Yarat</h2>
+            
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Unsur Tipi</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button @click="newForm.type = 'character'" :class="newForm.type === 'character' ? 'bg-purple-600 border-purple-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'" class="p-2 border rounded-xl font-bold smooth cursor-pointer text-center">👤 Karakter</button>
+                        <button @click="newForm.type = 'location'" :class="newForm.type === 'location' ? 'bg-emerald-600 border-emerald-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'" class="p-2 border rounded-xl font-bold smooth cursor-pointer text-center">🏰 Bölge/Şehir</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">İsim / Başlık</label>
+                    <input type="text" x-model="newForm.name" placeholder="Örn: Kral Arthur veya Akçay Şehri" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500 smooth">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Grup / Fraksiyon (Opsiyonel)</label>
+                    <input type="text" x-model="newForm.faction" placeholder="Örn: Yuvarlak Masa Şövalyeleri" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500 smooth">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Açıklama / Lore</label>
+                    <textarea x-model="newForm.description" rows="3" placeholder="Bu unsurun tarihteki yeri, gizemleri veya yetenekleri..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500 smooth resize-none"></textarea>
+                </div>
+
+                <button @click="addElement()" class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-fuchsia-600 hover:from-amber-400 hover:to-fuchsia-500 text-slate-950 font-bold rounded-xl text-xs uppercase tracking-wider smooth shadow-lg shadow-fuchsia-500/10 mt-2 cursor-pointer">
+                    ⚡ Evrene Ekle
+                </button>
+            </div>
         </div>
 
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-6" :class="!isSupported ? 'opacity-40 pointer-events-none' : ''">
-            
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div class="space-y-1">
-                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Dil</label>
-                    <select x-model="selectedLang" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500 smooth">
-                        <option value="en-US">İngilizce (US)</option>
-                        <option value="de-DE">Almanca (DE)</option>
-                        <option value="fr-FR">Fransızca (FR)</option>
-                        <option value="es-ES">İspanyolca (ES)</option>
-                    </select>
+        <div class="lg:col-span-3 space-y-4">
+            <div class="flex items-center justify-between bg-slate-950/40 border border-slate-800/60 p-4 rounded-xl">
+                <div>
+                    <h1 class="font-fantasy text-lg font-bold text-white tracking-wide">Evren Dokusu (Lore Board)</h1>
+                    <p class="text-xs text-slate-400">Yarattığınız unsurlar aşağıda listelenir. İlişki bağlarını buradan yönetebilirsiniz.</p>
                 </div>
-
-                <button @click="shadowMode = !shadowMode" :class="shadowMode ? 'bg-indigo-600/20 text-indigo-400 border-indigo-500/40' : 'bg-slate-950/40 text-slate-500 border-slate-800'" class="border p-3 rounded-xl flex flex-col justify-center items-start smooth text-left cursor-pointer">
-                    <span class="text-xs font-bold">Gecikmeli Shadowing</span>
-                    <span class="text-[9px] text-slate-400 mt-0.5" x-text="shadowMode ? 'Aktif: Sesi takip edin' : 'Kapalı'"></span>
-                </button>
-
-                <button @click="liveEcho = !liveEcho" :class="liveEcho ? 'bg-teal-600/20 text-teal-400 border-teal-500/40' : 'bg-slate-950/40 text-slate-500 border-slate-800'" class="border p-3 rounded-xl flex flex-col justify-center items-start smooth text-left cursor-pointer">
-                    <span class="text-xs font-bold">Ghost Echo (Canlı Ses)</span>
-                    <span class="text-[9px] text-slate-400 mt-0.5" x-text="liveEcho ? 'Aktif: Kendi sesinizi duyun' : 'Kapalı (Kulaklık önerilir)'"></span>
+                <button @click="clearUniverse()" class="text-xs font-bold text-rose-400 hover:text-rose-300 smooth cursor-pointer">
+                    🗑️ Tüm Evreni Sıfırla
                 </button>
             </div>
 
-            <div class="space-y-1">
-                <textarea x-model="customText" rows="3" class="w-full bg-slate-800/30 border border-slate-700 rounded-xl px-4 py-3 text-base text-white focus:outline-none focus:border-indigo-500 smooth resize-none"></textarea>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="md:col-span-2 bg-slate-950/60 border border-slate-800 p-4 rounded-xl space-y-2">
-                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Kelime Doğruluk Raporu</span>
-                    <div class="flex flex-wrap gap-1.5 pt-1">
-                        <template x-for="word in evaluatedWords">
-                            <span :class="word.correct ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'" class="px-2 py-0.5 rounded border text-xs" x-text="word.text"></span>
-                        </template>
-                        <template x-if="evaluatedWords.length === 0">
-                            <span class="text-xs text-slate-600 italic">Analiz bekleniyor...</span>
-                        </template>
-                    </div>
-                </div>
-
-                <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
-                    <div>
-                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Akıcılık Radarı</span>
-                        <div class="flex items-baseline gap-1 mt-2">
-                            <span class="text-2xl font-black text-teal-400" x-text="wpmScore"></span>
-                            <span class="text-[10px] text-slate-500 font-bold">WPM</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <template x-for="item in universe" :key="item.id">
+                    <div :class="item.type === 'character' ? 'border-purple-900/50 bg-purple-950/5' : 'border-emerald-900/50 bg-emerald-950/5'" class="border rounded-2xl p-5 space-y-4 flex flex-col justify-between shadow-xl">
+                        
+                        <div class="space-y-2">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <span :class="item.type === 'character' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'" class="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border" x-text="item.type === 'character' ? '👤 Karakter' : '🏰 Bölge'"></span>
+                                    <h3 class="text-base font-bold text-white mt-1" x-text="item.name"></h3>
+                                    <span x-show="item.faction" class="text-[10px] text-amber-400/80 font-mono block" x-text="'Faction: ' + item.faction"></span>
+                                </div>
+                                <button @click="deleteElement(item.id)" class="text-slate-500 hover:text-rose-400 text-xs smooth cursor-pointer">✕</button>
+                            </div>
+                            
+                            <p class="text-xs text-slate-400 leading-relaxed" x-text="item.description"></p>
                         </div>
+
+                        <div class="border-t border-slate-800/60 pt-3 space-y-2">
+                            <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">🔗 İlişki Ağları</span>
+                            
+                            <div class="flex flex-wrap gap-1">
+                                <template x-for="rel in item.relationships">
+                                    <span class="bg-slate-950 text-[10px] px-2 py-0.5 rounded border border-slate-800 flex items-center gap-1">
+                                        <span class="text-slate-400 font-medium" x-text="getTargetName(rel.targetId)"></span>
+                                        <span class="text-amber-400 italic" x-text="'(' + rel.type + ')'"></span>
+                                        <button @click="deleteRelationship(item.id, rel.targetId)" class="text-rose-500 ml-1 hover:text-rose-400 cursor-pointer">×</button>
+                                    </span>
+                                </template>
+                            </div>
+
+                            <div class="flex gap-1 items-center pt-1" x-data="{ targetId: '', relType: 'Müttefik' }">
+                                <select x-model="targetId" class="bg-slate-950 border border-slate-800 text-[10px] rounded px-1.5 py-1 text-slate-300 focus:outline-none">
+                                    <option value="">Hedef Seç...</option>
+                                    <template x-for="other in universe.filter(i => i.id !== item.id)">
+                                        <option :value="other.id" x-text="other.name"></option>
+                                    </template>
+                                </select>
+
+                                <select x-model="relType" class="bg-slate-950 border border-slate-800 text-[10px] rounded px-1.5 py-1 text-amber-400 focus:outline-none">
+                                    <option value="Müttefik">Müttefik</option>
+                                    <option value="Düşman">Düşman</option>
+                                    <option value="Ticaret Bağı">Ticaret Bağı</option>
+                                    <option value="Gizemli Bağ">Gizemli Bağ</option>
+                                </select>
+
+                                <button @click="if(targetId) { addRelationship(item.id, targetId, relType); targetId = ''; }" class="bg-slate-800 text-white text-[10px] font-bold px-2 py-1 rounded hover:bg-slate-700 smooth cursor-pointer">+</button>
+                            </div>
+                        </div>
+
                     </div>
-                    <p class="text-[11px] text-slate-400 leading-tight mt-2" x-text="fluencyStatus"></p>
-                </div>
+                </template>
+
+                <template x-if="universe.length === 0">
+                    <div class="col-span-2 border border-dashed border-slate-800 rounded-2xl p-12 text-center space-y-2">
+                        <span class="text-2xl block">🌌</span>
+                        <h4 class="text-sm font-bold text-slate-400">Bu Evren Henüz Boş</h4>
+                        <p class="text-xs text-slate-500 max-w-xs mx-auto">Sol taraftaki paneli kullanarak ilk kahramanınızı veya kadim şehrinizi yaratıp kozmosu tetikleyin.</p>
+                    </div>
+                </template>
             </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <button @click="playNative()" class="py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl text-xs smooth cursor-pointer shadow-lg shadow-indigo-600/20">
-                    🔊 Orijinal Sesi Başlat
-                </button>
-                
-                <button @click="isRecording ? stopSession() : startSession()" 
-                        :class="isRecording ? 'bg-rose-600 animate-pulse text-white shadow-lg shadow-rose-600/20' : 'bg-slate-800 hover:bg-slate-700 text-slate-300'"
-                        class="py-3.5 font-bold rounded-xl text-xs smooth cursor-pointer">
-                    <span x-text="isRecording ? '■ Pratiği ve Analizi Bitir' : '🎤 Kendini Dene & Canlı Dinle'"></span>
-                </button>
-            </div>
-
-            <button @click="playRecordedAudio()" x-show="audioUrl" x-cloak x-transition
-                    class="w-full py-3.5 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold rounded-xl text-xs smooth cursor-pointer">
-                🔊 Kendi Ses Kaydınızı Dinleyin
-            </button>
-
         </div>
     </main>
 
     <script>
-        function polyglotApp() {
+        function loreEngine() {
             return {
-                selectedLang: 'en-US',
-                customText: 'The beautiful thing about learning is that nobody can take it away from you.',
-                speechRate: 1.0,
-                shadowMode: false,
-                liveEcho: false,
-                isSupported: true,
-                errorMessage: '',
-                recognition: null,
-                spokenText: '',
-                evaluatedWords: [],
-                isListening: false,
-                wpmScore: 0,
-                fluencyStatus: 'Analiz bekleniyor...',
-                startTime: null,
-                mediaRecorder: null,
-                audioChunks: [],
-                audioUrl: null,
-                isRecording: false,
-                localStream: null,
-                audioContext: null,
-                feedbackNode: null,
+                universe: [],
+                newForm: {
+                    type: 'character',
+                    name: '',
+                    faction: '',
+                    description: ''
+                },
 
                 init() {
-                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    if (!SpeechRecognition) {
-                        this.isSupported = false;
-                        this.errorMessage = 'Tarayıcınız ses tanıma teknolojisini desteklemiyor. En iyi deneyim için Google Chrome veya Microsoft Edge önerilir.';
+                    // Sayfa yüklendiğinde localstorage'dan evreni çekelim
+                    const saved = localStorage.getItem('loreweaver_universe');
+                    if (saved) {
+                        this.universe = JSON.parse(saved);
+                    }
+                },
+
+                save() {
+                    localStorage.setItem('loreweaver_universe', JSON.stringify(this.universe));
+                    // Event fırlatıp global dosya yöneticisini de tetikleyelim
+                    window.dispatchEvent(new CustomEvent('universe-updated', { detail: this.universe }));
+                },
+
+                addElement() {
+                    if (!this.newForm.name.trim()) {
+                        alert('Lütfen bir isim girin!');
                         return;
                     }
 
-                    this.recognition = new SpeechRecognition();
-                    this.recognition.continuous = true;
-                    this.recognition.interimResults = false;
-                    
-                    this.recognition.onresult = (event) => {
-                        let resultText = '';
-                        for (let i = event.resultIndex; i < event.results.length; ++i) {
-                            if (event.results[i].isFinal) resultText += event.results[i][0].transcript;
-                        }
-                        this.spokenText = resultText.trim();
-                        this.calculateMetrics();
-                    };
-
-                    this.recognition.onend = () => { this.isListening = false; };
-
-                    if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
-                        speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
-                    }
-                    window.speechSynthesis.getVoices();
-                },
-
-                calculateMetrics() {
-                    if (!this.spokenText) return;
-
-                    const cleanText = (str) => {
-                        return str.toLowerCase()
-                                  .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?'""’“”—]/g, '')
-                                  .replace(/\s+/g, ' ')
-                                  .trim();
-                    };
-
-                    let originalCleaned = cleanText(this.customText);
-                    let spokenCleaned = cleanText(this.spokenText);
-
-                    let originalWords = originalCleaned.split(' ').filter(w => w.length > 0);
-                    let spokenWords = spokenCleaned.split(' ').filter(w => w.length > 0);
-                    
-                    this.evaluatedWords = originalWords.map(word => {
-                        return { text: word, correct: spokenWords.includes(word) };
+                    this.universe.push({
+                        id: 'node_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                        type: this.newForm.type,
+                        name: this.newForm.name,
+                        faction: this.newForm.faction,
+                        description: this.newForm.description,
+                        relationships: []
                     });
 
-                    if (this.startTime) {
-                        let durationInMinutes = ((Date.now() - this.startTime) / 1000) / 60;
-                        this.wpmScore = Math.round(spokenWords.length / Math.max(0.01, durationInMinutes));
+                    // Formu sıfırla
+                    this.newForm.name = '';
+                    this.newForm.faction = '';
+                    this.newForm.description = '';
+                    
+                    this.save();
+                },
 
-                        if (this.wpmScore >= 110 && this.wpmScore <= 160) {
-                            this.fluencyStatus = 'Mükemmel! Doğal bir yerli (Native) konuşma temposu. 🔥';
-                        } else if (this.wpmScore < 110) {
-                            this.fluencyStatus = 'Biraz yavaş bir tempo. Kelimeleri bağlamaya çalışın. ⏱️';
-                        } else {
-                            this.fluencyStatus = 'Çok hızlı bir tempo. Biraz yavaşlayabilirsiniz. 🏎️';
-                        }
+                deleteElement(id) {
+                    // Unsuru silerken diğer kartların ona olan ilişkilerini de temizlemeliyiz
+                    this.universe = this.universe.filter(item => item.id !== id);
+                    this.universe.forEach(item => {
+                        item.relationships = item.relationships.filter(r => r.targetId !== id);
+                    });
+                    this.save();
+                },
+
+                addRelationship(sourceId, targetId, type) {
+                    let source = this.universe.find(i => i.id === sourceId);
+                    if (!source) return;
+
+                    // Zaten bu ilişki var mı kontrolü
+                    let exists = source.relationships.some(r => r.targetId === targetId);
+                    if (exists) return;
+
+                    source.relationships.push({ targetId, type });
+                    this.save();
+                },
+
+                deleteRelationship(sourceId, targetId) {
+                    let source = this.universe.find(i => i.id === sourceId);
+                    if (source) {
+                        source.relationships = source.relationships.filter(r => r.targetId !== targetId);
+                        this.save();
                     }
                 },
 
-                playNative() {
-                    if (!this.customText.trim()) return;
-                    window.speechSynthesis.cancel();
-                    
-                    let utterance = new SpeechSynthesisUtterance(this.customText);
-                    let voices = window.speechSynthesis.getVoices();
-                    
-                    let premiumVoice = voices.find(v => v.lang === this.selectedLang && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
-                    
-                    if (premiumVoice) utterance.voice = premiumVoice;
-                    else utterance.lang = this.selectedLang;
-                    
-                    utterance.rate = this.speechRate;
-
-                    if (this.shadowMode) {
-                        setTimeout(() => { this.startSession(); }, 1100);
-                    }
-
-                    window.speechSynthesis.speak(utterance);
+                getTargetName(targetId) {
+                    let target = this.universe.find(i => i.id === targetId);
+                    return target ? target.name : 'Bilinmeyen Unsur';
                 },
 
-                async startSession() {
-                    this.audioChunks = [];
-                    this.audioUrl = null;
-                    this.spokenText = '';
-                    this.evaluatedWords = [];
-                    this.wpmScore = 0;
-                    this.startTime = Date.now();
-                    
-                    try {
-                        this.localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                        
-                        if (this.liveEcho) {
-                            if (!this.audioContext) {
-                                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                            }
-                            
-                            if (this.audioContext.state === 'suspended') {
-                                await this.audioContext.resume();
-                            }
+                clearUniverse() {
+                    if(confirm('Tüm evreni yok etmek istediğinize emin misiniz? Bu işlem geri alınamaz.')) {
+                        this.universe = [];
+                        this.save();
+                    }
+                }
+            }
+        }
 
-                            let source = this.audioContext.createMediaStreamSource(this.localStream);
-                            this.feedbackNode = this.audioContext.createGain();
-                            this.feedbackNode.gain.value = 0.7; 
-                            source.connect(this.feedbackNode);
-                            this.feedbackNode.connect(this.audioContext.destination);
-                        }
-
-                        this.mediaRecorder = new MediaRecorder(this.localStream);
-                        this.mediaRecorder.ondataavailable = e => this.audioChunks.push(e.data);
-                        this.mediaRecorder.onstop = () => {
-                            let audioBlob = new Blob(this.audioChunks, { type: 'audio/mp3' });
-                            this.audioUrl = URL.createObjectURL(audioBlob);
-                        };
-                        this.mediaRecorder.start();
-                        this.isRecording = true;
-                    } catch(e) {
-                        alert('Mikrofon erişim hatası! Lütfen tarayıcınızın mikrofon izinlerini kontrol edin.');
+        function fileManager() {
+            return {
+                currentUniverseData: [],
+                init() {
+                    window.addEventListener('universe-updated', (e) => {
+                        this.currentUniverseData = e.detail;
+                    });
+                    const saved = localStorage.getItem('loreweaver_universe');
+                    if (saved) this.currentUniverseData = JSON.parse(saved);
+                },
+                exportUniverse() {
+                    if(this.currentUniverseData.length === 0) {
+                        alert('İndirmek için önce evrene birkaç unsur eklemelisiniz.');
                         return;
                     }
-
-                    if (this.recognition) {
-                        try {
-                            this.recognition.lang = this.selectedLang;
-                            this.recognition.start();
-                            this.isListening = true;
-                        } catch(err) {
-                            console.log('Ses tanıma zaten aktif veya meşgul.');
-                        }
-                    }
-                },
-
-                stopSession() {
-                    if (this.mediaRecorder && this.isRecording) {
-                        this.mediaRecorder.stop();
-                        this.isRecording = false;
-                    }
-                    if (this.recognition && this.isListening) {
-                        this.recognition.stop();
-                        this.isListening = false;
-                    }
-                    if (this.localStream) {
-                        this.localStream.getTracks().forEach(track => track.stop());
-                    }
-                    if (this.audioContext) {
-                        this.audioContext.close().catch(() => {});
-                    }
-                },
-
-                playRecordedAudio() {
-                    if (this.audioUrl) {
-                        new Audio(this.audioUrl).play();
-                    }
+                    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.currentUniverseData, null, 2));
+                    const downloadAnchor = document.createElement('a');
+                    downloadAnchor.setAttribute("href", dataStr);
+                    downloadAnchor.setAttribute("download", "my_fantasy_universe.json");
+                    document.body.appendChild(downloadAnchor);
+                    downloadAnchor.click();
+                    downloadAnchor.remove();
                 }
             }
         }
