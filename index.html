@@ -3,253 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoreWeaver - World Anvil & Character Studio</title>
+    <title>SubBurner - SaaS & Subscription Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        .font-fantasy { font-family: 'Cinzel', serif; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #05050a; }
-        .smooth { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0b0f19; }
+        .smooth { transition: all 0.25s ease; }
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="min-h-screen text-slate-200 antialiased tracking-tight">
+<body class="min-h-screen text-slate-200 antialiased tracking-tight" x-data="subBurnerEngine()">
 
-    <header class="border-b border-purple-950/40 bg-slate-950/60 backdrop-blur-md sticky top-0 z-50 px-6 h-16 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <span class="font-fantasy text-xl font-black tracking-widest bg-gradient-to-r from-amber-400 via-fuchsia-500 to-indigo-500 bg-clip-text text-transparent">LOREWEAVER</span>
-            <span class="text-[10px] font-mono border border-purple-500/30 text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">v1.0 Engine</span>
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50 px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500 animate-pulse"></span>
+            <span class="font-extrabold text-sm tracking-wider text-white">SUBBURNER // FINANCE</span>
         </div>
-        <div class="flex items-center gap-2" x-data="fileManager()">
-            <button @click="exportUniverse()" class="px-3 py-1.5 bg-slate-900 border border-slate-800 text-xs font-semibold rounded-lg hover:bg-slate-800 smooth cursor-pointer">
-                📦 Evreni İndir (.json)
-            </button>
+        <div class="text-[11px] font-mono text-slate-400 bg-slate-950 px-3 py-1 rounded-lg border border-slate-800">
+            💵 1 USD = 32 TL | 💶 1 EUR = 35 TL (Sabit Kur)
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6" x-data="loreEngine()">
+    <main class="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 h-fit space-y-5">
-            <h2 class="font-fantasy text-sm font-bold text-amber-400 tracking-wider uppercase">✨ Yeni Unsur Yarat</h2>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 h-fit space-y-4">
+            <h2 class="text-sm font-bold text-white tracking-wide">💳 Abonelik Ekle</h2>
             
             <div class="space-y-3 text-xs">
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Unsur Tipi</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button @click="newForm.type = 'character'" :class="newForm.type === 'character' ? 'bg-purple-600 border-purple-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'" class="p-2 border rounded-xl font-bold smooth cursor-pointer text-center">👤 Karakter</button>
-                        <button @click="newForm.type = 'location'" :class="newForm.type === 'location' ? 'bg-emerald-600 border-emerald-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'" class="p-2 border rounded-xl font-bold smooth cursor-pointer text-center">🏰 Bölge/Şehir</button>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Servis Adı</label>
+                    <input type="text" x-model="form.name" placeholder="Örn: Netflix, AWS, ChatGPT" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500 smooth">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Fiyat</label>
+                        <input type="number" x-model.number="form.price" placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500 smooth">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Döviz Cinsi</label>
+                        <select x-model="form.currency" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500 smooth">
+                            <option value="TRY">TRY (TL)</option>
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                        </select>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">İsim / Başlık</label>
-                    <input type="text" x-model="newForm.name" placeholder="Örn: Kral Arthur veya Akçay Şehri" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500 smooth">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Periyot</label>
+                        <select x-model="form.period" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500 smooth">
+                            <option value="monthly">Aylık</option>
+                            <option value="yearly">Yıllık</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kategori</label>
+                        <select x-model="form.category" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500 smooth">
+                            <option value="Eğlence">Eğlence</option>
+                            <option value="Yazılım/Altyapı">Yazılım/Altyapı</option>
+                            <option value="Üretkenlik/AI">Üretkenlik/AI</option>
+                            <option value="Diğer">Diğer</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Grup / Fraksiyon (Opsiyonel)</label>
-                    <input type="text" x-model="newForm.faction" placeholder="Örn: Yuvarlak Masa Şövalyeleri" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500 smooth">
-                </div>
-
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Açıklama / Lore</label>
-                    <textarea x-model="newForm.description" rows="3" placeholder="Bu unsurun tarihteki yeri, gizemleri veya yetenekleri..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500 smooth resize-none"></textarea>
-                </div>
-
-                <button @click="addElement()" class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-fuchsia-600 hover:from-amber-400 hover:to-fuchsia-500 text-slate-950 font-bold rounded-xl text-xs uppercase tracking-wider smooth shadow-lg shadow-fuchsia-500/10 mt-2 cursor-pointer">
-                    ⚡ Evrene Ekle
+                <button @click="addSubscription()" class="w-full py-2.5 bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-400 hover:to-amber-400 text-white font-bold rounded-xl text-xs uppercase tracking-wider smooth shadow-lg shadow-rose-500/10 pt-2 cursor-pointer">
+                    🚀 Radara Ekle
                 </button>
             </div>
         </div>
 
-        <div class="lg:col-span-3 space-y-4">
-            <div class="flex items-center justify-between bg-slate-950/40 border border-slate-800/60 p-4 rounded-xl">
-                <div>
-                    <h1 class="font-fantasy text-lg font-bold text-white tracking-wide">Evren Dokusu (Lore Board)</h1>
-                    <p class="text-xs text-slate-400">Yarattığınız unsurlar aşağıda listelenir. İlişki bağlarını buradan yönetebilirsiniz.</p>
+        <div class="lg:col-span-2 space-y-4">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Aylık Toplam Yük (Net)</span>
+                    <div class="flex items-baseline gap-1 mt-2">
+                        <span class="text-3xl font-black text-rose-500" x-text="formatTL(totalMonthlyVolume())"></span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-1">Yıllık tahmini harcama: <span class="text-slate-300 font-bold" x-text="formatTL(totalMonthlyVolume() * 12)"></span></p>
                 </div>
-                <button @click="clearUniverse()" class="text-xs font-bold text-rose-400 hover:text-rose-300 smooth cursor-pointer">
-                    🗑️ Tüm Evreni Sıfırla
-                </button>
+
+                <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">En Pahalı Odak Noktası</span>
+                    <div class="mt-2">
+                        <span class="text-xl font-bold text-amber-400" x-text="getTopCategory()"></span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-1">En çok bu sektöre bütçe yakıyorsunuz.</p>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <template x-for="item in universe" :key="item.id">
-                    <div :class="item.type === 'character' ? 'border-purple-900/50 bg-purple-950/5' : 'border-emerald-900/50 bg-emerald-950/5'" class="border rounded-2xl p-5 space-y-4 flex flex-col justify-between shadow-xl">
-                        
-                        <div class="space-y-2">
-                            <div class="flex items-start justify-between">
-                                <div>
-                                    <span :class="item.type === 'character' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'" class="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border" x-text="item.type === 'character' ? '👤 Karakter' : '🏰 Bölge'"></span>
-                                    <h3 class="text-base font-bold text-white mt-1" x-text="item.name"></h3>
-                                    <span x-show="item.faction" class="text-[10px] text-amber-400/80 font-mono block" x-text="'Faction: ' + item.faction"></span>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                <div class="px-5 py-4 border-b border-slate-800 bg-slate-950/40 flex items-center justify-between">
+                    <h3 class="text-xs font-bold text-white uppercase tracking-wider">Aktif Abonelikler Radarı</h3>
+                    <span class="text-[10px] text-slate-400 font-mono" x-text="subscriptions.length + ' Servis Takipte'"></span>
+                </div>
+
+                <div class="divide-y divide-slate-800/60 max-h-[400px] overflow-y-auto">
+                    <template x-for="sub in subscriptions" :key="sub.id">
+                        <div class="p-4 flex items-center justify-between hover:bg-slate-950/20 smooth">
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="text-sm font-bold text-white" x-text="sub.name"></h4>
+                                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-400" x-text="sub.category"></span>
                                 </div>
-                                <button @click="deleteElement(item.id)" class="text-slate-500 hover:text-rose-400 text-xs smooth cursor-pointer">✕</button>
-                            </div>
-                            
-                            <p class="text-xs text-slate-400 leading-relaxed" x-text="item.description"></p>
-                        </div>
-
-                        <div class="border-t border-slate-800/60 pt-3 space-y-2">
-                            <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">🔗 İlişki Ağları</span>
-                            
-                            <div class="flex flex-wrap gap-1">
-                                <template x-for="rel in item.relationships">
-                                    <span class="bg-slate-950 text-[10px] px-2 py-0.5 rounded border border-slate-800 flex items-center gap-1">
-                                        <span class="text-slate-400 font-medium" x-text="getTargetName(rel.targetId)"></span>
-                                        <span class="text-amber-400 italic" x-text="'(' + rel.type + ')'"></span>
-                                        <button @click="deleteRelationship(item.id, rel.targetId)" class="text-rose-500 ml-1 hover:text-rose-400 cursor-pointer">×</button>
-                                    </span>
-                                </template>
+                                <p class="text-[11px] text-slate-500" x-text="sub.period === 'monthly' ? 'Aylık yenilenir' : 'Yıllık yenilenir'"></p>
                             </div>
 
-                            <div class="flex gap-1 items-center pt-1" x-data="{ targetId: '', relType: 'Müttefik' }">
-                                <select x-model="targetId" class="bg-slate-950 border border-slate-800 text-[10px] rounded px-1.5 py-1 text-slate-300 focus:outline-none">
-                                    <option value="">Hedef Seç...</option>
-                                    <template x-for="other in universe.filter(i => i.id !== item.id)">
-                                        <option :value="other.id" x-text="other.name"></option>
-                                    </template>
-                                </select>
-
-                                <select x-model="relType" class="bg-slate-950 border border-slate-800 text-[10px] rounded px-1.5 py-1 text-amber-400 focus:outline-none">
-                                    <option value="Müttefik">Müttefik</option>
-                                    <option value="Düşman">Düşman</option>
-                                    <option value="Ticaret Bağı">Ticaret Bağı</option>
-                                    <option value="Gizemli Bağ">Gizemli Bağ</option>
-                                </select>
-
-                                <button @click="if(targetId) { addRelationship(item.id, targetId, relType); targetId = ''; }" class="bg-slate-800 text-white text-[10px] font-bold px-2 py-1 rounded hover:bg-slate-700 smooth cursor-pointer">+</button>
+                            <div class="flex items-center gap-4">
+                                <div class="text-right">
+                                    <span class="text-sm font-bold text-slate-200" x-text="formatOriginal(sub.price, sub.currency)"></span>
+                                    <span x-show="sub.currency !== 'TRY'" class="text-[10px] text-slate-500 block" x-text="'~' + formatTL(convertToTL(sub.price, sub.currency))"></span>
+                                </div>
+                                <button @click="deleteSubscription(sub.id)" class="text-slate-600 hover:text-rose-400 smooth cursor-pointer text-xs p-1">✕</button>
                             </div>
                         </div>
+                    </template>
 
-                    </div>
-                </template>
-
-                <template x-if="universe.length === 0">
-                    <div class="col-span-2 border border-dashed border-slate-800 rounded-2xl p-12 text-center space-y-2">
-                        <span class="text-2xl block">🌌</span>
-                        <h4 class="text-sm font-bold text-slate-400">Bu Evren Henüz Boş</h4>
-                        <p class="text-xs text-slate-500 max-w-xs mx-auto">Sol taraftaki paneli kullanarak ilk kahramanınızı veya kadim şehrinizi yaratıp kozmosu tetikleyin.</p>
-                    </div>
-                </template>
+                    <template x-if="subscriptions.length === 0">
+                        <div class="p-12 text-center text-xs text-slate-500 italic">
+                            Şu an takip edilen abonelik yok. Kartlarını güvende tutmak için bir tane ekle!
+                        </div>
+                    </template>
+                </div>
             </div>
+
         </div>
     </main>
 
     <script>
-        function loreEngine() {
+        function subBurnerEngine() {
             return {
-                universe: [],
-                newForm: {
-                    type: 'character',
+                subscriptions: [],
+                rates: { USD: 32, EUR: 35, TRY: 1 }, // Simüle döviz kurları
+                form: {
                     name: '',
-                    faction: '',
-                    description: ''
+                    price: null,
+                    currency: 'TRY',
+                    period: 'monthly',
+                    category: 'Eğlence'
                 },
 
                 init() {
-                    // Sayfa yüklendiğinde localstorage'dan evreni çekelim
-                    const saved = localStorage.getItem('loreweaver_universe');
-                    if (saved) {
-                        this.universe = JSON.parse(saved);
-                    }
+                    const saved = localStorage.getItem('subburner_data');
+                    if (saved) this.subscriptions = JSON.parse(saved);
                 },
 
                 save() {
-                    localStorage.setItem('loreweaver_universe', JSON.stringify(this.universe));
-                    // Event fırlatıp global dosya yöneticisini de tetikleyelim
-                    window.dispatchEvent(new CustomEvent('universe-updated', { detail: this.universe }));
+                    localStorage.setItem('subburner_data', JSON.stringify(this.subscriptions));
                 },
 
-                addElement() {
-                    if (!this.newForm.name.trim()) {
-                        alert('Lütfen bir isim girin!');
+                addSubscription() {
+                    if (!this.form.name.trim() || !this.form.price) {
+                        alert('Lütfen servis adı ve geçerli bir fiyat girin!');
                         return;
                     }
 
-                    this.universe.push({
-                        id: 'node_' + Date.now() + Math.random().toString(36).substr(2, 5),
-                        type: this.newForm.type,
-                        name: this.newForm.name,
-                        faction: this.newForm.faction,
-                        description: this.newForm.description,
-                        relationships: []
+                    this.subscriptions.push({
+                        id: 'sub_' + Date.now(),
+                        name: this.form.name,
+                        price: this.form.price,
+                        currency: this.form.currency,
+                        period: this.form.period,
+                        category: this.form.category
                     });
 
-                    // Formu sıfırla
-                    this.newForm.name = '';
-                    this.newForm.faction = '';
-                    this.newForm.description = '';
+                    // Form temizliği
+                    this.form.name = '';
+                    this.form.price = null;
                     
                     this.save();
                 },
 
-                deleteElement(id) {
-                    // Unsuru silerken diğer kartların ona olan ilişkilerini de temizlemeliyiz
-                    this.universe = this.universe.filter(item => item.id !== id);
-                    this.universe.forEach(item => {
-                        item.relationships = item.relationships.filter(r => r.targetId !== id);
-                    });
+                deleteSubscription(id) {
+                    this.subscriptions = this.subscriptions.filter(s => s.id !== id);
                     this.save();
                 },
 
-                addRelationship(sourceId, targetId, type) {
-                    let source = this.universe.find(i => i.id === sourceId);
-                    if (!source) return;
-
-                    // Zaten bu ilişki var mı kontrolü
-                    let exists = source.relationships.some(r => r.targetId === targetId);
-                    if (exists) return;
-
-                    source.relationships.push({ targetId, type });
-                    this.save();
+                convertToTL(price, currency) {
+                    return price * (this.rates[currency] || 1);
                 },
 
-                deleteRelationship(sourceId, targetId) {
-                    let source = this.universe.find(i => i.id === sourceId);
-                    if (source) {
-                        source.relationships = source.relationships.filter(r => r.targetId !== targetId);
-                        this.save();
-                    }
+                // Tüm servisleri normalize edip "Aylık TL" yükünü hesaplama
+                totalMonthlyVolume() {
+                    return this.subscriptions.reduce((sum, sub) => {
+                        let tlPrice = this.convertToTL(sub.price, sub.currency);
+                        // Eğer yıllıksa aylık yükünü bulmak için 12'ye bölüyoruz
+                        let monthlyCost = sub.period === 'yearly' ? (tlPrice / 12) : tlPrice;
+                        return sum + monthlyCost;
+                    }, 0);
                 },
 
-                getTargetName(targetId) {
-                    let target = this.universe.find(i => i.id === targetId);
-                    return target ? target.name : 'Bilinmeyen Unsur';
-                },
-
-                clearUniverse() {
-                    if(confirm('Tüm evreni yok etmek istediğinize emin misiniz? Bu işlem geri alınamaz.')) {
-                        this.universe = [];
-                        this.save();
-                    }
-                }
-            }
-        }
-
-        function fileManager() {
-            return {
-                currentUniverseData: [],
-                init() {
-                    window.addEventListener('universe-updated', (e) => {
-                        this.currentUniverseData = e.detail;
+                // En çok harcama yapılan kategoriyi bulma
+                getTopCategory() {
+                    if (this.subscriptions.length === 0) return 'Veri Yok';
+                    
+                    let cats = {};
+                    this.subscriptions.forEach(sub => {
+                        let tlPrice = this.convertToTL(sub.price, sub.currency);
+                        let monthly = sub.period === 'yearly' ? (tlPrice / 12) : tlPrice;
+                        cats[sub.category] = (cats[sub.category] || 0) + monthly;
                     });
-                    const saved = localStorage.getItem('loreweaver_universe');
-                    if (saved) this.currentUniverseData = JSON.parse(saved);
+
+                    return Object.keys(cats).reduce((a, b) => cats[a] > cats[b] ? a : b);
                 },
-                exportUniverse() {
-                    if(this.currentUniverseData.length === 0) {
-                        alert('İndirmek için önce evrene birkaç unsur eklemelisiniz.');
-                        return;
-                    }
-                    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.currentUniverseData, null, 2));
-                    const downloadAnchor = document.createElement('a');
-                    downloadAnchor.setAttribute("href", dataStr);
-                    downloadAnchor.setAttribute("download", "my_fantasy_universe.json");
-                    document.body.appendChild(downloadAnchor);
-                    downloadAnchor.click();
-                    downloadAnchor.remove();
+
+                formatTL(val) {
+                    return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(val);
+                },
+
+                formatOriginal(val, curr) {
+                    let symbol = curr === 'USD' ? '$' : (curr === 'EUR' ? '€' : 'TL');
+                    return val + ' ' + symbol;
                 }
             }
         }
