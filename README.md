@@ -1,52 +1,72 @@
-# 🧪 The Input Lab Pro
+# 🧪 Polyglot Suite: Mimic & Deck Architect
 
-> **Comprehensible Input Engine for Polyglots** > İnternetteki ağır ve karmaşık yabancı metinleri, dil seviyenize uygun çocuk kitabı sadeliğine dönüştürün ve yerleşik yapay zeka sesiyle çalışın. **%100 Ücretsiz, Sıfır Veritabanı, Sıfır Sunucu Maliyeti.**
+> **Dil Öğrenenler İçin İki Güçlü Araç Tek Bir Arayüzde.** Aksanınızı kusursuzlaştırın, ses dalgalarınızı kıyaslayın ve saniyeler içinde Anki kelime kartlarınızı (.CSV) ücretsiz üretin. **%100 Serverless, Sıfır Maliyet.**
 
 ---
 
-## 🍏 Nedir bu "Input Lab"?
+## 🍏 Polyglot Suite Nedir?
 
-Dil öğreniminde akıcılığın en büyük sırrı, dil bilimci Stephen Krashen tarafından ortaya atılan **"Anlaşılır Girdi" (Comprehensible Input)** metodudur. Bir dili öğrenirken kendi seviyenizin sadece bir tık üzerindeki metinleri okumanız gerekir. Ancak internetteki gerçek haberler (BBC, Le Monde vb.) ağır kelimelerle doludur ve yeni başlayanları korkutur.
+Dil öğrenme sürecindeki en büyük iki problem; **akıcı bir aksana (telaffuza) sahip olamamak** ve **kelime ezber kartları hazırlarken saatler harcamaktır**. 
 
-**Input Lab Pro**, bu korku duvarını yıkan minimalist bir çalışma stüdyosudur. Tarayıcınızın gücünü ve yapay zekayı birleştirerek zor metinleri saniyeler içinde **A2/B1** seviyesine indirger ve eş zamanlı ses desteği sunar.
+**Polyglot Suite**, bu iki problemi tarayıcınızın gücünü kullanarak çözen minimalist ve şık bir çalışma stüdyosudur. İçerisinde iki bağımsız modül barındırır:
+1. **Accent Mimic:** Ses taklidi (Shadowing) yöntemiyle telaffuz çalışmanızı sağlar.
+2. **Deck Architect:** Kelimelerinizi toplu olarak Anki flashcard formatına dönüştürür.
 
 ---
 
 ## ✨ Öne Çıkan Özellikler
 
-* **Sıfır Sunucu / Sıfır Maliyet:** Herhangi bir API anahtarı veya ücretli veritabanı gerektirmez. Gücünü tamamen kullanıcının tarayıcısından ve kendi ücretsiz yapay zeka hesaplarından alır.
-* **Apple Estetiği:** Tamamen Apple tasarım kılavuzuna (Human Interface Guidelines) uygun, akıcı animasyonlar barındıran derin karanlık mod arayüzü.
-* **Split-Screen (Yan Yana) Çalışma Modu:** Orijinal zor metin ile yapay zekadan gelen basitleştirilmiş metni aynı anda kıyaslayarak okuma imkanı.
-* **Yerleşik Yapay Zeka Seslendirici (TTS):** Metni sadece okumakla kalmayın; tarayıcının yerleşik ses motoruyla ana dili gibi konuşan bir aksanla dinleyin.
-* **Ayarlanabilir Konuşma Hızı:** Gölgeleme (*Shadowing*) pratiği için ses hızını `0.5x` ile `1.5x` arasında canlı olarak yavaşlatıp hızlandırın.
+### 1. Accent Mimic Stüdyosu (Aksan & Telaffuz)
+* **Görsel Dalga Kıyaslama:** Orijinal sesin dalga şeması ile kendi sesinizin dalga şemasını alt alta görerek tonlama hatalarınızı fark edin.
+* **Yerel Kayıt Yeteneği:** Sesiniz hiçbir sunucuya yüklenmez; tamamen tarayıcı içinde (`MediaRecorder API`) anlık kaydedilir ve çalınır.
+* **Sıfır Maliyetli Ses:** Tarayıcının yerleşik ses motorunu kullanır, harici ücretli TTS servislerine bağımlılığı yoktur.
+
+### 2. Anki Deck Architect (Kart Fabrikası)
+* **Akıllı Prompt Entegrasyonu:** Kelimelerinizi yazın, sistem yapay zekanın (ChatGPT/Claude) tam istediği formatta bir komut üretsin.
+* **Tek Tıkla .CSV İndirme:** Yapay zekadan aldığınız çıktıyı yapıştırın ve doğrudan masaüstü/mobil Anki uygulamasına aktarabileceğiniz kusursuz bir `.csv` dosyası indirin.
+* **Zengin Kart İçeriği:** Kartların ön yüzünde kelime, arka yüzünde ise Türkçe anlamı, yapay zekanın kurduğu örnek cümle ve cümlenin çevirisi otomatik olarak şablonlanır.
 
 ---
 
 ## 🛠️ Nasıl Çalışır?
 
-1.  **Metni Yapıştırın:** İnternette okumak istediğiniz ama zor gelen yabancı metni kutuya ekleyin, dilinizi ve hedef seviyenizi seçin.
-2.  **Sihirli Prompt'u Alın:** Sistem size o metne özel hazırlanmış, dil uzmanları tarafından kalibre edilmiş akıllı bir yapay zeka komutu (prompt) üretir. Tek tıkla kopyalayın.
-3.  **Yapay Zekaya Sorun:** Komutu ücretsiz ChatGPT veya Claude hesabınıza yapıştırın. Yapay zeka size metnin anlamını bozmadan, tamamen seçtiğiniz seviyedeki kelimelerle yazılmış halini verecektir.
-4.  **Stüdyoda Çalışın:** Gelen sonucu Input Lab'e geri yapıştırarak yerleşik ses motoruyla dinleyin, hızını ayarlayın ve telaffuz çalışın.
+### Mod 1: Accent Mimic
+1. **Dinleyin:** Orijinal cümleyi duymak için oynat butonuna basın.
+2. **Kaydedin:** Mikrofon simgesine basarak cümleyi kendiniz seslendirin.
+3. **Kıyaslayın:** Oluşan yeşil ses dalgalarını mavi dalgalarla kıyaslayın ve kendi kaydınızı dinleyerek hatalarınızı düzeltin.
+
+### Mod 2: Deck Architect
+1. **Kelimeleri Yazın:** Öğrenmek istediğiniz kelimeleri virgülle ayırarak girin (Örn: `run, walk, speak`).
+2. **Komutu Alın:** "Yapay Zeka Komutunu Kopyala" butonuna basın ve bu komutu ücretsiz ChatGPT'ye yapıştırın.
+3. **Sonucu Yapıştırın & İndirin:** ChatGPT'nin size verdiği pipe (`|`) işaretli satırları sağdaki kutuya yapıştırıp `.csv` dosyanızı anında indirin. Anki uygulamasından içeri aktarın!
 
 ---
 
-## 🚀 Teknolojik Altyapı
+## 🚀 Teknolojik Altyapı & Mimari
 
-Bu proje, modern web teknolojilerinin en saf ve hafif haliyle, harici hiçbir kütüphaneye bağımlı olmadan tek bir `index.html` dosyası içinde inşa edilmiştir:
+Bu proje, harici hiçbir ağır kütüphane veya backend sunucusu olmadan **tek bir `index.html` dosyası** olarak tasarlanmıştır:
 
 * **HTML5 & JavaScript (ES6+)**
-* **Tailwind CSS:** Ultra hafif ve modern arayüz tasarımı için.
-* **Alpine.js:** Akıcı durum yönetimleri ve Apple tarzı micro-animation geçişleri için.
-* **Web Speech API:** Tarayıcının kendi içinde barındırdığı sıfır maliyetli yerel ses sentezleyici motoru.
+* **Tailwind CSS:** Modern, gözü yormayan derin karanlık mod (Apple-style) arayüzü.
+* **Alpine.js:** Sekme geçişleri ve ses kayıt durumları için ultra hafif reaktif yönetim.
+* **Web Audio & Speech API:** Tarayıcı içi ses sentezleme ve mikrofon yönetimi.
 
 ---
 
 ## 📦 Kurulum ve Canlıya Alma
 
-Proje **serverless** (sunucusuz) mimaride olduğu için kurulumu sadece 5 saniye sürer:
+Proje sunucusuz (serverless) olduğu için kurulum gerekmez:
 
-1.  Bu depoyu (repository) klonlayın veya `index.html` dosyasını bilgisayarınıza indirin.
-2.  Dosyayı herhangi bir tarayıcıda çift tıklayarak anında lokalde çalıştırabilirsiniz.
-3.  **GitHub Pages** üzerinde tamamen ücretsiz olarak küresel çapta yayına alabilirsiniz (Settings > Pages > Branch: Main > Save).
+1. Bu depoyu klonlayın veya `index.html` dosyasını indirin.
+2. Tarayıcınızda çift tıklayarak **anında lokalde çalıştırın**.
+3. **GitHub Pages** kullanarak 1 dakika içinde tamamen ücretsiz olarak tüm dünyaya açın (Settings > Pages > Branch: Main > Save).
 
+---
+
+## 📄 Lisans
+
+Bu proje **MIT Lisansı** ile lisanslanmıştır. Tamamen açık kaynaklıdır; dilediğiniz gibi geliştirebilir, klonlayabilir veya kendi topluluğunuz için yayına alabilirsiniz.
+
+---
+
+*Projeyi beğendiyseniz bir ⭐️ bırakmayı unutmayın! Katkılarınızı (Pull Request) bekliyoruz. 🧪*
