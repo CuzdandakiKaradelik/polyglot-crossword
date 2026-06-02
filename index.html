@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Input Lab - Comprehensible Input Engine</title>
+    <title>The Input Lab Pro</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        .apple-ease { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .apple-ease { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .bg-gradient-radial {
-            background-image: radial-gradient(circle at 50% -20%, #152238 0%, #000000 75%);
+            background-image: radial-gradient(circle at 50% -20%, #11252b 0%, #000000 75%);
         }
         [x-cloak] { display: none !important; }
     </style>
@@ -19,25 +19,18 @@
 <body class="min-h-screen bg-[#000000] text-[#f5f5f7] antialiased tracking-tight bg-gradient-radial"
       x-data="{
         step: 1,
-        targetLang: 'English',
+        targetLang: 'en-US',
         targetLevel: 'A2',
         rawText: '',
         simplifiedText: '',
         aiPrompt: '',
         isCopied: false,
+        speechRate: 1,
+        isSpeaking: false,
 
         generatePrompt() {
-            // Kullanıcının ChatGPT/Claude'a yapıştırıp ücretsizce kullanacağı büyülü akıllı prompt
-            this.aiPrompt = `You are an expert polyglot linguist and professional language teacher. I will give you a text in ${this.targetLang}. Your task is to rewrite this text strictly adapted for a student at ${this.targetLevel} level.\\n\\n` +
-                            `CRITICAL RULES:\\n` +
-                            `1. Keep the exact same meaning, core facts, and structure of the original text.\\n` +
-                            `2. Use ONLY high-frequency, simple vocabulary suitable for ${this.targetLevel} level. Replace all complex, academic, or rare idioms with basic alternatives.\\n` +
-                            `3. Use shorter sentences and simpler grammatical structures.\\n` +
-                            `4. Do not add any conversational text, meta-commentary, or greetings. Output ONLY the rewritten text.\\n\\n` +
-                            `ORIGINAL TEXT:\\n` + 
-                            `--- \\n` + 
-                            `\x22${this.rawText}\x22 \\n` +
-                            `---`;
+            let langName = this.targetLang === 'en-US' ? 'English' : this.targetLang === 'de-DE' ? 'German' : this.targetLang === 'fr-FR' ? 'French' : 'Spanish';
+            this.aiPrompt = `You are an expert polyglot teacher. Rewrite this text strictly for a ${this.targetLevel} level student in ${langName}. Keep the original meaning but use basic words and short sentences. No explanations, no greetings. Output ONLY the rewritten text:\\n\\n\x22${this.rawText}\x22`;
             this.step = 2;
         },
 
@@ -45,109 +38,150 @@
             navigator.clipboard.writeText(this.aiPrompt);
             this.isCopied = true;
             setTimeout(() => this.isCopied = false, 2000);
+        },
+
+        speak() {
+            if (this.simplifiedText.trim() === '') return;
+            window.speechSynthesis.cancel(); // Önceki sesleri sustur
+            
+            let utterance = new SpeechSynthesisUtterance(this.simplifiedText);
+            utterance.lang = this.targetLang;
+            utterance.rate = this.speechRate;
+            
+            utterance.onstart = () => this.isSpeaking = true;
+            utterance.onend = () => this.isSpeaking = false;
+            
+            window.speechSynthesis.speak(utterance);
+        },
+
+        stopSpeak() {
+            window.speechSynthesis.cancel();
+            this.isSpeaking = false;
         }
       }">
 
     <!-- Üst Menü -->
     <nav class="sticky top-0 z-40 w-full border-b border-white/5 bg-[#000000]/70 backdrop-blur-md">
         <div class="max-w-4xl mx-auto h-12 flex items-center justify-between px-6">
-            <span class="text-sm font-semibold tracking-tight text-zinc-200">The Input Lab</span>
-            <span class="text-xs text-zinc-500 font-medium tracking-wide bg-zinc-900 px-2.5 py-0.5 rounded-full border border-white/5">Sadeleştirme Motoru v1.0</span>
+            <span class="text-sm font-semibold tracking-tight text-zinc-200">The Input Lab <span class="text-emerald-400 text-xs ml-1 font-normal">Pro</span></span>
+            <span class="text-xs text-zinc-500 font-medium tracking-wide bg-zinc-900 px-2.5 py-0.5 rounded-full border border-white/5">Cihaz İçi Ses Desteği</span>
         </div>
     </nav>
 
     <!-- Ana Panel -->
-    <main class="max-w-3xl mx-auto pt-16 px-6 pb-32">
+    <main class="max-w-4xl mx-auto pt-12 px-6 pb-32">
         
-        <!-- ADIM 1: METİN GİRİŞİ VE SEVİYE SEÇİMİ -->
-        <div x-show="step === 1" x-transition:enter="apple-ease" class="space-y-8">
+        <!-- ADIM 1: ANALİZ BAŞLANGICI -->
+        <div x-show="step === 1" x-transition:enter="apple-ease" class="space-y-8 max-w-2xl mx-auto">
             <div class="text-center space-y-3">
-                <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-500">
-                    Korkmadan Okuyun.
+                <h1 class="text-4xl font-bold tracking-tight text-white bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-400">
+                    Akıllı Okuma Stüdyosu.
                 </h1>
-                <p class="text-sm md:text-base text-zinc-400 max-w-md mx-auto leading-relaxed">
-                    İnternetteki ağır ve karmaşık makaleleri, dil seviyenize uygun çocuk kitabı sadeliğine dönüştürün.
+                <p class="text-sm text-zinc-400 max-w-sm mx-auto">
+                    Metinleri seviyenize göre sadeleştirin ve yerleşik yapay zeka sesiyle dinleyerek çalışın.
                 </p>
             </div>
 
-            <!-- Dil ve Seviye Seçimi (Yan Yana Apple Segmentleri) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                <div class="space-y-2.5">
-                    <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Hedef Dil</label>
-                    <select x-model="targetLang" class="w-full bg-[#1d1d1f] border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/20 apple-ease">
-                        <option value="English">İngilizce (English)</option>
-                        <option value="German">Almanca (Deutsch)</option>
-                        <option value="French">Fransızca (Français)</option>
-                        <option value="Spanish">İspanyolca (Español)</option>
-                        <option value="Italian">İtalyanca (Italiano)</option>
+            <!-- Ayarlar -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">Hedef Dil</label>
+                    <select x-model="targetLang" class="w-full bg-[#1d1d1f] border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-white/20 apple-ease">
+                        <option value="en-US">İngilizce (Aksanlı Ses Dahil)</option>
+                        <option value="de-DE">Almanca (Aksanlı Ses Dahil)</option>
+                        <option value="fr-FR">Fransızca (Aksanlı Ses Dahil)</option>
+                        <option value="es-ES">İspanyolca (Aksanlı Ses Dahil)</option>
                     </select>
                 </div>
 
-                <div class="space-y-2.5">
-                    <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Hedef Seviyeniz</label>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">Hedef Seviye</label>
                     <div class="bg-[#1d1d1f] p-1 rounded-xl flex gap-1 border border-white/5">
-                        <button @click="targetLevel = 'A1'" :class="targetLevel === 'A1' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400'" class="flex-1 py-2 text-xs font-semibold rounded-lg apple-ease cursor-pointer">A1</button>
-                        <button @click="targetLevel = 'A2'" :class="targetLevel === 'A2' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400'" class="flex-1 py-2 text-xs font-semibold rounded-lg apple-ease cursor-pointer">A2</button>
-                        <button @click="targetLevel = 'B1'" :class="targetLevel === 'B1' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400'" class="flex-1 py-2 text-xs font-semibold rounded-lg apple-ease cursor-pointer">B1</button>
-                        <button @click="targetLevel = 'B2'" :class="targetLevel === 'B2' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400'" class="flex-1 py-2 text-xs font-semibold rounded-lg apple-ease cursor-pointer">B2</button>
+                        <button @click="targetLevel = 'A2'" :class="targetLevel === 'A2' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400'" class="flex-1 py-1.5 text-xs font-semibold rounded-lg apple-ease cursor-pointer">A2 (Temel)</button>
+                        <button @click="targetLevel = 'B1'" :class="targetLevel === 'B1' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400'" class="flex-1 py-1.5 text-xs font-semibold rounded-lg apple-ease cursor-pointer">B1 (Orta)</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Büyük Metin Kutusu -->
-            <div class="space-y-2.5">
-                <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Zor / Ağır Metni Buraya Yapıştırın</label>
-                <textarea x-model="rawText" rows="6" placeholder="İnternetten kopyaladığınız, okumakta zorlandığınız yabancı dildeki haber veya makale paragrafını buraya ekleyin..." 
-                          class="w-full bg-[#1d1d1f]/40 border border-white/5 rounded-2xl px-5 py-4 text-sm text-white focus:outline-none focus:border-white/10 apple-ease resize-none placeholder-zinc-600 leading-relaxed"></textarea>
+            <!-- Metin Girişi -->
+            <div class="space-y-2">
+                <label class="block text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">Zor Metin</label>
+                <textarea x-model="rawText" rows="5" placeholder="Yabancı dildeki zor makaleyi buraya yapıştırın..." class="w-full bg-[#1d1d1f]/40 border border-white/5 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/10 apple-ease resize-none placeholder-zinc-600"></textarea>
             </div>
 
-            <!-- Dönüştür Butonu -->
-            <button @click="generatePrompt()" 
-                    :disabled="rawText.trim().length === 0"
-                    :class="rawText.trim().length > 0 ? 'bg-white text-black hover:bg-zinc-200' : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'"
-                    class="w-full py-4 font-semibold rounded-full apple-ease text-sm tracking-wide shadow-xl cursor-pointer">
-                Metni Seviyeme Göre Filtrele →
-            </button>
+            <button @click="generatePrompt()" :disabled="rawText.trim().length === 0" :class="rawText.trim().length > 0 ? 'bg-white text-black hover:bg-zinc-200' : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'" class="w-full py-3.5 font-semibold rounded-full apple-ease text-sm cursor-pointer">Sihirli Filtreyi Hazırla</button>
         </div>
 
-        <!-- ADIM 2: BÜYÜLÜ AI PROMPT GENERATOR VE YAN YANA PANEL -->
-        <div x-show="step === 2" x-cloak x-transition:enter="apple-ease" class="space-y-8">
-            <div class="flex items-center justify-between border-b border-white/5 pb-4">
+        <!-- ADIM 2: GELİŞMİŞ ÇALIŞMA EKRANI (SPLIT-SCREEN) -->
+        <div x-show="step === 2" x-cloak x-transition:enter="apple-ease" class="space-y-6">
+            
+            <!-- Üst Kontrol Paneli -->
+            <div class="flex flex-wrap items-center justify-between border-b border-white/5 pb-4 gap-4">
                 <div>
-                    <h2 class="text-xl font-bold text-white tracking-tight">Akıllı Filtre Hazır</h2>
-                    <p class="text-xs text-zinc-500 mt-0.5" x-text="targetLang + ' için ' + targetLevel + ' seviyesinde dönüştürme anahtarı'"></p>
+                    <h2 class="text-lg font-bold text-white tracking-tight">Stüdyo Alanı</h2>
+                    <p class="text-xs text-zinc-500">Aşağıdaki adımları takip ederek çalışmanı tamamla.</p>
                 </div>
-                <button @click="step = 1; rawText = '';" class="text-xs text-zinc-400 hover:text-white bg-zinc-900 border border-white/5 px-3 py-1.5 rounded-full apple-ease cursor-pointer">
-                    Yeni Metin Yükle ↺
+                <button @click="step = 1; rawText = ''; simplifiedText = ''; stopSpeak();" class="text-xs text-zinc-400 hover:text-white bg-zinc-900 border border-white/5 px-3 py-1.5 rounded-full apple-ease cursor-pointer">Baştan Başla ↺</button>
+            </div>
+
+            <!-- Adım 2A: Prompt Kopyalama -->
+            <div class="p-4 bg-zinc-950/60 border border-white/5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <span class="text-[10px] font-bold text-purple-400 uppercase tracking-wider block">Adım 1: Yapay Zekayı Kullan</span>
+                    <p class="text-xs text-zinc-400">Yandaki butona basıp promptu ücretsiz ChatGPT/Claude'a yapıştır ve gelen sonucu kopyala.</p>
+                </div>
+                <button @click="copyPrompt()" :class="isCopied ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-white text-black hover:bg-zinc-200'" class="px-4 py-2 rounded-full text-xs font-semibold apple-ease cursor-pointer shrink-0">
+                    <span x-text="isCopied ? '✓ Kopyalandı' : 'Promptu Kopyala'"></span>
                 </button>
             </div>
 
-            <!-- Sihirli Çözüm: Sıfır Maliyetli AI Entegrasyonu Box -->
-            <div class="p-6 bg-[#1d1d1f]/60 border border-white/5 rounded-2xl space-y-4">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">💡 1 Saniyede Ücretsiz Çevirin</span>
-                    <button @click="copyPrompt()" 
-                            :class="isCopied ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-white/5 text-white border-white/10 hover:bg-white/10'"
-                            class="px-4 py-2 border rounded-full text-xs font-semibold apple-ease cursor-pointer">
-                        <span x-text="isCopied ? '✓ Kopyalandı!' : '⚙ Promptu Kopyala'"></span>
-                    </button>
+            <!-- Adım 2B: Sonuç Yapıştırma ve Çalışma Dünyası -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Sol Taraf: Orijinal Metin ve Giriş Kutusu -->
+                <div class="space-y-4">
+                    <div class="p-4 bg-zinc-900/20 border border-white/5 rounded-xl">
+                        <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-2">Referans: Orijinal Zor Metin</span>
+                        <p class="text-xs text-zinc-400 leading-relaxed max-h-40 overflow-y-auto" x-text="rawText"></p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-semibold text-purple-400 uppercase tracking-wider">Adım 2: AI'dan Gelen Kolay Metni Buraya Yapıştır</label>
+                        <textarea x-model="simplifiedText" rows="6" placeholder="ChatGPT'nin sana verdiği basitleştirilmiş A2/B1 metni buraya yapıştır ve stüdyoyu canlandır..." class="w-full bg-[#1d1d1f]/30 border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/10 apple-ease resize-none placeholder-zinc-700"></textarea>
+                    </div>
                 </div>
-                <p class="text-xs text-zinc-400 leading-relaxed">
-                    Sana hiçbir masraf çıkarmamak için yapay zeka motorunu senin bilgisayarına emanet ettik. Yukarıdaki butona basarak <strong class="text-white">"Sihirli Komutu"</strong> kopyala, ardından ücretsiz ChatGPT veya Claude hesabına yapıştır. Sana doğrudan senin seviyende yazılmış mükemmel sadeleştirilmiş metni verecektir!
-                </p>
+
+                <!-- Sağ Taraf: Premium Seslendirme ve Okuma Paneli -->
+                <div class="p-6 bg-[#1d1d1f]/40 border border-white/5 rounded-2xl space-y-6 flex flex-col justify-between" :class="simplifiedText.trim() === '' ? 'opacity-30 pointer-events-none' : ''">
+                    <div class="space-y-4">
+                        <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">Adım 3: Dinle ve Telaffuz Çalış</span>
+                        
+                        <!-- Ses Hızı Ayarı (Apple Slider) -->
+                        <div class="space-y-1.5 bg-black/30 p-3 rounded-xl border border-white/5">
+                            <div class="flex justify-between text-[11px] text-zinc-400">
+                                <span>Konuşma Hızı</span>
+                                <span class="font-bold text-white" x-text="speechRate + 'x'"></span>
+                            </div>
+                            <input type="range" min="0.5" max="1.5" step="0.1" x-model="speechRate" @change="if(isSpeaking) speak()" class="w-full accent-white bg-zinc-800 h-1 rounded-lg appearance-none cursor-pointer" />
+                        </div>
+
+                        <!-- Canlı Okuma Alanı -->
+                        <div class="bg-black/40 p-4 rounded-xl border border-white/5 max-h-48 overflow-y-auto">
+                            <p class="text-sm text-zinc-200 leading-relaxed select-text" x-text="simplifiedText || 'Metin bekleniyor...'"></p>
+                        </div>
+                    </div>
+
+                    <!-- Ses Butonları -->
+                    <div class="flex gap-2 pt-4">
+                        <button @click="speak()" class="flex-1 py-3 bg-white text-black font-semibold rounded-full text-xs apple-ease hover:bg-zinc-200 cursor-pointer flex items-center justify-center gap-1">
+                            <span x-text="isSpeaking ? '🔊 Yeniden Başlat' : '▶ Sesli Seslendir'"></span>
+                        </button>
+                        <button x-show="isSpeaking" @click="stopSpeak()" x-cloak class="px-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-full text-xs font-semibold apple-ease hover:bg-red-500/20 cursor-pointer">
+                            ■ Durdur
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Yan Yana Karşılaştırma Alanı Tasarımı (Görsel Tatmin) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="p-5 bg-zinc-950/40 border border-white/5 rounded-xl space-y-2">
-                    <span class="text-[10px] font-bold text-red-400 uppercase tracking-wider block">Orijinal Karmaşık Metin (Zor)</span>
-                    <p class="text-xs text-zinc-500 leading-relaxed italic" x-text="rawText.substring(0, 200) + '...'"></p>
-                </div>
-                <div class="p-5 bg-zinc-950/40 border border-emerald-500/10 rounded-xl space-y-2">
-                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block" x-text="'Yeni Basitleştirilmiş Metin (' + targetLevel + ')'"></span>
-                    <p class="text-xs text-zinc-400 leading-relaxed">Yapay zekanın üreteceği bu yeni metin sayesinde kelimeleri tek tek sözlükten aramadan, konunun özünü kendi seviyenizde keyifle okuyabileceksiniz.</p>
-                </div>
-            </div>
         </div>
 
     </main>
