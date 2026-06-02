@@ -3,208 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Polyglot Lab</title>
-    <!-- Tailwind CSS (Modern Tasarım) -->
+    <title>The Polyglot Routine Lab</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Alpine.js (Apple Tarzı Akıcı Etkileşimler) -->
+    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        /* Apple Akıcı Geçiş Eğrisi */
-        .apple-ease {
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .apple-modal-ease {
-            transition: all 0.5s cubic-bezier(0.32, 0.94, 0.6, 1);
-        }
-        [x-cloak] { display: none !important; }
-        
-        /* İnce Apple Ambians Işığı */
+        .apple-ease { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .bg-gradient-radial {
-            background-image: radial-gradient(circle at 50% -10%, #1e1535 0%, #000000 60%);
+            background-image: radial-gradient(circle at 50% -20%, #1a1b35 0%, #000000 75%);
         }
     </style>
 </head>
 <body class="min-h-screen bg-[#000000] text-[#f5f5f7] antialiased tracking-tight bg-gradient-radial"
       x-data="{ 
-        isModalOpen: false, 
-        activeTab: 'all',
-        newsletterEmail: '',
-        isSubscribed: false,
-        posts: [
-            { id: 1, type: 'hack', title: '15 Dakika Shadowing Tekniği', category: '🎧 Kulak Alışkanlığı', author: 'kerem', content: 'Dizi izlerken altyazıyı kapatıp, karakterin hemen arkasından aynı tonlamayla cümleyi tekrar ediyorum. Ağız kaslarımı yabancı bir dile alıştırmak için mükemmel bir kısa yol.', lang: 'İngilizce', level: 'İleri Seviye', votes: 42, hasVoted: false, streak: 14 },
-            { id: 2, type: 'progress', title: 'Sıfırdan B2 Almanca: 6 Aylık Haritam', category: '📈 İlerleme Günlüğü', author: 'dilara', content: 'Her gün sadece 20 dakikalık odaklanmış Anki desteleri ve haftalık 2 saatlik iTalki konuşma pratikleriyle B2 sertifikasını aldım. Sürecimin haftalık kelime grafiklerini paylaşıyorum.', lang: 'Almanca', level: 'B2', votes: 128, hasVoted: false, streak: 180 },
-            { id: 3, type: 'hack', title: 'Hafıza Sarayı ile Kanji Ezberi', category: '🧠 Hafıza Sarayı', author: 'caner', content: 'Japonca karakterleri çizerken onları evimdeki odalara benzetiyorum. Örneğin, kapı sembolünü gerçekten odamın kapısına hayal ederek görsel bağ kuruyorum. Ezber hızı %300 arttı.', lang: 'Japonca', level: 'Başlangıç', votes: 67, hasVoted: false, streak: 30 }
-        ],
-        handleVote(id) {
-            this.posts = this.posts.map(post => {
-                if (post.id === id) {
-                    post.votes = post.hasVoted ? post.votes - 1 : post.votes + 1;
-                    post.hasVoted = !post.hasVoted;
+        step: 1,
+        selectedLanguages: [],
+        dailyTime: '30',
+        generatedRoutine: [],
+        availableLanguages: ['İngilizce', 'Almanca', 'Fransızca', 'İspanyolca', 'İtalyanca', 'Rusça', 'Japonca', 'Korece'],
+        
+        toggleLang(lang) {
+            if(this.selectedLanguages.includes(lang)) {
+                this.selectedLanguages = this.selectedLanguages.filter(l => l !== lang);
+            } else {
+                if(this.selectedLanguages.length < 3) this.selectedLanguages.push(lang);
+            }
+        },
+        
+        generate() {
+            let mins = parseInt(this.dailyTime);
+            let perLang = Math.floor(mins / this.selectedLanguages.length);
+            
+            this.generatedRoutine = this.selectedLanguages.map((lang, index) => {
+                let focus = 'Girdi (Okuma/Dinleme)';
+                let tip = 'Beynini bu dilin frekansına alıştırmak için ilk 5 dakika sadece yerel bir podcast dinle.';
+                
+                if (index === 1) { 
+                    focus = 'Çıktı (Konuşma/Yazma)'; 
+                    tip = 'Önceki dille karışmaması için bu dile geçmeden önce 2 dakika sessizce bekle ve derin nefes al.';
                 }
-                return post;
+                if (index === 2) { 
+                    focus = 'Aktif Tekrar (Kelime/Anki)'; 
+                    tip = 'Dillerin çorba olmasını engellemek için bu dilin kelimelerini mutlaka farklı bir renk temasıyla çalış.';
+                }
+                
+                return { lang: lang, time: perLang, focus: focus, tip: tip };
             });
+            this.step = 2;
         }
       }">
 
-    <!-- Üst Menü Barı (Apple Cam Efekti) -->
+    <!-- Üst Bar -->
     <nav class="sticky top-0 z-40 w-full border-b border-white/5 bg-[#000000]/70 backdrop-blur-md">
-        <div class="max-w-4xl mx-auto h-12 flex items-center justify-between px-6">
+        <div class="max-w-3xl mx-auto h-12 flex items-center justify-between px-6">
             <span class="text-sm font-semibold tracking-tight text-zinc-200">The Polyglot Lab</span>
-            <span class="text-xs text-zinc-500 font-medium tracking-wide bg-zinc-900 px-2.5 py-0.5 rounded-full border border-white/5">Kolektif Hafıza</span>
+            <span class="text-xs text-zinc-500 font-medium tracking-wide bg-zinc-900 px-2.5 py-0.5 rounded-full border border-white/5">Rutin Sihirbazı v1.0</span>
         </div>
     </nav>
 
-    <!-- Giriş Alanı (Hero Section) -->
-    <header class="max-w-4xl mx-auto pt-24 px-6 text-center select-none">
-        <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white via-zinc-200 to-zinc-500">
-            Farklı Öğrenin.
-        </h1>
-        <p class="max-w-xl mx-auto text-base md:text-lg text-zinc-400 font-normal leading-relaxed tracking-normal">
-            Kitabi yöntemlerin dışına çıkın. Kendi dil 'hack'ini icat etmiş, öğrenme sürecini hacklemiş olanların haritasındasınız.
-        </p>
-    </header>
-
-    <!-- Ana Paylaşım Butonu -->
-    <div class="max-w-3xl mx-auto mt-10 px-6">
-        <button @click="isModalOpen = true"
-                class="w-full py-4 bg-white text-black font-semibold rounded-full apple-ease hover:bg-zinc-200 hover:scale-[1.005] active:scale-[0.995] shadow-2xl shadow-white/5 text-sm tracking-wide cursor-pointer flex items-center justify-center gap-1.5">
-            <span>Kendi Yöntemini veya İlerlemeni Paylaş</span>
-            <span class="text-xs opacity-60">→</span>
-        </button>
-    </div>
-
-    <!-- İçerik Alanı -->
-    <main class="max-w-3xl mx-auto mt-20 px-6">
+    <!-- Ana Panel -->
+    <main class="max-w-2xl mx-auto pt-16 px-6 pb-24">
         
-        <!-- Apple Tarzı Segment Filtresi -->
-        <div class="flex justify-center">
-            <div class="bg-[#1d1d1f] p-1 rounded-full flex gap-1 border border-white/5 shadow-inner">
-                <button @click="activeTab = 'all'" :class="activeTab === 'all' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400 hover:text-zinc-200'" class="px-5 py-1.5 text-xs font-medium rounded-full apple-ease cursor-pointer">Tümü</button>
-                <button @click="activeTab = 'hack'" :class="activeTab === 'hack' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400 hover:text-zinc-200'" class="px-5 py-1.5 text-xs font-medium rounded-full apple-ease cursor-pointer">🧬 Dil Hackleri</button>
-                <button @click="activeTab = 'progress'" :class="activeTab === 'progress' ? 'bg-[#323236] text-white shadow-md' : 'text-zinc-400 hover:text-zinc-200'" class="px-5 py-1.5 text-xs font-medium rounded-full apple-ease cursor-pointer">📈 İlerleme Günlükleri</button>
+        <!-- ADIM 1: SEÇİM EKRANI -->
+        <div x-show="step === 1" x-transition:enter="apple-ease" class="space-y-10">
+            <div class="text-center space-y-3">
+                <h1 class="text-4xl font-bold tracking-tight text-white bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-400">
+                    Dillerini Karıştırmadan Planla.
+                </h1>
+                <p class="text-sm text-zinc-400 max-w-md mx-auto">
+                    Aynı anda öğrendiğin veya korumaya çalıştığın dilleri beynini yakmadan gün içine bölüştür.
+                </p>
             </div>
-        </div>
 
-        <!-- Akış (Feed) / Önceden Doldurulmuş Premium Kartlar -->
-        <div class="mt-12 space-y-4">
-            <template x-for="post in posts" :key="post.id">
-                <div x-show="activeTab === 'all' || post.type === activeTab"
-                     x-transition:enter="apple-ease"
-                     x-transition:enter-start="opacity-0 scale-98 translate-y-2"
-                     x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                     class="p-6 bg-[#1d1d1f]/40 border border-white/5 rounded-2xl hover:border-white/10 apple-ease flex justify-between items-center gap-6 group">
-                    
-                    <div class="space-y-3 flex-1">
-                        <div class="flex items-center gap-2 text-[11px] font-semibold tracking-wider uppercase">
-                            <span class="text-purple-400" x-text="post.category"></span>
-                            <span class="text-zinc-600">•</span>
-                            <span class="text-zinc-400" x-text="post.lang"></span>
-                            <span class="text-zinc-600">/</span>
-                            <span class="text-zinc-500" x-text="post.level"></span>
-                            <span class="text-zinc-600">•</span>
-                            <span class="text-emerald-400 lowercase tracking-normal" x-text="post.streak + ' günlük seri 🔥'"></span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white tracking-tight" x-text="post.title"></h3>
-                        <p class="text-[14px] text-zinc-400 leading-relaxed font-normal" x-text="post.content"></p>
-                        <div class="text-xs text-zinc-500 font-medium pt-1">Katkıda bulunan: <span class="text-zinc-400" x-text="'@' + post.author"></span></div>
-                    </div>
+            <!-- Dil Seçimi -->
+            <div class="space-y-3">
+                <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Aynı anda yürüttüğün dilleri seç (En fazla 3)</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    <template x-for="lang in availableLanguages">
+                        <button @click="toggleLang(lang)"
+                                :class="selectedLanguages.includes(lang) ? 'bg-white text-black border-white font-semibold' : 'bg-[#1d1d1f]/60 border-white/5 text-zinc-400 hover:border-white/20'"
+                                class="p-3 border rounded-xl text-xs apple-ease cursor-pointer select-none"
+                                x-text="lang">
+                        </button>
+                    </template>
+                </div>
+            </div>
 
-                    <!-- "Bende İşe Yaradı" Apple Versiyon Buton -->
-                    <button @click="handleVote(post.id)"
-                            :class="post.hasVoted ? 'bg-white text-black border-white' : 'bg-transparent border-white/10 text-white hover:border-white/30 hover:bg-white/5'"
-                            class="flex flex-col items-center justify-center p-3 rounded-xl border apple-ease w-16 h-16 active:scale-90 cursor-pointer shrink-0">
-                        <span class="text-base leading-none" x-text="post.hasVoted ? '✓' : '▲'"></span>
-                        <span class="text-xs font-bold mt-1 tracking-tight" x-text="post.votes"></span>
+            <!-- Zaman Seçimi -->
+            <div class="space-y-3">
+                <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Bugün toplam kaç dakikan var?</label>
+                <div class="grid grid-cols-3 gap-3">
+                    <button @click="dailyTime = '30'" :class="dailyTime === '30' ? 'bg-[#2c2c2e] text-white border-white/20' : 'bg-[#1d1d1f]/40 border-white/5 text-zinc-400'" class="p-4 border rounded-xl text-center apple-ease cursor-pointer">
+                        <span class="block text-lg font-bold">30</span>
+                        <span class="text-[10px] opacity-60">Dakika</span>
+                    </button>
+                    <button @click="dailyTime = '60'" :class="dailyTime === '60' ? 'bg-[#2c2c2e] text-white border-white/20' : 'bg-[#1d1d1f]/40 border-white/5 text-zinc-400'" class="p-4 border rounded-xl text-center apple-ease cursor-pointer">
+                        <span class="block text-lg font-bold">60</span>
+                        <span class="text-[10px] opacity-60">Dakika</span>
+                    </button>
+                    <button @click="dailyTime = '90'" :class="dailyTime === '90' ? 'bg-[#2c2c2e] text-white border-white/20' : 'bg-[#1d1d1f]/40 border-white/5 text-zinc-400'" class="p-4 border rounded-xl text-center apple-ease pointer">
+                        <span class="block text-lg font-bold">90</span>
+                        <span class="text-[10px] opacity-60">Dakika</span>
                     </button>
                 </div>
-            </template>
-        </div>
-    </main>
+            </div>
 
-    <!-- HAFTALIK BÜLTEN ALANI (NEWSLETTER) -->
-    <section class="max-w-3xl mx-auto mt-24 px-6 border-t border-white/5 pt-16 pb-32 text-center">
-        <div class="max-w-md mx-auto space-y-4">
-            <h3 class="text-xl font-bold text-white tracking-tight">Haftalık En İyi Taktikleri Kaçırma</h3>
-            <p class="text-sm text-zinc-400 leading-relaxed">
-                Her pazar günü, topluluk tarafından oylanan en yaratıcı 3 dil hack'ini ve başarı hikayesini doğrudan e-postana gönderiyoruz. Sıkıcılık yok.
-            </p>
-            
-            <form @submit.preventDefault="isSubscribed = true" class="mt-6 flex gap-2">
-                <input type="email" required x-model="newsletterEmail" placeholder="E-posta adresin" 
-                       class="flex-1 bg-[#1d1d1f] border border-white/5 rounded-full px-5 py-3 text-sm text-white focus:outline-none focus:border-white/20 apple-ease placeholder-zinc-600" />
-                <button type="submit" class="bg-zinc-900 border border-white/10 hover:bg-white hover:text-black px-6 py-3 rounded-full text-xs font-semibold apple-ease cursor-pointer whitespace-nowrap">
-                    Bültene Katıl
+            <!-- Oluştur Butonu -->
+            <button @click="generate()" 
+                    :disabled="selectedLanguages.length === 0"
+                    :class="selectedLanguages.length > 0 ? 'bg-white text-black hover:bg-zinc-200' : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'"
+                    class="w-full py-4 font-semibold rounded-full apple-ease text-sm tracking-wide shadow-xl cursor-pointer">
+                Kişiselleştirilmiş Rutini Çıkar →
+            </button>
+        </div>
+
+        <!-- ADIM 2: ÖZEL RUTİN ÇIKTI EKRANI -->
+        <div x-show="step === 2" x-cloak x-transition:enter="apple-ease" class="space-y-8">
+            <div class="flex items-center justify-between border-b border-white/5 pb-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white tracking-tight">Bugünkü Polyglot Stratejin</h2>
+                    <p class="text-xs text-zinc-500 mt-0.5" x-text="dailyTime + ' dakika içinde diller arası kusursuz geçiş haritası'"></p>
+                </div>
+                <button @click="step = 1; selectedLanguages = [];" class="text-xs text-zinc-400 hover:text-white bg-zinc-900 border border-white/5 px-3 py-1.5 rounded-full apple-ease cursor-pointer">
+                    Sıfırla ↺
                 </button>
-            </form>
-            
-            <!-- Başarılı Kayıt Mesajı -->
-            <div x-show="isSubscribed" x-cloak x-transition class="text-xs text-purple-400 font-medium pt-2">
-                Harika! Artık pazar günleri laboratuvardan özel raporlar alacaksın. 🧪
+            </div>
+
+            <!-- Dinamik Oluşan Kartlar -->
+            <div class="space-y-4">
+                <template x-for="(item, index) in generatedRoutine">
+                    <div class="p-5 bg-[#1d1d1f]/40 border border-white/5 rounded-2xl space-y-3 relative overflow-hidden">
+                        <!-- Sağ Üst Zaman Rozeti -->
+                        <div class="absolute top-4 right-4 bg-white/5 border border-white/10 px-2.5 py-1 rounded-md text-[11px] font-bold text-white" x-text="item.time + ' dk'"></div>
+                        
+                        <div class="flex items-center gap-2">
+                            <span class="w-5 h-5 rounded-full bg-zinc-800 text-white text-xs flex items-center justify-center font-bold" x-text="index + 1"></span>
+                            <span class="text-sm font-bold text-white" x-text="item.lang"></span>
+                        </div>
+                        
+                        <div class="space-y-1">
+                            <span class="text-[11px] font-semibold text-purple-400 uppercase tracking-wider block" x-text="item.focus"></span>
+                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="item.tip"></p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Polyglot Altın Kuralı Box -->
+            <div class="p-4 bg-amber-500/5 border border-amber-500/10 rounded-xl text-center">
+                <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block mb-1">⚠️ ÖNEMLİ POLYGLOT SIRRI</span>
+                <p class="text-xs text-amber-200/80 leading-relaxed max-w-md mx-auto">
+                    Diller arasında geçiş yaparken beyninizin çorba olmaması için seans aralarında mutlaka 2-3 dakikalık tamamen sessiz molalar verin.
+                </p>
             </div>
         </div>
-    </section>
 
-    <!-- PREMIUM MODAL (POP-UP FORM) -->
-    <div x-show="isModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <!-- Karanlık Arka Plan Cam Efekti -->
-        <div x-show="isModalOpen" 
-             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-             @click="isModalOpen = false" 
-             class="absolute inset-0 bg-black/60 backdrop-blur-xl"></div>
-        
-        <!-- Pencere Yapısı -->
-        <div x-show="isModalOpen" 
-             x-transition:enter="apple-modal-ease" x-transition:enter-start="opacity-0 scale-95 translate-y-8" x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-             x-transition:leave="apple-modal-ease" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-95 translate-y-8"
-             class="relative w-full max-w-xl bg-[#1c1c1e] border border-white/10 p-8 rounded-3xl shadow-2xl z-10 overflow-y-auto max-h-[90vh]">
-            
-            <h2 class="text-2xl font-bold tracking-tight text-white">Haritaya Katkıda Bulun</h2>
-            <p class="text-sm text-zinc-400 mt-1">Geliştirdiğin deneysel yöntemi veya ilerleme kanıtını ekle.</p>
-            
-            <form class="mt-8 space-y-6" @submit.preventDefault="isModalOpen = false">
-                <div x-data="{ selectedType: 'hack' }">
-                    <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-2.5">Paylaşım Türü</label>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div @click="selectedType = 'hack'" :class="selectedType === 'hack' ? 'border-white/40 bg-white/5 text-white' : 'border-white/5 text-zinc-400'" class="p-4 bg-[#2c2c2e]/50 border rounded-2xl cursor-pointer text-center apple-ease select-none">
-                            <span class="text-lg block mb-0.5">🧬</span>
-                            <span class="text-xs font-semibold">Dil Hack'i</span>
-                        </div>
-                        <div @click="selectedType = 'progress'" :class="selectedType === 'progress' ? 'border-white/40 bg-white/5 text-white' : 'border-white/5 text-zinc-400'" class="p-4 bg-[#2c2c2e]/50 border rounded-2xl cursor-pointer text-center apple-ease select-none">
-                            <span class="text-lg block mb-0.5">📈</span>
-                            <span class="text-xs font-semibold">İlerleme Günlüğü</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-2">Başlık</label>
-                    <input type="text" placeholder="Örn: Netflix Altyazı Parçalama Yöntemi" class="w-full bg-[#2c2c2e] border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/20 apple-ease placeholder-zinc-600" />
-                </div>
-
-                <div>
-                    <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-2">Formül / Detaylar</label>
-                    <textarea rows="4" placeholder="Bu yöntemi adım adım nasıl uyguluyorsun? Diğer insanlara net bir rehber bırak..." class="w-full bg-[#2c2c2e] border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/20 apple-ease resize-none placeholder-zinc-600"></textarea>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-2">Hedef Dil</label>
-                        <input type="text" placeholder="Örn: Japonca" class="w-full bg-[#2c2c2e] border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/20 apple-ease placeholder-zinc-600" />
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-2">Seviye</label>
-                        <input type="text" placeholder="Örn: A2 - Tüm Seviyeler" class="w-full bg-[#2c2c2e] border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/20 apple-ease placeholder-zinc-600" />
-                    </div>
-                </div>
-
-                <div class="pt-4 flex gap-3">
-                    <button type="button" @click="isModalOpen = false" class="flex-1 py-3.5 bg-transparent hover:bg-white/5 text-zinc-400 hover:text-white font-medium rounded-full apple-ease text-xs cursor-pointer">Vazgeç</button>
-                    <button type="submit" class="flex-1 py-3.5 bg-white text-black font-semibold rounded-full hover:bg-zinc-200 apple-ease text-xs cursor-pointer">Yayınla</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
+    </main>
 </body>
 </html>
