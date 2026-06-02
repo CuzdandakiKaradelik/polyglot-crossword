@@ -13,187 +13,7 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="min-h-screen text-slate-100 antialiased tracking-tight"
-      x-data="{
-        selectedLang: 'en-US',
-        customText: 'The beautiful thing about learning is that nobody can take it away from you.',
-        speechRate: 1.0,
-        shadowMode: false,
-        liveEcho: false,
-
-        isSupported: true,
-        errorMessage: '',
-
-        recognition: null,
-        spokenText: '',
-        evaluatedWords: [],
-        isListening: false,
-        
-        wpmScore: 0,
-        fluencyStatus: 'Analiz bekleniyor...',
-        startTime: null,
-
-        mediaRecorder: null,
-        audioChunks: [],
-        audioUrl: null,
-        isRecording: false,
-        localStream: null,
-        audioContext: null,
-        feedbackNode: null,
-
-        init() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                this.isSupported = false;
-                this.errorMessage = 'Tarayıcınız ses tanıma teknolojisini desteklemiyor. En iyi deneyim için Google Chrome veya Microsoft Edge önerilir.';
-                return;
-            }
-
-            this.recognition = new SpeechRecognition();
-            this.recognition.continuous = true;
-            this.recognition.interimResults = false;
-            
-            this.recognition.onresult = (event) => {
-                let resultText = '';
-                for (let i = event.resultIndex; i < event.results.length; ++i) {
-                    if (event.results[i].isFinal) resultText += event.results[i][0].transcript;
-                }
-                this.spokenText = resultText.trim();
-                this.calculateMetrics();
-            };
-
-            this.recognition.onend = () => { this.isListening = false; };
-
-            if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
-                speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
-            }
-            window.speechSynthesis.getVoices();
-        },
-
-        calculateMetrics() {
-            if(!this.spokenText) return;
-
-            // HATALI SATIR TEMİZLENDİ: Tüm özel karakter ve tırnak temizleme yapısı düzeltildi
-            const cleanText = (str) => {
-                return str.toLowerCase()
-                          .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?'""’“”—]/g, '')
-                          .replace(/\s+/g, ' ')
-                          .trim();
-            };
-
-            let originalCleaned = cleanText(this.customText);
-            let spokenCleaned = cleanText(this.spokenText);
-
-            let originalWords = originalCleaned.split(' ').filter(w => w.length > 0);
-            let spokenWords = spokenCleaned.split(' ').filter(w => w.length > 0);
-            
-            this.evaluatedWords = originalWords.map(word => {
-                return { text: word, correct: spokenWords.includes(word) };
-            });
-
-            if (this.startTime) {
-                let durationInMinutes = ((Date.now() - this.startTime) / 1000) / 60;
-                this.wpmScore = Math.round(spokenWords.length / Math.max(0.01, durationInMinutes));
-
-                if (this.wpmScore >= 110 && this.wpmScore <= 160) {
-                    this.fluencyStatus = 'Mükemmel! Doğal bir yerli (Native) konuşma temposu. 🔥';
-                } else if (this.wpmScore < 110) {
-                    this.fluencyStatus = 'Biraz yavaş bir tempo. Kelimeleri bağlamaya çalışın. ⏱️';
-                } else {
-                    this.fluencyStatus = 'Çok hızlı bir tempo. Biraz yavaşlayabilirsiniz. 🏎️';
-                }
-            }
-        },
-
-        playNative() {
-            if(!this.customText.trim()) return;
-            window.speechSynthesis.cancel();
-            
-            let utterance = new SpeechSynthesisUtterance(this.customText);
-            let voices = window.speechSynthesis.getVoices();
-            
-            let premiumVoice = voices.find(v => v.lang === this.selectedLang && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
-            
-            if (premiumVoice) utterance.voice = premiumVoice;
-            else utterance.lang = this.selectedLang;
-            
-            utterance.rate = this.speechRate;
-
-            if (this.shadowMode) {
-                setTimeout(() => { this.startSession(); }, 1100);
-            }
-
-            window.speechSynthesis.speak(utterance);
-        },
-
-        async startSession() {
-            this.audioChunks = [];
-            this.audioUrl = null;
-            this.spokenText = '';
-            this.evaluatedWords = [];
-            this.wpmScore = 0;
-            this.startTime = Date.now();
-            
-            try {
-                this.localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                
-                if (this.liveEcho) {
-                    if (!this.audioContext) {
-                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    }
-                    
-                    if (this.audioContext.state === 'suspended') {
-                        await this.audioContext.resume();
-                    }
-
-                    let source = this.audioContext.createMediaStreamSource(this.localStream);
-                    this.feedbackNode = this.audioContext.createGain();
-                    this.feedbackNode.gain.value = 0.7; 
-                    source.connect(this.feedbackNode);
-                    this.feedbackNode.connect(this.audioContext.destination);
-                }
-
-                this.mediaRecorder = new MediaRecorder(this.localStream);
-                this.mediaRecorder.ondataavailable = e => this.audioChunks.push(e.data);
-                this.mediaRecorder.onstop = () => {
-                    let audioBlob = new Blob(this.audioChunks, { type: 'audio/mp3' });
-                    this.audioUrl = URL.createObjectURL(audioBlob);
-                };
-                this.mediaRecorder.start();
-                this.isRecording = true;
-            } catch(e) {
-                alert('Mikrofon erişim hatası! Lütfen tarayıcınızın mikrofon izinlerini kontrol edin.');
-                return;
-            }
-
-            if (this.recognition) {
-                try {
-                    this.recognition.lang = this.selectedLang;
-                    this.recognition.start();
-                    this.isListening = true;
-                } catch(err) {
-                    console.log('Ses tanıma zaten aktif veya meşgul.');
-                }
-            }
-        },
-
-        stopSession() {
-            if (this.mediaRecorder && this.isRecording) {
-                this.mediaRecorder.stop();
-                this.isRecording = false;
-            }
-            if (this.recognition && this.isListening) {
-                this.recognition.stop();
-                this.isListening = false;
-            }
-            if (this.localStream) {
-                this.localStream.getTracks().forEach(track => track.stop());
-            }
-            if (this.audioContext) {
-                this.audioContext.close().catch(() => {});
-            }
-        }
-      }">
+<body class="min-h-screen text-slate-100 antialiased tracking-tight">
 
     <header class="w-full border-b border-slate-800 bg-slate-900/40 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-5xl mx-auto h-16 flex items-center justify-between px-6">
@@ -202,7 +22,7 @@
         </div>
     </header>
 
-    <main class="max-w-3xl mx-auto pt-10 px-4 pb-32 space-y-6">
+    <main class="max-w-3xl mx-auto pt-10 px-4 pb-32 space-y-6" x-data="polyglotApp()">
         
         <div x-show="!isSupported" x-cloak class="bg-rose-500/10 border border-rose-500/30 p-4 rounded-xl text-xs text-rose-400 leading-relaxed">
             ⚠️ <strong>Sistem Uyarısı:</strong> <span x-text="errorMessage"></span>
@@ -273,12 +93,198 @@
                 </button>
             </div>
 
-            <button @click="new Audio(audioUrl).play()" x-show="audioUrl" x-cloak x-transition
+            <button @click="playRecordedAudio()" x-show="audioUrl" x-cloak x-transition
                     class="w-full py-3.5 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold rounded-xl text-xs smooth cursor-pointer">
                 🔊 Kendi Ses Kaydınızı Dinleyin
             </button>
 
         </div>
     </main>
+
+    <script>
+        function polyglotApp() {
+            return {
+                selectedLang: 'en-US',
+                customText: 'The beautiful thing about learning is that nobody can take it away from you.',
+                speechRate: 1.0,
+                shadowMode: false,
+                liveEcho: false,
+                isSupported: true,
+                errorMessage: '',
+                recognition: null,
+                spokenText: '',
+                evaluatedWords: [],
+                isListening: false,
+                wpmScore: 0,
+                fluencyStatus: 'Analiz bekleniyor...',
+                startTime: null,
+                mediaRecorder: null,
+                audioChunks: [],
+                audioUrl: null,
+                isRecording: false,
+                localStream: null,
+                audioContext: null,
+                feedbackNode: null,
+
+                init() {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    if (!SpeechRecognition) {
+                        this.isSupported = false;
+                        this.errorMessage = 'Tarayıcınız ses tanıma teknolojisini desteklemiyor. En iyi deneyim için Google Chrome veya Microsoft Edge önerilir.';
+                        return;
+                    }
+
+                    this.recognition = new SpeechRecognition();
+                    this.recognition.continuous = true;
+                    this.recognition.interimResults = false;
+                    
+                    this.recognition.onresult = (event) => {
+                        let resultText = '';
+                        for (let i = event.resultIndex; i < event.results.length; ++i) {
+                            if (event.results[i].isFinal) resultText += event.results[i][0].transcript;
+                        }
+                        this.spokenText = resultText.trim();
+                        this.calculateMetrics();
+                    };
+
+                    this.recognition.onend = () => { this.isListening = false; };
+
+                    if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+                        speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+                    }
+                    window.speechSynthesis.getVoices();
+                },
+
+                calculateMetrics() {
+                    if (!this.spokenText) return;
+
+                    const cleanText = (str) => {
+                        return str.toLowerCase()
+                                  .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?'""’“”—]/g, '')
+                                  .replace(/\s+/g, ' ')
+                                  .trim();
+                    };
+
+                    let originalCleaned = cleanText(this.customText);
+                    let spokenCleaned = cleanText(this.spokenText);
+
+                    let originalWords = originalCleaned.split(' ').filter(w => w.length > 0);
+                    let spokenWords = spokenCleaned.split(' ').filter(w => w.length > 0);
+                    
+                    this.evaluatedWords = originalWords.map(word => {
+                        return { text: word, correct: spokenWords.includes(word) };
+                    });
+
+                    if (this.startTime) {
+                        let durationInMinutes = ((Date.now() - this.startTime) / 1000) / 60;
+                        this.wpmScore = Math.round(spokenWords.length / Math.max(0.01, durationInMinutes));
+
+                        if (this.wpmScore >= 110 && this.wpmScore <= 160) {
+                            this.fluencyStatus = 'Mükemmel! Doğal bir yerli (Native) konuşma temposu. 🔥';
+                        } else if (this.wpmScore < 110) {
+                            this.fluencyStatus = 'Biraz yavaş bir tempo. Kelimeleri bağlamaya çalışın. ⏱️';
+                        } else {
+                            this.fluencyStatus = 'Çok hızlı bir tempo. Biraz yavaşlayabilirsiniz. 🏎️';
+                        }
+                    }
+                },
+
+                playNative() {
+                    if (!this.customText.trim()) return;
+                    window.speechSynthesis.cancel();
+                    
+                    let utterance = new SpeechSynthesisUtterance(this.customText);
+                    let voices = window.speechSynthesis.getVoices();
+                    
+                    let premiumVoice = voices.find(v => v.lang === this.selectedLang && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
+                    
+                    if (premiumVoice) utterance.voice = premiumVoice;
+                    else utterance.lang = this.selectedLang;
+                    
+                    utterance.rate = this.speechRate;
+
+                    if (this.shadowMode) {
+                        setTimeout(() => { this.startSession(); }, 1100);
+                    }
+
+                    window.speechSynthesis.speak(utterance);
+                },
+
+                async startSession() {
+                    this.audioChunks = [];
+                    this.audioUrl = null;
+                    this.spokenText = '';
+                    this.evaluatedWords = [];
+                    this.wpmScore = 0;
+                    this.startTime = Date.now();
+                    
+                    try {
+                        this.localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        
+                        if (this.liveEcho) {
+                            if (!this.audioContext) {
+                                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                            }
+                            
+                            if (this.audioContext.state === 'suspended') {
+                                await this.audioContext.resume();
+                            }
+
+                            let source = this.audioContext.createMediaStreamSource(this.localStream);
+                            this.feedbackNode = this.audioContext.createGain();
+                            this.feedbackNode.gain.value = 0.7; 
+                            source.connect(this.feedbackNode);
+                            this.feedbackNode.connect(this.audioContext.destination);
+                        }
+
+                        this.mediaRecorder = new MediaRecorder(this.localStream);
+                        this.mediaRecorder.ondataavailable = e => this.audioChunks.push(e.data);
+                        this.mediaRecorder.onstop = () => {
+                            let audioBlob = new Blob(this.audioChunks, { type: 'audio/mp3' });
+                            this.audioUrl = URL.createObjectURL(audioBlob);
+                        };
+                        this.mediaRecorder.start();
+                        this.isRecording = true;
+                    } catch(e) {
+                        alert('Mikrofon erişim hatası! Lütfen tarayıcınızın mikrofon izinlerini kontrol edin.');
+                        return;
+                    }
+
+                    if (this.recognition) {
+                        try {
+                            this.recognition.lang = this.selectedLang;
+                            this.recognition.start();
+                            this.isListening = true;
+                        } catch(err) {
+                            console.log('Ses tanıma zaten aktif veya meşgul.');
+                        }
+                    }
+                },
+
+                stopSession() {
+                    if (this.mediaRecorder && this.isRecording) {
+                        this.mediaRecorder.stop();
+                        this.isRecording = false;
+                    }
+                    if (this.recognition && this.isListening) {
+                        this.recognition.stop();
+                        this.isListening = false;
+                    }
+                    if (this.localStream) {
+                        this.localStream.getTracks().forEach(track => track.stop());
+                    }
+                    if (this.audioContext) {
+                        this.audioContext.close().catch(() => {});
+                    }
+                },
+
+                playRecordedAudio() {
+                    if (this.audioUrl) {
+                        new Audio(this.audioUrl).play();
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>
