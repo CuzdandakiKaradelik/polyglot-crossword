@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot Studio - Nirvana Edition</title>
+    <title>Polyglot Studio - Production Ready</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #070a13; }
-        .smooth { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #060913; }
+        .smooth { transition: all 0.3s ease; }
         [x-cloak] { display: none !important; }
     </style>
 </head>
@@ -19,20 +19,22 @@
         customText: 'The beautiful thing about learning is that nobody can take it away from you.',
         speechRate: 1.0,
         shadowMode: false,
-        liveEcho: false, // 1. Yeni Özellik: Canlı Ses Geri Bildirimi
+        liveEcho: false,
 
-        // Analiz ve Metrik State'leri
+        // Sistem Uyumluluk State'leri
+        isSupported: true,
+        errorMessage: '',
+
+        // Analiz Verileri
         recognition: null,
         spokenText: '',
         evaluatedWords: [],
         isListening: false,
         
-        // Akıcılık Metrikleri (2. Yeni Özellik)
         wpmScore: 0,
         fluencyStatus: 'Analiz bekleniyor...',
         startTime: null,
 
-        // Ses Altyapısı
         mediaRecorder: null,
         audioChunks: [],
         audioUrl: null,
@@ -41,50 +43,72 @@
         audioContext: null,
         feedbackNode: null,
 
+        // 1. KALİTE ADIMI: TARAYICIYI VE SESLERİ ÖNCEDEN ISITMA (Zorunlu Başlangıç)
         init() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (SpeechRecognition) {
-                this.recognition = new SpeechRecognition();
-                this.recognition.continuous = true;
-                this.recognition.interimResults = false;
-                
-                this.recognition.onresult = (event) => {
-                    let resultText = '';
-                    for (let i = event.resultIndex; i < event.results.length; ++i) {
-                        if (event.results[i].isFinal) resultText += event.results[i][0].transcript;
-                    }
-                    this.spokenText = resultText.trim();
-                    this.calculateMetrics();
-                };
-                this.recognition.onend = () => { this.isListening = false; };
+            if (!SpeechRecognition) {
+                this.isSupported = false;
+                this.errorMessage = 'Tarayıcınız ses tanıma teknolojisini desteklemiyor. En iyi deneyim için Google Chrome veya Microsoft Edge önerilir.';
+                return;
             }
+
+            // Ses tanıma motorunu kararlı şekilde ayağa kaldırıyoruz
+            this.recognition = new SpeechRecognition();
+            this.recognition.continuous = true;
+            this.recognition.interimResults = false;
+            
+            this.recognition.onresult = (event) => {
+                let resultText = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) resultText += event.results[i][0].transcript;
+                }
+                this.spokenText = resultText.trim();
+                this.calculateMetrics();
+            };
+
+            this.recognition.onend = () => { this.isListening = false; };
+
+            // Mobil ve masaüstü tarayıcılarda ses listesini önceden hafızaya alıyoruz
+            if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+            }
+            window.speechSynthesis.getVoices();
         },
 
-        // Gelişmiş Telaffuz ve WPM Hız Hesaplama Algoritması
+        // 2. KALİTE ADIMI: GELİŞMİŞ ARKA PLAN METİN TEMİZLEME ALGORİTMASI
         calculateMetrics() {
-            // 1. Kelime Doğruluk Analizi
-            let originalWords = this.customText.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,'').split(' ');
-            let spokenWords = this.spokenText.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,'').split(' ');
+            if(!this.spokenText) return;
+
+            // Metni tüm pisliklerden (akıllı tırnaklar, çizgiler, noktalardan) arındıran regex dizisi
+            const cleanText = (str) => {
+                return str.toLowerCase()
+                          .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?’“”""—]/g, '')
+                          .replace(/\s+/g, ' ')
+                          .trim();
+            };
+
+            let originalCleaned = cleanText(this.customText);
+            let spokenCleaned = cleanText(this.spokenText);
+
+            let originalWords = originalCleaned.split(' ').filter(w => w.length > 0);
+            let spokenWords = spokenCleaned.split(' ').filter(w => w.length > 0);
             
+            // Kullanıcının telaffuzunu kusursuz eşleştirme
             this.evaluatedWords = originalWords.map(word => {
                 return { text: word, correct: spokenWords.includes(word) };
             });
 
-            // 2. WPM (Hız) ve Akıcılık Skoru Hesaplama
+            // WPM Hız Hesaplaması
             if (this.startTime) {
-                let endTime = Date.now();
-                let durationInSeconds = (endTime - this.startTime) / 1000;
-                let durationInMinutes = durationInSeconds / 60;
-                let wordCount = spokenWords.length;
+                let durationInMinutes = ((Date.now() - this.startTime) / 1000) / 60;
+                this.wpmScore = Math.round(spokenWords.length / Math.max(0.01, durationInMinutes));
 
-                this.wpmScore = Math.round(wordCount / durationInMinutes);
-
-                if (this.wpmScore >= 110 && this.wpmScore <= 150) {
-                    this.fluencyStatus = 'Mükemmel! Tam bir Native (Doğal Konuşmacı) temposu. 🔥';
+                if (this.wpmScore >= 110 && this.wpmScore <= 160) {
+                    this.fluencyStatus = 'Mükemmel! Doğal bir yerli (Native) konuşma temposu. 🔥';
                 } else if (this.wpmScore < 110) {
-                    this.fluencyStatus = 'Biraz yavaş kaldınız. Kelimeleri daha akıcı bağlamayı deneyin. ⏱️';
+                    this.fluencyStatus = 'Biraz yavaş bir tempo. Kelimeleri bağlamaya çalışın. ⏱️';
                 } else {
-                    this.fluencyStatus = 'Çok hızlı gidiyorsunuz! Anlaşılırlık için sakinleşin. 🏎️';
+                    this.fluencyStatus = 'Çok hızlı bir tempo. Biraz yavaşlayabilirsiniz. 🏎️';
                 }
             }
         },
@@ -95,6 +119,8 @@
             
             let utterance = new SpeechSynthesisUtterance(this.customText);
             let voices = window.speechSynthesis.getVoices();
+            
+            // En kararlı, robotik olmayan sesi bulma filtresi
             let premiumVoice = voices.find(v => v.lang === this.selectedLang && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
             
             if (premiumVoice) utterance.voice = premiumVoice;
@@ -103,32 +129,31 @@
             utterance.rate = this.speechRate;
 
             if (this.shadowMode) {
-                setTimeout(() => { this.startSession(); }, 1200);
+                setTimeout(() => { this.startSession(); }, 1100);
             }
 
             window.speechSynthesis.speak(utterance);
         },
 
-        // OTURUM YÖNETİMİ (KAYIT + CANLI GERİ BİLDİRİM + ANALİZ)
+        // 3. KALİTE ADIMI: GÜVENLİ MİKROFON VE OTURUM BAŞLATMA (Hata Yakalamalı)
         async startSession() {
             this.audioChunks = [];
             this.audioUrl = null;
             this.spokenText = '';
             this.evaluatedWords = [];
             this.wpmScore = 0;
-            this.startTime = Date.now(); // Zamanı başlat
+            this.startTime = Date.now();
             
             try {
                 this.localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 
-                // CANLI SES GERİ BİLDİRİMİ (Ghost Echo)
                 if (this.liveEcho) {
                     this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     let source = this.audioContext.createMediaStreamSource(this.localStream);
                     this.feedbackNode = this.audioContext.createGain();
-                    this.feedbackNode.gain.value = 0.8; // Aşırı patlamayı önlemek için ses seviyesi
+                    this.feedbackNode.gain.value = 0.7; // Kulaklıkta patlama yapmaması için güvenli sınır
                     source.connect(this.feedbackNode);
-                    this.feedbackNode.connect(this.audioContext.destination); // Sesi doğrudan kulaklığa basar
+                    this.feedbackNode.connect(this.audioContext.destination);
                 }
 
                 this.mediaRecorder = new MediaRecorder(this.localStream);
@@ -139,12 +164,19 @@
                 };
                 this.mediaRecorder.start();
                 this.isRecording = true;
-            } catch(e) { alert('Mikrofon başlatılamadı.'); }
+            } catch(e) {
+                alert('Mikrofon erişim hatası! Lütfen tarayıcınızın mikrofon izinlerini kontrol edin.');
+                return;
+            }
 
             if (this.recognition) {
-                this.recognition.lang = this.selectedLang;
-                this.recognition.start();
-                this.isListening = true;
+                try {
+                    this.recognition.lang = this.selectedLang;
+                    this.recognition.start();
+                    this.isListening = true;
+                } catch(err) {
+                    console.log('Ses tanıma zaten aktif veya meşgul.');
+                }
             }
         },
 
@@ -157,38 +189,33 @@
                 this.recognition.stop();
                 this.isListening = false;
             }
-            // Canlı ekoyu kapat ve sistemi temizle
             if (this.localStream) {
                 this.localStream.getTracks().forEach(track => track.stop());
             }
             if (this.audioContext) {
-                this.audioContext.close();
+                this.audioContext.close().catch(() => {});
             }
         }
       }">
 
     <header class="w-full border-b border-slate-800 bg-slate-900/40 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-5xl mx-auto h-16 flex items-center justify-between px-6">
-            <span class="text-xs font-black tracking-widest bg-gradient-to-r from-teal-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">POLYGLOT ENGINE // NIRVANA</span>
-            <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
-                <span class="text-[10px] font-mono text-teal-400 uppercase">Live Feedback Engine Active</span>
-            </div>
+            <span class="text-xs font-black tracking-widest bg-gradient-to-r from-teal-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">POLYGLOT ENGINE // RESOLUTE</span>
+            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">Secure & Stable</span>
         </div>
     </header>
 
     <main class="max-w-3xl mx-auto pt-10 px-4 pb-32 space-y-6">
         
-        <div class="text-center space-y-2">
-            <h1 class="text-3xl font-extrabold text-white tracking-tight">Kusursuz Dil Laboratuvarı</h1>
-            <p class="text-sm text-slate-400">Canlı kulaklık geri bildirimi ve akıcılık radarına sahip tek açık kaynaklı proje.</p>
+        <div x-show="!isSupported" x-cloak class="bg-rose-500/10 border border-rose-500/30 p-4 rounded-xl text-xs text-rose-400 leading-relaxed">
+            ⚠️ <strong>Sistem Uyarısı:</strong> <span x-text="errorMessage"></span>
         </div>
 
-        <div class="bg-slate-900 border border-slate-800/80 rounded-3xl p-6 shadow-2xl space-y-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-6" :class="!isSupported ? 'opacity-40 pointer-events-none' : ''">
             
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div class="space-y-1">
-                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Hedef Dil</label>
+                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Dil</label>
                     <select x-model="selectedLang" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500 smooth">
                         <option value="en-US">İngilizce (US)</option>
                         <option value="de-DE">Almanca (DE)</option>
@@ -199,12 +226,12 @@
 
                 <button @click="shadowMode = !shadowMode" :class="shadowMode ? 'bg-indigo-600/20 text-indigo-400 border-indigo-500/40' : 'bg-slate-950/40 text-slate-500 border-slate-800'" class="border p-3 rounded-xl flex flex-col justify-center items-start smooth text-left cursor-pointer">
                     <span class="text-xs font-bold">Gecikmeli Shadowing</span>
-                    <span class="text-[9px] text-slate-400 mt-0.5" x-text="shadowMode ? 'Aktif: Sesin arkasından gelin' : 'Kapalı'"></span>
+                    <span class="text-[9px] text-slate-400 mt-0.5" x-text="shadowMode ? 'Aktif: Sesi takip edin' : 'Kapalı'"></span>
                 </button>
 
                 <button @click="liveEcho = !liveEcho" :class="liveEcho ? 'bg-teal-600/20 text-teal-400 border-teal-500/40' : 'bg-slate-950/40 text-slate-500 border-slate-800'" class="border p-3 rounded-xl flex flex-col justify-center items-start smooth text-left cursor-pointer">
                     <span class="text-xs font-bold">Ghost Echo (Canlı Ses)</span>
-                    <span class="text-[9px] text-slate-400 mt-0.5" x-text="liveEcho ? 'Aktif: Kendi sesinizi duyun' : 'Kapalı (Kulaklık önerilir)'"></span>
+                    <span class="text-[9px] text-slate-400 mt-0.5" x-text="liveEcho ? 'Aktif: Kendi sesinizi duyun' : 'Kapalı'"></span>
                 </button>
             </div>
 
@@ -214,13 +241,13 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="md:col-span-2 bg-slate-950/60 border border-slate-800 p-4 rounded-xl space-y-2">
-                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Kelime Doğruluk Analizi</span>
+                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Kelime Doğruluk Raporu</span>
                     <div class="flex flex-wrap gap-1.5 pt-1">
                         <template x-for="word in evaluatedWords">
                             <span :class="word.correct ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'" class="px-2 py-0.5 rounded border text-xs" x-text="word.text"></span>
                         </template>
                         <template x-if="evaluatedWords.length === 0">
-                            <span class="text-xs text-slate-600 italic">Konuşma analizi bekleniyor...</span>
+                            <span class="text-xs text-slate-600 italic">Analiz bekleniyor...</span>
                         </template>
                     </div>
                 </div>
@@ -249,8 +276,298 @@
                 </button>
             </div>
 
+            <button x-show="audioUrl" @click="new Audio(audioUrl).play()" x-cloak x-transition
+                    class="w-full py-3.5 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold rounded-xl text-xs smooth cursor-pointer">
+                🔊 Kendi Ses Kaydınızı Dinleyin
+            </button>
+
+        </div>
+    </main>
+</body>
+</html><!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyglot Studio - Production Ready</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #060913; }
+        .smooth { transition: all 0.3s ease; }
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 antialiased tracking-tight"
+      x-data="{
+        selectedLang: 'en-US',
+        customText: 'The beautiful thing about learning is that nobody can take it away from you.',
+        speechRate: 1.0,
+        shadowMode: false,
+        liveEcho: false,
+
+        // Sistem Uyumluluk State'leri
+        isSupported: true,
+        errorMessage: '',
+
+        // Analiz Verileri
+        recognition: null,
+        spokenText: '',
+        evaluatedWords: [],
+        isListening: false,
+        
+        wpmScore: 0,
+        fluencyStatus: 'Analiz bekleniyor...',
+        startTime: null,
+
+        mediaRecorder: null,
+        audioChunks: [],
+        audioUrl: null,
+        isRecording: false,
+        localStream: null,
+        audioContext: null,
+        feedbackNode: null,
+
+        // 1. KALİTE ADIMI: TARAYICIYI VE SESLERİ ÖNCEDEN ISITMA (Zorunlu Başlangıç)
+        init() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                this.isSupported = false;
+                this.errorMessage = 'Tarayıcınız ses tanıma teknolojisini desteklemiyor. En iyi deneyim için Google Chrome veya Microsoft Edge önerilir.';
+                return;
+            }
+
+            // Ses tanıma motorunu kararlı şekilde ayağa kaldırıyoruz
+            this.recognition = new SpeechRecognition();
+            this.recognition.continuous = true;
+            this.recognition.interimResults = false;
+            
+            this.recognition.onresult = (event) => {
+                let resultText = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) resultText += event.results[i][0].transcript;
+                }
+                this.spokenText = resultText.trim();
+                this.calculateMetrics();
+            };
+
+            this.recognition.onend = () => { this.isListening = false; };
+
+            // Mobil ve masaüstü tarayıcılarda ses listesini önceden hafızaya alıyoruz
+            if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+            }
+            window.speechSynthesis.getVoices();
+        },
+
+        // 2. KALİTE ADIMI: GELİŞMİŞ ARKA PLAN METİN TEMİZLEME ALGORİTMASI
+        calculateMetrics() {
+            if(!this.spokenText) return;
+
+            // Metni tüm pisliklerden (akıllı tırnaklar, çizgiler, noktalardan) arındıran regex dizisi
+            const cleanText = (str) => {
+                return str.toLowerCase()
+                          .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?’“”""—]/g, '')
+                          .replace(/\s+/g, ' ')
+                          .trim();
+            };
+
+            let originalCleaned = cleanText(this.customText);
+            let spokenCleaned = cleanText(this.spokenText);
+
+            let originalWords = originalCleaned.split(' ').filter(w => w.length > 0);
+            let spokenWords = spokenCleaned.split(' ').filter(w => w.length > 0);
+            
+            // Kullanıcının telaffuzunu kusursuz eşleştirme
+            this.evaluatedWords = originalWords.map(word => {
+                return { text: word, correct: spokenWords.includes(word) };
+            });
+
+            // WPM Hız Hesaplaması
+            if (this.startTime) {
+                let durationInMinutes = ((Date.now() - this.startTime) / 1000) / 60;
+                this.wpmScore = Math.round(spokenWords.length / Math.max(0.01, durationInMinutes));
+
+                if (this.wpmScore >= 110 && this.wpmScore <= 160) {
+                    this.fluencyStatus = 'Mükemmel! Doğal bir yerli (Native) konuşma temposu. 🔥';
+                } else if (this.wpmScore < 110) {
+                    this.fluencyStatus = 'Biraz yavaş bir tempo. Kelimeleri bağlamaya çalışın. ⏱️';
+                } else {
+                    this.fluencyStatus = 'Çok hızlı bir tempo. Biraz yavaşlayabilirsiniz. 🏎️';
+                }
+            }
+        },
+
+        playNative() {
+            if(!this.customText.trim()) return;
+            window.speechSynthesis.cancel();
+            
+            let utterance = new SpeechSynthesisUtterance(this.customText);
+            let voices = window.speechSynthesis.getVoices();
+            
+            // En kararlı, robotik olmayan sesi bulma filtresi
+            let premiumVoice = voices.find(v => v.lang === this.selectedLang && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
+            
+            if (premiumVoice) utterance.voice = premiumVoice;
+            else utterance.lang = this.selectedLang;
+            
+            utterance.rate = this.speechRate;
+
+            if (this.shadowMode) {
+                setTimeout(() => { this.startSession(); }, 1100);
+            }
+
+            window.speechSynthesis.speak(utterance);
+        },
+
+        // 3. KALİTE ADIMI: GÜVENLİ MİKROFON VE OTURUM BAŞLATMA (Hata Yakalamalı)
+        async startSession() {
+            this.audioChunks = [];
+            this.audioUrl = null;
+            this.spokenText = '';
+            this.evaluatedWords = [];
+            this.wpmScore = 0;
+            this.startTime = Date.now();
+            
+            try {
+                this.localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                if (this.liveEcho) {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    let source = this.audioContext.createMediaStreamSource(this.localStream);
+                    this.feedbackNode = this.audioContext.createGain();
+                    this.feedbackNode.gain.value = 0.7; // Kulaklıkta patlama yapmaması için güvenli sınır
+                    source.connect(this.feedbackNode);
+                    this.feedbackNode.connect(this.audioContext.destination);
+                }
+
+                this.mediaRecorder = new MediaRecorder(this.localStream);
+                this.mediaRecorder.ondataavailable = e => this.audioChunks.push(e.data);
+                this.mediaRecorder.onstop = () => {
+                    let audioBlob = new Blob(this.audioChunks, { type: 'audio/mp3' });
+                    this.audioUrl = URL.createObjectURL(audioBlob);
+                };
+                this.mediaRecorder.start();
+                this.isRecording = true;
+            } catch(e) {
+                alert('Mikrofon erişim hatası! Lütfen tarayıcınızın mikrofon izinlerini kontrol edin.');
+                return;
+            }
+
+            if (this.recognition) {
+                try {
+                    this.recognition.lang = this.selectedLang;
+                    this.recognition.start();
+                    this.isListening = true;
+                } catch(err) {
+                    console.log('Ses tanıma zaten aktif veya meşgul.');
+                }
+            }
+        },
+
+        stopSession() {
+            if (this.mediaRecorder && this.isRecording) {
+                this.mediaRecorder.stop();
+                this.isRecording = false;
+            }
+            if (this.recognition && this.isListening) {
+                this.recognition.stop();
+                this.isListening = false;
+            }
+            if (this.localStream) {
+                this.localStream.getTracks().forEach(track => track.stop());
+            }
+            if (this.audioContext) {
+                this.audioContext.close().catch(() => {});
+            }
+        }
+      }">
+
+    <header class="w-full border-b border-slate-800 bg-slate-900/40 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto h-16 flex items-center justify-between px-6">
+            <span class="text-xs font-black tracking-widest bg-gradient-to-r from-teal-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">POLYGLOT ENGINE // RESOLUTE</span>
+            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">Secure & Stable</span>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto pt-10 px-4 pb-32 space-y-6">
+        
+        <div x-show="!isSupported" x-cloak class="bg-rose-500/10 border border-rose-500/30 p-4 rounded-xl text-xs text-rose-400 leading-relaxed">
+            ⚠️ <strong>Sistem Uyarısı:</strong> <span x-text="errorMessage"></span>
         </div>
 
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-6" :class="!isSupported ? 'opacity-40 pointer-events-none' : ''">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Dil</label>
+                    <select x-model="selectedLang" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500 smooth">
+                        <option value="en-US">İngilizce (US)</option>
+                        <option value="de-DE">Almanca (DE)</option>
+                        <option value="fr-FR">Fransızca (FR)</option>
+                        <option value="es-ES">İspanyolca (ES)</option>
+                    </select>
+                </div>
+
+                <button @click="shadowMode = !shadowMode" :class="shadowMode ? 'bg-indigo-600/20 text-indigo-400 border-indigo-500/40' : 'bg-slate-950/40 text-slate-500 border-slate-800'" class="border p-3 rounded-xl flex flex-col justify-center items-start smooth text-left cursor-pointer">
+                    <span class="text-xs font-bold">Gecikmeli Shadowing</span>
+                    <span class="text-[9px] text-slate-400 mt-0.5" x-text="shadowMode ? 'Aktif: Sesi takip edin' : 'Kapalı'"></span>
+                </button>
+
+                <button @click="liveEcho = !liveEcho" :class="liveEcho ? 'bg-teal-600/20 text-teal-400 border-teal-500/40' : 'bg-slate-950/40 text-slate-500 border-slate-800'" class="border p-3 rounded-xl flex flex-col justify-center items-start smooth text-left cursor-pointer">
+                    <span class="text-xs font-bold">Ghost Echo (Canlı Ses)</span>
+                    <span class="text-[9px] text-slate-400 mt-0.5" x-text="liveEcho ? 'Aktif: Kendi sesinizi duyun' : 'Kapalı'"></span>
+                </button>
+            </div>
+
+            <div class="space-y-1">
+                <textarea x-model="customText" rows="3" class="w-full bg-slate-800/30 border border-slate-700 rounded-xl px-4 py-3 text-base text-white focus:outline-none focus:border-indigo-500 smooth resize-none"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2 bg-slate-950/60 border border-slate-800 p-4 rounded-xl space-y-2">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Kelime Doğruluk Raporu</span>
+                    <div class="flex flex-wrap gap-1.5 pt-1">
+                        <template x-for="word in evaluatedWords">
+                            <span :class="word.correct ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'" class="px-2 py-0.5 rounded border text-xs" x-text="word.text"></span>
+                        </template>
+                        <template x-if="evaluatedWords.length === 0">
+                            <span class="text-xs text-slate-600 italic">Analiz bekleniyor...</span>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Akıcılık Radarı</span>
+                        <div class="flex items-baseline gap-1 mt-2">
+                            <span class="text-2xl font-black text-teal-400" x-text="wpmScore"></span>
+                            <span class="text-[10px] text-slate-500 font-bold">WPM</span>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-tight mt-2" x-text="fluencyStatus"></p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button @click="playNative()" class="py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl text-xs smooth cursor-pointer shadow-lg shadow-indigo-600/20">
+                    🔊 Orijinal Sesi Başlat
+                </button>
+                
+                <button @click="isRecording ? stopSession() : startSession()" 
+                        :class="isRecording ? 'bg-rose-600 animate-pulse text-white shadow-lg shadow-rose-600/20' : 'bg-slate-800 hover:bg-slate-700 text-slate-300'"
+                        class="py-3.5 font-bold rounded-xl text-xs smooth cursor-pointer">
+                    <span x-text="isRecording ? '■ Pratiği ve Analizi Bitir' : '🎤 Kendini Dene & Canlı Dinle'"></span>
+                </button>
+            </div>
+
+            <button x-show="audioUrl" @click="new Audio(audioUrl).play()" x-cloak x-transition
+                    class="w-full py-3.5 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold rounded-xl text-xs smooth cursor-pointer">
+                🔊 Kendi Ses Kaydınızı Dinleyin
+            </button>
+
+        </div>
     </main>
 </body>
 </html>
