@@ -3,190 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PromptForge - AI Prompt Engineering Studio</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0c0f16; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        .smooth { transition: all 0.2s ease-in-out; }
-        [x-cloak] { display: none !important; }
-    </style>
+    <title>Polyglot's Atlas - Kişisel Dil Sözlüğü</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="min-h-screen text-slate-300 antialiased" x-data="promptEngine()">
+<body>
 
-    <!-- Üst Menü -->
-    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50 px-6 h-16 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-            <span class="font-bold text-xs tracking-widest text-white font-mono">PROMPTFORGE // STUDIO</span>
-        </div>
-        <div class="text-[10px] font-mono bg-cyan-950/40 text-cyan-400 border border-cyan-800 px-2.5 py-1 rounded-lg">
-            ⚡ Pro Mode: Off-Grid (Sunucusuz / %100 Gizli)
-        </div>
-    </header>
+    <div class="container">
+        <header>
+            <h1>🌐 Polyglot's Atlas</h1>
+            <p>Çok dilli kelime dağarcığınızı yönetin ve diller arası bağ kurun.</p>
+        </header>
 
-    <!-- ANA PANEL -->
-    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- SOL PANEL: PROMPT SİHİRBAZI (4 Bölüm) -->
-        <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 h-fit shadow-xl">
-            <h2 class="text-sm font-bold text-white tracking-wide flex items-center gap-2">
-                🛠️ Prompt Mimarı
-            </h2>
-            
-            <div class="space-y-3 text-xs">
-                <!-- 1. Persona -->
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">1. Rol / Persona (Kim olarak konuşsun?)</label>
-                    <input type="text" x-model="wizard.persona" placeholder="Örn: Kıdemli React Geliştiricisi, Pazarlama Gurusu..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500 smooth">
+        <section class="form-section">
+            <h2>✨ Yeni Kelime Karşılaştırması Ekle</h2>
+            <form id="word-form">
+                <div class="form-group">
+                    <label for="base-word">Ana Kelime (Türkçe/Ortak Dil):</label>
+                    <input type="text" id="base-word" placeholder="Örn: Gece" required>
                 </div>
-
-                <!-- 2. Görev -->
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">2. Ana Görev (Ne yapmasını istiyorsun?)</label>
-                    <textarea x-model="wizard.task" rows="3" placeholder="Örn: Yazdığım kodun güvenlik açıklarını analiz et ve optimizasyon önerileri sun." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500 smooth resize-none"></textarea>
-                </div>
-
-                <!-- 3. Kurallar ve Kısıtlamalar -->
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">3. Kısıtlamalar / Kurallar</label>
-                    <input type="text" x-model="wizard.constraints" placeholder="Örn: Teknik terimleri açıkla, gereksiz giriş cümleleri kurma." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500 smooth">
-                </div>
-
-                <!-- 4. Çıktı Formatı -->
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">4. Çıktı Formatı</label>
-                    <select x-model="wizard.format" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500 smooth">
-                        <option value="Markdown Tablo formatında">Tablo (Markdown)</option>
-                        <option value="Madde işaretleri halinde (Bullet Points)">Madde İşaretleri</option>
-                        <option value="Adım adım bir kılavuz şeklinde">Adım Adım Kılavuz</option>
-                        <option value="Sadece temiz kod bloğu olarak">Yalnızca Kod Bloğu</option>
-                    </select>
-                </div>
-
-                <!-- Oluşturulan Çıktı Alanı -->
-                <div class="pt-2">
-                    <label class="block text-[10px] font-bold text-amber-400 uppercase mb-1">✨ Üretilen Profesyonel Prompt</label>
-                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 font-mono text-[11px] text-slate-300 min-h-[80px] break-words whitespace-pre-line select-all" x-text="generatePrompt()"></div>
-                </div>
-
-                <!-- Aksiyon Butonları -->
-                <div class="grid grid-cols-2 gap-2 pt-1">
-                    <button @click="copyPrompt()" class="py-2.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs uppercase tracking-wider smooth cursor-pointer" x-text="copyText"></button>
-                    <button @click="savePrompt()" class="py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs uppercase tracking-wider smooth cursor-pointer">Kütüphaneme Kaydet</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- SAĞ PANEL: PROMPT KÜTÜPHANESİ -->
-        <div class="lg:col-span-7 space-y-4">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-                <div class="px-5 py-4 border-b border-slate-800 bg-slate-950/40 flex items-center justify-between">
-                    <div>
-                        <h3 class="text-xs font-bold text-white uppercase tracking-wider">Prompt Depon</h3>
-                        <p class="text-[11px] text-slate-500">Sık kullandığın komutları burada sakla ve tek tıkla kopyala.</p>
+                
+                <div class="languages-grid">
+                    <div class="form-group">
+                        <label for="lang-1">1. Hedef Dil & Kelime:</label>
+                        <input type="text" id="lang-1" placeholder="Örn: İngilizce - Night" required>
                     </div>
-                    <span class="text-[10px] font-mono text-slate-400 bg-slate-950 px-2 py-1 rounded border border-slate-800" x-text="savedPrompts.length + ' Kayıtlı'"></span>
+                    <div class="form-group">
+                        <label for="lang-2">2. Hedef Dil & Kelime (Opsiyonel):</label>
+                        <input type="text" id="lang-2" placeholder="Örn: İspanyolca - Noche">
+                    </div>
+                    <div class="form-group">
+                        <label for="lang-3">3. Hedef Dil & Kelime (Opsiyonel):</label>
+                        <input type="text" id="lang-3" placeholder="Örn: İtalyanca - Notte">
+                    </div>
                 </div>
 
-                <!-- Listeleme Alanı -->
-                <div class="divide-y divide-slate-800/60 max-h-[520px] overflow-y-auto">
-                    <template x-for="(p, index) in savedPrompts" :key="p.id">
-                        <div class="p-4 space-y-3 hover:bg-slate-950/10 smooth">
-                            <div class="flex items-start justify-between gap-4">
-                                <div class="space-y-1">
-                                    <span class="text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 bg-slate-800 text-cyan-400 rounded" x-text="p.persona || 'Genel Asistan'"></span>
-                                    <p class="text-xs text-slate-400 line-clamp-2 pr-4 font-mono text-[11px]" x-text="p.fullText"></p>
-                                </div>
-                                
-                                <div class="flex items-center gap-1 shrink-0">
-                                    <button @click="copySingle(p.fullText, index)" class="text-[11px] bg-slate-950 border border-slate-800 hover:border-cyan-500/50 px-2 py-1 rounded text-slate-300 smooth cursor-pointer" x-text="p.btnText || 'Kopyala'"></button>
-                                    <button @click="deletePrompt(p.id)" class="text-slate-600 hover:text-rose-400 text-xs p-1 smooth cursor-pointer">✕</button>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Boş Durum -->
-                    <template x-if="savedPrompts.length === 0">
-                        <div class="p-12 text-center text-xs text-slate-500 italic">
-                            Kütüphanen henüz boş. Soldaki sihirbazı kullanarak ilk profesyonel prompt'unu tasarla ve kaydet!
-                        </div>
-                    </template>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="is-false-friend">
+                    <label for="is-false-friend" class="warning-label">⚠️ Bu kelime bir "Yalancı Eşdeğer" (False Friend) - Karışabilir!</label>
                 </div>
-            </div>
-        </div>
-    </main>
 
-    <script>
-        function promptEngine() {
-            return {
-                copyText: '📋 Kopyala',
-                savedPrompts: [],
-                wizard: {
-                    persona: '',
-                    task: '',
-                    constraints: '',
-                    format: 'Markdown Tablo formatında'
-                },
+                <button type="submit" class="btn-submit">Atlasa Ekle</button>
+            </form>
+        </section>
 
-                init() {
-                    const saved = localStorage.getItem('promptforge_library');
-                    if (saved) {
-                        // Gelen verilere dinamik buton metni ekleyelim
-                        this.savedPrompts = JSON.parse(saved).map(p => ({...p, btnText: 'Kopyala'}));
-                    }
-                },
+        <section class="filter-section">
+            <input type="text" id="search-bar" placeholder="Kelimelerde ara...">
+            <button id="btn-filter-all" class="btn-filter active">Hepsini Göster</button>
+            <button id="btn-filter-warning" class="btn-filter">Sadece Riskli Kelimeler (False Friends)</button>
+        </section>
 
-                generatePrompt() {
-                    let p = this.wizard.persona ? `Bir ${this.wizard.persona} olarak hareket et.\n` : '';
-                    let t = this.wizard.task ? `Görevin: ${this.wizard.task}\n` : '';
-                    let c = this.wizard.constraints ? `Kurallar: ${this.wizard.constraints}\n` : '';
-                    let f = `Çıktıyı ${this.wizard.format} olarak sun.`;
-                    
-                    return `${p}${t}${c}${f}`;
-                },
+        <section class="list-section">
+            <h2>📚 Kelime Atlasınız</h2>
+            <div id="words-container" class="words-grid">
+                </div>
+        </section>
+    </div>
 
-                copyPrompt() {
-                    let text = this.generatePrompt();
-                    navigator.clipboard.writeText(text).then(() => {
-                        this.copyText = '✓ Kopyalandı!';
-                        setTimeout(() => this.copyText = '📋 Kopyala', 2000);
-                    });
-                },
-
-                savePrompt() {
-                    let text = this.generatePrompt();
-                    if(!this.wizard.task) {
-                        alert('Kütüphaneye eklemek için en azından bir görev yazmalısın!');
-                        return;
-                    }
-
-                    this.savedPrompts.unshift({
-                        id: 'prompt_' + Date.now(),
-                        persona: this.wizard.persona,
-                        fullText: text,
-                        btnText: 'Kopyala'
-                    });
-
-                    localStorage.setItem('promptforge_library', JSON.stringify(this.savedPrompts));
-                },
-
-                deletePrompt(id) {
-                    this.savedPrompts = this.savedPrompts.filter(p => p.id !== id);
-                    localStorage.setItem('promptforge_library', JSON.stringify(this.savedPrompts));
-                },
-
-                copySingle(text, index) {
-                    navigator.clipboard.writeText(text).then(() => {
-                        this.savedPrompts[index].btnText = '✓ Alındı!';
-                        setTimeout(() => this.savedPrompts[index].btnText = 'Kopyala', 2000);
-                    });
-                }
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
